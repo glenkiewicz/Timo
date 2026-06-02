@@ -1,9 +1,54 @@
-:root {
-  --font-display:
-    Spline Sans, Inter, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji,
-    Segoe UI Symbol, Noto Color Emoji;
-  --font-mono:
-    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
-  --font-rounded: 'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif;
-  --font-serif: Georgia, 'Times New Roman', serif;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/preflight.css' layer(base);
+@import 'tailwindcss/utilities.css';
+
+@media android {
+  :root {
+    --font-mono: monospace;
+    --font-sans: normal;
+  }
+}
+
+@media ios {
+  :root {
+    --font-mono: ui-monospace;
+    --font-sans: system-ui;
+  }
+}
+
+@layer theme {
+  @theme {
+    --font-display: 'Fredoka', system-ui, sans-serif;
+    --font-body: 'Nunito', system-ui, sans-serif;
+
+    /* Timo semantic palette — extracted from mockup SVG assets (2026-05-28) */
+    --color-brand: #f28238;
+    --color-brand-deep: #a24d17;
+    --color-brand-pale: #ffd4a9;
+
+    --color-success: #5bb04c;
+    --color-success-deep: #357a2a;
+
+    --color-reward: #f2b524;
+    --color-reward-deep: #a8730c;
+
+    --color-mystery: #5a98c4;
+    --color-mystery-deep: #2f6a92;
+
+    --color-rose: #e58787;
+    --color-rose-deep: #a84747;
+
+    --color-paper: #fff1df;
+    --color-paper-light: #fff6cc;
+    --color-bg: #ebe7dd;
+
+    --color-ink: #33210f;
+    --color-ink-soft: #6b4f31;
+    --color-ink-muted: #8b5928;
+
+    /* radii — puffy buttons / cards */
+    --radius-puffy: 22px;
+    --radius-card: 18px;
+    --radius-chip: 999px;
+  }
 }

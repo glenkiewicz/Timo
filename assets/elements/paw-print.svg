@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
+  <title>Pojedynczy trop</title>
+  
+  <g fill="#A24D17">
+    <ellipse cx="14" cy="17" rx="7" ry="6"></ellipse>
+    <ellipse cx="6" cy="9" rx="2.4" ry="2.8"></ellipse>
+    <ellipse cx="22" cy="9" rx="2.4" ry="2.8"></ellipse>
+    <ellipse cx="10" cy="3" rx="2.2" ry="2.6"></ellipse>
+    <ellipse cx="18" cy="3" rx="2.2" ry="2.6"></ellipse>
+  </g>
+
+</svg>

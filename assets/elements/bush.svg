@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="30" viewBox="0 0 50 30">
+  <title>Krzaczek</title>
+  
+  <ellipse cx="14" cy="20" rx="14" ry="10" fill="#3F8A38"></ellipse>
+  <ellipse cx="32" cy="22" rx="16" ry="9" fill="#357A2A"></ellipse>
+  <ellipse cx="22" cy="14" rx="10" ry="8" fill="#4F9D3E"></ellipse>
+
+</svg>
