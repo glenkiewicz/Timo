@@ -101,6 +101,13 @@ const INTERLUDE_CHANCE: Record<Phase, number> = {
   late: 0.15,
 };
 
+export type DecoratedQuestion = {
+  /** Pełny tekst pytania po dekoracji (interlude + prefix + variant). */
+  text: string;
+  /** Sekwencja voiceKey w kolejności odtwarzania (do `timoVoice.playSequence`). */
+  sequence: string[];
+};
+
 /**
  * Dekoruje pytanie tekstem osobowości.
  *
@@ -110,40 +117,52 @@ const INTERLUDE_CHANCE: Record<Phase, number> = {
  * 3. Gdy włączony interlude, prefix musi być neutralny (żadnych podwójnych "Lisi nos…").
  * 4. Anti-repetycja: nie używaj prefiksu/interlude z ostatnich 3 wystąpień.
  * 5. Lowercase pierwszej litery pytania po `,` `:` `—` `…`.
+ *
+ * Zwraca też `sequence` voiceKey w kolejności [interlude?, prefix?, pytanie].
  */
 export function decorateQuestion(
-  text: string,
-  questionsAsked: number
-): string {
+  question: { text: string; voiceKey: string },
+  questionsAsked: number,
+): DecoratedQuestion {
+  const { text: questionText, voiceKey: questionVoiceKey } = question;
   const phase = phaseFor(questionsAsked);
 
   // (1) Decyzja interlude (tylko MID/LATE)
   let interlude = '';
+  let interludeVoiceKey: string | undefined;
   if (Math.random() < INTERLUDE_CHANCE[phase]) {
     const pool = phase === 'late' ? INTERLUDES_LATE : INTERLUDES_MID;
     interlude = pickFreshRandom(pool, RECENT_INTERLUDES);
-    remember(RECENT_INTERLUDES, interlude);
+    if (interlude.length > 0) {
+      const idx = pool.indexOf(interlude);
+      interludeVoiceKey = `interlude.${phase}.${idx}`;
+      remember(RECENT_INTERLUDES, interlude);
+    }
   }
 
   // (2) Decyzja prefix
   let prefix = '';
+  let prefixVoiceKey: string | undefined;
   if (interlude.length > 0) {
-    // Interlude jest — prefix MUSI być neutralny, żeby uniknąć podwójnego flavor
-    // Z 50% szans dorzucamy mały neutral typu "Hmm,"; inaczej pusty.
     if (Math.random() < 0.5) {
-      // Filtrujemy puste żeby na pewno coś dodać krótkiego
-      const neutralPool = PHASE_POOLS[phase].normal.filter((s) => s.length > 0);
+      const sourcePool = PHASE_POOLS[phase].normal;
+      const neutralPool = sourcePool.filter((s) => s.length > 0);
       prefix = pickFreshRandom(neutralPool, RECENT_PREFIXES);
-      remember(RECENT_PREFIXES, prefix);
+      if (prefix.length > 0) {
+        const idx = sourcePool.indexOf(prefix);
+        prefixVoiceKey = `prefix.${phase}.normal.${idx}`;
+        remember(RECENT_PREFIXES, prefix);
+      }
     }
-  } else {
-    // Brak interlude — sprawdź czy w ogóle dodawać prefix.
-    if (Math.random() < PREFIX_CHANCE[phase]) {
-      const mood: Mood = pickMood();
-      // Filtruj puste — gdy zdecydowaliśmy że chcemy prefix, ma być widoczny
-      const pool = PHASE_POOLS[phase][mood].filter((s) => s.length > 0);
-      if (pool.length > 0) {
-        prefix = pickFreshRandom(pool, RECENT_PREFIXES);
+  } else if (Math.random() < PREFIX_CHANCE[phase]) {
+    const mood: Mood = pickMood();
+    const sourcePool = PHASE_POOLS[phase][mood];
+    const pool = sourcePool.filter((s) => s.length > 0);
+    if (pool.length > 0) {
+      prefix = pickFreshRandom(pool, RECENT_PREFIXES);
+      if (prefix.length > 0) {
+        const idx = sourcePool.indexOf(prefix);
+        prefixVoiceKey = `prefix.${phase}.${mood}.${idx}`;
         remember(RECENT_PREFIXES, prefix);
       }
     }
@@ -158,10 +177,17 @@ export function decorateQuestion(
       trimmed.endsWith('—') ||
       trimmed.endsWith('…'));
   const needsLowercase =
-    endsWithSeparator && /^[A-ZĄĆĘŁŃÓŚŹŻ]/.test(text);
+    endsWithSeparator && /^[A-ZĄĆĘŁŃÓŚŹŻ]/.test(questionText);
   const adjustedText = needsLowercase
-    ? text.charAt(0).toLowerCase() + text.slice(1)
-    : text;
+    ? questionText.charAt(0).toLowerCase() + questionText.slice(1)
+    : questionText;
 
-  return `${interlude}${prefix}${adjustedText}`;
+  const text = `${interlude}${prefix}${adjustedText}`;
+
+  const sequence: string[] = [];
+  if (interludeVoiceKey) sequence.push(interludeVoiceKey);
+  if (prefixVoiceKey) sequence.push(prefixVoiceKey);
+  sequence.push(questionVoiceKey);
+
+  return { text, sequence };
 }

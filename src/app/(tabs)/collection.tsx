@@ -1,9 +1,10 @@
-import { useRouter } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { FlatList, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { AnimalCardModal } from '@/components/collection/AnimalCardModal';
+import { AnimalImage } from '@/components/collection/AnimalImage';
+import { DEV_UNLOCK_ALL } from '@/config/features';
 import { ANIMALS } from '@/data/animals';
 import { EXPEDITIONS, EXPEDITIONS_BY_ID } from '@/data/expeditions';
 import { useProfileStore } from '@/lib/stores/profile-store';
@@ -18,10 +19,6 @@ type CardData = {
   discovered: boolean;
 };
 
-const ANIMALS_BY_ID: Record<string, Animal> = Object.fromEntries(
-  ANIMALS.map((a) => [a.id, a]),
-);
-
 const NUM_COLUMNS = 3;
 const CARD_GAP = 10;
 
@@ -29,9 +26,13 @@ export default function CollectionScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const collection = useProfileStore((s) => s.collection);
-  const collectionSet = useMemo(() => new Set(collection), [collection]);
+  // DEV: traktuj wszystkie zwierzęta jako odkryte, żeby przeglądać karty bez gry.
+  const collectionSet = useMemo(
+    () =>
+      DEV_UNLOCK_ALL ? new Set(ANIMALS.map((a) => a.id)) : new Set(collection),
+    [collection],
+  );
 
-  const [selectedId, setSelectedId] = useState<string | null>(null);
   const [activeExpId, setActiveExpId] = useState<string | null>(null);
 
   const data = useMemo<CardData[]>(() => {
@@ -157,18 +158,7 @@ export default function CollectionScreen() {
           gap: CARD_GAP,
         }}
         columnWrapperStyle={{ gap: CARD_GAP }}
-        renderItem={({ item }) => (
-          <CollectionTile
-            item={item}
-            onPress={() => item.discovered && setSelectedId(item.id)}
-          />
-        )}
-      />
-
-      <AnimalCardModal
-        visible={!!selectedId}
-        animal={selectedId ? ANIMALS_BY_ID[selectedId] : null}
-        onClose={() => setSelectedId(null)}
+        renderItem={({ item }) => <CollectionTile item={item} />}
       />
     </View>
   );
@@ -211,7 +201,7 @@ function TabChip({
   );
 }
 
-function CollectionTile({ item, onPress }: { item: CardData; onPress: () => void }) {
+function CollectionTile({ item }: { item: CardData }) {
   if (!item.discovered) {
     return (
       <View
@@ -237,31 +227,45 @@ function CollectionTile({ item, onPress }: { item: CardData; onPress: () => void
     );
   }
   return (
-    <Pressable onPress={onPress} className="flex-1">
-      <View
-        className="rounded-card items-center justify-center bg-paper px-2 py-3"
-        style={{
-          aspectRatio: 1,
-          borderWidth: 2,
-          borderColor: '#fff6cc',
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 3 },
-          shadowOpacity: 0.12,
-          shadowRadius: 6,
-          elevation: 3,
-        }}>
-        <Text style={{ fontSize: 34 }}>{item.emoji}</Text>
-        <Text
-          className="text-ink text-center"
-          numberOfLines={1}
-          style={{
-            fontFamily: 'Fredoka-Bold',
-            fontSize: 11,
-            marginTop: 4,
-          }}>
-          {item.name_pl}
-        </Text>
-      </View>
-    </Pressable>
+    <Link href={`/animal/${item.id}`} asChild>
+      <Link.AppleZoom>
+        <Pressable className="flex-1">
+          <View
+            className="rounded-card overflow-hidden bg-paper"
+            style={{
+              aspectRatio: 1,
+              borderWidth: 2,
+              borderColor: '#fff6cc',
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 3 },
+              shadowOpacity: 0.12,
+              shadowRadius: 6,
+              elevation: 3,
+            }}>
+            <AnimalImage animalId={item.id} fallbackEmoji={item.emoji} fill />
+            <View
+              style={{
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: 'rgba(0,0,0,0.55)',
+                paddingHorizontal: 6,
+                paddingVertical: 4,
+              }}>
+              <Text
+                className="text-paper text-center"
+                numberOfLines={1}
+                style={{
+                  fontFamily: 'Fredoka-Bold',
+                  fontSize: 11,
+                }}>
+                {item.name_pl}
+              </Text>
+            </View>
+          </View>
+        </Pressable>
+      </Link.AppleZoom>
+    </Link>
   );
 }

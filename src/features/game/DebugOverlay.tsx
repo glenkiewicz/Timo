@@ -1,5 +1,7 @@
 import { scoredEligible } from '@/features/game/guessing-engine';
+import { TIMO_VOICE_DEBUG_PARAMS, useIsTimoSpeaking } from '@/lib/audio/timo-voice';
 import { useGameStore } from '@/lib/stores/game-store';
+import { useProfileStore } from '@/lib/stores/profile-store';
 import { Text, View } from '@/tw';
 
 /**
@@ -15,6 +17,8 @@ export function DebugOverlay() {
   const answers = useGameStore((s) => s.answers);
   const questionsAsked = useGameStore((s) => s.questionsAsked);
   const guessAttempts = useGameStore((s) => s.guessAttempts);
+  const isSpeaking = useIsTimoSpeaking();
+  const audioMuted = useProfileStore((s) => s.audioMuted);
 
   const scored = scoredEligible(
     { candidates, usedAttributes, excludedAnimals, questionsAsked },
@@ -70,6 +74,32 @@ export function DebugOverlay() {
           {i + 1}. {s.animal.name_pl} ({s.score.toFixed(1)})
         </Text>
       ))}
+
+      <Text
+        style={{
+          color: '#7fc9ff',
+          fontFamily: 'Fredoka-Bold',
+          fontSize: 10,
+          marginTop: 6,
+          letterSpacing: 1,
+        }}>
+        AUDIO
+      </Text>
+      <Text style={{ color: '#fff', fontFamily: 'Nunito-Bold', fontSize: 10, lineHeight: 13 }}>
+        playbackRate: {TIMO_VOICE_DEBUG_PARAMS.playbackRate}x
+      </Text>
+      <Text style={{ color: '#fff', fontFamily: 'Nunito-Bold', fontSize: 10, lineHeight: 13 }}>
+        clip gap: {TIMO_VOICE_DEBUG_PARAMS.interClipGapMs}ms
+      </Text>
+      <Text style={{ color: '#fff', fontFamily: 'Nunito-Bold', fontSize: 10, lineHeight: 13 }}>
+        retry after: {TIMO_VOICE_DEBUG_PARAMS.retryPlayAfterMs}ms
+      </Text>
+      <Text style={{ color: '#fff', fontFamily: 'Nunito-Bold', fontSize: 10, lineHeight: 13 }}>
+        timeout cap: {TIMO_VOICE_DEBUG_PARAMS.clipTimeoutDefaultMs / 1000}s
+      </Text>
+      <Text style={{ color: '#fff', fontFamily: 'Nunito-Bold', fontSize: 10, lineHeight: 13 }}>
+        speaking: {isSpeaking ? 'yes' : 'no'}  ·  muted: {audioMuted ? 'yes' : 'no'}
+      </Text>
     </View>
   );
 }

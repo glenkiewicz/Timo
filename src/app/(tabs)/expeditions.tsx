@@ -4,7 +4,12 @@ import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { InfoModal } from '@/components/gamification/InfoModal';
-import { EXPEDITIONS, type Expedition } from '@/data/expeditions';
+import { DEV_UNLOCK_ALL } from '@/config/features';
+import {
+  EXPEDITIONS,
+  SHOW_EXPERT_EXPEDITIONS,
+  type Expedition,
+} from '@/data/expeditions';
 import { useGameStore } from '@/lib/stores/game-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { Pressable, Text, View } from '@/tw';
@@ -39,7 +44,16 @@ export default function ExpeditionsScreen() {
     description: string;
   } | null>(null);
 
-  const completedCount = EXPEDITIONS.filter(
+  /** Lista wypraw widoczna w UI — guided + opcjonalnie expert (za feature flagiem). */
+  const visibleExpeditions = useMemo(
+    () =>
+      EXPEDITIONS.filter(
+        (e) => e.mode === 'guided' || (SHOW_EXPERT_EXPEDITIONS && e.mode === 'expert'),
+      ),
+    [],
+  );
+
+  const completedCount = visibleExpeditions.filter(
     (e) => expeditionProgress[e.id]?.completed_at != null
   ).length;
 
@@ -54,6 +68,8 @@ export default function ExpeditionsScreen() {
     if (prog?.completed_at != null) return 'completed';
     if ((prog?.discovered.length ?? 0) > 0) return 'in_progress';
     if (dailyIds.has(e.id)) return 'available_today';
+    // DEV: odblokuj wszystkie wyprawy, żeby łatwo testować.
+    if (DEV_UNLOCK_ALL) return 'available_today';
     return 'locked';
   }
 
@@ -76,11 +92,21 @@ export default function ExpeditionsScreen() {
       return;
     }
     // available_today | in_progress
+    if (e.mode === 'guided') {
+      // Wyprawa z Timo — najpierw ekran kart inspiracji, start gry tam.
+      router.push(`/expedition-intro/${e.id}`);
+      return;
+    }
+    // expert (klasyczna kategoria) — start od razu, bez intro.
     if (dailyChoice && dailyChoice.expedition_ids.includes(e.id)) {
       chooseExpedition(e.id);
     }
     const prog = expeditionProgress[e.id];
-    startGame({ expeditionId: e.id, excludeDiscovered: prog?.discovered ?? [] });
+    startGame({
+      expeditionId: e.id,
+      expeditionMode: 'expert',
+      excludeDiscovered: prog?.discovered ?? [],
+    });
     router.push('/game');
   };
 
@@ -151,7 +177,7 @@ export default function ExpeditionsScreen() {
             <Text
               className="text-paper"
               style={{ fontFamily: 'Fredoka-Bold', fontSize: 13 }}>
-              {completedCount} / {EXPEDITIONS.length}
+              {completedCount} / {visibleExpeditions.length}
             </Text>
           </View>
         </View>
@@ -176,7 +202,7 @@ export default function ExpeditionsScreen() {
           paddingBottom: insets.bottom + 24,
           gap: 10,
         }}>
-        {[...EXPEDITIONS]
+        {[...visibleExpeditions]
           .map((e) => ({ e, status: statusFor(e) }))
           .sort((a, b) => statusOrder(a.status) - statusOrder(b.status))
           .map(({ e, status }) => {
@@ -287,7 +313,7 @@ function ExpeditionCard({
           <Text
             className="text-ink"
             style={{ fontFamily: 'Fredoka-Bold', fontSize: 16, marginTop: 2 }}>
-            {e.title}
+            {e.childTitle ?? e.title}
           </Text>
           <Text
             className="text-ink-soft"

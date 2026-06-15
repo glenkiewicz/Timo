@@ -13,6 +13,7 @@ import {
   Nunito_800ExtraBold,
   Nunito_900Black,
 } from '@expo-google-fonts/nunito';
+import { setAudioModeAsync } from 'expo-audio';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -41,6 +42,16 @@ export default function RootLayout() {
     }
   }, [loaded, error]);
 
+  useEffect(() => {
+    // Głos Timo gra też przy iPhone "silent mode" i ścisza inne aplikacje.
+    setAudioModeAsync({
+      playsInSilentMode: true,
+      interruptionMode: 'duckOthers',
+    }).catch((e) => {
+      if (__DEV__) console.warn('[Audio] setAudioModeAsync failed:', e);
+    });
+  }, []);
+
   if (!loaded && !error) {
     return null;
   }
@@ -52,6 +63,8 @@ export default function RootLayout() {
           <Stack.Screen name="(tabs)" />
           <Stack.Screen name="game" />
           <Stack.Screen name="result" />
+          <Stack.Screen name="expedition-intro/[id]" />
+          <Stack.Screen name="animal/[id]" />
         </Stack>
       </GestureHandlerRootView>
     </SafeAreaProvider>

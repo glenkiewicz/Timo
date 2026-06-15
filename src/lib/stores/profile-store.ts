@@ -5,6 +5,7 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 import { BADGES, type BadgeDef } from '@/data/badges';
 import {
   EXPEDITIONS_BY_ID,
+  pickDailyGuided,
   pickDailyThree,
   todayKey,
 } from '@/data/expeditions';
@@ -61,6 +62,9 @@ type ProfileState = {
     xpDelta: number;
   } | null;
 
+  /** Czy głos Timo jest wyciszony — toggle w UI. */
+  audioMuted: boolean;
+
   award: (input: Omit<AwardInput, 'streak' | 'collection' | 'badges'>) => void;
   clearLastReward: () => void;
   clearLastExpeditionReward: () => void;
@@ -68,6 +72,8 @@ type ProfileState = {
   ensureDailyChoice: () => void;
   chooseExpedition: (id: string) => void;
   recordExpeditionDiscovery: (expeditionId: string, animalId: string) => void;
+
+  setAudioMuted: (value: boolean) => void;
 
   resetAll: () => void;
 };
@@ -80,6 +86,7 @@ const initial: Omit<
   | 'ensureDailyChoice'
   | 'chooseExpedition'
   | 'recordExpeditionDiscovery'
+  | 'setAudioMuted'
   | 'resetAll'
 > = {
   paws: 0,
@@ -95,6 +102,7 @@ const initial: Omit<
   expeditionProgress: {},
   lastReward: null,
   lastExpeditionReward: null,
+  audioMuted: false,
 };
 
 function todayLocal(): string {
@@ -203,11 +211,14 @@ export const useProfileStore = create<ProfileState>()(
         const state = get();
         const today = todayKey();
         if (state.dailyChoice?.date === today) return;
-        const ids = pickDailyThree(today);
+        // Wyprawa Dnia w MVP wybiera spośród guided (dziecięcych).
+        // pickDailyThree zostawiamy do potencjalnego trybu "Eksperta".
+        const ids = pickDailyGuided(today);
+        const fallback = ids.length > 0 ? ids : pickDailyThree(today);
         set({
           dailyChoice: {
             date: today,
-            expedition_ids: ids,
+            expedition_ids: fallback,
             chosen_id: null,
           },
         });
@@ -295,6 +306,8 @@ export const useProfileStore = create<ProfileState>()(
         set(updates as ProfileState);
       },
 
+      setAudioMuted: (value) => set({ audioMuted: value }),
+
       resetAll: () => set({ ...initial }),
     }),
     {
@@ -312,6 +325,7 @@ export const useProfileStore = create<ProfileState>()(
         badges: state.badges,
         dailyChoice: state.dailyChoice,
         expeditionProgress: state.expeditionProgress,
+        audioMuted: state.audioMuted,
       }),
     }
   )

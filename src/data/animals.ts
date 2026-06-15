@@ -190,7 +190,7 @@ const RAW_ANIMALS: Animal[] = [
   // === ARKTYKA / POLARNE ===
   mk('polar_bear', 'Niedźwiedź polarny', '🐻‍❄️', 'Pod białym futrem niedźwiedź polarny ma czarną skórę.', { mammal: 1, fur: 1, tail: 1, legs: 1, arctic: 1, pred: 1, big_d: 1, danger: 1 }),
   mk('walrus', 'Mors', '🦭', 'Mors używa kłów do wychodzenia z lodu na ląd.', { mammal: 1, fur: 1, tail: 1, legs: 1, ocean: 1, arctic: 1, big_d: 1 }),
-  mk('seal', 'Foka', '🦭', 'Fokom rosną wąsy do wykrywania wibracji ryb.', { mammal: 1, fur: 1, tail: 1, legs: 1, water: 1, ocean: 1, arctic: -1, pred: 1 }),
+  mk('seal', 'Foka', '🦭', 'Fokom rosną wąsy do wykrywania wibracji ryb.', { mammal: 1, fur: 1, tail: 1, legs: 1, water: 1, ocean: 1, arctic: -1, pred: 1, big_d: 1 }),
   mk('arctic_fox', 'Lis polarny', '🦊', 'Lis polarny zmienia kolor futra zimą na śnieżnobiały.', { mammal: 1, fur: 1, tail: 1, legs: 1, arctic: 1, pred: 1, fast: 1 }),
   mk('reindeer', 'Renifer', '🦌', 'Renifery widzą światło ultrafioletowe — pomocne na śniegu.', { mammal: 1, fur: 1, tail: 1, legs: 1, arctic: 1, plant: 1, big_d: 1 }),
   mk('musk_ox', 'Piżmowół', '🦬', 'Piżmowoły tworzą krąg, broniąc młodych.', { mammal: 1, fur: 1, tail: 1, legs: 1, arctic: 1, plant: 1, big_d: 1 }),
@@ -418,7 +418,7 @@ const RAW_ANIMALS: Animal[] = [
   // polarne / morskie ekstra
   mk('beluga', 'Wieloryb biały', '🐳', 'Beluga uśmiecha się i piszczy — "kanarek mórz".', { mammal: 1, tail: 1, water: 1, ocean: 1, arctic: 1, big_d: 1 }),
   mk('bowhead', 'Wieloryb grenlandzki', '🐳', 'Wieloryb grenlandzki dożywa nawet 200 lat!', { mammal: 1, tail: 1, water: 1, ocean: 1, arctic: 1, big_d: 1 }),
-  mk('bearded_seal', 'Foka brodata', '🦭', 'Foka brodata ma długie wąsy do szukania ryb pod lodem.', { mammal: 1, fur: 1, tail: 1, legs: 1, water: 1, ocean: 1, arctic: 1, pred: 1 }),
+  mk('bearded_seal', 'Foka brodata', '🦭', 'Foka brodata ma długie wąsy do szukania ryb pod lodem.', { mammal: 1, fur: 1, tail: 1, legs: 1, water: 1, ocean: 1, arctic: 1, pred: 1, big_d: 1 }),
   mk('puffin', 'Maskonur', '🐧', 'Maskonur wygląda jak pingwin z papugowym dziobem.', { bird: 1, feathers: 1, tail: 1, legs: 1, arctic: -1, ocean: -1, fly: 1, small_c: -1 }),
   mk('arctic_tern', 'Rybitwa popielata', '🐦', 'Rybitwa przelatuje rocznie 80 000 km — to dwa razy okrążenie Ziemi.', { bird: 1, feathers: 1, tail: 1, legs: 1, arctic: -1, fly: 1, fast: 1 }),
   mk('hammerhead', 'Rekin młot', '🦈', 'Rekin młot ma oczy daleko od siebie — widzi 360°.', { fish: 1, scales: 1, tail: 1, water: 1, ocean: 1, pred: 1, big_d: 1, danger: 1, fast: 1 }),
@@ -556,7 +556,7 @@ const RAW_ANIMALS: Animal[] = [
   mk('right_whale', 'Wal biskajski', '🐋', 'Wal biskajski pływa wolno blisko brzegu.', { mammal: 1, tail: 1, water: 1, ocean: 1, big_d: 1 }),
   mk('gray_whale', 'Wal szary', '🐋', 'Wal szary nurkuje na dno i zjada błoto pełne skorupiaków.', { mammal: 1, tail: 1, water: 1, ocean: 1, big_d: 1 }),
   mk('dugong', 'Diugoń', '🦭', 'Diugoń to "krowa morska" — kuzyn manata.', { mammal: 1, tail: 1, water: 1, ocean: 1, plant: 1, big_d: 1 }),
-  mk('sea_lion', 'Lew morski', '🦭', 'Lew morski potrafi balansować piłką jak w cyrku — z natury!', { mammal: 1, fur: 1, tail: 1, legs: 1, water: 1, ocean: 1, pred: 1 }),
+  mk('sea_lion', 'Lew morski', '🦭', 'Lew morski potrafi balansować piłką jak w cyrku — z natury!', { mammal: 1, fur: 1, tail: 1, legs: 1, water: 1, ocean: 1, pred: 1, big_d: 1 }),
   mk('elephant_seal', 'Słoń morski', '🦭', 'Samce słoni morskich mają nos jak miniaturową trąbę.', { mammal: 1, fur: 1, tail: 1, legs: 1, water: 1, ocean: 1, big_d: 1 }),
   mk('leopard_seal', 'Foka lampart', '🦭', 'Foka lampart poluje na pingwiny pod lodem.', { mammal: 1, fur: 1, tail: 1, legs: 1, water: 1, ocean: 1, arctic: 1, pred: 1, big_d: 1, danger: 1 }),
 

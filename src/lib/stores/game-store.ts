@@ -1,7 +1,11 @@
 import { create } from 'zustand';
 
 import { ANIMALS } from '@/data/animals';
-import { EXPEDITIONS_BY_ID, expeditionPool } from '@/data/expeditions';
+import {
+  EXPEDITIONS_BY_ID,
+  expeditionExpansionPool,
+  expeditionPool,
+} from '@/data/expeditions';
 import { QUESTIONS } from '@/data/questions';
 import {
   logAnswer,
@@ -34,6 +38,14 @@ export type GameMode = 'free' | 'expedition';
 
 type StartOpts = {
   expeditionId?: string;
+  /**
+   * Tryb wyprawy:
+   *  - 'guided' (Wyprawa z Timo) — mała pula 18 zwierząt = `inspirationRoster`,
+   *    fallback rozszerza do całej ANIMALS gdy dziecko wybrało spoza puli.
+   *  - 'expert' (klasyczna kategoria) — pula = pełny `roster`, fallback zostaje w roster.
+   * Jeśli nieustawione, używana wartość z `EXPEDITIONS_BY_ID[expeditionId].mode` (back-compat).
+   */
+  expeditionMode?: 'guided' | 'expert';
   /** animal ids already discovered in this expedition — excluded from pool */
   excludeDiscovered?: string[];
 };
@@ -57,11 +69,20 @@ type GameState = {
    * ANIMALS i łamać tematykę). `null` w trybie free.
    */
   expeditionBasePool: Animal[] | null;
+  /** Tryb wyprawy ('guided' = Wyprawa z Timo, 'expert' = klasyczna). */
+  expeditionMode: 'guided' | 'expert' | null;
+  /**
+   * Flaga: w guided pula 18 została wyczerpana i silnik rozszerzył do całej
+   * ANIMALS (dziecko myślało o zwierzęciu spoza kart inspiracji). UI używa do
+   * pokazania komunikatu "outside category" raz, potem kasuje flagę.
+   */
+  didEscapeCategory: boolean;
 
   start: (opts?: StartOpts) => void;
   answer: (a: AnswerType) => void;
   acceptGuess: () => void;
   rejectGuess: () => void;
+  acknowledgeEscape: () => void;
   reset: () => void;
 };
 
@@ -97,6 +118,8 @@ export const useGameStore = create<GameState>((set, get) => ({
   mode: 'free',
   expeditionId: null,
   expeditionBasePool: null,
+  expeditionMode: null,
+  didEscapeCategory: false,
 
   start: (opts) => {
     resetPersonalityMemory();
@@ -107,13 +130,16 @@ export const useGameStore = create<GameState>((set, get) => ({
     let mode: GameMode = 'free';
     let expeditionId: string | null = null;
     let expeditionBasePool: Animal[] | null = null;
+    let expeditionMode: 'guided' | 'expert' | null = null;
 
     if (opts?.expeditionId) {
       const exp = EXPEDITIONS_BY_ID[opts.expeditionId];
       if (exp) {
-        // W trybie wyprawy używamy jawnego rosteru wyprawy.
+        // expeditionPool() automatycznie wybiera inspirationRoster dla guided
+        // lub roster dla expert.
         candidates = expeditionPool(exp.id);
         expeditionBasePool = candidates;
+        expeditionMode = opts.expeditionMode ?? exp.mode ?? 'expert';
         mode = 'expedition';
         expeditionId = opts.expeditionId;
       }
@@ -141,8 +167,12 @@ export const useGameStore = create<GameState>((set, get) => ({
       mode,
       expeditionId,
       expeditionBasePool,
+      expeditionMode,
+      didEscapeCategory: false,
     });
   },
+
+  acknowledgeEscape: () => set({ didEscapeCategory: false }),
 
   answer: (a: AnswerType) => {
     const state = get();
@@ -199,12 +229,24 @@ export const useGameStore = create<GameState>((set, get) => ({
       return;
     }
 
-    // 1b) Pula wyciśnięta do zera przez odpowiedź → relax do bazowej puli wyprawy
-    // (lub do całej ANIMALS w trybie free). W trybie wyprawy NIE wychodzimy poza
-    // jej roster — Matamata nie ma prawa wpaść w "Świat owadów".
+    // 1b) Pula wyciśnięta do zera → relax. Zachowanie zależne od trybu:
+    //  - guided  → rozszerz do unii rosterów pokrewnych expert wypraw
+    //              (np. water_friends → ocean + freshwater). Last resort = ANIMALS.
+    //              Trzymanie tematyki ratuje od pytań typu "Czy żyje w Afryce?"
+    //              w wyprawie wodnej.
+    //  - expert  → zostań w roster wyprawy (Matamata nie wpadnie do "owadów").
+    //  - free    → cała ANIMALS.
     let workingCandidates = nextCandidates;
+    let didEscape = false;
     if (eligibleCandidates(engineState).length === 0) {
-      const fallback = state.expeditionBasePool ?? ANIMALS;
+      let fallback: Animal[];
+      if (state.expeditionMode === 'guided' && state.expeditionId) {
+        const themed = expeditionExpansionPool(state.expeditionId);
+        fallback = themed.length > 0 ? themed : ANIMALS;
+        didEscape = true;
+      } else {
+        fallback = state.expeditionBasePool ?? ANIMALS;
+      }
       workingCandidates = fallback;
       engineState = {
         candidates: fallback,
@@ -227,6 +269,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         guess,
         phase: guess ? 'guess_attempt' : 'lost',
         guessAttempts: state.guessAttempts + (guess ? 1 : 0),
+        didEscapeCategory: state.didEscapeCategory || didEscape,
       });
       return;
     }
@@ -245,6 +288,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         guess,
         phase: guess ? 'guess_attempt' : 'lost',
         guessAttempts: state.guessAttempts + (guess ? 1 : 0),
+        didEscapeCategory: state.didEscapeCategory || didEscape,
       });
       return;
     }
@@ -256,6 +300,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       questionsAsked: nextAsked,
       currentQuestion: nextQuestion,
       phase: 'asking',
+      didEscapeCategory: state.didEscapeCategory || didEscape,
     });
   },
 
@@ -292,11 +337,21 @@ export const useGameStore = create<GameState>((set, get) => ({
       return;
     }
 
-    // If we filtered ourselves into a corner (eligible=0), broaden by re-using
-    // the expedition base pool (lub całej ANIMALS w trybie free) minus excluded.
+    // If we filtered ourselves into a corner (eligible=0), broaden:
+    //  - guided  → tematyczny expansion pool (ocean+freshwater dla wodnych itp.)
+    //  - expert  → expeditionBasePool (zostań w roster wyprawy)
+    //  - free    → ANIMALS
     let workingState = engineState;
+    let didEscape = false;
     if (eligibleAfterExclude === 0) {
-      const fallback = state.expeditionBasePool ?? ANIMALS;
+      let fallback: Animal[];
+      if (state.expeditionMode === 'guided' && state.expeditionId) {
+        const themed = expeditionExpansionPool(state.expeditionId);
+        fallback = themed.length > 0 ? themed : ANIMALS;
+        didEscape = true;
+      } else {
+        fallback = state.expeditionBasePool ?? ANIMALS;
+      }
       workingState = {
         candidates: fallback,
         usedAttributes: state.usedAttributes,
@@ -317,6 +372,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         guess: newGuess,
         phase: newGuess ? 'guess_attempt' : 'lost',
         guessAttempts: state.guessAttempts + (newGuess ? 1 : 0),
+        didEscapeCategory: state.didEscapeCategory || didEscape,
       });
       return;
     }
@@ -327,6 +383,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       guess: null,
       currentQuestion: nextQuestion,
       phase: 'asking',
+      didEscapeCategory: state.didEscapeCategory || didEscape,
     });
   },
 

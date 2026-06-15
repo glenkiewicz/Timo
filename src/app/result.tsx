@@ -1,15 +1,17 @@
 import { useRouter } from 'expo-router';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { PuffyButton } from '@/components/buttons/PuffyButton';
-import { AnimalCardModal } from '@/components/collection/AnimalCardModal';
+import { AnimalImage } from '@/components/collection/AnimalImage';
 import { AnimatedCounter } from '@/components/gamification/AnimatedCounter';
 import { AnimatedRewardChip } from '@/components/gamification/AnimatedRewardChip';
 import { LiveInfoChip } from '@/components/gamification/LiveInfoChip';
 import { TimoCharacter } from '@/components/timo/TimoCharacter';
 import { EXPEDITIONS_BY_ID } from '@/data/expeditions';
+import { pickGiveUpLine, pickGuidedGiveUp, pickVictoryLine } from '@/data/timo-lines';
 import { levelFromXp } from '@/features/gamification/award';
+import { timoVoice } from '@/lib/audio/timo-voice';
 import { useGameStore } from '@/lib/stores/game-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { Pressable, Text, View } from '@/tw';
@@ -44,20 +46,45 @@ export default function ResultScreen() {
 
   const won = phase === 'won';
   const awarded = useRef(false);
-  const [cardOpen, setCardOpen] = useState(false);
   const autoOpened = useRef(false);
+  const voicePlayed = useRef(false);
+  const expeditionMode = useGameStore((s) => s.expeditionMode);
 
-  // Auto-open animal card 600ms po wejściu na ekran, jeśli to pierwsze odkrycie
+  // Auto-otwórz pełnoekranową kartę 600ms po wejściu, jeśli to pierwsze odkrycie.
   useEffect(() => {
     if (autoOpened.current) return;
     if (won && guess && lastReward?.isFirstDiscovery) {
       const t = setTimeout(() => {
-        setCardOpen(true);
         autoOpened.current = true;
+        router.push(`/animal/${guess.id}`);
       }, 600);
       return () => clearTimeout(t);
     }
   }, [won, guess, lastReward?.isFirstDiscovery]);
+
+  // Autoplay voice: po 600ms.
+  // Wygrana: [victory.{i}, animal.{guess.id}] — Timo cieszy się + woła zwierzaka po imieniu.
+  // Przegrana: [giveup.{i}] (lub guided_giveup w trybie guided).
+  useEffect(() => {
+    if (voicePlayed.current) return;
+    if (phase !== 'won' && phase !== 'lost') return;
+    voicePlayed.current = true;
+    const t = setTimeout(() => {
+      if (phase === 'won' && guess) {
+        const v = pickVictoryLine();
+        timoVoice.playSequence([v.voiceKey, `animal.${guess.id}`], {
+          initialDelayMs: 400,
+        });
+      } else if (phase === 'lost') {
+        const g = expeditionMode === 'guided' ? pickGuidedGiveUp() : pickGiveUpLine();
+        timoVoice.playLine(g.voiceKey);
+      }
+    }, 600);
+    return () => {
+      clearTimeout(t);
+      timoVoice.stop();
+    };
+  }, [phase, guess, expeditionMode]);
 
   const expedition = expeditionId ? EXPEDITIONS_BY_ID[expeditionId] : null;
   const expProgress = expeditionId ? expeditionProgress[expeditionId] : undefined;
@@ -89,8 +116,14 @@ export default function ResultScreen() {
       const prog = expeditionProgress[expeditionId];
       const expDone = prog?.completed_at != null;
       if (!expDone) {
+        if (expedition.mode === 'guided') {
+          // Wyprawa z Timo — wracaj na ekran kart inspiracji.
+          router.replace(`/expedition-intro/${expeditionId}`);
+          return;
+        }
         startGame({
           expeditionId,
+          expeditionMode: 'expert',
           excludeDiscovered: prog?.discovered ?? [],
         });
         router.replace('/game');
@@ -201,7 +234,11 @@ export default function ResultScreen() {
               fontSize: 14,
               letterSpacing: 1.5,
             }}>
-            {won ? 'ZGADŁEM!' : 'PODDAJĘ SIĘ!'}
+            {won
+              ? 'ZGADŁEM!'
+              : expedition?.mode === 'guided'
+                ? 'SPRÓBUJMY ZNÓW!'
+                : 'PODDAJĘ SIĘ!'}
           </Text>
         </View>
 
@@ -234,10 +271,13 @@ export default function ResultScreen() {
           </Text>
           {won && guess ? (
             <>
+              <View className="items-center mb-2">
+                <AnimalImage animalId={guess.id} fallbackEmoji={guess.emoji} size={96} />
+              </View>
               <Text
                 className="text-ink"
                 style={{ fontFamily: 'Fredoka-Bold', fontSize: 24, marginBottom: 4 }}>
-                {guess.emoji}  {guess.name_pl}
+                {guess.name_pl}
               </Text>
               <Text
                 className="text-ink-soft text-center"
@@ -245,7 +285,7 @@ export default function ResultScreen() {
                 {guess.fun_fact_pl}
               </Text>
               <Pressable
-                onPress={() => setCardOpen(true)}
+                onPress={() => guess && router.push(`/animal/${guess.id}`)}
                 className="bg-brand-pale rounded-chip mt-3"
                 style={{
                   paddingHorizontal: 14,
@@ -265,12 +305,16 @@ export default function ResultScreen() {
               <Text
                 className="text-ink"
                 style={{ fontFamily: 'Fredoka-Bold', fontSize: 20, marginBottom: 4 }}>
-                Nie udało mi się!
+                {expedition?.mode === 'guided'
+                  ? 'Wybrałeś świetnie!'
+                  : 'Nie udało mi się!'}
               </Text>
               <Text
                 className="text-ink-soft text-center"
                 style={{ fontFamily: 'Nunito', fontSize: 13, lineHeight: 19 }}>
-                Powiedz mi, jakie to było zwierzę — następnym razem na pewno zgadnę!
+                {expedition?.mode === 'guided'
+                  ? 'Pokaż mi, kogo wybrałeś — spróbujemy znów na nowej wyprawie!'
+                  : 'Powiedz mi, jakie to było zwierzę — następnym razem na pewno zgadnę!'}
               </Text>
             </>
           )}
@@ -418,12 +462,6 @@ export default function ResultScreen() {
         </View>
       </View>
 
-      <AnimalCardModal
-        visible={cardOpen}
-        animal={won ? guess : null}
-        isNewDiscovery={lastReward?.isFirstDiscovery}
-        onClose={() => setCardOpen(false)}
-      />
     </View>
   );
 }

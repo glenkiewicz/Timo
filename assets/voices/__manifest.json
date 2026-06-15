@@ -1,0 +1,5240 @@
+{
+  "prefix.start.normal.4": {
+    "hash": "a71c42cd640e",
+    "file": "a71c42cd640e.mp3",
+    "text": "Hmm, ",
+    "generatedAt": "2026-06-12T13:23:49.671Z"
+  },
+  "prefix.start.normal.5": {
+    "hash": "11c317f005d4",
+    "file": "11c317f005d4.mp3",
+    "text": "Sprawdźmy: ",
+    "generatedAt": "2026-06-12T13:23:50.656Z"
+  },
+  "prefix.start.normal.6": {
+    "hash": "296dcf8600f3",
+    "file": "296dcf8600f3.mp3",
+    "text": "Zaczynamy: ",
+    "generatedAt": "2026-06-12T13:23:51.625Z"
+  },
+  "prefix.start.normal.7": {
+    "hash": "5b8c88c9861d",
+    "file": "5b8c88c9861d.mp3",
+    "text": "Dobra, ",
+    "generatedAt": "2026-06-12T13:23:52.590Z"
+  },
+  "prefix.start.normal.8": {
+    "hash": "12ddb577e891",
+    "file": "12ddb577e891.mp3",
+    "text": "Mam pierwsze pytanie: ",
+    "generatedAt": "2026-06-12T13:23:53.611Z"
+  },
+  "prefix.start.funny.0": {
+    "hash": "8142faa648b0",
+    "file": "8142faa648b0.mp3",
+    "text": "Lupa w łapie, notes otwarty. ",
+    "generatedAt": "2026-06-12T13:23:54.754Z"
+  },
+  "prefix.start.funny.1": {
+    "hash": "2a0d983c9460",
+    "file": "2a0d983c9460.mp3",
+    "text": "Detektyw Timo na służbie. ",
+    "generatedAt": "2026-06-12T13:23:55.810Z"
+  },
+  "prefix.start.funny.2": {
+    "hash": "9c322aeb3192",
+    "file": "9c322aeb3192.mp3",
+    "text": "Otwieramy nową sprawę: ",
+    "generatedAt": "2026-06-12T13:23:56.875Z"
+  },
+  "prefix.start.funny.3": {
+    "hash": "33c92cabd954",
+    "file": "33c92cabd954.mp3",
+    "text": "Mam już pierwsze podejrzenie. ",
+    "generatedAt": "2026-06-12T13:23:58.312Z"
+  },
+  "prefix.start.funny.4": {
+    "hash": "567dfa52e763",
+    "file": "567dfa52e763.mp3",
+    "text": "Detal numer jeden: ",
+    "generatedAt": "2026-06-12T13:23:59.380Z"
+  },
+  "prefix.start.funny.5": {
+    "hash": "ab14fce25f94",
+    "file": "ab14fce25f94.mp3",
+    "text": "Zaczynam śledztwo. ",
+    "generatedAt": "2026-06-12T13:24:00.402Z"
+  },
+  "prefix.start.crazy.0": {
+    "hash": "f736d559b31b",
+    "file": "f736d559b31b.mp3",
+    "text": "Według mojej wstępnej analizy: ",
+    "generatedAt": "2026-06-12T13:24:01.479Z"
+  },
+  "prefix.start.crazy.1": {
+    "hash": "f0f093ba4e09",
+    "file": "f0f093ba4e09.mp3",
+    "text": "Lisia metodologia mówi tak: ",
+    "generatedAt": "2026-06-12T13:24:02.600Z"
+  },
+  "prefix.start.crazy.2": {
+    "hash": "6ba1346feab9",
+    "file": "6ba1346feab9.mp3",
+    "text": "Profesor Timo rozpoczyna badanie. ",
+    "generatedAt": "2026-06-12T13:24:03.648Z"
+  },
+  "prefix.start.crazy.3": {
+    "hash": "46cfe27714c5",
+    "file": "46cfe27714c5.mp3",
+    "text": "Naukowo rzecz biorąc: ",
+    "generatedAt": "2026-06-12T13:24:04.715Z"
+  },
+  "prefix.early.normal.3": {
+    "hash": "a71c42cd640e",
+    "file": "a71c42cd640e.mp3",
+    "text": "Hmm, ",
+    "generatedAt": "2026-06-12T13:24:05.728Z"
+  },
+  "prefix.early.normal.4": {
+    "hash": "ed9535d6d50f",
+    "file": "ed9535d6d50f.mp3",
+    "text": "Aha, ",
+    "generatedAt": "2026-06-12T13:24:06.687Z"
+  },
+  "prefix.early.normal.5": {
+    "hash": "5b8c88c9861d",
+    "file": "5b8c88c9861d.mp3",
+    "text": "Dobra, ",
+    "generatedAt": "2026-06-12T13:24:07.685Z"
+  },
+  "prefix.early.normal.6": {
+    "hash": "11c317f005d4",
+    "file": "11c317f005d4.mp3",
+    "text": "Sprawdźmy: ",
+    "generatedAt": "2026-06-12T13:24:08.644Z"
+  },
+  "prefix.early.normal.7": {
+    "hash": "ecae50f853a1",
+    "file": "ecae50f853a1.mp3",
+    "text": "Idziemy dalej: ",
+    "generatedAt": "2026-06-12T13:24:09.732Z"
+  },
+  "prefix.early.normal.8": {
+    "hash": "04ee730a061e",
+    "file": "04ee730a061e.mp3",
+    "text": "Notuję sobie. ",
+    "generatedAt": "2026-06-12T13:24:10.756Z"
+  },
+  "prefix.early.funny.0": {
+    "hash": "a58ccc09cda7",
+    "file": "a58ccc09cda7.mp3",
+    "text": "Zauważyłem coś podejrzanego. ",
+    "generatedAt": "2026-06-12T13:24:11.885Z"
+  },
+  "prefix.early.funny.1": {
+    "hash": "103ebf77b0b5",
+    "file": "103ebf77b0b5.mp3",
+    "text": "Mam pewną hipotezę. ",
+    "generatedAt": "2026-06-12T13:24:13.111Z"
+  },
+  "prefix.early.funny.2": {
+    "hash": "b5c5e289b23e",
+    "file": "b5c5e289b23e.mp3",
+    "text": "Detal ważny dla śledztwa. ",
+    "generatedAt": "2026-06-12T13:24:14.136Z"
+  },
+  "prefix.early.funny.3": {
+    "hash": "be52279f63f7",
+    "file": "be52279f63f7.mp3",
+    "text": "Hmm, ciekawy szczegół. ",
+    "generatedAt": "2026-06-12T13:24:15.380Z"
+  },
+  "prefix.early.funny.4": {
+    "hash": "d2851b9cfe3f",
+    "file": "d2851b9cfe3f.mp3",
+    "text": "Detektyw zadaje kolejne pytanie: ",
+    "generatedAt": "2026-06-12T13:24:16.470Z"
+  },
+  "prefix.early.funny.5": {
+    "hash": "ae6a9af40392",
+    "file": "ae6a9af40392.mp3",
+    "text": "Podejrzane, podejrzane. ",
+    "generatedAt": "2026-06-12T13:24:17.575Z"
+  },
+  "prefix.early.crazy.0": {
+    "hash": "604593bc2343",
+    "file": "604593bc2343.mp3",
+    "text": "Lisia hipoteza badawcza brzmi: ",
+    "generatedAt": "2026-06-12T13:24:18.654Z"
+  },
+  "prefix.early.crazy.1": {
+    "hash": "ac0a3880dcc6",
+    "file": "ac0a3880dcc6.mp3",
+    "text": "Statystyka ogonów wskazuje: ",
+    "generatedAt": "2026-06-12T13:24:19.770Z"
+  },
+  "prefix.early.crazy.2": {
+    "hash": "97569183a9c0",
+    "file": "97569183a9c0.mp3",
+    "text": "Według mojej ekspertyzy: ",
+    "generatedAt": "2026-06-12T13:24:20.893Z"
+  },
+  "prefix.early.crazy.3": {
+    "hash": "9c20c8af9e41",
+    "file": "9c20c8af9e41.mp3",
+    "text": "Profesor Timo analizuje dane: ",
+    "generatedAt": "2026-06-12T13:24:21.997Z"
+  },
+  "prefix.mid.normal.3": {
+    "hash": "a71c42cd640e",
+    "file": "a71c42cd640e.mp3",
+    "text": "Hmm, ",
+    "generatedAt": "2026-06-12T13:24:23.043Z"
+  },
+  "prefix.mid.normal.4": {
+    "hash": "ed9535d6d50f",
+    "file": "ed9535d6d50f.mp3",
+    "text": "Aha, ",
+    "generatedAt": "2026-06-12T13:24:23.969Z"
+  },
+  "prefix.mid.normal.5": {
+    "hash": "505a3a6f9737",
+    "file": "505a3a6f9737.mp3",
+    "text": "Sprawdźmy jeszcze: ",
+    "generatedAt": "2026-06-12T13:24:24.986Z"
+  },
+  "prefix.mid.normal.6": {
+    "hash": "ecae50f853a1",
+    "file": "ecae50f853a1.mp3",
+    "text": "Idziemy dalej: ",
+    "generatedAt": "2026-06-12T13:24:26.025Z"
+  },
+  "prefix.mid.normal.7": {
+    "hash": "b6586e651b24",
+    "file": "b6586e651b24.mp3",
+    "text": "Dobra. ",
+    "generatedAt": "2026-06-12T13:24:26.971Z"
+  },
+  "prefix.mid.funny.0": {
+    "hash": "210ca3ec69b6",
+    "file": "210ca3ec69b6.mp3",
+    "text": "Mam mocne podejrzenie. ",
+    "generatedAt": "2026-06-12T13:24:27.973Z"
+  },
+  "prefix.mid.funny.1": {
+    "hash": "d15c3947326d",
+    "file": "d15c3947326d.mp3",
+    "text": "Coś tu nie pasuje — i to ciekawe. ",
+    "generatedAt": "2026-06-12T13:24:29.140Z"
+  },
+  "prefix.mid.funny.2": {
+    "hash": "92ed00ba8f94",
+    "file": "92ed00ba8f94.mp3",
+    "text": "Lupa pokazuje wyraźniej. ",
+    "generatedAt": "2026-06-12T13:24:30.170Z"
+  },
+  "prefix.mid.funny.3": {
+    "hash": "af9790b2c909",
+    "file": "af9790b2c909.mp3",
+    "text": "Detektywska intuicja podpowiada. ",
+    "generatedAt": "2026-06-12T13:24:31.315Z"
+  },
+  "prefix.mid.funny.4": {
+    "hash": "3f7fd26570e8",
+    "file": "3f7fd26570e8.mp3",
+    "text": "Zwęszyłem coś na tropie. ",
+    "generatedAt": "2026-06-12T13:24:32.342Z"
+  },
+  "prefix.mid.funny.5": {
+    "hash": "ff5a426a0c2f",
+    "file": "ff5a426a0c2f.mp3",
+    "text": "Aha! Kolejny element układanki. ",
+    "generatedAt": "2026-06-12T13:24:33.485Z"
+  },
+  "prefix.mid.funny.6": {
+    "hash": "b841b71f18f4",
+    "file": "b841b71f18f4.mp3",
+    "text": "Coś mi się przypomina. ",
+    "generatedAt": "2026-06-12T13:24:34.507Z"
+  },
+  "prefix.mid.crazy.0": {
+    "hash": "d61a4008f0e5",
+    "file": "d61a4008f0e5.mp3",
+    "text": "Lisia ekspertyza wskazuje: ",
+    "generatedAt": "2026-06-12T13:24:35.590Z"
+  },
+  "prefix.mid.crazy.1": {
+    "hash": "8104ce66c3e3",
+    "file": "8104ce66c3e3.mp3",
+    "text": "Statystycznie patrząc, ",
+    "generatedAt": "2026-06-12T13:24:36.623Z"
+  },
+  "prefix.mid.crazy.2": {
+    "hash": "1228272bc8f6",
+    "file": "1228272bc8f6.mp3",
+    "text": "Naukowe podejście do tropu: ",
+    "generatedAt": "2026-06-12T13:24:37.691Z"
+  },
+  "prefix.mid.crazy.3": {
+    "hash": "767b8c93e497",
+    "file": "767b8c93e497.mp3",
+    "text": "Według mojej analizy: ",
+    "generatedAt": "2026-06-12T13:24:38.722Z"
+  },
+  "prefix.mid.crazy.4": {
+    "hash": "54ec8e3b1e59",
+    "file": "54ec8e3b1e59.mp3",
+    "text": "Badania profesora Timo mówią: ",
+    "generatedAt": "2026-06-12T13:24:39.797Z"
+  },
+  "prefix.late.normal.2": {
+    "hash": "da091bd0538d",
+    "file": "da091bd0538d.mp3",
+    "text": "Aha! ",
+    "generatedAt": "2026-06-12T13:24:40.742Z"
+  },
+  "prefix.late.normal.3": {
+    "hash": "6948ccdb93ec",
+    "file": "6948ccdb93ec.mp3",
+    "text": "Już prawie. ",
+    "generatedAt": "2026-06-12T13:24:41.885Z"
+  },
+  "prefix.late.normal.4": {
+    "hash": "549d805732e3",
+    "file": "549d805732e3.mp3",
+    "text": "Jeszcze chwila. ",
+    "generatedAt": "2026-06-12T13:24:43.006Z"
+  },
+  "prefix.late.normal.5": {
+    "hash": "83428101315a",
+    "file": "83428101315a.mp3",
+    "text": "Trop bardzo gorący. ",
+    "generatedAt": "2026-06-12T13:24:44.037Z"
+  },
+  "prefix.late.normal.6": {
+    "hash": "23d0bf7a059c",
+    "file": "23d0bf7a059c.mp3",
+    "text": "Jeszcze jeden szczegół. ",
+    "generatedAt": "2026-06-12T13:24:45.786Z"
+  },
+  "prefix.late.funny.0": {
+    "hash": "6d60334bbb27",
+    "file": "6d60334bbb27.mp3",
+    "text": "Czuję, że już prawie go mam. ",
+    "generatedAt": "2026-06-12T13:24:46.901Z"
+  },
+  "prefix.late.funny.1": {
+    "hash": "e50b4bba4292",
+    "file": "e50b4bba4292.mp3",
+    "text": "Lupa mówi: bardzo blisko! ",
+    "generatedAt": "2026-06-12T13:24:48.090Z"
+  },
+  "prefix.late.funny.2": {
+    "hash": "216eb5a8c710",
+    "file": "216eb5a8c710.mp3",
+    "text": "Detektywska radość rośnie. ",
+    "generatedAt": "2026-06-12T13:24:49.139Z"
+  },
+  "prefix.late.funny.3": {
+    "hash": "a3f30a1a091d",
+    "file": "a3f30a1a091d.mp3",
+    "text": "O, jeszcze chwila i mam sprawcę. ",
+    "generatedAt": "2026-06-12T13:24:50.440Z"
+  },
+  "prefix.late.funny.4": {
+    "hash": "43ab0f5c9ec4",
+    "file": "43ab0f5c9ec4.mp3",
+    "text": "Słyszę szmer w krzakach. ",
+    "generatedAt": "2026-06-12T13:24:51.484Z"
+  },
+  "prefix.late.funny.5": {
+    "hash": "37bbf28a5717",
+    "file": "37bbf28a5717.mp3",
+    "text": "Niemal go widzę pod lupą. ",
+    "generatedAt": "2026-06-12T13:24:52.510Z"
+  },
+  "prefix.late.crazy.0": {
+    "hash": "3bd2cc14e81b",
+    "file": "3bd2cc14e81b.mp3",
+    "text": "Lisia metodologia kończy badanie. ",
+    "generatedAt": "2026-06-12T13:24:53.643Z"
+  },
+  "prefix.late.crazy.1": {
+    "hash": "93042fc43e45",
+    "file": "93042fc43e45.mp3",
+    "text": "Analiza statystyczna wskazuje: ",
+    "generatedAt": "2026-06-12T13:24:54.731Z"
+  },
+  "prefix.late.crazy.2": {
+    "hash": "d16d17551bae",
+    "file": "d16d17551bae.mp3",
+    "text": "Końcowy raport ekspertyzy: ",
+    "generatedAt": "2026-06-12T13:24:55.835Z"
+  },
+  "interlude.mid.0": {
+    "hash": "e81f5d4e8440",
+    "file": "e81f5d4e8440.mp3",
+    "text": "Robi się ciekawie. ",
+    "generatedAt": "2026-06-12T13:24:56.847Z"
+  },
+  "interlude.mid.1": {
+    "hash": "4ca380406aa7",
+    "file": "4ca380406aa7.mp3",
+    "text": "Mam dobrą poszlakę. ",
+    "generatedAt": "2026-06-12T13:24:57.924Z"
+  },
+  "interlude.mid.2": {
+    "hash": "c6ae0c1fdbfa",
+    "file": "c6ae0c1fdbfa.mp3",
+    "text": "Jesteśmy blisko, czuję to. ",
+    "generatedAt": "2026-06-12T13:24:59.000Z"
+  },
+  "interlude.mid.3": {
+    "hash": "e5b46c6471a3",
+    "file": "e5b46c6471a3.mp3",
+    "text": "Coś tu jest na rzeczy. ",
+    "generatedAt": "2026-06-12T13:25:00.047Z"
+  },
+  "interlude.mid.4": {
+    "hash": "b1897dce6662",
+    "file": "b1897dce6662.mp3",
+    "text": "Hmm, mam kilka podejrzeń. ",
+    "generatedAt": "2026-06-12T13:25:01.171Z"
+  },
+  "interlude.late.0": {
+    "hash": "1edf8a9ab0cb",
+    "file": "1edf8a9ab0cb.mp3",
+    "text": "Już prawie go mam. ",
+    "generatedAt": "2026-06-12T13:25:02.268Z"
+  },
+  "interlude.late.1": {
+    "hash": "cd1ce2e5ce28",
+    "file": "cd1ce2e5ce28.mp3",
+    "text": "Końcówka, słyszę to. ",
+    "generatedAt": "2026-06-12T13:25:03.452Z"
+  },
+  "interlude.late.2": {
+    "hash": "8f9ddd72f654",
+    "file": "8f9ddd72f654.mp3",
+    "text": "Bardzo blisko! ",
+    "generatedAt": "2026-06-12T13:25:04.460Z"
+  },
+  "interlude.late.3": {
+    "hash": "845e6ba76443",
+    "file": "845e6ba76443.mp3",
+    "text": "Lada chwila wpadnie. ",
+    "generatedAt": "2026-06-12T13:25:05.465Z"
+  },
+  "reaction.yes.0": {
+    "hash": "adfd4047840e",
+    "file": "adfd4047840e.mp3",
+    "text": "Tak! Świetnie, mam ważną wskazówkę w notesie.",
+    "generatedAt": "2026-06-12T13:25:06.709Z"
+  },
+  "reaction.yes.1": {
+    "hash": "361070371c9c",
+    "file": "361070371c9c.mp3",
+    "text": "Doskonale, mam mocny ślad.",
+    "generatedAt": "2026-06-12T13:25:07.891Z"
+  },
+  "reaction.yes.2": {
+    "hash": "f57573826d87",
+    "file": "f57573826d87.mp3",
+    "text": "Aha, ciepło-ciepło. Idziemy dalej.",
+    "generatedAt": "2026-06-12T13:25:09.121Z"
+  },
+  "reaction.yes.3": {
+    "hash": "7fbfeaac6f19",
+    "file": "7fbfeaac6f19.mp3",
+    "text": "Bingo! To ważny szczegół.",
+    "generatedAt": "2026-06-12T13:25:10.291Z"
+  },
+  "reaction.yes.4": {
+    "hash": "5839199c0f89",
+    "file": "5839199c0f89.mp3",
+    "text": "Świetnie, sprawa się rozjaśnia.",
+    "generatedAt": "2026-06-12T13:25:11.383Z"
+  },
+  "reaction.yes.5": {
+    "hash": "362a87478d2e",
+    "file": "362a87478d2e.mp3",
+    "text": "O, to mi się przyda — notuję.",
+    "generatedAt": "2026-06-12T13:25:12.499Z"
+  },
+  "reaction.yes.6": {
+    "hash": "414a0e2e522d",
+    "file": "414a0e2e522d.mp3",
+    "text": "Tak — trop bardzo gorący!",
+    "generatedAt": "2026-06-12T13:25:13.610Z"
+  },
+  "reaction.no.0": {
+    "hash": "828da4729883",
+    "file": "828da4729883.mp3",
+    "text": "Aha, eliminujemy tego podejrzanego.",
+    "generatedAt": "2026-06-12T13:25:14.774Z"
+  },
+  "reaction.no.1": {
+    "hash": "a21a348fbc2e",
+    "file": "a21a348fbc2e.mp3",
+    "text": "OK, ten trop odpada — szukamy gdzie indziej.",
+    "generatedAt": "2026-06-12T13:25:15.992Z"
+  },
+  "reaction.no.2": {
+    "hash": "462a904cd5ee",
+    "file": "462a904cd5ee.mp3",
+    "text": "Hmm, nie ten kierunek. Detektyw notuje.",
+    "generatedAt": "2026-06-12T13:25:17.243Z"
+  },
+  "reaction.no.3": {
+    "hash": "7df5ef5771bb",
+    "file": "7df5ef5771bb.mp3",
+    "text": "No to wykluczamy. Idziemy gdzie indziej.",
+    "generatedAt": "2026-06-12T13:25:18.377Z"
+  },
+  "reaction.no.4": {
+    "hash": "afefed26887f",
+    "file": "afefed26887f.mp3",
+    "text": "Sprawca nie tym razem. Dobrze wiedzieć.",
+    "generatedAt": "2026-06-12T13:25:19.535Z"
+  },
+  "reaction.no.5": {
+    "hash": "e323830d989d",
+    "file": "e323830d989d.mp3",
+    "text": "Wykreślamy z notesu. Świetnie.",
+    "generatedAt": "2026-06-12T13:25:20.698Z"
+  },
+  "reaction.no.6": {
+    "hash": "c959c3608531",
+    "file": "c959c3608531.mp3",
+    "text": "OK, mamy mniej podejrzanych.",
+    "generatedAt": "2026-06-12T13:25:21.830Z"
+  },
+  "reaction.idk.0": {
+    "hash": "a1f15ccb20ec",
+    "file": "a1f15ccb20ec.mp3",
+    "text": "Spokojnie — detektyw też nie musi wszystkiego wiedzieć. Sprawdzimy z innej strony.",
+    "generatedAt": "2026-06-12T13:25:23.323Z"
+  },
+  "reaction.idk.1": {
+    "hash": "8571c7cac901",
+    "file": "8571c7cac901.mp3",
+    "text": "Nic nie szkodzi, kombinuję dalej.",
+    "generatedAt": "2026-06-12T13:25:24.421Z"
+  },
+  "reaction.idk.2": {
+    "hash": "fe5aa492ea7b",
+    "file": "fe5aa492ea7b.mp3",
+    "text": "OK, ten szczegół ukryty. Pomijamy.",
+    "generatedAt": "2026-06-12T13:25:25.729Z"
+  },
+  "reaction.idk.3": {
+    "hash": "52e85b5e1f4a",
+    "file": "52e85b5e1f4a.mp3",
+    "text": "Detektyw musi czasem zgadywać — to też dane.",
+    "generatedAt": "2026-06-12T13:25:26.916Z"
+  },
+  "reaction.idk.4": {
+    "hash": "6a03075df583",
+    "file": "6a03075df583.mp3",
+    "text": "Bez problemu, mam inne pytanie w zanadrzu.",
+    "generatedAt": "2026-06-12T13:25:28.118Z"
+  },
+  "reaction.idk.5": {
+    "hash": "937e3c437ec6",
+    "file": "937e3c437ec6.mp3",
+    "text": "Spokojnie, ja też czasem się waham.",
+    "generatedAt": "2026-06-12T13:25:29.250Z"
+  },
+  "reaction.hard.0": {
+    "hash": "f72418939d85",
+    "file": "f72418939d85.mp3",
+    "text": "Słuszna uwaga — w naturze nic nie jest czarno-białe. Detektyw to też notuje.",
+    "generatedAt": "2026-06-12T13:25:30.644Z"
+  },
+  "reaction.hard.1": {
+    "hash": "4d09d9a54d67",
+    "file": "4d09d9a54d67.mp3",
+    "text": "Dobra obserwacja, to też dla mnie cenna wskazówka.",
+    "generatedAt": "2026-06-12T13:25:31.858Z"
+  },
+  "reaction.hard.2": {
+    "hash": "4eca6a5b2339",
+    "file": "4eca6a5b2339.mp3",
+    "text": "Świat jest skomplikowany, masz całkowitą rację.",
+    "generatedAt": "2026-06-12T13:25:33.153Z"
+  },
+  "reaction.hard.3": {
+    "hash": "13e68499e7cb",
+    "file": "13e68499e7cb.mp3",
+    "text": "Hmm, czasem tak, czasem nie. Notuję jako niejasne.",
+    "generatedAt": "2026-06-12T13:25:34.443Z"
+  },
+  "reaction.hard.4": {
+    "hash": "59e4bc669956",
+    "file": "59e4bc669956.mp3",
+    "text": "Mądre spostrzeżenie — sprawa nie jest oczywista.",
+    "generatedAt": "2026-06-12T13:25:35.772Z"
+  },
+  "greeting.0": {
+    "hash": "2ccefbe42236",
+    "file": "2ccefbe42236.mp3",
+    "text": "Cześć, mały odkrywco! Detektyw Timo na służbie. O jakim zwierzaku dziś myślisz?",
+    "generatedAt": "2026-06-12T13:25:37.267Z"
+  },
+  "greeting.1": {
+    "hash": "4d185f50c502",
+    "file": "4d185f50c502.mp3",
+    "text": "Lupa gotowa, notes otwarty. Pomyśl o zwierzęciu, a ja postaram się je znaleźć.",
+    "generatedAt": "2026-06-12T13:25:38.794Z"
+  },
+  "greeting.2": {
+    "hash": "1a5fce13a648",
+    "file": "1a5fce13a648.mp3",
+    "text": "Otwieramy dziś nową sprawę. Pomyśl w głowie o jednym zwierzaku, nie mów którym.",
+    "generatedAt": "2026-06-12T13:25:40.388Z"
+  },
+  "greeting.3": {
+    "hash": "920b19dd4317",
+    "file": "920b19dd4317.mp3",
+    "text": "Mam świeży nos i bystrą głowę. Lecimy z tropieniem?",
+    "generatedAt": "2026-06-12T13:25:41.696Z"
+  },
+  "greeting.4": {
+    "hash": "3c24812aaa8b",
+    "file": "3c24812aaa8b.mp3",
+    "text": "Pakuj uszy i otwieraj wyobraźnię. Pomyśl o zwierzęciu, a detektyw zgadnie.",
+    "generatedAt": "2026-06-12T13:25:43.228Z"
+  },
+  "greeting.5": {
+    "hash": "ed249dccec70",
+    "file": "ed249dccec70.mp3",
+    "text": "Witaj na śledztwie! Wybierz w głowie jedno stworzenie, a ja zacznę pytać.",
+    "generatedAt": "2026-06-12T13:25:44.734Z"
+  },
+  "victory.0": {
+    "hash": "4d5e51b7d683",
+    "file": "4d5e51b7d683.mp3",
+    "text": "Sprawa rozwiązana! Detektyw Timo trafił.",
+    "generatedAt": "2026-06-12T13:25:46.051Z"
+  },
+  "victory.1": {
+    "hash": "d23723783bde",
+    "file": "d23723783bde.mp3",
+    "text": "Mam cię! Lupa zadziałała jak należy.",
+    "generatedAt": "2026-06-12T13:25:47.253Z"
+  },
+  "victory.2": {
+    "hash": "710773cdc6ba",
+    "file": "710773cdc6ba.mp3",
+    "text": "Brawo nam — udało się rozwikłać zagadkę!",
+    "generatedAt": "2026-06-12T13:25:48.445Z"
+  },
+  "victory.3": {
+    "hash": "d3800ea1f119",
+    "file": "d3800ea1f119.mp3",
+    "text": "Tak myślałem! Notes mi się dzisiaj nie pomylił.",
+    "generatedAt": "2026-06-12T13:25:49.657Z"
+  },
+  "victory.4": {
+    "hash": "02cafaead7d0",
+    "file": "02cafaead7d0.mp3",
+    "text": "Bingo, bingo, bingo! Lisia metoda działa.",
+    "generatedAt": "2026-06-12T13:25:50.927Z"
+  },
+  "victory.5": {
+    "hash": "9c55fc450bd0",
+    "file": "9c55fc450bd0.mp3",
+    "text": "Sprawca pod lupą — śledztwo zakończone sukcesem.",
+    "generatedAt": "2026-06-12T13:25:52.200Z"
+  },
+  "giveup.0": {
+    "hash": "ca7ad62f1f61",
+    "file": "ca7ad62f1f61.mp3",
+    "text": "Hmm, detektyw musi się tym razem poddać. Powiedz mi, kogo wymyśliłeś?",
+    "generatedAt": "2026-06-12T13:25:53.652Z"
+  },
+  "giveup.1": {
+    "hash": "a8bbd2cee440",
+    "file": "a8bbd2cee440.mp3",
+    "text": "Sprawa za trudna na dziś. Co to było za stworzenie?",
+    "generatedAt": "2026-06-12T13:25:54.997Z"
+  },
+  "giveup.2": {
+    "hash": "746d802c340a",
+    "file": "746d802c340a.mp3",
+    "text": "Mój notes jest pusty — ten zwierzak mnie przechytrzył. Kto to?",
+    "generatedAt": "2026-06-12T13:25:56.364Z"
+  },
+  "giveup.3": {
+    "hash": "856d43f6e114",
+    "file": "856d43f6e114.mp3",
+    "text": "Nawet najlepszy detektyw ma czasem trudny dzień. Zdradź mi rozwiązanie!",
+    "generatedAt": "2026-06-12T13:25:57.789Z"
+  },
+  "giveup.4": {
+    "hash": "7ade86c78168",
+    "file": "7ade86c78168.mp3",
+    "text": "Łapy w górę — poddaję się. Powiedz, jakie to zwierzę?",
+    "generatedAt": "2026-06-12T13:25:59.081Z"
+  },
+  "guided_giveup.0": {
+    "hash": "17295e8612af",
+    "file": "17295e8612af.mp3",
+    "text": "Detektyw musi się tym razem poddać. Pokaż mi, kogo wybrałeś!",
+    "generatedAt": "2026-06-12T13:26:00.401Z"
+  },
+  "guided_giveup.1": {
+    "hash": "0b7a6281fa68",
+    "file": "0b7a6281fa68.mp3",
+    "text": "Trochę się zgubiłem na tropie... ale wybrałeś świetnie! Powiedz, co to było?",
+    "generatedAt": "2026-06-12T13:26:01.804Z"
+  },
+  "guided_giveup.2": {
+    "hash": "d4547d6b0cd0",
+    "file": "d4547d6b0cd0.mp3",
+    "text": "Mój notes jest pusty, sprawa nierozwiązana. Zdradź mi rozwiązanie!",
+    "generatedAt": "2026-06-12T13:26:03.207Z"
+  },
+  "guess_intro.0": {
+    "hash": "e5f494375745",
+    "file": "e5f494375745.mp3",
+    "text": "Mam podejrzanego — to chyba",
+    "generatedAt": "2026-06-12T13:26:04.322Z"
+  },
+  "guess_intro.1": {
+    "hash": "acd80e38b101",
+    "file": "acd80e38b101.mp3",
+    "text": "Detektyw mówi:",
+    "generatedAt": "2026-06-12T13:26:05.342Z"
+  },
+  "guess_intro.2": {
+    "hash": "a50d3c335a0a",
+    "file": "a50d3c335a0a.mp3",
+    "text": "Hmm, postawię na",
+    "generatedAt": "2026-06-12T13:26:06.360Z"
+  },
+  "guess_intro.3": {
+    "hash": "70eade241884",
+    "file": "70eade241884.mp3",
+    "text": "Mam pewność, że to",
+    "generatedAt": "2026-06-12T13:26:07.415Z"
+  },
+  "guess_intro.4": {
+    "hash": "1d8a52baa441",
+    "file": "1d8a52baa441.mp3",
+    "text": "Strzelam: to",
+    "generatedAt": "2026-06-12T13:26:08.416Z"
+  },
+  "guess_intro.5": {
+    "hash": "23f532a4c185",
+    "file": "23f532a4c185.mp3",
+    "text": "Stawiam na",
+    "generatedAt": "2026-06-12T13:26:09.376Z"
+  },
+  "guess_intro.6": {
+    "hash": "c63757310589",
+    "file": "c63757310589.mp3",
+    "text": "Już wiem! To",
+    "generatedAt": "2026-06-12T13:26:10.425Z"
+  },
+  "guess_intro.7": {
+    "hash": "8c4b1d63b559",
+    "file": "8c4b1d63b559.mp3",
+    "text": "Mam mocną teorię — to",
+    "generatedAt": "2026-06-12T13:26:11.469Z"
+  },
+  "dont_know.0": {
+    "hash": "261018353810",
+    "file": "261018353810.mp3",
+    "text": "Spokojnie — detektyw też nie musi wszystkiego wiedzieć. Zapytam inaczej.",
+    "generatedAt": "2026-06-12T13:26:12.902Z"
+  },
+  "dont_know.1": {
+    "hash": "8571c7cac901",
+    "file": "8571c7cac901.mp3",
+    "text": "Nic nie szkodzi, kombinuję dalej.",
+    "generatedAt": "2026-06-12T13:26:13.999Z"
+  },
+  "dont_know.2": {
+    "hash": "23741750bedb",
+    "file": "23741750bedb.mp3",
+    "text": "OK, ten szczegół ukryty — sprawdzimy z innej strony.",
+    "generatedAt": "2026-06-12T13:26:15.314Z"
+  },
+  "dont_know.3": {
+    "hash": "ce28be695615",
+    "file": "ce28be695615.mp3",
+    "text": "Hmm, trudne pytanie. Detektyw notuje jako niejasne.",
+    "generatedAt": "2026-06-12T13:26:16.675Z"
+  },
+  "dont_know.4": {
+    "hash": "0d7db476e3a2",
+    "file": "0d7db476e3a2.mp3",
+    "text": "Bez problemu, mam inne pomysły. Spróbujmy inaczej.",
+    "generatedAt": "2026-06-12T13:26:18.039Z"
+  },
+  "dont_know.5": {
+    "hash": "a9adb84deb8f",
+    "file": "a9adb84deb8f.mp3",
+    "text": "Spokojnie, ja też czasem się waham. Lecimy dalej.",
+    "generatedAt": "2026-06-12T13:26:19.384Z"
+  },
+  "outside.0": {
+    "hash": "2b76b5e1dd15",
+    "file": "2b76b5e1dd15.mp3",
+    "text": "Oho! Detektyw widzi, że twoje zwierzę nie pasuje całkiem do tej wyprawy. Spokojnie — ciekawe sprawy bywają niespodzianką. Tropię dalej!",
+    "generatedAt": "2026-06-12T13:26:21.237Z"
+  },
+  "outside.1": {
+    "hash": "90bb19c8b41f",
+    "file": "90bb19c8b41f.mp3",
+    "text": "Hmm... ten trop prowadzi nas trochę poza naszą wyprawę. Nic nie szkodzi, detektyw lubi nieoczekiwane zwroty akcji.",
+    "generatedAt": "2026-06-12T13:26:22.998Z"
+  },
+  "outside.2": {
+    "hash": "a9240f1a8eff",
+    "file": "a9240f1a8eff.mp3",
+    "text": "Ale ciekawy wybór! Sprawdźmy razem, co to za niespodzianka — detektyw Timo idzie nowym tropem.",
+    "generatedAt": "2026-06-12T13:26:24.529Z"
+  },
+  "outside.3": {
+    "hash": "ae80b5906e98",
+    "file": "ae80b5906e98.mp3",
+    "text": "O, to coś spoza naszej listy! Świetnie, dobra zagadka czasem wychodzi poza scenariusz. Tropię dalej.",
+    "generatedAt": "2026-06-12T13:26:26.208Z"
+  },
+  "intro.water_friends.0": {
+    "hash": "e071b0f3e607",
+    "file": "e071b0f3e607.mp3",
+    "text": "Witaj na wodnej sprawie, mały odkrywco! Wybierz w głowie jednego mieszkańca morza lub jeziora, a detektyw Timo ruszy na poszukiwanie.",
+    "generatedAt": "2026-06-12T13:26:28.091Z"
+  },
+  "intro.water_friends.1": {
+    "hash": "820d3201c48a",
+    "file": "820d3201c48a.mp3",
+    "text": "Plusk-plusk! Mam dla ciebie wodną zagadkę. Pomyśl w głowie o jednym pływaku, a ja zgadnę pytaniami — krok po kroku.",
+    "generatedAt": "2026-06-12T13:26:30.020Z"
+  },
+  "intro.farm_timo.0": {
+    "hash": "1b9c2d878843",
+    "file": "1b9c2d878843.mp3",
+    "text": "Otwieramy sprawę farmera! Wybierz w głowie jedno zwierzę z gospodarstwa i nie mów którym. Detektyw Timo idzie tropem.",
+    "generatedAt": "2026-06-12T13:26:31.814Z"
+  },
+  "intro.farm_timo.1": {
+    "hash": "d79d4e978a53",
+    "file": "d79d4e978a53.mp3",
+    "text": "Ko-ko-ko, mu-uu, hau-hau! Pomyśl o jednym mieszkańcu farmy, a ja postaram się je odgadnąć krok po kroku.",
+    "generatedAt": "2026-06-12T13:26:33.542Z"
+  },
+  "intro.green_jungle.0": {
+    "hash": "90641b3baccd",
+    "file": "90641b3baccd.mp3",
+    "text": "Wchodzimy w zieloną sprawę dżungli! Pomyśl w głowie o jednym tropikalnym stworzeniu, a detektyw Timo postara się je wytropić.",
+    "generatedAt": "2026-06-12T13:26:35.467Z"
+  },
+  "intro.green_jungle.1": {
+    "hash": "154a01364b9b",
+    "file": "154a01364b9b.mp3",
+    "text": "Tropikalna przygoda i detektywska zagadka! Wybierz jedno zwierzę dżungli, ale ciii... niech to będzie nasza tajemnica.",
+    "generatedAt": "2026-06-12T13:26:37.164Z"
+  },
+  "intro.forest_kids.0": {
+    "hash": "4f946a4af18a",
+    "file": "4f946a4af18a.mp3",
+    "text": "Idziemy do lasu na śledztwo! Pomyśl o jednym leśnym mieszkańcu — to będzie nasza wspólna tajemnica, którą rozwikłam pytaniami.",
+    "generatedAt": "2026-06-12T13:26:38.921Z"
+  },
+  "intro.forest_kids.1": {
+    "hash": "461a1539c170",
+    "file": "461a1539c170.mp3",
+    "text": "Cicho... w lesie ktoś się skrył. Wybierz w głowie jedno zwierzę, a detektyw Timo wytropi je krok po kroku.",
+    "generatedAt": "2026-06-12T13:26:40.616Z"
+  },
+  "intro.flyers.0": {
+    "hash": "8d8ce9f9f967",
+    "file": "8d8ce9f9f967.mp3",
+    "text": "Patrz w niebo, mam dla ciebie powietrzną sprawę! Pomyśl o jednym latającym stworzeniu, a detektyw Timo postara się zgadnąć.",
+    "generatedAt": "2026-06-12T13:26:42.386Z"
+  },
+  "intro.flyers.1": {
+    "hash": "18108d30df20",
+    "file": "18108d30df20.mp3",
+    "text": "Skrzydła w górze! Wybierz w głowie jednego mistrza lotu z kart, ale nie zdradzaj którego — to nasza zagadka.",
+    "generatedAt": "2026-06-12T13:26:44.046Z"
+  },
+  "intro.night_animals.0": {
+    "hash": "8f6aa61f8ee6",
+    "file": "8f6aa61f8ee6.mp3",
+    "text": "Latarka w łapę! Nocą las budzi się inaczej, a detektyw Timo ma nocną sprawę. Wybierz w głowie jednego nocnego mieszkańca.",
+    "generatedAt": "2026-06-12T13:26:45.996Z"
+  },
+  "intro.night_animals.1": {
+    "hash": "a759e592b5e3",
+    "file": "a759e592b5e3.mp3",
+    "text": "Pst! Nocne zwierzaki są wokół nas. Pomyśl o jednym z nich, a ja zgadnę pytaniami — szepcząc.",
+    "generatedAt": "2026-06-12T13:26:47.643Z"
+  },
+  "intro.big_animals.0": {
+    "hash": "f8fc74d70d77",
+    "file": "f8fc74d70d77.mp3",
+    "text": "Czuję drżenie ziemi — to wielka sprawa dla detektywa! Wybierz w głowie jednego olbrzyma, a Timo go wytropi.",
+    "generatedAt": "2026-06-12T13:26:49.264Z"
+  },
+  "intro.big_animals.1": {
+    "hash": "f3fc2366f560",
+    "file": "f3fc2366f560.mp3",
+    "text": "Ooo, kogoś bardzo dużego widzę! Pomyśl o jednym wielkim zwierzęciu z kart, a ja postaram się je odgadnąć.",
+    "generatedAt": "2026-06-12T13:26:51.023Z"
+  },
+  "intro.small_animals.0": {
+    "hash": "bdd146513622",
+    "file": "bdd146513622.mp3",
+    "text": "Patrz uważnie! Detektyw musi czasem szukać w drobnych szczegółach. Pomyśl o jednym maluszku z kart, a ja zgadnę.",
+    "generatedAt": "2026-06-12T13:26:52.608Z"
+  },
+  "intro.small_animals.1": {
+    "hash": "19ce742b9232",
+    "file": "19ce742b9232.mp3",
+    "text": "Te zwierzaki są malutkie, ale dla detektywa Timo bardzo ważne. Wybierz w głowie jednego z nich.",
+    "generatedAt": "2026-06-12T13:26:54.187Z"
+  },
+  "intro.scary_animals.0": {
+    "hash": "281d1213c4cd",
+    "file": "281d1213c4cd.mp3",
+    "text": "Czas na groźne stworzenia! Pomyśl w głowie o jednym z nich, ale spokojnie — pod lupą detektywa nic ci nie zrobi.",
+    "generatedAt": "2026-06-12T13:26:55.830Z"
+  },
+  "intro.scary_animals.1": {
+    "hash": "1a75fefe519a",
+    "file": "1a75fefe519a.mp3",
+    "text": "Ostrożnie, drapieżna sprawa! Wybierz w głowie jednego niebezpiecznego zwierzaka, a ja go ostrożnie wytropię.",
+    "generatedAt": "2026-06-12T13:26:57.529Z"
+  },
+  "intro.ice_land.0": {
+    "hash": "be39ed51fe28",
+    "file": "be39ed51fe28.mp3",
+    "text": "Brrr! Detektyw zakłada futro i rusza do Lodowej Krainy. Pomyśl o jednym mieszkańcu śniegu, a ja zgadnę.",
+    "generatedAt": "2026-06-12T13:26:59.302Z"
+  },
+  "intro.ice_land.1": {
+    "hash": "0a33755449f6",
+    "file": "0a33755449f6.mp3",
+    "text": "Mróz szczypie w nos, a sprawa lodowa czeka! Wybierz w głowie jedno zwierzę z krainy lodu.",
+    "generatedAt": "2026-06-12T13:27:00.966Z"
+  },
+  "intro.home_pets_friends.0": {
+    "hash": "951a9f9021b8",
+    "file": "951a9f9021b8.mp3",
+    "text": "Witam w naszym domu — to sprawa domowa! Pomyśl o jednym pupilu, a detektyw Timo postara się zgadnąć.",
+    "generatedAt": "2026-06-12T13:27:02.768Z"
+  },
+  "intro.home_pets_friends.1": {
+    "hash": "3909c8dc81b8",
+    "file": "3909c8dc81b8.mp3",
+    "text": "Hau, miau, kwa! Wybierz w głowie domowego zwierzaka, a ja rozwikłam tę miłą zagadkę.",
+    "generatedAt": "2026-06-12T13:27:04.304Z"
+  },
+  "intro.feathered.0": {
+    "hash": "12c1b698cbad",
+    "file": "12c1b698cbad.mp3",
+    "text": "Pióra w grze, sprawa skrzydlata! Pomyśl o jednym ptaku z kart, a detektyw Timo spróbuje go odgadnąć.",
+    "generatedAt": "2026-06-12T13:27:06.061Z"
+  },
+  "intro.feathered.1": {
+    "hash": "54ff8bc419da",
+    "file": "54ff8bc419da.mp3",
+    "text": "Świer-świer, ćwir-ćwir! Wybierz w głowie jednego pierzastego przyjaciela, a ja go wytropię pytaniami.",
+    "generatedAt": "2026-06-12T13:27:07.819Z"
+  },
+  "intro.furry.0": {
+    "hash": "975c130580df",
+    "file": "975c130580df.mp3",
+    "text": "Mięciutkie futerka — przytulna sprawa dla detektywa! Pomyśl o jednym futrzaku, a ja postaram się zgadnąć.",
+    "generatedAt": "2026-06-12T13:27:09.593Z"
+  },
+  "intro.furry.1": {
+    "hash": "341439e6efde",
+    "file": "341439e6efde.mp3",
+    "text": "Pomruk... futrzasta zagadka czeka. Wybierz w głowie jedno włochate zwierzę, a Timo go wytropi.",
+    "generatedAt": "2026-06-12T13:27:11.347Z"
+  },
+  "intro.bugs_and_worms.0": {
+    "hash": "e3d6c92ca30b",
+    "file": "e3d6c92ca30b.mp3",
+    "text": "Małe nóżki w trawie — owadzia sprawa! Pomyśl o jednym maluszku z kart, a detektyw Timo zgadnie.",
+    "generatedAt": "2026-06-12T13:27:12.958Z"
+  },
+  "intro.bugs_and_worms.1": {
+    "hash": "bbb20770b60d",
+    "file": "bbb20770b60d.mp3",
+    "text": "Brzęczy, pełza, lata! Wybierz w głowie jednego małego bohatera, a ja postaram się go odgadnąć.",
+    "generatedAt": "2026-06-12T13:27:14.585Z"
+  },
+  "intro.savanna_kids.0": {
+    "hash": "984f4e28886f",
+    "file": "984f4e28886f.mp3",
+    "text": "Słońce nad sawanną, afrykańska sprawa! Pomyśl o jednym mieszkańcu sawanny, a detektyw Timo wytropi go pytaniami.",
+    "generatedAt": "2026-06-12T13:27:16.538Z"
+  },
+  "intro.savanna_kids.1": {
+    "hash": "a1e80338d6a6",
+    "file": "a1e80338d6a6.mp3",
+    "text": "Akacje szumią, słychać ryk z daleka... wybierz w głowie jedno zwierzę sawanny, a ja zgadnę.",
+    "generatedAt": "2026-06-12T13:27:18.161Z"
+  },
+  "intro.jumpers.0": {
+    "hash": "03774437bb4d",
+    "file": "03774437bb4d.mp3",
+    "text": "Hop! Skok! Detektyw ma skoczną sprawę. Pomyśl o jednym mistrzu skoku, a ja postaram się odgadnąć.",
+    "generatedAt": "2026-06-12T13:27:19.949Z"
+  },
+  "intro.jumpers.1": {
+    "hash": "1c2e8925bb9a",
+    "file": "1c2e8925bb9a.mp3",
+    "text": "Te zwierzaki nie chodzą — skaczą jak gumowe piłki! Wybierz w głowie jednego z nich, a Timo wytropi.",
+    "generatedAt": "2026-06-12T13:27:21.564Z"
+  },
+  "intro.swimmers.0": {
+    "hash": "e914016e633f",
+    "file": "e914016e633f.mp3",
+    "text": "Plusk-plusk, sprawa pływacka! Pomyśl o jednym mistrzu pływania z kart, a detektyw Timo zgadnie pytaniami.",
+    "generatedAt": "2026-06-12T13:27:23.332Z"
+  },
+  "intro.swimmers.1": {
+    "hash": "80b5112d0fd2",
+    "file": "80b5112d0fd2.mp3",
+    "text": "Płetwy w wodzie, ogony łopocą! Wybierz w głowie jednego pływającego zwierzaka, a ja go wytropię.",
+    "generatedAt": "2026-06-12T13:27:24.972Z"
+  },
+  "intro.monkey_friends.0": {
+    "hash": "83289aeaadcb",
+    "file": "83289aeaadcb.mp3",
+    "text": "Hu-hu-ha, małpia sprawa w dżungli! Pomyśl o jednej z małp, a detektyw Timo zgadnie pytaniami.",
+    "generatedAt": "2026-06-12T13:27:26.539Z"
+  },
+  "intro.monkey_friends.1": {
+    "hash": "aa0dfa447bac",
+    "file": "aa0dfa447bac.mp3",
+    "text": "W koronach drzew jest tłoczno! Wybierz w głowie jedną małpkę, a ja postaram się ją odgadnąć.",
+    "generatedAt": "2026-06-12T13:27:28.125Z"
+  },
+  "intro.striped_spotted.0": {
+    "hash": "79c395115cf3",
+    "file": "79c395115cf3.mp3",
+    "text": "Wow, ile wzorów! Sprawa w paski i cętki. Pomyśl o jednym wzorzystym stworzeniu, a detektyw zgadnie.",
+    "generatedAt": "2026-06-12T13:27:29.882Z"
+  },
+  "intro.striped_spotted.1": {
+    "hash": "84de4bf91fde",
+    "file": "84de4bf91fde.mp3",
+    "text": "Cętki, paski, plamy! Wybierz w głowie jedno kolorowo upstrzone zwierzę, a Timo je wytropi.",
+    "generatedAt": "2026-06-12T13:27:31.559Z"
+  },
+  "intro.long_nose.0": {
+    "hash": "f24abc8504d6",
+    "file": "f24abc8504d6.mp3",
+    "text": "Hmm, kto ma długi nos? Detektyw musi to sprawdzić. Pomyśl o jednym zwierzaku z długim ryjkiem lub trąbą.",
+    "generatedAt": "2026-06-12T13:27:33.159Z"
+  },
+  "intro.long_nose.1": {
+    "hash": "0defb3c42b9e",
+    "file": "0defb3c42b9e.mp3",
+    "text": "Trąba, ryjek, dziób — ciekawa sprawa! Wybierz w głowie jedno z tych zwierząt i nie zdradzaj.",
+    "generatedAt": "2026-06-12T13:27:34.760Z"
+  },
+  "intro.water_giants.0": {
+    "hash": "5bab1fa2b073",
+    "file": "5bab1fa2b073.mp3",
+    "text": "Głębia oceanu — sprawa dla odważnego detektywa! Pomyśl o jednym wielkim mieszkańcu mórz, a Timo zgadnie.",
+    "generatedAt": "2026-06-12T13:27:36.722Z"
+  },
+  "intro.water_giants.1": {
+    "hash": "46611c993b22",
+    "file": "46611c993b22.mp3",
+    "text": "Brawo, odkrywco! Wybierz w głowie jednego wodnego olbrzyma z kart, a ja wytropię go pytaniami.",
+    "generatedAt": "2026-06-12T13:27:38.273Z"
+  },
+  "intro.dinos_myths.0": {
+    "hash": "26d661df9d94",
+    "file": "26d661df9d94.mp3",
+    "text": "Stary świat i legendy, sprawa mityczna! Pomyśl o jednym stworzeniu z dawnych czasów lub bajek.",
+    "generatedAt": "2026-06-12T13:27:40.000Z"
+  },
+  "intro.dinos_myths.1": {
+    "hash": "907bb3de8eec",
+    "file": "907bb3de8eec.mp3",
+    "text": "Smoki, dinozaury, jednorożce... wybierz w głowie jedno z tych legendarnych zwierząt, a Timo zgadnie.",
+    "generatedAt": "2026-06-12T13:27:41.741Z"
+  },
+  "intro.shelled.0": {
+    "hash": "6f318356f803",
+    "file": "6f318356f803.mp3",
+    "text": "Stuk-stuk w skorupę — sprawa z pancerzem! Pomyśl o jednym zwierzaku noszącym dom na grzbiecie.",
+    "generatedAt": "2026-06-12T13:27:43.358Z"
+  },
+  "intro.shelled.1": {
+    "hash": "0746fd981426",
+    "file": "0746fd981426.mp3",
+    "text": "Domek na grzbiecie, twarda skorupa! Wybierz w głowie jedno z tych zwierząt, a detektyw zgadnie.",
+    "generatedAt": "2026-06-12T13:27:44.906Z"
+  },
+  "intro.colorful.0": {
+    "hash": "836a90b79d7a",
+    "file": "836a90b79d7a.mp3",
+    "text": "Cała tęcza w jednym miejscu — barwna sprawa! Pomyśl o jednym kolorowym zwierzaku, a Timo go wytropi.",
+    "generatedAt": "2026-06-12T13:27:46.805Z"
+  },
+  "intro.colorful.1": {
+    "hash": "6f3ba19d7cdb",
+    "file": "6f3ba19d7cdb.mp3",
+    "text": "Wow, jak kolorowo! Wybierz w głowie jedno tęczowe stworzenie, a detektyw zgadnie pytaniami.",
+    "generatedAt": "2026-06-12T13:27:48.389Z"
+  },
+  "intro.generic.0": {
+    "hash": "8f7455306c53",
+    "file": "8f7455306c53.mp3",
+    "text": "Witaj na nowej wyprawie! Pomyśl w głowie o jednym ze zwierząt z kart, a detektyw Timo postara się je odgadnąć.",
+    "generatedAt": "2026-06-12T13:27:50.054Z"
+  },
+  "intro.generic.1": {
+    "hash": "221153fc7431",
+    "file": "221153fc7431.mp3",
+    "text": "Otwieramy sprawę! Wybierz w głowie jedno zwierzę, nie mów mi które, a ja użyję pytań żeby je wytropić.",
+    "generatedAt": "2026-06-12T13:27:51.669Z"
+  },
+  "question.q_water.0": {
+    "hash": "bf2c38903761",
+    "file": "bf2c38903761.mp3",
+    "text": "Czy zwierzę, o którym myślisz, żyje w wodzie?",
+    "generatedAt": "2026-06-12T13:27:52.972Z"
+  },
+  "question.q_water.1": {
+    "hash": "361588d4ec89",
+    "file": "361588d4ec89.mp3",
+    "text": "Czy ono mieszka w wodzie?",
+    "generatedAt": "2026-06-12T13:27:54.086Z"
+  },
+  "question.q_water.2": {
+    "hash": "0b904347002b",
+    "file": "0b904347002b.mp3",
+    "text": "Czy to stworzenie spędza większość życia w wodzie, jak ryba lub delfin?",
+    "generatedAt": "2026-06-12T13:27:55.529Z"
+  },
+  "question.q_water.3": {
+    "hash": "1c796e187471",
+    "file": "1c796e187471.mp3",
+    "text": "A czy gdybyś chciał go zobaczyć, musiałbyś szukać go w morzu lub jeziorze?",
+    "generatedAt": "2026-06-12T13:27:56.883Z"
+  },
+  "question.q_water.4": {
+    "hash": "d68be208a092",
+    "file": "d68be208a092.mp3",
+    "text": "Powiedz mi, czy ten zwierzak ma swój dom w wodzie?",
+    "generatedAt": "2026-06-12T13:27:58.120Z"
+  },
+  "question.q_fly.0": {
+    "hash": "18563a1e0945",
+    "file": "18563a1e0945.mp3",
+    "text": "Czy zwierzę, o którym myślisz, potrafi latać?",
+    "generatedAt": "2026-06-12T13:27:59.362Z"
+  },
+  "question.q_fly.1": {
+    "hash": "2aa9918617de",
+    "file": "2aa9918617de.mp3",
+    "text": "Czy on umie latać?",
+    "generatedAt": "2026-06-12T13:28:00.402Z"
+  },
+  "question.q_fly.2": {
+    "hash": "a3e614cdca45",
+    "file": "a3e614cdca45.mp3",
+    "text": "Czy ten zwierzak unosi się w powietrzu, jak ptak lub owad?",
+    "generatedAt": "2026-06-12T13:28:01.681Z"
+  },
+  "question.q_fly.3": {
+    "hash": "a2738d13211f",
+    "file": "a2738d13211f.mp3",
+    "text": "A czy mógłbyś go zobaczyć w locie nad głową?",
+    "generatedAt": "2026-06-12T13:28:02.899Z"
+  },
+  "question.q_fly.4": {
+    "hash": "b55206bf8f0e",
+    "file": "b55206bf8f0e.mp3",
+    "text": "Detektyw pyta — czy potrafi wzbić się do nieba?",
+    "generatedAt": "2026-06-12T13:28:04.150Z"
+  },
+  "question.q_fur.0": {
+    "hash": "3c8dc5d8226e",
+    "file": "3c8dc5d8226e.mp3",
+    "text": "Czy zwierzę, o którym myślisz, ma futro?",
+    "generatedAt": "2026-06-12T13:28:05.320Z"
+  },
+  "question.q_fur.1": {
+    "hash": "33234b6267c5",
+    "file": "33234b6267c5.mp3",
+    "text": "Czy ma futerko?",
+    "generatedAt": "2026-06-12T13:28:06.327Z"
+  },
+  "question.q_fur.2": {
+    "hash": "e664b4f725fb",
+    "file": "e664b4f725fb.mp3",
+    "text": "Czy ten zwierzak jest pokryty miękką sierścią, jak pies lub kot?",
+    "generatedAt": "2026-06-12T13:28:07.697Z"
+  },
+  "question.q_fur.3": {
+    "hash": "1c8b01ac187c",
+    "file": "1c8b01ac187c.mp3",
+    "text": "A czy gdybyś go pogłaskał, dotknąłbyś futra?",
+    "generatedAt": "2026-06-12T13:28:08.961Z"
+  },
+  "question.q_fur.4": {
+    "hash": "9c7b0d06c3c1",
+    "file": "9c7b0d06c3c1.mp3",
+    "text": "Powiedz mi, czy ma na sobie włochate futerko?",
+    "generatedAt": "2026-06-12T13:28:10.132Z"
+  },
+  "question.q_feathers.0": {
+    "hash": "226a95bf7b44",
+    "file": "226a95bf7b44.mp3",
+    "text": "Czy zwierzę, o którym myślisz, ma pióra?",
+    "generatedAt": "2026-06-12T13:28:11.294Z"
+  },
+  "question.q_feathers.1": {
+    "hash": "671000d2acbe",
+    "file": "671000d2acbe.mp3",
+    "text": "Czy ma piórka?",
+    "generatedAt": "2026-06-12T13:28:12.312Z"
+  },
+  "question.q_feathers.2": {
+    "hash": "c90bf92b1eb9",
+    "file": "c90bf92b1eb9.mp3",
+    "text": "Czy ten zwierzak jest pokryty piórami, takimi jak wróbel lub kura?",
+    "generatedAt": "2026-06-12T13:28:13.654Z"
+  },
+  "question.q_feathers.3": {
+    "hash": "522658abb43e",
+    "file": "522658abb43e.mp3",
+    "text": "A czy gdybyś go dotknął, poczułbyś pióra?",
+    "generatedAt": "2026-06-12T13:28:14.799Z"
+  },
+  "question.q_feathers.4": {
+    "hash": "151d68ef0569",
+    "file": "151d68ef0569.mp3",
+    "text": "Wiesz co, czy ma na sobie pióra zamiast futra?",
+    "generatedAt": "2026-06-12T13:28:16.016Z"
+  },
+  "question.q_scales.0": {
+    "hash": "5f29e676f1ac",
+    "file": "5f29e676f1ac.mp3",
+    "text": "Czy zwierzę, o którym myślisz, ma łuski?",
+    "generatedAt": "2026-06-12T13:28:17.223Z"
+  },
+  "question.q_scales.1": {
+    "hash": "c531ce939fc8",
+    "file": "c531ce939fc8.mp3",
+    "text": "Czy ma łuski?",
+    "generatedAt": "2026-06-12T13:28:18.261Z"
+  },
+  "question.q_scales.2": {
+    "hash": "35e1520007de",
+    "file": "35e1520007de.mp3",
+    "text": "Czy ten zwierzak jest pokryty błyszczącymi łuskami, jak ryba lub wąż?",
+    "generatedAt": "2026-06-12T13:28:19.629Z"
+  },
+  "question.q_scales.3": {
+    "hash": "2716c29f8838",
+    "file": "2716c29f8838.mp3",
+    "text": "A czy jego skóra jest łuskowata?",
+    "generatedAt": "2026-06-12T13:28:20.814Z"
+  },
+  "question.q_scales.4": {
+    "hash": "f8afa6e12336",
+    "file": "f8afa6e12336.mp3",
+    "text": "Powiedz mi, czy ma na sobie łuski zamiast futra czy piór?",
+    "generatedAt": "2026-06-12T13:28:22.170Z"
+  },
+  "question.q_shell.0": {
+    "hash": "e95178a95455",
+    "file": "e95178a95455.mp3",
+    "text": "Czy zwierzę, o którym myślisz, ma twardą skorupę lub pancerz?",
+    "generatedAt": "2026-06-12T13:28:23.532Z"
+  },
+  "question.q_shell.1": {
+    "hash": "3259a21849ee",
+    "file": "3259a21849ee.mp3",
+    "text": "Czy ma skorupę?",
+    "generatedAt": "2026-06-12T13:28:24.545Z"
+  },
+  "question.q_shell.2": {
+    "hash": "f3e1f24ce7b0",
+    "file": "f3e1f24ce7b0.mp3",
+    "text": "Czy ten zwierzak nosi pancerz, jak żółw lub ślimak?",
+    "generatedAt": "2026-06-12T13:28:25.725Z"
+  },
+  "question.q_shell.3": {
+    "hash": "34bc50f0d364",
+    "file": "34bc50f0d364.mp3",
+    "text": "A czy w razie niebezpieczeństwa chowa się w swoją skorupę?",
+    "generatedAt": "2026-06-12T13:28:26.951Z"
+  },
+  "question.q_shell.4": {
+    "hash": "f4aa9e2d15c8",
+    "file": "f4aa9e2d15c8.mp3",
+    "text": "Wiesz, czy jego ciało okrywa twardy pancerz?",
+    "generatedAt": "2026-06-12T13:28:28.181Z"
+  },
+  "question.q_mammal.0": {
+    "hash": "eaf92481838b",
+    "file": "eaf92481838b.mp3",
+    "text": "Czy zwierzę, o którym myślisz, jest ssakiem?",
+    "generatedAt": "2026-06-12T13:28:29.343Z"
+  },
+  "question.q_mammal.1": {
+    "hash": "6b8a9e22fddc",
+    "file": "6b8a9e22fddc.mp3",
+    "text": "Czy to ssak?",
+    "generatedAt": "2026-06-12T13:28:30.343Z"
+  },
+  "question.q_mammal.2": {
+    "hash": "42fe3381fa98",
+    "file": "42fe3381fa98.mp3",
+    "text": "Czy to stworzenie należy do ssaków, jak pies, kot lub słoń?",
+    "generatedAt": "2026-06-12T13:28:31.693Z"
+  },
+  "question.q_mammal.3": {
+    "hash": "78124edeb360",
+    "file": "78124edeb360.mp3",
+    "text": "A czy on karmi swoje młode mlekiem?",
+    "generatedAt": "2026-06-12T13:28:32.898Z"
+  },
+  "question.q_mammal.4": {
+    "hash": "ee6463c6dc3e",
+    "file": "ee6463c6dc3e.mp3",
+    "text": "Powiedz mi, czy mówimy o ciepłokrwistym ssaku?",
+    "generatedAt": "2026-06-12T13:28:34.119Z"
+  },
+  "question.q_bird.0": {
+    "hash": "a61bfec5c71b",
+    "file": "a61bfec5c71b.mp3",
+    "text": "Czy zwierzę, o którym myślisz, jest ptakiem?",
+    "generatedAt": "2026-06-12T13:28:35.366Z"
+  },
+  "question.q_bird.1": {
+    "hash": "e2d6bcd9b94f",
+    "file": "e2d6bcd9b94f.mp3",
+    "text": "Czy to ptak?",
+    "generatedAt": "2026-06-12T13:28:36.322Z"
+  },
+  "question.q_bird.2": {
+    "hash": "98978e73d9e2",
+    "file": "98978e73d9e2.mp3",
+    "text": "Czy to stworzenie należy do ptaków, takich jak wróbel, orzeł lub kura?",
+    "generatedAt": "2026-06-12T13:28:37.779Z"
+  },
+  "question.q_bird.3": {
+    "hash": "b27cf384b720",
+    "file": "b27cf384b720.mp3",
+    "text": "A czy ma dziób i pióra, jak prawdziwy ptak?",
+    "generatedAt": "2026-06-12T13:28:38.939Z"
+  },
+  "question.q_bird.4": {
+    "hash": "885c063fd3ba",
+    "file": "885c063fd3ba.mp3",
+    "text": "Powiedz mi, czy mówimy o skrzydlatym ptaku?",
+    "generatedAt": "2026-06-12T13:28:40.072Z"
+  },
+  "question.q_fish.0": {
+    "hash": "c511acdda7a1",
+    "file": "c511acdda7a1.mp3",
+    "text": "Czy zwierzę, o którym myślisz, jest rybą?",
+    "generatedAt": "2026-06-12T13:28:41.211Z"
+  },
+  "question.q_fish.1": {
+    "hash": "2faf37261639",
+    "file": "2faf37261639.mp3",
+    "text": "Czy to ryba?",
+    "generatedAt": "2026-06-12T13:28:42.201Z"
+  },
+  "question.q_fish.2": {
+    "hash": "1ee0be1843de",
+    "file": "1ee0be1843de.mp3",
+    "text": "Czy to stworzenie należy do ryb, takich jak karp lub łosoś?",
+    "generatedAt": "2026-06-12T13:28:43.533Z"
+  },
+  "question.q_fish.3": {
+    "hash": "ece43126d2af",
+    "file": "ece43126d2af.mp3",
+    "text": "A czy ma płetwy i oddycha skrzelami?",
+    "generatedAt": "2026-06-12T13:28:44.667Z"
+  },
+  "question.q_fish.4": {
+    "hash": "41ed0d14359f",
+    "file": "41ed0d14359f.mp3",
+    "text": "Wiesz, czy mówimy o rybie pływającej w wodzie?",
+    "generatedAt": "2026-06-12T13:28:45.908Z"
+  },
+  "question.q_reptile.0": {
+    "hash": "22ad78f9ed95",
+    "file": "22ad78f9ed95.mp3",
+    "text": "Czy zwierzę, o którym myślisz, jest gadem?",
+    "generatedAt": "2026-06-12T13:28:47.098Z"
+  },
+  "question.q_reptile.1": {
+    "hash": "3f902b937707",
+    "file": "3f902b937707.mp3",
+    "text": "Czy to gad?",
+    "generatedAt": "2026-06-12T13:28:48.070Z"
+  },
+  "question.q_reptile.2": {
+    "hash": "2fd906b48de8",
+    "file": "2fd906b48de8.mp3",
+    "text": "Czy to stworzenie należy do gadów, takich jak wąż, krokodyl lub jaszczurka?",
+    "generatedAt": "2026-06-12T13:28:49.493Z"
+  },
+  "question.q_reptile.3": {
+    "hash": "bbefe909194d",
+    "file": "bbefe909194d.mp3",
+    "text": "A czy ma zimną krew i suchą, łuskowatą skórę?",
+    "generatedAt": "2026-06-12T13:28:50.696Z"
+  },
+  "question.q_reptile.4": {
+    "hash": "0f27f2bb967f",
+    "file": "0f27f2bb967f.mp3",
+    "text": "Powiedz mi, czy mówimy o pełzającym gadzie?",
+    "generatedAt": "2026-06-12T13:28:51.803Z"
+  },
+  "question.q_amphi.0": {
+    "hash": "230bdec2e09e",
+    "file": "230bdec2e09e.mp3",
+    "text": "Czy zwierzę, o którym myślisz, jest płazem?",
+    "generatedAt": "2026-06-12T13:28:52.972Z"
+  },
+  "question.q_amphi.1": {
+    "hash": "2f4cb3f42fc3",
+    "file": "2f4cb3f42fc3.mp3",
+    "text": "Czy to płaz?",
+    "generatedAt": "2026-06-12T13:28:54.080Z"
+  },
+  "question.q_amphi.2": {
+    "hash": "7b2ad1ad7726",
+    "file": "7b2ad1ad7726.mp3",
+    "text": "Czy to stworzenie należy do płazów, takich jak żaba lub salamandra?",
+    "generatedAt": "2026-06-12T13:28:55.393Z"
+  },
+  "question.q_amphi.3": {
+    "hash": "03eabbfcbb90",
+    "file": "03eabbfcbb90.mp3",
+    "text": "A czy żyje i w wodzie, i na lądzie?",
+    "generatedAt": "2026-06-12T13:28:56.576Z"
+  },
+  "question.q_amphi.4": {
+    "hash": "23dbb8ae2965",
+    "file": "23dbb8ae2965.mp3",
+    "text": "Detektyw pyta — czy mówimy o skocznej żabie lub podobnym płazie?",
+    "generatedAt": "2026-06-12T13:28:58.010Z"
+  },
+  "question.q_insect.0": {
+    "hash": "1b681b67cdb8",
+    "file": "1b681b67cdb8.mp3",
+    "text": "Czy zwierzę, o którym myślisz, jest owadem?",
+    "generatedAt": "2026-06-12T13:28:59.222Z"
+  },
+  "question.q_insect.1": {
+    "hash": "6644261cb638",
+    "file": "6644261cb638.mp3",
+    "text": "Czy to owad?",
+    "generatedAt": "2026-06-12T13:29:00.236Z"
+  },
+  "question.q_insect.2": {
+    "hash": "2586612e5661",
+    "file": "2586612e5661.mp3",
+    "text": "Czy to stworzenie należy do owadów, takich jak mrówka, pszczoła lub motyl?",
+    "generatedAt": "2026-06-12T13:29:01.712Z"
+  },
+  "question.q_insect.3": {
+    "hash": "3e6a7c98981e",
+    "file": "3e6a7c98981e.mp3",
+    "text": "A czy ma sześć nóżek i czasem skrzydła?",
+    "generatedAt": "2026-06-12T13:29:02.846Z"
+  },
+  "question.q_insect.4": {
+    "hash": "546ee7ed8c4d",
+    "file": "546ee7ed8c4d.mp3",
+    "text": "Wiesz, czy mówimy o małym pełzającym lub latającym stworzeniu?",
+    "generatedAt": "2026-06-12T13:29:04.242Z"
+  },
+  "question.q_bigger_than_dog.0": {
+    "hash": "77a7e0e3084b",
+    "file": "77a7e0e3084b.mp3",
+    "text": "Czy zwierzę, o którym myślisz, jest większe od psa?",
+    "generatedAt": "2026-06-12T13:29:05.463Z"
+  },
+  "question.q_bigger_than_dog.1": {
+    "hash": "f7748da92520",
+    "file": "f7748da92520.mp3",
+    "text": "Czy jest większy od psa?",
+    "generatedAt": "2026-06-12T13:29:06.496Z"
+  },
+  "question.q_bigger_than_dog.2": {
+    "hash": "a00332fe4f6c",
+    "file": "a00332fe4f6c.mp3",
+    "text": "Czy ten zwierzak przerasta rozmiarem zwykłego psa domowego?",
+    "generatedAt": "2026-06-12T13:29:07.695Z"
+  },
+  "question.q_bigger_than_dog.3": {
+    "hash": "0e8dab6c9e9f",
+    "file": "0e8dab6c9e9f.mp3",
+    "text": "A czy gdybyś stanął obok niego, byłby od ciebie większy?",
+    "generatedAt": "2026-06-12T13:29:08.937Z"
+  },
+  "question.q_bigger_than_dog.4": {
+    "hash": "8a0e62fa89ce",
+    "file": "8a0e62fa89ce.mp3",
+    "text": "Wiesz, czy to spore zwierzę, większe niż owczarek?",
+    "generatedAt": "2026-06-12T13:29:10.172Z"
+  },
+  "question.q_smaller_than_cat.0": {
+    "hash": "9dd1ba6ad265",
+    "file": "9dd1ba6ad265.mp3",
+    "text": "Czy zwierzę, o którym myślisz, jest mniejsze od kota?",
+    "generatedAt": "2026-06-12T13:29:11.499Z"
+  },
+  "question.q_smaller_than_cat.1": {
+    "hash": "a32a77101183",
+    "file": "a32a77101183.mp3",
+    "text": "Czy jest mniejszy od kota?",
+    "generatedAt": "2026-06-12T13:29:12.553Z"
+  },
+  "question.q_smaller_than_cat.2": {
+    "hash": "e4d0715a8269",
+    "file": "e4d0715a8269.mp3",
+    "text": "Czy ten zwierzak zmieściłby się obok kota i byłby od niego mniejszy?",
+    "generatedAt": "2026-06-12T13:29:13.964Z"
+  },
+  "question.q_smaller_than_cat.3": {
+    "hash": "b2973002c759",
+    "file": "b2973002c759.mp3",
+    "text": "A czy to taki maluszek, mniejszy nawet od kotka?",
+    "generatedAt": "2026-06-12T13:29:15.186Z"
+  },
+  "question.q_smaller_than_cat.4": {
+    "hash": "b32830e9db1e",
+    "file": "b32830e9db1e.mp3",
+    "text": "Powiedz mi, czy on jest naprawdę drobny?",
+    "generatedAt": "2026-06-12T13:29:16.339Z"
+  },
+  "question.q_predator.0": {
+    "hash": "6e559ec8e457",
+    "file": "6e559ec8e457.mp3",
+    "text": "Czy zwierzę, o którym myślisz, jest drapieżnikiem?",
+    "generatedAt": "2026-06-12T13:29:17.536Z"
+  },
+  "question.q_predator.1": {
+    "hash": "d6271e20694e",
+    "file": "d6271e20694e.mp3",
+    "text": "Czy to drapieżnik?",
+    "generatedAt": "2026-06-12T13:29:18.554Z"
+  },
+  "question.q_predator.2": {
+    "hash": "6207cbe05d31",
+    "file": "6207cbe05d31.mp3",
+    "text": "Czy ten zwierzak poluje na inne zwierzęta, żeby zdobyć jedzenie?",
+    "generatedAt": "2026-06-12T13:29:19.917Z"
+  },
+  "question.q_predator.3": {
+    "hash": "074b040a6ac7",
+    "file": "074b040a6ac7.mp3",
+    "text": "A czy on zjada mięso i tropi swoje ofiary?",
+    "generatedAt": "2026-06-12T13:29:21.147Z"
+  },
+  "question.q_predator.4": {
+    "hash": "599190ae16ac",
+    "file": "599190ae16ac.mp3",
+    "text": "Wiesz, czy on jest myśliwym, jak lew lub wilk?",
+    "generatedAt": "2026-06-12T13:29:22.401Z"
+  },
+  "question.q_plants.0": {
+    "hash": "f2bd27b40653",
+    "file": "f2bd27b40653.mp3",
+    "text": "Czy zwierzę, o którym myślisz, je głównie rośliny?",
+    "generatedAt": "2026-06-12T13:29:23.648Z"
+  },
+  "question.q_plants.1": {
+    "hash": "7b212b80cf08",
+    "file": "7b212b80cf08.mp3",
+    "text": "Czy je rośliny?",
+    "generatedAt": "2026-06-12T13:29:24.639Z"
+  },
+  "question.q_plants.2": {
+    "hash": "1f50832e95c8",
+    "file": "1f50832e95c8.mp3",
+    "text": "Czy ten zwierzak żywi się trawą, liśćmi lub owocami?",
+    "generatedAt": "2026-06-12T13:29:25.902Z"
+  },
+  "question.q_plants.3": {
+    "hash": "3198d1409287",
+    "file": "3198d1409287.mp3",
+    "text": "A czy on jest roślinożercą i nie poluje na mięso?",
+    "generatedAt": "2026-06-12T13:29:27.168Z"
+  },
+  "question.q_plants.4": {
+    "hash": "4e0053208c0f",
+    "file": "4e0053208c0f.mp3",
+    "text": "Powiedz mi, czy zjada przede wszystkim zieleninę, jak krowa lub królik?",
+    "generatedAt": "2026-06-12T13:29:28.616Z"
+  },
+  "question.q_home.0": {
+    "hash": "2a19c2c8ce39",
+    "file": "2a19c2c8ce39.mp3",
+    "text": "Czy zwierzę, o którym myślisz, ludzie często trzymają w domu?",
+    "generatedAt": "2026-06-12T13:29:29.934Z"
+  },
+  "question.q_home.1": {
+    "hash": "74ccd24ef80d",
+    "file": "74ccd24ef80d.mp3",
+    "text": "Czy bywa zwierzakiem domowym?",
+    "generatedAt": "2026-06-12T13:29:31.073Z"
+  },
+  "question.q_home.2": {
+    "hash": "3e26bb15d6f6",
+    "file": "3e26bb15d6f6.mp3",
+    "text": "Czy ten zwierzak może być czyimś pupilem, mieszkającym z rodziną?",
+    "generatedAt": "2026-06-12T13:29:32.383Z"
+  },
+  "question.q_home.3": {
+    "hash": "3d51b60221d2",
+    "file": "3d51b60221d2.mp3",
+    "text": "A czy spotkasz go u kogoś w mieszkaniu lub ogrodzie?",
+    "generatedAt": "2026-06-12T13:29:33.569Z"
+  },
+  "question.q_home.4": {
+    "hash": "08169bd48e0f",
+    "file": "08169bd48e0f.mp3",
+    "text": "Wiesz, czy on nadaje się do domu jak pies lub kot?",
+    "generatedAt": "2026-06-12T13:29:34.849Z"
+  },
+  "question.q_africa.0": {
+    "hash": "746be094b0c4",
+    "file": "746be094b0c4.mp3",
+    "text": "Czy zwierzę, o którym myślisz, żyje w Afryce?",
+    "generatedAt": "2026-06-12T13:29:36.073Z"
+  },
+  "question.q_africa.1": {
+    "hash": "23052597ed91",
+    "file": "23052597ed91.mp3",
+    "text": "Czy mieszka w Afryce?",
+    "generatedAt": "2026-06-12T13:29:37.104Z"
+  },
+  "question.q_africa.2": {
+    "hash": "8bc50238f65b",
+    "file": "8bc50238f65b.mp3",
+    "text": "Czy ten zwierzak ma swój dom na sawannie lub w afrykańskiej dżungli?",
+    "generatedAt": "2026-06-12T13:29:38.443Z"
+  },
+  "question.q_africa.3": {
+    "hash": "a1feafb4dab7",
+    "file": "a1feafb4dab7.mp3",
+    "text": "A czy spotkasz go w gorącej, słonecznej Afryce?",
+    "generatedAt": "2026-06-12T13:29:39.617Z"
+  },
+  "question.q_africa.4": {
+    "hash": "18f177f3df40",
+    "file": "18f177f3df40.mp3",
+    "text": "Powiedz mi, czy biega wśród akacji i pod afrykańskim słońcem?",
+    "generatedAt": "2026-06-12T13:29:41.104Z"
+  },
+  "question.q_poland.0": {
+    "hash": "b738f48883e3",
+    "file": "b738f48883e3.mp3",
+    "text": "Czy zwierzę, o którym myślisz, żyje dziko w Polsce?",
+    "generatedAt": "2026-06-12T13:29:42.338Z"
+  },
+  "question.q_poland.1": {
+    "hash": "f16759d25961",
+    "file": "f16759d25961.mp3",
+    "text": "Czy mieszka dziko w Polsce?",
+    "generatedAt": "2026-06-12T13:29:43.383Z"
+  },
+  "question.q_poland.2": {
+    "hash": "435e229ab518",
+    "file": "435e229ab518.mp3",
+    "text": "Czy ten zwierzak żyje swobodnie w polskich lasach, na łąkach lub w rzekach?",
+    "generatedAt": "2026-06-12T13:29:44.815Z"
+  },
+  "question.q_poland.3": {
+    "hash": "ec2d88b98683",
+    "file": "ec2d88b98683.mp3",
+    "text": "A czy spotkasz go w polskiej naturze?",
+    "generatedAt": "2026-06-12T13:29:45.944Z"
+  },
+  "question.q_poland.4": {
+    "hash": "8f2deeafb192",
+    "file": "8f2deeafb192.mp3",
+    "text": "Detektyw pyta — czy jest naszym rodakiem z polskiej dziczy?",
+    "generatedAt": "2026-06-12T13:29:47.242Z"
+  },
+  "question.q_jungle.0": {
+    "hash": "5d0a83e7f69d",
+    "file": "5d0a83e7f69d.mp3",
+    "text": "Czy zwierzę, o którym myślisz, żyje w dżungli?",
+    "generatedAt": "2026-06-12T13:29:48.479Z"
+  },
+  "question.q_jungle.1": {
+    "hash": "e84fe64583ed",
+    "file": "e84fe64583ed.mp3",
+    "text": "Czy mieszka w dżungli?",
+    "generatedAt": "2026-06-12T13:29:49.535Z"
+  },
+  "question.q_jungle.2": {
+    "hash": "b9645ee00011",
+    "file": "b9645ee00011.mp3",
+    "text": "Czy ten zwierzak ma swój dom w gęstym, tropikalnym lesie?",
+    "generatedAt": "2026-06-12T13:29:50.790Z"
+  },
+  "question.q_jungle.3": {
+    "hash": "76d3c7787ab0",
+    "file": "76d3c7787ab0.mp3",
+    "text": "A czy spotkasz go wśród lian, drzew i papug?",
+    "generatedAt": "2026-06-12T13:29:52.150Z"
+  },
+  "question.q_jungle.4": {
+    "hash": "453665dfab09",
+    "file": "453665dfab09.mp3",
+    "text": "Wiesz, czy mieszka w gorącej, parnej dżungli?",
+    "generatedAt": "2026-06-12T13:29:53.382Z"
+  },
+  "question.q_ocean.0": {
+    "hash": "8cbf6ca6b523",
+    "file": "8cbf6ca6b523.mp3",
+    "text": "Czy zwierzę, o którym myślisz, żyje w oceanie?",
+    "generatedAt": "2026-06-12T13:29:54.670Z"
+  },
+  "question.q_ocean.1": {
+    "hash": "c7e27d49b5c1",
+    "file": "c7e27d49b5c1.mp3",
+    "text": "Czy mieszka w oceanie?",
+    "generatedAt": "2026-06-12T13:29:55.680Z"
+  },
+  "question.q_ocean.2": {
+    "hash": "3ef2c0f80d53",
+    "file": "3ef2c0f80d53.mp3",
+    "text": "Czy ten zwierzak ma swój dom w głębokim, słonym morzu?",
+    "generatedAt": "2026-06-12T13:29:57.040Z"
+  },
+  "question.q_ocean.3": {
+    "hash": "30e60e583825",
+    "file": "30e60e583825.mp3",
+    "text": "A czy spotkasz go w morskiej głębinie, daleko od brzegu?",
+    "generatedAt": "2026-06-12T13:29:58.290Z"
+  },
+  "question.q_ocean.4": {
+    "hash": "52e2cfbd155b",
+    "file": "52e2cfbd155b.mp3",
+    "text": "Powiedz mi, czy pływa po wielkim, otwartym oceanie?",
+    "generatedAt": "2026-06-12T13:29:59.519Z"
+  },
+  "question.q_arctic.0": {
+    "hash": "53d5387b1c1b",
+    "file": "53d5387b1c1b.mp3",
+    "text": "Czy zwierzę, o którym myślisz, żyje w lodowych krainach?",
+    "generatedAt": "2026-06-12T13:30:00.784Z"
+  },
+  "question.q_arctic.1": {
+    "hash": "46d2e4de255e",
+    "file": "46d2e4de255e.mp3",
+    "text": "Czy żyje na śniegu i lodzie?",
+    "generatedAt": "2026-06-12T13:30:01.884Z"
+  },
+  "question.q_arctic.2": {
+    "hash": "87f2afa96587",
+    "file": "87f2afa96587.mp3",
+    "text": "Czy ten zwierzak mieszka tam, gdzie zawsze panuje mróz?",
+    "generatedAt": "2026-06-12T13:30:03.104Z"
+  },
+  "question.q_arctic.3": {
+    "hash": "f225a97c072a",
+    "file": "f225a97c072a.mp3",
+    "text": "A czy chodzi po krze lodowej, jak niedźwiedź polarny?",
+    "generatedAt": "2026-06-12T13:30:04.310Z"
+  },
+  "question.q_arctic.4": {
+    "hash": "9a975a31cb8f",
+    "file": "9a975a31cb8f.mp3",
+    "text": "Wiesz, czy kocha zimno i wieczny lód?",
+    "generatedAt": "2026-06-12T13:30:05.596Z"
+  },
+  "question.q_farm.0": {
+    "hash": "9b084da7f3c9",
+    "file": "9b084da7f3c9.mp3",
+    "text": "Czy zwierzę, o którym myślisz, żyje na farmie?",
+    "generatedAt": "2026-06-12T13:30:06.834Z"
+  },
+  "question.q_farm.1": {
+    "hash": "8dcfd40a61a1",
+    "file": "8dcfd40a61a1.mp3",
+    "text": "Czy żyje na farmie?",
+    "generatedAt": "2026-06-12T13:30:07.840Z"
+  },
+  "question.q_farm.2": {
+    "hash": "c17c216f4243",
+    "file": "c17c216f4243.mp3",
+    "text": "Czy ten zwierzak mieszka w gospodarstwie, w zagrodzie lub na podwórku?",
+    "generatedAt": "2026-06-12T13:30:09.207Z"
+  },
+  "question.q_farm.3": {
+    "hash": "d7d0914d22f1",
+    "file": "d7d0914d22f1.mp3",
+    "text": "A czy spotkasz go u rolnika, w stajni lub kurniku?",
+    "generatedAt": "2026-06-12T13:30:10.535Z"
+  },
+  "question.q_farm.4": {
+    "hash": "7dc20bff11c7",
+    "file": "7dc20bff11c7.mp3",
+    "text": "Powiedz mi, czy jest hodowany przez ludzi na wsi?",
+    "generatedAt": "2026-06-12T13:30:11.706Z"
+  },
+  "question.q_tail.0": {
+    "hash": "1ef819e4b85f",
+    "file": "1ef819e4b85f.mp3",
+    "text": "Czy zwierzę, o którym myślisz, ma ogon?",
+    "generatedAt": "2026-06-12T13:30:12.854Z"
+  },
+  "question.q_tail.1": {
+    "hash": "2463dd2350fa",
+    "file": "2463dd2350fa.mp3",
+    "text": "Czy ma ogon?",
+    "generatedAt": "2026-06-12T13:30:13.823Z"
+  },
+  "question.q_tail.2": {
+    "hash": "59dedcc6883f",
+    "file": "59dedcc6883f.mp3",
+    "text": "Czy ten zwierzak ma jakiś ogonek lub długi, dumny ogon?",
+    "generatedAt": "2026-06-12T13:30:15.162Z"
+  },
+  "question.q_tail.3": {
+    "hash": "ae43938b2c49",
+    "file": "ae43938b2c49.mp3",
+    "text": "A czy może machać ogonem, jak pies albo kot?",
+    "generatedAt": "2026-06-12T13:30:16.437Z"
+  },
+  "question.q_tail.4": {
+    "hash": "4674136e2031",
+    "file": "4674136e2031.mp3",
+    "text": "Wiesz, czy z tyłu wystaje mu wyraźny ogon?",
+    "generatedAt": "2026-06-12T13:30:17.632Z"
+  },
+  "question.q_legs.0": {
+    "hash": "f626139c07d8",
+    "file": "f626139c07d8.mp3",
+    "text": "Czy zwierzę, o którym myślisz, ma nogi?",
+    "generatedAt": "2026-06-12T13:30:18.842Z"
+  },
+  "question.q_legs.1": {
+    "hash": "81f783eca8ae",
+    "file": "81f783eca8ae.mp3",
+    "text": "Czy ma nogi?",
+    "generatedAt": "2026-06-12T13:30:19.899Z"
+  },
+  "question.q_legs.2": {
+    "hash": "27e035ee495a",
+    "file": "27e035ee495a.mp3",
+    "text": "Czy ten zwierzak chodzi, biega lub skacze na własnych nogach?",
+    "generatedAt": "2026-06-12T13:30:21.172Z"
+  },
+  "question.q_legs.3": {
+    "hash": "fccbef230af8",
+    "file": "fccbef230af8.mp3",
+    "text": "A czy porusza się na łapach lub kopytach?",
+    "generatedAt": "2026-06-12T13:30:22.324Z"
+  },
+  "question.q_legs.4": {
+    "hash": "ec7a793bb1f6",
+    "file": "ec7a793bb1f6.mp3",
+    "text": "Powiedz mi, czy ma chociaż dwie nogi do biegania?",
+    "generatedAt": "2026-06-12T13:30:23.532Z"
+  },
+  "question.q_dangerous.0": {
+    "hash": "7283d29dc413",
+    "file": "7283d29dc413.mp3",
+    "text": "Czy zwierzę, o którym myślisz, bywa groźne dla ludzi?",
+    "generatedAt": "2026-06-12T13:30:24.813Z"
+  },
+  "question.q_dangerous.1": {
+    "hash": "728ad649e41b",
+    "file": "728ad649e41b.mp3",
+    "text": "Czy bywa groźne?",
+    "generatedAt": "2026-06-12T13:30:25.817Z"
+  },
+  "question.q_dangerous.2": {
+    "hash": "e8eb3ed70c98",
+    "file": "e8eb3ed70c98.mp3",
+    "text": "Czy ten zwierzak może być niebezpieczny i lepiej trzymać się od niego z daleka?",
+    "generatedAt": "2026-06-12T13:30:27.283Z"
+  },
+  "question.q_dangerous.3": {
+    "hash": "5a3002b716d0",
+    "file": "5a3002b716d0.mp3",
+    "text": "A czy potrafi ugryźć, ukłuć lub zaatakować człowieka?",
+    "generatedAt": "2026-06-12T13:30:28.542Z"
+  },
+  "question.q_dangerous.4": {
+    "hash": "395a30e5e062",
+    "file": "395a30e5e062.mp3",
+    "text": "Wiesz, czy lepiej go nie podchodzić, bo bywa agresywny?",
+    "generatedAt": "2026-06-12T13:30:30.044Z"
+  },
+  "question.q_fast.0": {
+    "hash": "0c1e083551f8",
+    "file": "0c1e083551f8.mp3",
+    "text": "Czy zwierzę, o którym myślisz, jest naprawdę szybkie?",
+    "generatedAt": "2026-06-12T13:30:31.279Z"
+  },
+  "question.q_fast.1": {
+    "hash": "e9e2ea6ebcf3",
+    "file": "e9e2ea6ebcf3.mp3",
+    "text": "Czy jest szybki?",
+    "generatedAt": "2026-06-12T13:30:32.329Z"
+  },
+  "question.q_fast.2": {
+    "hash": "edeb3a5ad95e",
+    "file": "edeb3a5ad95e.mp3",
+    "text": "Czy ten zwierzak biega błyskawicznie, jak gepard lub koń?",
+    "generatedAt": "2026-06-12T13:30:33.688Z"
+  },
+  "question.q_fast.3": {
+    "hash": "920b3bf86ef8",
+    "file": "920b3bf86ef8.mp3",
+    "text": "A czy potrafi pędzić jak strzała?",
+    "generatedAt": "2026-06-12T13:30:34.854Z"
+  },
+  "question.q_fast.4": {
+    "hash": "51a88a7be7d4",
+    "file": "51a88a7be7d4.mp3",
+    "text": "Powiedz mi, czy w wyścigu zostawiłby cię daleko w tyle?",
+    "generatedAt": "2026-06-12T13:30:36.118Z"
+  },
+  "question.q_horns.0": {
+    "hash": "55c618141a10",
+    "file": "55c618141a10.mp3",
+    "text": "Czy zwierzę, o którym myślisz, ma rogi lub poroże?",
+    "generatedAt": "2026-06-12T13:30:37.447Z"
+  },
+  "question.q_horns.1": {
+    "hash": "fdef4693f734",
+    "file": "fdef4693f734.mp3",
+    "text": "Czy ma rogi?",
+    "generatedAt": "2026-06-12T13:30:38.436Z"
+  },
+  "question.q_horns.2": {
+    "hash": "d90b02973dd6",
+    "file": "d90b02973dd6.mp3",
+    "text": "Czy ten zwierzak ma na głowie sterczące rogi lub gałęziaste poroże?",
+    "generatedAt": "2026-06-12T13:30:39.828Z"
+  },
+  "question.q_horns.3": {
+    "hash": "ede11b986766",
+    "file": "ede11b986766.mp3",
+    "text": "A czy widać u niego rogi, jak u jelenia lub krowy?",
+    "generatedAt": "2026-06-12T13:30:41.152Z"
+  },
+  "question.q_horns.4": {
+    "hash": "bf625a7f02ac",
+    "file": "bf625a7f02ac.mp3",
+    "text": "Wiesz, czy nosi na głowie wystające ozdoby z kości?",
+    "generatedAt": "2026-06-12T13:30:42.447Z"
+  },
+  "question.q_nocturnal.0": {
+    "hash": "c0dc6862b988",
+    "file": "c0dc6862b988.mp3",
+    "text": "Czy zwierzę, o którym myślisz, jest aktywne głównie w nocy?",
+    "generatedAt": "2026-06-12T13:30:43.756Z"
+  },
+  "question.q_nocturnal.1": {
+    "hash": "e456479ae9d5",
+    "file": "e456479ae9d5.mp3",
+    "text": "Czy jest nocnym zwierzakiem?",
+    "generatedAt": "2026-06-12T13:30:45.015Z"
+  },
+  "question.q_nocturnal.2": {
+    "hash": "db3d00248124",
+    "file": "db3d00248124.mp3",
+    "text": "Czy ten zwierzak poluje i biega po zmroku, kiedy inni już śpią?",
+    "generatedAt": "2026-06-12T13:30:46.367Z"
+  },
+  "question.q_nocturnal.3": {
+    "hash": "84be74205e7c",
+    "file": "84be74205e7c.mp3",
+    "text": "A czy on śpi w dzień, a budzi się dopiero nocą?",
+    "generatedAt": "2026-06-12T13:30:47.615Z"
+  },
+  "question.q_nocturnal.4": {
+    "hash": "011a3719dd5c",
+    "file": "011a3719dd5c.mp3",
+    "text": "Detektyw pyta — czy kocha noc bardziej niż dzień?",
+    "generatedAt": "2026-06-12T13:30:48.874Z"
+  },
+  "question.q_groups.0": {
+    "hash": "c363399e26c5",
+    "file": "c363399e26c5.mp3",
+    "text": "Czy zwierzę, o którym myślisz, żyje w stadzie lub grupie?",
+    "generatedAt": "2026-06-12T13:30:50.190Z"
+  },
+  "question.q_groups.1": {
+    "hash": "f019fd6b8ddd",
+    "file": "f019fd6b8ddd.mp3",
+    "text": "Czy żyje w stadzie?",
+    "generatedAt": "2026-06-12T13:30:51.212Z"
+  },
+  "question.q_groups.2": {
+    "hash": "c7d6f6af15c1",
+    "file": "c7d6f6af15c1.mp3",
+    "text": "Czy ten zwierzak trzyma się razem z innymi, w stadzie lub kolonii?",
+    "generatedAt": "2026-06-12T13:30:52.593Z"
+  },
+  "question.q_groups.3": {
+    "hash": "a44f9139ce59",
+    "file": "a44f9139ce59.mp3",
+    "text": "A czy nie lubi być sam i zawsze chodzi z towarzyszami?",
+    "generatedAt": "2026-06-12T13:30:53.957Z"
+  },
+  "question.q_groups.4": {
+    "hash": "d760b0f11f3c",
+    "file": "d760b0f11f3c.mp3",
+    "text": "Powiedz mi, czy to zwierzę towarzyskie, lubiące dużą rodzinę?",
+    "generatedAt": "2026-06-12T13:30:55.330Z"
+  },
+  "question.q_venomous.0": {
+    "hash": "ffbc5f441f3c",
+    "file": "ffbc5f441f3c.mp3",
+    "text": "Czy zwierzę, o którym myślisz, jest jadowite?",
+    "generatedAt": "2026-06-12T13:30:56.508Z"
+  },
+  "question.q_venomous.1": {
+    "hash": "c77d15987258",
+    "file": "c77d15987258.mp3",
+    "text": "Czy jest jadowite?",
+    "generatedAt": "2026-06-12T13:30:57.514Z"
+  },
+  "question.q_venomous.2": {
+    "hash": "f05870330958",
+    "file": "f05870330958.mp3",
+    "text": "Czy ten zwierzak ma jad, którym potrafi ukąsić lub użądlić?",
+    "generatedAt": "2026-06-12T13:30:59.017Z"
+  },
+  "question.q_venomous.3": {
+    "hash": "0c1a02988a1b",
+    "file": "0c1a02988a1b.mp3",
+    "text": "A czy jego ugryzienie lub użądlenie może być groźne?",
+    "generatedAt": "2026-06-12T13:31:00.293Z"
+  },
+  "question.q_venomous.4": {
+    "hash": "d41e5896819e",
+    "file": "d41e5896819e.mp3",
+    "text": "Wiesz, czy mówimy o jadowitym przeciwniku?",
+    "generatedAt": "2026-06-12T13:31:01.410Z"
+  },
+  "question.q_forest.0": {
+    "hash": "0b190dcf26fa",
+    "file": "0b190dcf26fa.mp3",
+    "text": "Czy zwierzę, o którym myślisz, mieszka w lesie?",
+    "generatedAt": "2026-06-12T13:31:02.583Z"
+  },
+  "question.q_forest.1": {
+    "hash": "11915bb532ca",
+    "file": "11915bb532ca.mp3",
+    "text": "Czy mieszka w lesie?",
+    "generatedAt": "2026-06-12T13:31:03.582Z"
+  },
+  "question.q_forest.2": {
+    "hash": "02c3e13c72f3",
+    "file": "02c3e13c72f3.mp3",
+    "text": "Czy ten zwierzak ma swój dom wśród drzew, krzewów i mchu?",
+    "generatedAt": "2026-06-12T13:31:04.784Z"
+  },
+  "question.q_forest.3": {
+    "hash": "cb7c6ad0322a",
+    "file": "cb7c6ad0322a.mp3",
+    "text": "A czy biega między pniami, jak sarna lub lis?",
+    "generatedAt": "2026-06-12T13:31:06.035Z"
+  },
+  "question.q_forest.4": {
+    "hash": "5ca4dc64ccf4",
+    "file": "5ca4dc64ccf4.mp3",
+    "text": "Powiedz mi, czy spotkasz go w głębi lasu, daleko od miasta?",
+    "generatedAt": "2026-06-12T13:31:07.288Z"
+  },
+  "question.q_barks.0": {
+    "hash": "778951924eba",
+    "file": "778951924eba.mp3",
+    "text": "Czy zwierzę, o którym myślisz, szczeka?",
+    "generatedAt": "2026-06-12T13:31:08.419Z"
+  },
+  "question.q_barks.1": {
+    "hash": "45de5d7a098b",
+    "file": "45de5d7a098b.mp3",
+    "text": "Czy szczeka?",
+    "generatedAt": "2026-06-12T13:31:09.385Z"
+  },
+  "question.q_barks.2": {
+    "hash": "cf144bd04c69",
+    "file": "cf144bd04c69.mp3",
+    "text": "Czy ten zwierzak wydaje głośne hau-hau, jak pies na podwórku?",
+    "generatedAt": "2026-06-12T13:31:10.722Z"
+  },
+  "question.q_barks.3": {
+    "hash": "1b34185e3370",
+    "file": "1b34185e3370.mp3",
+    "text": "A czy słychać u niego szczekanie?",
+    "generatedAt": "2026-06-12T13:31:11.917Z"
+  },
+  "question.q_barks.4": {
+    "hash": "eb938b45aaf5",
+    "file": "eb938b45aaf5.mp3",
+    "text": "Wiesz, czy porozumiewa się szczekaniem?",
+    "generatedAt": "2026-06-12T13:31:13.052Z"
+  },
+  "question.q_meows.0": {
+    "hash": "e8e727f09833",
+    "file": "e8e727f09833.mp3",
+    "text": "Czy zwierzę, o którym myślisz, miauczy lub mruczy?",
+    "generatedAt": "2026-06-12T13:31:14.378Z"
+  },
+  "question.q_meows.1": {
+    "hash": "4e7c2c34a7c9",
+    "file": "4e7c2c34a7c9.mp3",
+    "text": "Czy miauczy?",
+    "generatedAt": "2026-06-12T13:31:15.341Z"
+  },
+  "question.q_meows.2": {
+    "hash": "16f5223d0cd8",
+    "file": "16f5223d0cd8.mp3",
+    "text": "Czy ten zwierzak wydaje miau-miau lub przyjazne mruczenie?",
+    "generatedAt": "2026-06-12T13:31:16.604Z"
+  },
+  "question.q_meows.3": {
+    "hash": "f13556d7655a",
+    "file": "f13556d7655a.mp3",
+    "text": "A czy mruczy gdy jest zadowolony, jak kotek?",
+    "generatedAt": "2026-06-12T13:31:17.823Z"
+  },
+  "question.q_meows.4": {
+    "hash": "9599eaf51988",
+    "file": "9599eaf51988.mp3",
+    "text": "Powiedz mi, czy słychać u niego kocie odgłosy?",
+    "generatedAt": "2026-06-12T13:31:19.005Z"
+  },
+  "question.q_rodent.0": {
+    "hash": "2d7faba248b3",
+    "file": "2d7faba248b3.mp3",
+    "text": "Czy zwierzę, o którym myślisz, jest gryzoniem?",
+    "generatedAt": "2026-06-12T13:31:20.206Z"
+  },
+  "question.q_rodent.1": {
+    "hash": "870b5b15f120",
+    "file": "870b5b15f120.mp3",
+    "text": "Czy to gryzoń?",
+    "generatedAt": "2026-06-12T13:31:21.191Z"
+  },
+  "question.q_rodent.2": {
+    "hash": "39caf98f1325",
+    "file": "39caf98f1325.mp3",
+    "text": "Czy ten zwierzak należy do gryzoni, takich jak myszka, chomik lub szczur?",
+    "generatedAt": "2026-06-12T13:31:22.558Z"
+  },
+  "question.q_rodent.3": {
+    "hash": "dd194c06c319",
+    "file": "dd194c06c319.mp3",
+    "text": "A czy ma duże, ostre siekacze i lubi gryźć?",
+    "generatedAt": "2026-06-12T13:31:23.742Z"
+  },
+  "question.q_rodent.4": {
+    "hash": "7bab0f6cba8e",
+    "file": "7bab0f6cba8e.mp3",
+    "text": "Wiesz, czy on jest mały i zalicza się do gryzoni?",
+    "generatedAt": "2026-06-12T13:31:24.923Z"
+  },
+  "question.q_primate.0": {
+    "hash": "cd41bbdb8aa1",
+    "file": "cd41bbdb8aa1.mp3",
+    "text": "Czy zwierzę, o którym myślisz, jest małpą?",
+    "generatedAt": "2026-06-12T13:31:26.182Z"
+  },
+  "question.q_primate.1": {
+    "hash": "c3ef3bc77b50",
+    "file": "c3ef3bc77b50.mp3",
+    "text": "Czy to małpa?",
+    "generatedAt": "2026-06-12T13:31:27.278Z"
+  },
+  "question.q_primate.2": {
+    "hash": "c6102c7a2c75",
+    "file": "c6102c7a2c75.mp3",
+    "text": "Czy to stworzenie należy do naczelnych, jak szympans lub goryl?",
+    "generatedAt": "2026-06-12T13:31:28.633Z"
+  },
+  "question.q_primate.3": {
+    "hash": "47e77f4cd13e",
+    "file": "47e77f4cd13e.mp3",
+    "text": "A czy huśta się na drzewach i ma zręczne łapy?",
+    "generatedAt": "2026-06-12T13:31:29.832Z"
+  },
+  "question.q_primate.4": {
+    "hash": "cf06f1847f87",
+    "file": "cf06f1847f87.mp3",
+    "text": "Powiedz mi, czy mówimy o małpce lub jej krewnym?",
+    "generatedAt": "2026-06-12T13:31:31.152Z"
+  },
+  "question.q_long_ears.0": {
+    "hash": "adf42f6ee974",
+    "file": "adf42f6ee974.mp3",
+    "text": "Czy zwierzę, o którym myślisz, ma długie uszy?",
+    "generatedAt": "2026-06-12T13:31:32.340Z"
+  },
+  "question.q_long_ears.1": {
+    "hash": "6c4848e18131",
+    "file": "6c4848e18131.mp3",
+    "text": "Czy ma długie uszy?",
+    "generatedAt": "2026-06-12T13:31:33.349Z"
+  },
+  "question.q_long_ears.2": {
+    "hash": "4b68db0c7ef1",
+    "file": "4b68db0c7ef1.mp3",
+    "text": "Czy ten zwierzak ma duże, sterczące uszy, jak królik lub osioł?",
+    "generatedAt": "2026-06-12T13:31:34.840Z"
+  },
+  "question.q_long_ears.3": {
+    "hash": "33c840a2a159",
+    "file": "33c840a2a159.mp3",
+    "text": "A czy widać u niego wyraźne, długie uszy?",
+    "generatedAt": "2026-06-12T13:31:35.991Z"
+  },
+  "question.q_long_ears.4": {
+    "hash": "16089f8fae19",
+    "file": "16089f8fae19.mp3",
+    "text": "Wiesz, czy wyróżnia się długimi uszami?",
+    "generatedAt": "2026-06-12T13:31:37.313Z"
+  },
+  "question.q_marsupial.0": {
+    "hash": "eaa1328c0ccd",
+    "file": "eaa1328c0ccd.mp3",
+    "text": "Czy zwierzę, o którym myślisz, nosi młode w torbie na brzuchu?",
+    "generatedAt": "2026-06-12T13:31:38.657Z"
+  },
+  "question.q_marsupial.1": {
+    "hash": "7b1e262d1254",
+    "file": "7b1e262d1254.mp3",
+    "text": "Czy to torbacz?",
+    "generatedAt": "2026-06-12T13:31:39.665Z"
+  },
+  "question.q_marsupial.2": {
+    "hash": "d5485ab58bd1",
+    "file": "d5485ab58bd1.mp3",
+    "text": "Czy ten zwierzak ma kieszonkę, w której nosi swoje dziecko?",
+    "generatedAt": "2026-06-12T13:31:40.828Z"
+  },
+  "question.q_marsupial.3": {
+    "hash": "46330196d2b0",
+    "file": "46330196d2b0.mp3",
+    "text": "A czy to torbacz, jak kangur lub koala?",
+    "generatedAt": "2026-06-12T13:31:42.016Z"
+  },
+  "question.q_marsupial.4": {
+    "hash": "b679e00d48bb",
+    "file": "b679e00d48bb.mp3",
+    "text": "Detektyw pyta — czy mówimy o australijskim torbaczu?",
+    "generatedAt": "2026-06-12T13:31:43.450Z"
+  },
+  "animal.dog": {
+    "hash": "7489b5107e5e",
+    "file": "7489b5107e5e.mp3",
+    "text": "Pies",
+    "generatedAt": "2026-06-12T13:31:44.397Z"
+  },
+  "animal.cat": {
+    "hash": "a0e5cd812455",
+    "file": "a0e5cd812455.mp3",
+    "text": "Kot",
+    "generatedAt": "2026-06-12T13:31:45.342Z"
+  },
+  "animal.rabbit": {
+    "hash": "b7b73e5eb7e2",
+    "file": "b7b73e5eb7e2.mp3",
+    "text": "Królik",
+    "generatedAt": "2026-06-12T13:31:46.295Z"
+  },
+  "animal.hamster": {
+    "hash": "d552fd0d4da6",
+    "file": "d552fd0d4da6.mp3",
+    "text": "Chomik",
+    "generatedAt": "2026-06-12T13:31:47.266Z"
+  },
+  "animal.guinea_pig": {
+    "hash": "8a92275d4729",
+    "file": "8a92275d4729.mp3",
+    "text": "Świnka morska",
+    "generatedAt": "2026-06-12T13:31:48.355Z"
+  },
+  "animal.rat": {
+    "hash": "982171b75813",
+    "file": "982171b75813.mp3",
+    "text": "Szczur ozdobny",
+    "generatedAt": "2026-06-12T13:31:49.348Z"
+  },
+  "animal.ferret": {
+    "hash": "54473915b94e",
+    "file": "54473915b94e.mp3",
+    "text": "Fretka",
+    "generatedAt": "2026-06-12T13:31:50.303Z"
+  },
+  "animal.mouse": {
+    "hash": "eecbbe1bb1e1",
+    "file": "eecbbe1bb1e1.mp3",
+    "text": "Mysz",
+    "generatedAt": "2026-06-12T13:31:51.442Z"
+  },
+  "animal.cow": {
+    "hash": "de2b5e71be1b",
+    "file": "de2b5e71be1b.mp3",
+    "text": "Krowa",
+    "generatedAt": "2026-06-12T13:31:52.393Z"
+  },
+  "animal.horse": {
+    "hash": "69da3aad7445",
+    "file": "69da3aad7445.mp3",
+    "text": "Koń",
+    "generatedAt": "2026-06-12T13:31:53.326Z"
+  },
+  "animal.sheep": {
+    "hash": "f148900444ab",
+    "file": "f148900444ab.mp3",
+    "text": "Owca",
+    "generatedAt": "2026-06-12T13:31:54.232Z"
+  },
+  "animal.goat": {
+    "hash": "e64e0f641f21",
+    "file": "e64e0f641f21.mp3",
+    "text": "Koza",
+    "generatedAt": "2026-06-12T13:31:55.358Z"
+  },
+  "animal.pig": {
+    "hash": "9db3620eb00b",
+    "file": "9db3620eb00b.mp3",
+    "text": "Świnia",
+    "generatedAt": "2026-06-12T13:31:56.349Z"
+  },
+  "animal.donkey": {
+    "hash": "7e13e23c42b3",
+    "file": "7e13e23c42b3.mp3",
+    "text": "Osioł",
+    "generatedAt": "2026-06-12T13:31:57.295Z"
+  },
+  "animal.chicken": {
+    "hash": "4d1044793db5",
+    "file": "4d1044793db5.mp3",
+    "text": "Kura",
+    "generatedAt": "2026-06-12T13:31:58.191Z"
+  },
+  "animal.rooster": {
+    "hash": "50273399d97b",
+    "file": "50273399d97b.mp3",
+    "text": "Kogut",
+    "generatedAt": "2026-06-12T13:31:59.179Z"
+  },
+  "animal.duck": {
+    "hash": "5c0593bdeac6",
+    "file": "5c0593bdeac6.mp3",
+    "text": "Kaczka",
+    "generatedAt": "2026-06-12T13:32:00.128Z"
+  },
+  "animal.goose": {
+    "hash": "9bfea583a401",
+    "file": "9bfea583a401.mp3",
+    "text": "Gęś",
+    "generatedAt": "2026-06-12T13:32:01.130Z"
+  },
+  "animal.alpaca": {
+    "hash": "7a09bf9e7b81",
+    "file": "7a09bf9e7b81.mp3",
+    "text": "Alpaka",
+    "generatedAt": "2026-06-12T13:32:02.077Z"
+  },
+  "animal.wolf": {
+    "hash": "fbcfec670bf5",
+    "file": "fbcfec670bf5.mp3",
+    "text": "Wilk",
+    "generatedAt": "2026-06-12T13:32:03.120Z"
+  },
+  "animal.fox": {
+    "hash": "9d2b6a8c79ce",
+    "file": "9d2b6a8c79ce.mp3",
+    "text": "Lis",
+    "generatedAt": "2026-06-12T13:32:04.127Z"
+  },
+  "animal.deer": {
+    "hash": "4c82c23e7925",
+    "file": "4c82c23e7925.mp3",
+    "text": "Jeleń",
+    "generatedAt": "2026-06-12T13:32:06.784Z"
+  },
+  "animal.wild_boar": {
+    "hash": "9c9bb5a4e96f",
+    "file": "9c9bb5a4e96f.mp3",
+    "text": "Dzik",
+    "generatedAt": "2026-06-12T13:32:15.912Z"
+  },
+  "animal.brown_bear": {
+    "hash": "4e547240c793",
+    "file": "4e547240c793.mp3",
+    "text": "Niedźwiedź brunatny",
+    "generatedAt": "2026-06-12T13:32:16.991Z"
+  },
+  "animal.lynx": {
+    "hash": "240c8b002200",
+    "file": "240c8b002200.mp3",
+    "text": "Ryś",
+    "generatedAt": "2026-06-12T13:32:17.950Z"
+  },
+  "animal.badger": {
+    "hash": "6d7263a54dd2",
+    "file": "6d7263a54dd2.mp3",
+    "text": "Borsuk",
+    "generatedAt": "2026-06-12T13:32:19.385Z"
+  },
+  "animal.marten": {
+    "hash": "829ab5d916e7",
+    "file": "829ab5d916e7.mp3",
+    "text": "Kuna",
+    "generatedAt": "2026-06-12T13:32:20.309Z"
+  },
+  "animal.elk": {
+    "hash": "6f9428e8c0ea",
+    "file": "6f9428e8c0ea.mp3",
+    "text": "Łoś",
+    "generatedAt": "2026-06-12T13:32:21.329Z"
+  },
+  "animal.bison": {
+    "hash": "d4fea358ae66",
+    "file": "d4fea358ae66.mp3",
+    "text": "Żubr",
+    "generatedAt": "2026-06-12T13:32:22.329Z"
+  },
+  "animal.beaver": {
+    "hash": "ca61f73841cd",
+    "file": "ca61f73841cd.mp3",
+    "text": "Bóbr",
+    "generatedAt": "2026-06-12T13:32:23.374Z"
+  },
+  "animal.otter": {
+    "hash": "bd8ddc99d9a5",
+    "file": "bd8ddc99d9a5.mp3",
+    "text": "Wydra",
+    "generatedAt": "2026-06-12T13:32:24.324Z"
+  },
+  "animal.hedgehog": {
+    "hash": "ae380a5c3171",
+    "file": "ae380a5c3171.mp3",
+    "text": "Jeż",
+    "generatedAt": "2026-06-12T13:32:25.288Z"
+  },
+  "animal.squirrel": {
+    "hash": "1eb704973d4d",
+    "file": "1eb704973d4d.mp3",
+    "text": "Wiewiórka",
+    "generatedAt": "2026-06-12T13:32:26.231Z"
+  },
+  "animal.stoat": {
+    "hash": "8ffe52aa4b7a",
+    "file": "8ffe52aa4b7a.mp3",
+    "text": "Gronostaj",
+    "generatedAt": "2026-06-12T13:32:27.260Z"
+  },
+  "animal.weasel": {
+    "hash": "cc1d4200fe23",
+    "file": "cc1d4200fe23.mp3",
+    "text": "Łasica",
+    "generatedAt": "2026-06-12T13:32:28.221Z"
+  },
+  "animal.field_mouse": {
+    "hash": "388f839c7439",
+    "file": "388f839c7439.mp3",
+    "text": "Mysz polna",
+    "generatedAt": "2026-06-12T13:32:29.225Z"
+  },
+  "animal.bat": {
+    "hash": "2538aa8ddc52",
+    "file": "2538aa8ddc52.mp3",
+    "text": "Nietoperz",
+    "generatedAt": "2026-06-12T13:32:30.196Z"
+  },
+  "animal.mole": {
+    "hash": "00da76c724a7",
+    "file": "00da76c724a7.mp3",
+    "text": "Kret",
+    "generatedAt": "2026-06-12T13:32:31.156Z"
+  },
+  "animal.lion": {
+    "hash": "9a5748d3e116",
+    "file": "9a5748d3e116.mp3",
+    "text": "Lew",
+    "generatedAt": "2026-06-12T13:32:32.077Z"
+  },
+  "animal.elephant": {
+    "hash": "9980d14721ab",
+    "file": "9980d14721ab.mp3",
+    "text": "Słoń afrykański",
+    "generatedAt": "2026-06-12T13:32:33.070Z"
+  },
+  "animal.giraffe": {
+    "hash": "d6efd59b1eac",
+    "file": "d6efd59b1eac.mp3",
+    "text": "Żyrafa",
+    "generatedAt": "2026-06-12T13:32:34.125Z"
+  },
+  "animal.zebra": {
+    "hash": "b2d43dc84d9f",
+    "file": "b2d43dc84d9f.mp3",
+    "text": "Zebra",
+    "generatedAt": "2026-06-12T13:32:35.048Z"
+  },
+  "animal.leopard": {
+    "hash": "2c632dc0e0a6",
+    "file": "2c632dc0e0a6.mp3",
+    "text": "Lampart",
+    "generatedAt": "2026-06-12T13:32:36.072Z"
+  },
+  "animal.cheetah": {
+    "hash": "68dfa6ccc1fa",
+    "file": "68dfa6ccc1fa.mp3",
+    "text": "Gepard",
+    "generatedAt": "2026-06-12T13:32:37.097Z"
+  },
+  "animal.hippo": {
+    "hash": "4cc8798fac3e",
+    "file": "4cc8798fac3e.mp3",
+    "text": "Hipopotam",
+    "generatedAt": "2026-06-12T13:32:38.125Z"
+  },
+  "animal.rhino": {
+    "hash": "80665a5643fb",
+    "file": "80665a5643fb.mp3",
+    "text": "Nosorożec",
+    "generatedAt": "2026-06-12T13:32:39.085Z"
+  },
+  "animal.antelope": {
+    "hash": "5b287b251d03",
+    "file": "5b287b251d03.mp3",
+    "text": "Antylopa",
+    "generatedAt": "2026-06-12T13:32:40.174Z"
+  },
+  "animal.gnu": {
+    "hash": "dc0af91e0ef5",
+    "file": "dc0af91e0ef5.mp3",
+    "text": "Gnu",
+    "generatedAt": "2026-06-12T13:32:41.193Z"
+  },
+  "animal.hyena": {
+    "hash": "4729db00935f",
+    "file": "4729db00935f.mp3",
+    "text": "Hiena",
+    "generatedAt": "2026-06-12T13:32:42.157Z"
+  },
+  "animal.jackal": {
+    "hash": "9a7d86b8a859",
+    "file": "9a7d86b8a859.mp3",
+    "text": "Szakal",
+    "generatedAt": "2026-06-12T13:32:43.135Z"
+  },
+  "animal.meerkat": {
+    "hash": "3723b76aa07e",
+    "file": "3723b76aa07e.mp3",
+    "text": "Surykatka",
+    "generatedAt": "2026-06-12T13:32:44.136Z"
+  },
+  "animal.chimpanzee": {
+    "hash": "34c134456795",
+    "file": "34c134456795.mp3",
+    "text": "Szympans",
+    "generatedAt": "2026-06-12T13:32:45.133Z"
+  },
+  "animal.gorilla": {
+    "hash": "a9ef6ec2c93c",
+    "file": "a9ef6ec2c93c.mp3",
+    "text": "Goryl",
+    "generatedAt": "2026-06-12T13:32:46.125Z"
+  },
+  "animal.lemur": {
+    "hash": "3c559679c5b3",
+    "file": "3c559679c5b3.mp3",
+    "text": "Lemur",
+    "generatedAt": "2026-06-12T13:32:47.134Z"
+  },
+  "animal.mandrill": {
+    "hash": "b21f69d871cc",
+    "file": "b21f69d871cc.mp3",
+    "text": "Mandryl",
+    "generatedAt": "2026-06-12T13:32:48.071Z"
+  },
+  "animal.gazelle": {
+    "hash": "f634b22c25ec",
+    "file": "f634b22c25ec.mp3",
+    "text": "Gazela",
+    "generatedAt": "2026-06-12T13:32:49.061Z"
+  },
+  "animal.buffalo": {
+    "hash": "8100b14d5192",
+    "file": "8100b14d5192.mp3",
+    "text": "Bawół afrykański",
+    "generatedAt": "2026-06-12T13:32:50.040Z"
+  },
+  "animal.warthog": {
+    "hash": "bd9e6e168f31",
+    "file": "bd9e6e168f31.mp3",
+    "text": "Guziec",
+    "generatedAt": "2026-06-12T13:32:51.000Z"
+  },
+  "animal.tiger": {
+    "hash": "49566f14d74e",
+    "file": "49566f14d74e.mp3",
+    "text": "Tygrys",
+    "generatedAt": "2026-06-12T13:32:51.985Z"
+  },
+  "animal.panda": {
+    "hash": "36185eb7388e",
+    "file": "36185eb7388e.mp3",
+    "text": "Panda wielka",
+    "generatedAt": "2026-06-12T13:32:52.980Z"
+  },
+  "animal.orangutan": {
+    "hash": "0a12953e6413",
+    "file": "0a12953e6413.mp3",
+    "text": "Orangutan",
+    "generatedAt": "2026-06-12T13:32:53.993Z"
+  },
+  "animal.jaguar": {
+    "hash": "432f1e4cbb77",
+    "file": "432f1e4cbb77.mp3",
+    "text": "Jaguar",
+    "generatedAt": "2026-06-12T13:32:54.928Z"
+  },
+  "animal.sloth": {
+    "hash": "5b0ea036281d",
+    "file": "5b0ea036281d.mp3",
+    "text": "Leniwiec",
+    "generatedAt": "2026-06-12T13:32:55.948Z"
+  },
+  "animal.anteater": {
+    "hash": "9d04dc91b159",
+    "file": "9d04dc91b159.mp3",
+    "text": "Mrówkojad",
+    "generatedAt": "2026-06-12T13:32:57.020Z"
+  },
+  "animal.capybara": {
+    "hash": "2ddf47e62946",
+    "file": "2ddf47e62946.mp3",
+    "text": "Kapibara",
+    "generatedAt": "2026-06-12T13:32:58.101Z"
+  },
+  "animal.gibbon": {
+    "hash": "6ffa8db1cf7c",
+    "file": "6ffa8db1cf7c.mp3",
+    "text": "Gibon",
+    "generatedAt": "2026-06-12T13:32:59.032Z"
+  },
+  "animal.macaque": {
+    "hash": "7ddb3364b616",
+    "file": "7ddb3364b616.mp3",
+    "text": "Makak",
+    "generatedAt": "2026-06-12T13:32:59.982Z"
+  },
+  "animal.ocelot": {
+    "hash": "4f7fc761457d",
+    "file": "4f7fc761457d.mp3",
+    "text": "Ocelot",
+    "generatedAt": "2026-06-12T13:33:00.956Z"
+  },
+  "animal.kangaroo": {
+    "hash": "097c7d8ed4a8",
+    "file": "097c7d8ed4a8.mp3",
+    "text": "Kangur",
+    "generatedAt": "2026-06-12T13:33:01.904Z"
+  },
+  "animal.koala": {
+    "hash": "74ae77190d30",
+    "file": "74ae77190d30.mp3",
+    "text": "Koala",
+    "generatedAt": "2026-06-12T13:33:02.854Z"
+  },
+  "animal.platypus": {
+    "hash": "c38f949cf17b",
+    "file": "c38f949cf17b.mp3",
+    "text": "Dziobak",
+    "generatedAt": "2026-06-12T13:33:03.927Z"
+  },
+  "animal.porcupine": {
+    "hash": "da1d3d349cae",
+    "file": "da1d3d349cae.mp3",
+    "text": "Jeżozwierz",
+    "generatedAt": "2026-06-12T13:33:04.948Z"
+  },
+  "animal.armadillo": {
+    "hash": "18bef4a95a12",
+    "file": "18bef4a95a12.mp3",
+    "text": "Pancernik",
+    "generatedAt": "2026-06-12T13:33:05.927Z"
+  },
+  "animal.polar_bear": {
+    "hash": "565ee8b15b4e",
+    "file": "565ee8b15b4e.mp3",
+    "text": "Niedźwiedź polarny",
+    "generatedAt": "2026-06-12T13:33:06.930Z"
+  },
+  "animal.walrus": {
+    "hash": "4753075fd0ba",
+    "file": "4753075fd0ba.mp3",
+    "text": "Mors",
+    "generatedAt": "2026-06-12T13:33:07.920Z"
+  },
+  "animal.seal": {
+    "hash": "9f2e9d69f8b4",
+    "file": "9f2e9d69f8b4.mp3",
+    "text": "Foka",
+    "generatedAt": "2026-06-12T13:33:08.862Z"
+  },
+  "animal.arctic_fox": {
+    "hash": "c81e63716c8f",
+    "file": "c81e63716c8f.mp3",
+    "text": "Lis polarny",
+    "generatedAt": "2026-06-12T13:33:09.827Z"
+  },
+  "animal.reindeer": {
+    "hash": "18b6634dd561",
+    "file": "18b6634dd561.mp3",
+    "text": "Renifer",
+    "generatedAt": "2026-06-12T13:33:10.814Z"
+  },
+  "animal.musk_ox": {
+    "hash": "2be72e81b9cc",
+    "file": "2be72e81b9cc.mp3",
+    "text": "Piżmowół",
+    "generatedAt": "2026-06-12T13:33:11.798Z"
+  },
+  "animal.lemming": {
+    "hash": "8bdd17eba376",
+    "file": "8bdd17eba376.mp3",
+    "text": "Leming",
+    "generatedAt": "2026-06-12T13:33:13.069Z"
+  },
+  "animal.snowy_owl": {
+    "hash": "d9cb08d5cf13",
+    "file": "d9cb08d5cf13.mp3",
+    "text": "Sowa śnieżna",
+    "generatedAt": "2026-06-12T13:33:14.081Z"
+  },
+  "animal.whale": {
+    "hash": "bbf63ab74729",
+    "file": "bbf63ab74729.mp3",
+    "text": "Wieloryb (płetwal błękitny)",
+    "generatedAt": "2026-06-12T13:33:15.171Z"
+  },
+  "animal.dolphin": {
+    "hash": "87ea977adbf9",
+    "file": "87ea977adbf9.mp3",
+    "text": "Delfin",
+    "generatedAt": "2026-06-12T13:33:16.138Z"
+  },
+  "animal.orca": {
+    "hash": "75623b52b0aa",
+    "file": "75623b52b0aa.mp3",
+    "text": "Orka",
+    "generatedAt": "2026-06-12T13:33:17.241Z"
+  },
+  "animal.manatee": {
+    "hash": "63a99fdc78e5",
+    "file": "63a99fdc78e5.mp3",
+    "text": "Manat",
+    "generatedAt": "2026-06-12T13:33:18.260Z"
+  },
+  "animal.narwhal": {
+    "hash": "372e2a644518",
+    "file": "372e2a644518.mp3",
+    "text": "Narwal",
+    "generatedAt": "2026-06-12T13:33:19.400Z"
+  },
+  "animal.sperm_whale": {
+    "hash": "a6a1e1b53bff",
+    "file": "a6a1e1b53bff.mp3",
+    "text": "Kaszalot",
+    "generatedAt": "2026-06-12T13:33:20.369Z"
+  },
+  "animal.porpoise": {
+    "hash": "20ffcd809fcd",
+    "file": "20ffcd809fcd.mp3",
+    "text": "Morświn",
+    "generatedAt": "2026-06-12T13:33:21.438Z"
+  },
+  "animal.stork": {
+    "hash": "d4dbeee55a5a",
+    "file": "d4dbeee55a5a.mp3",
+    "text": "Bocian",
+    "generatedAt": "2026-06-12T13:33:22.403Z"
+  },
+  "animal.swallow": {
+    "hash": "e2d8f210bd3e",
+    "file": "e2d8f210bd3e.mp3",
+    "text": "Jaskółka",
+    "generatedAt": "2026-06-12T13:33:23.370Z"
+  },
+  "animal.tit": {
+    "hash": "b402bd37da04",
+    "file": "b402bd37da04.mp3",
+    "text": "Sikorka",
+    "generatedAt": "2026-06-12T13:33:24.321Z"
+  },
+  "animal.sparrow": {
+    "hash": "09f22df41b8d",
+    "file": "09f22df41b8d.mp3",
+    "text": "Wróbel",
+    "generatedAt": "2026-06-12T13:33:25.346Z"
+  },
+  "animal.pigeon": {
+    "hash": "e211fff93746",
+    "file": "e211fff93746.mp3",
+    "text": "Gołąb",
+    "generatedAt": "2026-06-12T13:33:26.308Z"
+  },
+  "animal.raven": {
+    "hash": "fe7d72233431",
+    "file": "fe7d72233431.mp3",
+    "text": "Kruk",
+    "generatedAt": "2026-06-12T13:33:27.228Z"
+  },
+  "animal.magpie": {
+    "hash": "7688b576b183",
+    "file": "7688b576b183.mp3",
+    "text": "Sroka",
+    "generatedAt": "2026-06-12T13:33:28.154Z"
+  },
+  "animal.jay": {
+    "hash": "17055b01c783",
+    "file": "17055b01c783.mp3",
+    "text": "Sójka",
+    "generatedAt": "2026-06-12T13:33:29.138Z"
+  },
+  "animal.blackbird": {
+    "hash": "41eace1188ba",
+    "file": "41eace1188ba.mp3",
+    "text": "Kos",
+    "generatedAt": "2026-06-12T13:33:30.059Z"
+  },
+  "animal.nightingale": {
+    "hash": "ed51af97274d",
+    "file": "ed51af97274d.mp3",
+    "text": "Słowik",
+    "generatedAt": "2026-06-12T13:33:31.057Z"
+  },
+  "animal.hoopoe": {
+    "hash": "499a5d8a364a",
+    "file": "499a5d8a364a.mp3",
+    "text": "Dudek",
+    "generatedAt": "2026-06-12T13:33:32.087Z"
+  },
+  "animal.woodpecker": {
+    "hash": "bed253a3dabf",
+    "file": "bed253a3dabf.mp3",
+    "text": "Dzięcioł",
+    "generatedAt": "2026-06-12T13:33:33.041Z"
+  },
+  "animal.cuckoo": {
+    "hash": "5f52709546cc",
+    "file": "5f52709546cc.mp3",
+    "text": "Kukułka",
+    "generatedAt": "2026-06-12T13:33:34.091Z"
+  },
+  "animal.heron": {
+    "hash": "99c9c78ffdd2",
+    "file": "99c9c78ffdd2.mp3",
+    "text": "Czapla",
+    "generatedAt": "2026-06-12T13:33:35.057Z"
+  },
+  "animal.swan": {
+    "hash": "3350c12d36cc",
+    "file": "3350c12d36cc.mp3",
+    "text": "Łabędź",
+    "generatedAt": "2026-06-12T13:33:36.022Z"
+  },
+  "animal.eagle": {
+    "hash": "c30250e2e855",
+    "file": "c30250e2e855.mp3",
+    "text": "Orzeł",
+    "generatedAt": "2026-06-12T13:33:36.944Z"
+  },
+  "animal.falcon": {
+    "hash": "1b0691d4ce8b",
+    "file": "1b0691d4ce8b.mp3",
+    "text": "Sokół wędrowny",
+    "generatedAt": "2026-06-12T13:33:37.936Z"
+  },
+  "animal.hawk": {
+    "hash": "fc5ea7251ac3",
+    "file": "fc5ea7251ac3.mp3",
+    "text": "Jastrząb",
+    "generatedAt": "2026-06-12T13:33:38.905Z"
+  },
+  "animal.owl": {
+    "hash": "4e2ca20e54f5",
+    "file": "4e2ca20e54f5.mp3",
+    "text": "Sowa",
+    "generatedAt": "2026-06-12T13:33:40.317Z"
+  },
+  "animal.eagle_owl": {
+    "hash": "6682629d6d3e",
+    "file": "6682629d6d3e.mp3",
+    "text": "Puchacz",
+    "generatedAt": "2026-06-12T13:33:41.299Z"
+  },
+  "animal.condor": {
+    "hash": "387126d77658",
+    "file": "387126d77658.mp3",
+    "text": "Kondor",
+    "generatedAt": "2026-06-12T13:33:42.236Z"
+  },
+  "animal.vulture": {
+    "hash": "6d2caedeac2b",
+    "file": "6d2caedeac2b.mp3",
+    "text": "Sęp",
+    "generatedAt": "2026-06-12T13:33:43.204Z"
+  },
+  "animal.toucan": {
+    "hash": "62c3bfadc1c1",
+    "file": "62c3bfadc1c1.mp3",
+    "text": "Tukan",
+    "generatedAt": "2026-06-12T13:33:44.112Z"
+  },
+  "animal.flamingo": {
+    "hash": "d8724050d6eb",
+    "file": "d8724050d6eb.mp3",
+    "text": "Flaming",
+    "generatedAt": "2026-06-12T13:33:45.105Z"
+  },
+  "animal.ostrich": {
+    "hash": "a95be72579ac",
+    "file": "a95be72579ac.mp3",
+    "text": "Struś",
+    "generatedAt": "2026-06-12T13:33:46.052Z"
+  },
+  "animal.peacock": {
+    "hash": "1e3c6b4ff7b8",
+    "file": "1e3c6b4ff7b8.mp3",
+    "text": "Paw",
+    "generatedAt": "2026-06-12T13:33:47.042Z"
+  },
+  "animal.hummingbird": {
+    "hash": "ab0c3034c1d8",
+    "file": "ab0c3034c1d8.mp3",
+    "text": "Koliber",
+    "generatedAt": "2026-06-12T13:33:47.974Z"
+  },
+  "animal.parrot": {
+    "hash": "c71eaf635ce2",
+    "file": "c71eaf635ce2.mp3",
+    "text": "Papuga",
+    "generatedAt": "2026-06-12T13:33:48.983Z"
+  },
+  "animal.cockatoo": {
+    "hash": "9059953e83c6",
+    "file": "9059953e83c6.mp3",
+    "text": "Kakadu",
+    "generatedAt": "2026-06-12T13:33:49.960Z"
+  },
+  "animal.pelican": {
+    "hash": "ea92be8a1801",
+    "file": "ea92be8a1801.mp3",
+    "text": "Pelikan",
+    "generatedAt": "2026-06-12T13:33:50.903Z"
+  },
+  "animal.penguin_emperor": {
+    "hash": "19762b3d4083",
+    "file": "19762b3d4083.mp3",
+    "text": "Pingwin cesarski",
+    "generatedAt": "2026-06-12T13:33:51.951Z"
+  },
+  "animal.penguin_little": {
+    "hash": "1eb4b2e41437",
+    "file": "1eb4b2e41437.mp3",
+    "text": "Pingwin mały",
+    "generatedAt": "2026-06-12T13:33:53.079Z"
+  },
+  "animal.kiwi": {
+    "hash": "d271f02db25c",
+    "file": "d271f02db25c.mp3",
+    "text": "Kiwi",
+    "generatedAt": "2026-06-12T13:33:54.039Z"
+  },
+  "animal.emu": {
+    "hash": "c38680887650",
+    "file": "c38680887650.mp3",
+    "text": "Emu",
+    "generatedAt": "2026-06-12T13:33:54.959Z"
+  },
+  "animal.carp": {
+    "hash": "5894f86321ae",
+    "file": "5894f86321ae.mp3",
+    "text": "Karp",
+    "generatedAt": "2026-06-12T13:33:55.926Z"
+  },
+  "animal.pike": {
+    "hash": "22e680d67868",
+    "file": "22e680d67868.mp3",
+    "text": "Szczupak",
+    "generatedAt": "2026-06-12T13:33:56.893Z"
+  },
+  "animal.catfish": {
+    "hash": "fc9ce14b28c6",
+    "file": "fc9ce14b28c6.mp3",
+    "text": "Sum",
+    "generatedAt": "2026-06-12T13:33:57.890Z"
+  },
+  "animal.eel": {
+    "hash": "5dccdc98b3d9",
+    "file": "5dccdc98b3d9.mp3",
+    "text": "Węgorz",
+    "generatedAt": "2026-06-12T13:33:58.910Z"
+  },
+  "animal.salmon": {
+    "hash": "672f965b7dfe",
+    "file": "672f965b7dfe.mp3",
+    "text": "Łosoś",
+    "generatedAt": "2026-06-12T13:33:59.950Z"
+  },
+  "animal.trout": {
+    "hash": "9e6ffaaf5dc2",
+    "file": "9e6ffaaf5dc2.mp3",
+    "text": "Pstrąg",
+    "generatedAt": "2026-06-12T13:34:01.030Z"
+  },
+  "animal.tench": {
+    "hash": "5b51a9fa31b8",
+    "file": "5b51a9fa31b8.mp3",
+    "text": "Lin",
+    "generatedAt": "2026-06-12T13:34:01.937Z"
+  },
+  "animal.perch": {
+    "hash": "1a0c8582fb09",
+    "file": "1a0c8582fb09.mp3",
+    "text": "Okoń",
+    "generatedAt": "2026-06-12T13:34:02.907Z"
+  },
+  "animal.zander": {
+    "hash": "e1f872c050e5",
+    "file": "e1f872c050e5.mp3",
+    "text": "Sandacz",
+    "generatedAt": "2026-06-12T13:34:03.931Z"
+  },
+  "animal.roach": {
+    "hash": "164fbd276c07",
+    "file": "164fbd276c07.mp3",
+    "text": "Płoć",
+    "generatedAt": "2026-06-12T13:34:04.878Z"
+  },
+  "animal.shark": {
+    "hash": "d23f858b9ba0",
+    "file": "d23f858b9ba0.mp3",
+    "text": "Rekin",
+    "generatedAt": "2026-06-12T13:34:05.876Z"
+  },
+  "animal.manta": {
+    "hash": "2507b0a22680",
+    "file": "2507b0a22680.mp3",
+    "text": "Manta",
+    "generatedAt": "2026-06-12T13:34:06.778Z"
+  },
+  "animal.tuna": {
+    "hash": "8ecc3685221d",
+    "file": "8ecc3685221d.mp3",
+    "text": "Tuńczyk",
+    "generatedAt": "2026-06-12T13:34:07.789Z"
+  },
+  "animal.mackerel": {
+    "hash": "b066dd5501e7",
+    "file": "b066dd5501e7.mp3",
+    "text": "Makrela",
+    "generatedAt": "2026-06-12T13:34:08.753Z"
+  },
+  "animal.herring": {
+    "hash": "00246851a033",
+    "file": "00246851a033.mp3",
+    "text": "Śledź",
+    "generatedAt": "2026-06-12T13:34:09.768Z"
+  },
+  "animal.cod": {
+    "hash": "e76ab79bd4a2",
+    "file": "e76ab79bd4a2.mp3",
+    "text": "Dorsz",
+    "generatedAt": "2026-06-12T13:34:10.766Z"
+  },
+  "animal.swordfish": {
+    "hash": "484461313148",
+    "file": "484461313148.mp3",
+    "text": "Miecznik",
+    "generatedAt": "2026-06-12T13:34:11.727Z"
+  },
+  "animal.seahorse": {
+    "hash": "5f3245eb3c1f",
+    "file": "5f3245eb3c1f.mp3",
+    "text": "Konik morski",
+    "generatedAt": "2026-06-12T13:34:12.738Z"
+  },
+  "animal.barracuda": {
+    "hash": "90b4e06f8750",
+    "file": "90b4e06f8750.mp3",
+    "text": "Barakuda",
+    "generatedAt": "2026-06-12T13:34:13.680Z"
+  },
+  "animal.clownfish": {
+    "hash": "66a63f188f69",
+    "file": "66a63f188f69.mp3",
+    "text": "Ryba klaun",
+    "generatedAt": "2026-06-12T13:34:14.635Z"
+  },
+  "animal.moray": {
+    "hash": "75d9de3c38ef",
+    "file": "75d9de3c38ef.mp3",
+    "text": "Murena",
+    "generatedAt": "2026-06-12T13:34:15.563Z"
+  },
+  "animal.flounder": {
+    "hash": "7da011a5b4a1",
+    "file": "7da011a5b4a1.mp3",
+    "text": "Flądra",
+    "generatedAt": "2026-06-12T13:34:16.532Z"
+  },
+  "animal.anchovy": {
+    "hash": "749edac68300",
+    "file": "749edac68300.mp3",
+    "text": "Sardela",
+    "generatedAt": "2026-06-12T13:34:17.450Z"
+  },
+  "animal.piranha": {
+    "hash": "15fba1c1a9bd",
+    "file": "15fba1c1a9bd.mp3",
+    "text": "Pirania",
+    "generatedAt": "2026-06-12T13:34:18.435Z"
+  },
+  "animal.eel_electric": {
+    "hash": "71c7b26e7fe2",
+    "file": "71c7b26e7fe2.mp3",
+    "text": "Węgorz elektryczny",
+    "generatedAt": "2026-06-12T13:34:19.471Z"
+  },
+  "animal.snake": {
+    "hash": "b2a993b00fb1",
+    "file": "b2a993b00fb1.mp3",
+    "text": "Wąż",
+    "generatedAt": "2026-06-12T13:34:20.416Z"
+  },
+  "animal.cobra": {
+    "hash": "81663af6322f",
+    "file": "81663af6322f.mp3",
+    "text": "Kobra",
+    "generatedAt": "2026-06-12T13:34:21.580Z"
+  },
+  "animal.python": {
+    "hash": "59dffa9c2a1b",
+    "file": "59dffa9c2a1b.mp3",
+    "text": "Pyton",
+    "generatedAt": "2026-06-12T13:34:22.528Z"
+  },
+  "animal.anaconda": {
+    "hash": "c7c90ebd2f8c",
+    "file": "c7c90ebd2f8c.mp3",
+    "text": "Anakonda",
+    "generatedAt": "2026-06-12T13:34:23.470Z"
+  },
+  "animal.rattlesnake": {
+    "hash": "87b39d97304c",
+    "file": "87b39d97304c.mp3",
+    "text": "Grzechotnik",
+    "generatedAt": "2026-06-12T13:34:24.654Z"
+  },
+  "animal.lizard": {
+    "hash": "4ea671e6cbc1",
+    "file": "4ea671e6cbc1.mp3",
+    "text": "Jaszczurka zwinka",
+    "generatedAt": "2026-06-12T13:34:25.712Z"
+  },
+  "animal.gecko": {
+    "hash": "1f67e747ecc6",
+    "file": "1f67e747ecc6.mp3",
+    "text": "Gekon",
+    "generatedAt": "2026-06-12T13:34:26.654Z"
+  },
+  "animal.chameleon": {
+    "hash": "ca9133c75511",
+    "file": "ca9133c75511.mp3",
+    "text": "Kameleon",
+    "generatedAt": "2026-06-12T13:34:27.633Z"
+  },
+  "animal.iguana": {
+    "hash": "b55e2abf3b51",
+    "file": "b55e2abf3b51.mp3",
+    "text": "Legwan",
+    "generatedAt": "2026-06-12T13:34:28.604Z"
+  },
+  "animal.komodo": {
+    "hash": "851378724392",
+    "file": "851378724392.mp3",
+    "text": "Waran z Komodo",
+    "generatedAt": "2026-06-12T13:34:29.597Z"
+  },
+  "animal.sea_turtle": {
+    "hash": "9d369629a2b3",
+    "file": "9d369629a2b3.mp3",
+    "text": "Żółw morski",
+    "generatedAt": "2026-06-12T13:34:30.611Z"
+  },
+  "animal.turtle": {
+    "hash": "e2869812c9e5",
+    "file": "e2869812c9e5.mp3",
+    "text": "Żółw lądowy",
+    "generatedAt": "2026-06-12T13:34:31.616Z"
+  },
+  "animal.crocodile": {
+    "hash": "5ba21aeb0096",
+    "file": "5ba21aeb0096.mp3",
+    "text": "Krokodyl",
+    "generatedAt": "2026-06-12T13:34:32.586Z"
+  },
+  "animal.alligator": {
+    "hash": "b3f64135faf0",
+    "file": "b3f64135faf0.mp3",
+    "text": "Aligator",
+    "generatedAt": "2026-06-12T13:34:33.516Z"
+  },
+  "animal.boa": {
+    "hash": "462e7841d274",
+    "file": "462e7841d274.mp3",
+    "text": "Boa dusiciel",
+    "generatedAt": "2026-06-12T13:34:34.520Z"
+  },
+  "animal.frog": {
+    "hash": "4cfde9af03a9",
+    "file": "4cfde9af03a9.mp3",
+    "text": "Żaba",
+    "generatedAt": "2026-06-12T13:34:35.452Z"
+  },
+  "animal.toad": {
+    "hash": "85037a251d38",
+    "file": "85037a251d38.mp3",
+    "text": "Ropucha",
+    "generatedAt": "2026-06-12T13:34:36.441Z"
+  },
+  "animal.salamander": {
+    "hash": "3371c768ea26",
+    "file": "3371c768ea26.mp3",
+    "text": "Salamandra",
+    "generatedAt": "2026-06-12T13:34:37.439Z"
+  },
+  "animal.newt": {
+    "hash": "d59e4f92383a",
+    "file": "d59e4f92383a.mp3",
+    "text": "Traszka",
+    "generatedAt": "2026-06-12T13:34:38.438Z"
+  },
+  "animal.axolotl": {
+    "hash": "31aecf335ca8",
+    "file": "31aecf335ca8.mp3",
+    "text": "Aksolotl",
+    "generatedAt": "2026-06-12T13:34:39.385Z"
+  },
+  "animal.butterfly": {
+    "hash": "4a6e53244b38",
+    "file": "4a6e53244b38.mp3",
+    "text": "Motyl",
+    "generatedAt": "2026-06-12T13:34:40.330Z"
+  },
+  "animal.ladybug": {
+    "hash": "d84b11d06b11",
+    "file": "d84b11d06b11.mp3",
+    "text": "Biedronka",
+    "generatedAt": "2026-06-12T13:34:41.309Z"
+  },
+  "animal.ant": {
+    "hash": "7c7bcd8f5dc6",
+    "file": "7c7bcd8f5dc6.mp3",
+    "text": "Mrówka",
+    "generatedAt": "2026-06-12T13:34:42.380Z"
+  },
+  "animal.bee": {
+    "hash": "ae0c368d5384",
+    "file": "ae0c368d5384.mp3",
+    "text": "Pszczoła",
+    "generatedAt": "2026-06-12T13:34:43.363Z"
+  },
+  "animal.wasp": {
+    "hash": "4ed92bc375d3",
+    "file": "4ed92bc375d3.mp3",
+    "text": "Osa",
+    "generatedAt": "2026-06-12T13:34:44.283Z"
+  },
+  "animal.bumblebee": {
+    "hash": "807d5369cc2b",
+    "file": "807d5369cc2b.mp3",
+    "text": "Trzmiel",
+    "generatedAt": "2026-06-12T13:34:45.294Z"
+  },
+  "animal.mosquito": {
+    "hash": "cb9097bf09dd",
+    "file": "cb9097bf09dd.mp3",
+    "text": "Komar",
+    "generatedAt": "2026-06-12T13:34:46.204Z"
+  },
+  "animal.fly": {
+    "hash": "0b7d33732141",
+    "file": "0b7d33732141.mp3",
+    "text": "Mucha",
+    "generatedAt": "2026-06-12T13:34:47.158Z"
+  },
+  "animal.cricket": {
+    "hash": "d94c13380471",
+    "file": "d94c13380471.mp3",
+    "text": "Świerszcz",
+    "generatedAt": "2026-06-12T13:34:48.291Z"
+  },
+  "animal.grasshopper": {
+    "hash": "0de7aea8b0ad",
+    "file": "0de7aea8b0ad.mp3",
+    "text": "Konik polny",
+    "generatedAt": "2026-06-12T13:34:49.319Z"
+  },
+  "animal.dragonfly": {
+    "hash": "4c64e22b750b",
+    "file": "4c64e22b750b.mp3",
+    "text": "Ważka",
+    "generatedAt": "2026-06-12T13:34:50.273Z"
+  },
+  "animal.mayfly": {
+    "hash": "7195ae5a96af",
+    "file": "7195ae5a96af.mp3",
+    "text": "Jętka",
+    "generatedAt": "2026-06-12T13:34:51.258Z"
+  },
+  "animal.firefly": {
+    "hash": "49d55a275822",
+    "file": "49d55a275822.mp3",
+    "text": "Świetlik",
+    "generatedAt": "2026-06-12T13:34:52.389Z"
+  },
+  "animal.moth": {
+    "hash": "1f848624992d",
+    "file": "1f848624992d.mp3",
+    "text": "Ćma",
+    "generatedAt": "2026-06-12T13:34:53.339Z"
+  },
+  "animal.cockroach": {
+    "hash": "810168efef67",
+    "file": "810168efef67.mp3",
+    "text": "Karaluch",
+    "generatedAt": "2026-06-12T13:34:54.365Z"
+  },
+  "animal.mantis": {
+    "hash": "018045faee7b",
+    "file": "018045faee7b.mp3",
+    "text": "Modliszka",
+    "generatedAt": "2026-06-12T13:34:55.461Z"
+  },
+  "animal.stick_insect": {
+    "hash": "369fc8ac816c",
+    "file": "369fc8ac816c.mp3",
+    "text": "Patyczak",
+    "generatedAt": "2026-06-12T13:34:56.433Z"
+  },
+  "animal.beetle": {
+    "hash": "902d3feb7114",
+    "file": "902d3feb7114.mp3",
+    "text": "Żuk",
+    "generatedAt": "2026-06-12T13:34:57.385Z"
+  },
+  "animal.stag_beetle": {
+    "hash": "e5e5bd136520",
+    "file": "e5e5bd136520.mp3",
+    "text": "Jelonek rogacz",
+    "generatedAt": "2026-06-12T13:34:58.391Z"
+  },
+  "animal.termite": {
+    "hash": "33446ae3f572",
+    "file": "33446ae3f572.mp3",
+    "text": "Termit",
+    "generatedAt": "2026-06-12T13:34:59.352Z"
+  },
+  "animal.spider": {
+    "hash": "d160b9024b8e",
+    "file": "d160b9024b8e.mp3",
+    "text": "Pająk krzyżak",
+    "generatedAt": "2026-06-12T13:35:00.378Z"
+  },
+  "animal.scorpion": {
+    "hash": "25b0f2d37e76",
+    "file": "25b0f2d37e76.mp3",
+    "text": "Skorpion",
+    "generatedAt": "2026-06-12T13:35:01.320Z"
+  },
+  "animal.tarantula": {
+    "hash": "c65baf1a0fd1",
+    "file": "c65baf1a0fd1.mp3",
+    "text": "Tarantula",
+    "generatedAt": "2026-06-12T13:35:02.291Z"
+  },
+  "animal.tick": {
+    "hash": "13ce555fddc7",
+    "file": "13ce555fddc7.mp3",
+    "text": "Kleszcz",
+    "generatedAt": "2026-06-12T13:35:03.346Z"
+  },
+  "animal.bird_eater": {
+    "hash": "265388e6bfa3",
+    "file": "265388e6bfa3.mp3",
+    "text": "Ptasznik",
+    "generatedAt": "2026-06-12T13:35:04.374Z"
+  },
+  "animal.crab": {
+    "hash": "b123e01b98a2",
+    "file": "b123e01b98a2.mp3",
+    "text": "Krab",
+    "generatedAt": "2026-06-12T13:35:05.395Z"
+  },
+  "animal.crayfish": {
+    "hash": "f89332db8409",
+    "file": "f89332db8409.mp3",
+    "text": "Rak",
+    "generatedAt": "2026-06-12T13:35:06.294Z"
+  },
+  "animal.shrimp": {
+    "hash": "76961076fe5f",
+    "file": "76961076fe5f.mp3",
+    "text": "Krewetka",
+    "generatedAt": "2026-06-12T13:35:07.265Z"
+  },
+  "animal.lobster": {
+    "hash": "92f5c4f48e63",
+    "file": "92f5c4f48e63.mp3",
+    "text": "Homar",
+    "generatedAt": "2026-06-12T13:35:08.199Z"
+  },
+  "animal.langouste": {
+    "hash": "af9be9fabb18",
+    "file": "af9be9fabb18.mp3",
+    "text": "Langusta",
+    "generatedAt": "2026-06-12T13:35:09.187Z"
+  },
+  "animal.snail": {
+    "hash": "c37e2d57b256",
+    "file": "c37e2d57b256.mp3",
+    "text": "Ślimak winniczek",
+    "generatedAt": "2026-06-12T13:35:10.289Z"
+  },
+  "animal.octopus": {
+    "hash": "0543da63ec36",
+    "file": "0543da63ec36.mp3",
+    "text": "Ośmiornica",
+    "generatedAt": "2026-06-12T13:35:11.514Z"
+  },
+  "animal.squid": {
+    "hash": "d41a56403d40",
+    "file": "d41a56403d40.mp3",
+    "text": "Kalmar",
+    "generatedAt": "2026-06-12T13:35:12.650Z"
+  },
+  "animal.cuttlefish": {
+    "hash": "04fadd0b8819",
+    "file": "04fadd0b8819.mp3",
+    "text": "Mątwa",
+    "generatedAt": "2026-06-12T13:35:13.565Z"
+  },
+  "animal.jellyfish": {
+    "hash": "98678be4846c",
+    "file": "98678be4846c.mp3",
+    "text": "Meduza",
+    "generatedAt": "2026-06-12T13:35:14.546Z"
+  },
+  "animal.starfish": {
+    "hash": "0c7aa0eb11a7",
+    "file": "0c7aa0eb11a7.mp3",
+    "text": "Rozgwiazda",
+    "generatedAt": "2026-06-12T13:35:15.632Z"
+  },
+  "animal.seahorse_dwarf": {
+    "hash": "f8bc785bbbea",
+    "file": "f8bc785bbbea.mp3",
+    "text": "Konik morski karłowaty",
+    "generatedAt": "2026-06-12T13:35:16.703Z"
+  },
+  "animal.coral": {
+    "hash": "718ba5d9cf54",
+    "file": "718ba5d9cf54.mp3",
+    "text": "Koralowiec",
+    "generatedAt": "2026-06-12T13:35:17.711Z"
+  },
+  "animal.canary": {
+    "hash": "494341e3ce82",
+    "file": "494341e3ce82.mp3",
+    "text": "Kanarek",
+    "generatedAt": "2026-06-12T13:35:18.690Z"
+  },
+  "animal.budgerigar": {
+    "hash": "98408a06ff67",
+    "file": "98408a06ff67.mp3",
+    "text": "Papużka falista",
+    "generatedAt": "2026-06-12T13:35:19.691Z"
+  },
+  "animal.turkey": {
+    "hash": "b5b410491e1c",
+    "file": "b5b410491e1c.mp3",
+    "text": "Indyk",
+    "generatedAt": "2026-06-12T13:35:20.590Z"
+  },
+  "animal.guinea_fowl": {
+    "hash": "6366541ce7fd",
+    "file": "6366541ce7fd.mp3",
+    "text": "Perliczka",
+    "generatedAt": "2026-06-12T13:35:21.678Z"
+  },
+  "animal.mule": {
+    "hash": "48c2a556ae2f",
+    "file": "48c2a556ae2f.mp3",
+    "text": "Muł",
+    "generatedAt": "2026-06-12T13:35:22.835Z"
+  },
+  "animal.llama": {
+    "hash": "de217be9aee3",
+    "file": "de217be9aee3.mp3",
+    "text": "Lama",
+    "generatedAt": "2026-06-12T13:35:23.775Z"
+  },
+  "animal.yak": {
+    "hash": "67e1d3f55e96",
+    "file": "67e1d3f55e96.mp3",
+    "text": "Jak",
+    "generatedAt": "2026-06-12T13:35:24.731Z"
+  },
+  "animal.shrew": {
+    "hash": "2b4c2365e8fe",
+    "file": "2b4c2365e8fe.mp3",
+    "text": "Ryjówka",
+    "generatedAt": "2026-06-12T13:35:25.692Z"
+  },
+  "animal.dormouse": {
+    "hash": "b68ac19df282",
+    "file": "b68ac19df282.mp3",
+    "text": "Popielica",
+    "generatedAt": "2026-06-12T13:35:26.639Z"
+  },
+  "animal.chamois": {
+    "hash": "0d0668f35cdd",
+    "file": "0d0668f35cdd.mp3",
+    "text": "Kozica",
+    "generatedAt": "2026-06-12T13:35:27.587Z"
+  },
+  "animal.mountain_hare": {
+    "hash": "0526f860718a",
+    "file": "0526f860718a.mp3",
+    "text": "Zając bielak",
+    "generatedAt": "2026-06-12T13:35:28.568Z"
+  },
+  "animal.hare": {
+    "hash": "f667bb036a38",
+    "file": "f667bb036a38.mp3",
+    "text": "Zając szarak",
+    "generatedAt": "2026-06-12T13:35:29.564Z"
+  },
+  "animal.finch": {
+    "hash": "8b8815312d9b",
+    "file": "8b8815312d9b.mp3",
+    "text": "Zięba",
+    "generatedAt": "2026-06-12T13:35:30.530Z"
+  },
+  "animal.bullfinch": {
+    "hash": "348d39534a5e",
+    "file": "348d39534a5e.mp3",
+    "text": "Gil",
+    "generatedAt": "2026-06-12T13:35:31.488Z"
+  },
+  "animal.goldfinch": {
+    "hash": "649e892df755",
+    "file": "649e892df755.mp3",
+    "text": "Szczygieł",
+    "generatedAt": "2026-06-12T13:35:32.463Z"
+  },
+  "animal.partridge": {
+    "hash": "da7baf7f1f34",
+    "file": "da7baf7f1f34.mp3",
+    "text": "Kuropatwa",
+    "generatedAt": "2026-06-12T13:35:33.525Z"
+  },
+  "animal.pheasant": {
+    "hash": "bc17b09ebf55",
+    "file": "bc17b09ebf55.mp3",
+    "text": "Bażant",
+    "generatedAt": "2026-06-12T13:35:34.526Z"
+  },
+  "animal.thrush": {
+    "hash": "087e94275877",
+    "file": "087e94275877.mp3",
+    "text": "Drozd śpiewak",
+    "generatedAt": "2026-06-12T13:35:35.530Z"
+  },
+  "animal.jackdaw": {
+    "hash": "bc65bc181ebf",
+    "file": "bc65bc181ebf.mp3",
+    "text": "Kawka",
+    "generatedAt": "2026-06-12T13:35:36.498Z"
+  },
+  "animal.crow": {
+    "hash": "6d2e8ea3006b",
+    "file": "6d2e8ea3006b.mp3",
+    "text": "Wrona",
+    "generatedAt": "2026-06-12T13:35:37.518Z"
+  },
+  "animal.mazurek": {
+    "hash": "c7c34ddc85c6",
+    "file": "c7c34ddc85c6.mp3",
+    "text": "Mazurek",
+    "generatedAt": "2026-06-12T13:35:38.474Z"
+  },
+  "animal.mallard": {
+    "hash": "889e69db88de",
+    "file": "889e69db88de.mp3",
+    "text": "Krzyżówka",
+    "generatedAt": "2026-06-12T13:35:39.458Z"
+  },
+  "animal.grebe": {
+    "hash": "8dd98ea36e99",
+    "file": "8dd98ea36e99.mp3",
+    "text": "Perkoz",
+    "generatedAt": "2026-06-12T13:35:40.416Z"
+  },
+  "animal.viper": {
+    "hash": "256522a2a507",
+    "file": "256522a2a507.mp3",
+    "text": "Żmija zygzakowata",
+    "generatedAt": "2026-06-12T13:35:41.469Z"
+  },
+  "animal.grass_snake": {
+    "hash": "1f7b42f0ef44",
+    "file": "1f7b42f0ef44.mp3",
+    "text": "Zaskroniec",
+    "generatedAt": "2026-06-12T13:35:42.473Z"
+  },
+  "animal.slowworm": {
+    "hash": "5205da7eb553",
+    "file": "5205da7eb553.mp3",
+    "text": "Padalec",
+    "generatedAt": "2026-06-12T13:35:43.436Z"
+  },
+  "animal.fire_salamander": {
+    "hash": "01c2bcc06b57",
+    "file": "01c2bcc06b57.mp3",
+    "text": "Salamandra plamista",
+    "generatedAt": "2026-06-12T13:35:44.462Z"
+  },
+  "animal.fennec": {
+    "hash": "c332d89a40a7",
+    "file": "c332d89a40a7.mp3",
+    "text": "Fenek",
+    "generatedAt": "2026-06-12T13:35:45.645Z"
+  },
+  "animal.mongoose": {
+    "hash": "0064fdfa3a8a",
+    "file": "0064fdfa3a8a.mp3",
+    "text": "Mangusta",
+    "generatedAt": "2026-06-12T13:35:46.598Z"
+  },
+  "animal.dik_dik": {
+    "hash": "5ad460f327ae",
+    "file": "5ad460f327ae.mp3",
+    "text": "Dik-dik",
+    "generatedAt": "2026-06-12T13:35:47.585Z"
+  },
+  "animal.impala": {
+    "hash": "0ab880e388d1",
+    "file": "0ab880e388d1.mp3",
+    "text": "Impala",
+    "generatedAt": "2026-06-12T13:35:48.527Z"
+  },
+  "animal.kudu": {
+    "hash": "965044a191c1",
+    "file": "965044a191c1.mp3",
+    "text": "Kudu",
+    "generatedAt": "2026-06-12T13:35:49.535Z"
+  },
+  "animal.eland": {
+    "hash": "d532b2a794e8",
+    "file": "d532b2a794e8.mp3",
+    "text": "Eland",
+    "generatedAt": "2026-06-12T13:35:50.526Z"
+  },
+  "animal.oryx": {
+    "hash": "12a4964a8ea2",
+    "file": "12a4964a8ea2.mp3",
+    "text": "Oryks",
+    "generatedAt": "2026-06-12T13:35:51.471Z"
+  },
+  "animal.springbok": {
+    "hash": "4225015b8cc3",
+    "file": "4225015b8cc3.mp3",
+    "text": "Springbok",
+    "generatedAt": "2026-06-12T13:35:52.429Z"
+  },
+  "animal.african_wild_dog": {
+    "hash": "a2a52fe4ad2d",
+    "file": "a2a52fe4ad2d.mp3",
+    "text": "Likaon",
+    "generatedAt": "2026-06-12T13:35:53.445Z"
+  },
+  "animal.aardvark": {
+    "hash": "5ba8ed9d8d29",
+    "file": "5ba8ed9d8d29.mp3",
+    "text": "Mrównik",
+    "generatedAt": "2026-06-12T13:35:54.382Z"
+  },
+  "animal.rock_hyrax": {
+    "hash": "2b4e5ebe0fbb",
+    "file": "2b4e5ebe0fbb.mp3",
+    "text": "Góralek",
+    "generatedAt": "2026-06-12T13:35:55.367Z"
+  },
+  "animal.serval": {
+    "hash": "1938d8ccdad6",
+    "file": "1938d8ccdad6.mp3",
+    "text": "Serwal",
+    "generatedAt": "2026-06-12T13:35:56.283Z"
+  },
+  "animal.aardwolf": {
+    "hash": "c5efc3c1e4d8",
+    "file": "c5efc3c1e4d8.mp3",
+    "text": "Protel",
+    "generatedAt": "2026-06-12T13:35:57.216Z"
+  },
+  "animal.siberian_tiger": {
+    "hash": "4b52e3103b43",
+    "file": "4b52e3103b43.mp3",
+    "text": "Tygrys syberyjski",
+    "generatedAt": "2026-06-12T13:35:58.337Z"
+  },
+  "animal.red_panda": {
+    "hash": "d5fa5d831530",
+    "file": "d5fa5d831530.mp3",
+    "text": "Panda mała",
+    "generatedAt": "2026-06-12T13:35:59.322Z"
+  },
+  "animal.sun_bear": {
+    "hash": "ecf94cf75592",
+    "file": "ecf94cf75592.mp3",
+    "text": "Niedźwiedź malajski",
+    "generatedAt": "2026-06-12T13:36:00.394Z"
+  },
+  "animal.moon_bear": {
+    "hash": "0e429d0587de",
+    "file": "0e429d0587de.mp3",
+    "text": "Niedźwiedź himalajski",
+    "generatedAt": "2026-06-12T13:36:01.368Z"
+  },
+  "animal.sloth_bear": {
+    "hash": "77aea36bb57c",
+    "file": "77aea36bb57c.mp3",
+    "text": "Niedźwiedź wargacz",
+    "generatedAt": "2026-06-12T13:36:02.435Z"
+  },
+  "animal.langur": {
+    "hash": "8cad4c652096",
+    "file": "8cad4c652096.mp3",
+    "text": "Langur",
+    "generatedAt": "2026-06-12T13:36:03.357Z"
+  },
+  "animal.japanese_macaque": {
+    "hash": "66a8e8b03135",
+    "file": "66a8e8b03135.mp3",
+    "text": "Makak japoński",
+    "generatedAt": "2026-06-12T13:36:04.379Z"
+  },
+  "animal.binturong": {
+    "hash": "62cc510295a9",
+    "file": "62cc510295a9.mp3",
+    "text": "Binturong",
+    "generatedAt": "2026-06-12T13:36:05.402Z"
+  },
+  "animal.asian_elephant": {
+    "hash": "9e6f90608b11",
+    "file": "9e6f90608b11.mp3",
+    "text": "Słoń indyjski",
+    "generatedAt": "2026-06-12T13:36:06.435Z"
+  },
+  "animal.snow_leopard": {
+    "hash": "7ed46bc3be31",
+    "file": "7ed46bc3be31.mp3",
+    "text": "Pantera śnieżna",
+    "generatedAt": "2026-06-12T13:36:07.451Z"
+  },
+  "animal.puma": {
+    "hash": "8dd8a260252b",
+    "file": "8dd8a260252b.mp3",
+    "text": "Puma",
+    "generatedAt": "2026-06-12T13:36:08.370Z"
+  },
+  "animal.coyote": {
+    "hash": "730d108ca5ee",
+    "file": "730d108ca5ee.mp3",
+    "text": "Kojot",
+    "generatedAt": "2026-06-12T13:36:09.294Z"
+  },
+  "animal.grizzly": {
+    "hash": "fb6b5ac45ecc",
+    "file": "fb6b5ac45ecc.mp3",
+    "text": "Grizzly",
+    "generatedAt": "2026-06-12T13:36:10.227Z"
+  },
+  "animal.bison_american": {
+    "hash": "932a4277c939",
+    "file": "932a4277c939.mp3",
+    "text": "Bizon amerykański",
+    "generatedAt": "2026-06-12T13:36:11.223Z"
+  },
+  "animal.raccoon": {
+    "hash": "a35cf8d9a865",
+    "file": "a35cf8d9a865.mp3",
+    "text": "Szop pracz",
+    "generatedAt": "2026-06-12T13:36:12.207Z"
+  },
+  "animal.opossum": {
+    "hash": "685d97a3b93d",
+    "file": "685d97a3b93d.mp3",
+    "text": "Oposum",
+    "generatedAt": "2026-06-12T13:36:13.132Z"
+  },
+  "animal.tasmanian_devil": {
+    "hash": "af861e0daa4c",
+    "file": "af861e0daa4c.mp3",
+    "text": "Diabeł tasmański",
+    "generatedAt": "2026-06-12T13:36:14.195Z"
+  },
+  "animal.wombat": {
+    "hash": "01d844643100",
+    "file": "01d844643100.mp3",
+    "text": "Wombat",
+    "generatedAt": "2026-06-12T13:36:15.131Z"
+  },
+  "animal.quokka": {
+    "hash": "b07ec5e718df",
+    "file": "b07ec5e718df.mp3",
+    "text": "Kwokka",
+    "generatedAt": "2026-06-12T13:36:16.063Z"
+  },
+  "animal.echidna": {
+    "hash": "5a90ea060c2e",
+    "file": "5a90ea060c2e.mp3",
+    "text": "Kolczatka",
+    "generatedAt": "2026-06-12T13:36:17.036Z"
+  },
+  "animal.beluga": {
+    "hash": "728035c04fb7",
+    "file": "728035c04fb7.mp3",
+    "text": "Wieloryb biały",
+    "generatedAt": "2026-06-12T13:36:18.037Z"
+  },
+  "animal.bowhead": {
+    "hash": "264e37132c92",
+    "file": "264e37132c92.mp3",
+    "text": "Wieloryb grenlandzki",
+    "generatedAt": "2026-06-12T13:36:19.067Z"
+  },
+  "animal.bearded_seal": {
+    "hash": "7c410dc36c0f",
+    "file": "7c410dc36c0f.mp3",
+    "text": "Foka brodata",
+    "generatedAt": "2026-06-12T13:36:20.069Z"
+  },
+  "animal.puffin": {
+    "hash": "3ef12cb56c85",
+    "file": "3ef12cb56c85.mp3",
+    "text": "Maskonur",
+    "generatedAt": "2026-06-12T13:36:21.072Z"
+  },
+  "animal.arctic_tern": {
+    "hash": "bf96c5a83a89",
+    "file": "bf96c5a83a89.mp3",
+    "text": "Rybitwa popielata",
+    "generatedAt": "2026-06-12T13:36:22.100Z"
+  },
+  "animal.hammerhead": {
+    "hash": "956cc5257223",
+    "file": "956cc5257223.mp3",
+    "text": "Rekin młot",
+    "generatedAt": "2026-06-12T13:36:23.074Z"
+  },
+  "animal.whale_shark": {
+    "hash": "ee0228216417",
+    "file": "ee0228216417.mp3",
+    "text": "Rekin wielorybi",
+    "generatedAt": "2026-06-12T13:36:24.053Z"
+  },
+  "animal.marlin": {
+    "hash": "e217aadc1941",
+    "file": "e217aadc1941.mp3",
+    "text": "Marlin",
+    "generatedAt": "2026-06-12T13:36:25.064Z"
+  },
+  "animal.moonfish": {
+    "hash": "7e7db228ed3e",
+    "file": "7e7db228ed3e.mp3",
+    "text": "Mola mola",
+    "generatedAt": "2026-06-12T13:36:26.090Z"
+  },
+  "animal.sardine": {
+    "hash": "74db1aa07779",
+    "file": "74db1aa07779.mp3",
+    "text": "Sardynka",
+    "generatedAt": "2026-06-12T13:36:27.116Z"
+  },
+  "animal.halibut": {
+    "hash": "dd5e25eae4be",
+    "file": "dd5e25eae4be.mp3",
+    "text": "Halibut",
+    "generatedAt": "2026-06-12T13:36:28.045Z"
+  },
+  "animal.sturgeon": {
+    "hash": "c2e4589cd9ba",
+    "file": "c2e4589cd9ba.mp3",
+    "text": "Jesiotr",
+    "generatedAt": "2026-06-12T13:36:29.079Z"
+  },
+  "animal.catfish_polish": {
+    "hash": "c16e87d86c5d",
+    "file": "c16e87d86c5d.mp3",
+    "text": "Brzana",
+    "generatedAt": "2026-06-12T13:36:30.106Z"
+  },
+  "animal.bream": {
+    "hash": "e3545b5646f5",
+    "file": "e3545b5646f5.mp3",
+    "text": "Leszcz",
+    "generatedAt": "2026-06-12T13:36:31.070Z"
+  },
+  "animal.chub": {
+    "hash": "ce54077e5a2d",
+    "file": "ce54077e5a2d.mp3",
+    "text": "Kleń",
+    "generatedAt": "2026-06-12T13:36:32.127Z"
+  },
+  "animal.crucian": {
+    "hash": "abae2d7282b6",
+    "file": "abae2d7282b6.mp3",
+    "text": "Karaś",
+    "generatedAt": "2026-06-12T13:36:33.151Z"
+  },
+  "animal.burbot": {
+    "hash": "a69c059c3b33",
+    "file": "a69c059c3b33.mp3",
+    "text": "Miętus",
+    "generatedAt": "2026-06-12T13:36:34.175Z"
+  },
+  "animal.great_tit": {
+    "hash": "08a0ac3b84ac",
+    "file": "08a0ac3b84ac.mp3",
+    "text": "Bogatka",
+    "generatedAt": "2026-06-12T13:36:35.200Z"
+  },
+  "animal.starling": {
+    "hash": "ed357dd48bc4",
+    "file": "ed357dd48bc4.mp3",
+    "text": "Szpak",
+    "generatedAt": "2026-06-12T13:36:36.229Z"
+  },
+  "animal.lark": {
+    "hash": "019a76c98a58",
+    "file": "019a76c98a58.mp3",
+    "text": "Skowronek",
+    "generatedAt": "2026-06-12T13:36:37.248Z"
+  },
+  "animal.cassowary": {
+    "hash": "4f587a10fe95",
+    "file": "4f587a10fe95.mp3",
+    "text": "Kazuar",
+    "generatedAt": "2026-06-12T13:36:38.344Z"
+  },
+  "animal.rhea": {
+    "hash": "a2aa9062cbb7",
+    "file": "a2aa9062cbb7.mp3",
+    "text": "Nandu",
+    "generatedAt": "2026-06-12T13:36:39.305Z"
+  },
+  "animal.white_eagle": {
+    "hash": "a38d23c044ff",
+    "file": "a38d23c044ff.mp3",
+    "text": "Bielik",
+    "generatedAt": "2026-06-12T13:36:40.243Z"
+  },
+  "animal.buzzard": {
+    "hash": "6d07df67fd69",
+    "file": "6d07df67fd69.mp3",
+    "text": "Myszołów",
+    "generatedAt": "2026-06-12T13:36:41.228Z"
+  },
+  "animal.osprey": {
+    "hash": "f63697aa9812",
+    "file": "f63697aa9812.mp3",
+    "text": "Rybołów",
+    "generatedAt": "2026-06-12T13:36:42.265Z"
+  },
+  "animal.sparrowhawk": {
+    "hash": "9c444cb85e40",
+    "file": "9c444cb85e40.mp3",
+    "text": "Krogulec",
+    "generatedAt": "2026-06-12T13:36:43.298Z"
+  },
+  "animal.hobby": {
+    "hash": "b7e3b2e02896",
+    "file": "b7e3b2e02896.mp3",
+    "text": "Kobuz",
+    "generatedAt": "2026-06-12T13:36:44.259Z"
+  },
+  "animal.macaw": {
+    "hash": "b07bcee1b971",
+    "file": "b07bcee1b971.mp3",
+    "text": "Ara",
+    "generatedAt": "2026-06-12T13:36:45.240Z"
+  },
+  "animal.parakeet": {
+    "hash": "00751d486a40",
+    "file": "00751d486a40.mp3",
+    "text": "Nimfa",
+    "generatedAt": "2026-06-12T13:36:46.187Z"
+  },
+  "animal.ibis": {
+    "hash": "ea8ad7245829",
+    "file": "ea8ad7245829.mp3",
+    "text": "Ibis",
+    "generatedAt": "2026-06-12T13:36:47.140Z"
+  },
+  "animal.marabou": {
+    "hash": "bac39240ad73",
+    "file": "bac39240ad73.mp3",
+    "text": "Marabut afrykański",
+    "generatedAt": "2026-06-12T13:36:48.253Z"
+  },
+  "animal.gharial": {
+    "hash": "33233dc80a84",
+    "file": "33233dc80a84.mp3",
+    "text": "Gawial",
+    "generatedAt": "2026-06-12T13:36:49.184Z"
+  },
+  "animal.saltwater_croc": {
+    "hash": "58f19fe8a37d",
+    "file": "58f19fe8a37d.mp3",
+    "text": "Krokodyl różańcowy",
+    "generatedAt": "2026-06-12T13:36:50.256Z"
+  },
+  "animal.horned_lizard": {
+    "hash": "79e5bd426f29",
+    "file": "79e5bd426f29.mp3",
+    "text": "Frynozom",
+    "generatedAt": "2026-06-12T13:36:51.280Z"
+  },
+  "animal.tortoise_giant": {
+    "hash": "0974f783b498",
+    "file": "0974f783b498.mp3",
+    "text": "Żółw słoniowy",
+    "generatedAt": "2026-06-12T13:36:52.430Z"
+  },
+  "animal.monitor_lizard": {
+    "hash": "071aeadf11d8",
+    "file": "071aeadf11d8.mp3",
+    "text": "Waran stepowy",
+    "generatedAt": "2026-06-12T13:36:53.425Z"
+  },
+  "animal.basilisk": {
+    "hash": "1346d7e193a8",
+    "file": "1346d7e193a8.mp3",
+    "text": "Bazyliszek",
+    "generatedAt": "2026-06-12T13:36:54.435Z"
+  },
+  "animal.poison_frog": {
+    "hash": "255b04313fd7",
+    "file": "255b04313fd7.mp3",
+    "text": "Drzewołaz",
+    "generatedAt": "2026-06-12T13:36:55.405Z"
+  },
+  "animal.tree_frog": {
+    "hash": "ef188541271b",
+    "file": "ef188541271b.mp3",
+    "text": "Rzekotka",
+    "generatedAt": "2026-06-12T13:36:56.401Z"
+  },
+  "animal.bullfrog": {
+    "hash": "eb38d948a87a",
+    "file": "eb38d948a87a.mp3",
+    "text": "Żaba rycząca",
+    "generatedAt": "2026-06-12T13:36:57.523Z"
+  },
+  "animal.caecilian": {
+    "hash": "529238898755",
+    "file": "529238898755.mp3",
+    "text": "Robaczyca",
+    "generatedAt": "2026-06-12T13:36:58.453Z"
+  },
+  "animal.cockroach_asian": {
+    "hash": "8bf0901eeda2",
+    "file": "8bf0901eeda2.mp3",
+    "text": "Karaczan azjatycki",
+    "generatedAt": "2026-06-12T13:36:59.683Z"
+  },
+  "animal.cricket_house": {
+    "hash": "34811b229a29",
+    "file": "34811b229a29.mp3",
+    "text": "Świerszcz domowy",
+    "generatedAt": "2026-06-12T13:37:00.771Z"
+  },
+  "animal.hornet": {
+    "hash": "44d891b23478",
+    "file": "44d891b23478.mp3",
+    "text": "Szerszeń",
+    "generatedAt": "2026-06-12T13:37:01.751Z"
+  },
+  "animal.flea": {
+    "hash": "89b4df0f7ce0",
+    "file": "89b4df0f7ce0.mp3",
+    "text": "Pchła",
+    "generatedAt": "2026-06-12T13:37:02.745Z"
+  },
+  "animal.louse": {
+    "hash": "c5e39dbf6edf",
+    "file": "c5e39dbf6edf.mp3",
+    "text": "Wesz",
+    "generatedAt": "2026-06-12T13:37:03.728Z"
+  },
+  "animal.caterpillar": {
+    "hash": "3914945bed93",
+    "file": "3914945bed93.mp3",
+    "text": "Gąsienica",
+    "generatedAt": "2026-06-12T13:37:04.720Z"
+  },
+  "animal.locust": {
+    "hash": "619109603b9f",
+    "file": "619109603b9f.mp3",
+    "text": "Szarańcza",
+    "generatedAt": "2026-06-12T13:37:05.715Z"
+  },
+  "animal.silk_moth": {
+    "hash": "7d2745e4113c",
+    "file": "7d2745e4113c.mp3",
+    "text": "Jedwabnik",
+    "generatedAt": "2026-06-12T13:37:06.699Z"
+  },
+  "animal.atlas_moth": {
+    "hash": "0b08edf548f7",
+    "file": "0b08edf548f7.mp3",
+    "text": "Pawica atlas",
+    "generatedAt": "2026-06-12T13:37:07.721Z"
+  },
+  "animal.mite": {
+    "hash": "1e090d9ba602",
+    "file": "1e090d9ba602.mp3",
+    "text": "Roztocz",
+    "generatedAt": "2026-06-12T13:37:08.699Z"
+  },
+  "animal.harvestman": {
+    "hash": "7dfcaea44199",
+    "file": "7dfcaea44199.mp3",
+    "text": "Kosarz",
+    "generatedAt": "2026-06-12T13:37:09.668Z"
+  },
+  "animal.black_widow": {
+    "hash": "eda2d73a68bb",
+    "file": "eda2d73a68bb.mp3",
+    "text": "Czarna wdowa",
+    "generatedAt": "2026-06-12T13:37:10.667Z"
+  },
+  "animal.hermit_crab": {
+    "hash": "eda15dcd40f0",
+    "file": "eda15dcd40f0.mp3",
+    "text": "Krab pustelnik",
+    "generatedAt": "2026-06-12T13:37:11.715Z"
+  },
+  "animal.coconut_crab": {
+    "hash": "f93c56174ecf",
+    "file": "f93c56174ecf.mp3",
+    "text": "Krab kokosowy",
+    "generatedAt": "2026-06-12T13:37:12.709Z"
+  },
+  "animal.krill": {
+    "hash": "bcca75b636bd",
+    "file": "bcca75b636bd.mp3",
+    "text": "Kryl",
+    "generatedAt": "2026-06-12T13:37:13.661Z"
+  },
+  "animal.barnacle": {
+    "hash": "e3ed56001bd6",
+    "file": "e3ed56001bd6.mp3",
+    "text": "Pąkla",
+    "generatedAt": "2026-06-12T13:37:14.592Z"
+  },
+  "animal.slug": {
+    "hash": "efeeb0c2ff77",
+    "file": "efeeb0c2ff77.mp3",
+    "text": "Ślimak nagi",
+    "generatedAt": "2026-06-12T13:37:15.652Z"
+  },
+  "animal.clam": {
+    "hash": "c2623125a974",
+    "file": "c2623125a974.mp3",
+    "text": "Małż",
+    "generatedAt": "2026-06-12T13:37:16.717Z"
+  },
+  "animal.oyster": {
+    "hash": "96535bc7c46d",
+    "file": "96535bc7c46d.mp3",
+    "text": "Ostryga",
+    "generatedAt": "2026-06-12T13:37:17.697Z"
+  },
+  "animal.sea_urchin": {
+    "hash": "6799c13d3056",
+    "file": "6799c13d3056.mp3",
+    "text": "Jeżowiec",
+    "generatedAt": "2026-06-12T13:37:18.718Z"
+  },
+  "animal.sea_anemone": {
+    "hash": "b7528a8fd34b",
+    "file": "b7528a8fd34b.mp3",
+    "text": "Ukwiał",
+    "generatedAt": "2026-06-12T13:37:19.671Z"
+  },
+  "animal.centipede": {
+    "hash": "8af31f7703d9",
+    "file": "8af31f7703d9.mp3",
+    "text": "Stonoga",
+    "generatedAt": "2026-06-12T13:37:20.633Z"
+  },
+  "animal.earthworm": {
+    "hash": "0c86550a8f4a",
+    "file": "0c86550a8f4a.mp3",
+    "text": "Dżdżownica",
+    "generatedAt": "2026-06-12T13:37:21.636Z"
+  },
+  "animal.wildcat": {
+    "hash": "c5ed5e785ab7",
+    "file": "c5ed5e785ab7.mp3",
+    "text": "Żbik",
+    "generatedAt": "2026-06-12T13:37:22.623Z"
+  },
+  "animal.vole": {
+    "hash": "a5b711cf305b",
+    "file": "a5b711cf305b.mp3",
+    "text": "Nornica ruda",
+    "generatedAt": "2026-06-12T13:37:23.742Z"
+  },
+  "animal.water_shrew": {
+    "hash": "96d3cdac9b8e",
+    "file": "96d3cdac9b8e.mp3",
+    "text": "Rzęsorek",
+    "generatedAt": "2026-06-12T13:37:24.760Z"
+  },
+  "animal.polecat": {
+    "hash": "47fad75f3316",
+    "file": "47fad75f3316.mp3",
+    "text": "Tchórz pospolity",
+    "generatedAt": "2026-06-12T13:37:25.804Z"
+  },
+  "animal.sable": {
+    "hash": "f573e891408f",
+    "file": "f573e891408f.mp3",
+    "text": "Soból",
+    "generatedAt": "2026-06-12T13:37:26.780Z"
+  },
+  "animal.european_mink": {
+    "hash": "87ca8e00a48c",
+    "file": "87ca8e00a48c.mp3",
+    "text": "Norka europejska",
+    "generatedAt": "2026-06-12T13:37:27.837Z"
+  },
+  "animal.musk_rat": {
+    "hash": "28f0a84d8f90",
+    "file": "28f0a84d8f90.mp3",
+    "text": "Piżmak",
+    "generatedAt": "2026-06-12T13:37:28.935Z"
+  },
+  "animal.european_hamster": {
+    "hash": "88fed3f74b45",
+    "file": "88fed3f74b45.mp3",
+    "text": "Chomik europejski",
+    "generatedAt": "2026-06-12T13:37:29.990Z"
+  },
+  "animal.marmot": {
+    "hash": "19e6cc201cca",
+    "file": "19e6cc201cca.mp3",
+    "text": "Świstak",
+    "generatedAt": "2026-06-12T13:37:31.073Z"
+  },
+  "animal.ibex": {
+    "hash": "e06e28b720b4",
+    "file": "e06e28b720b4.mp3",
+    "text": "Koziorożec alpejski",
+    "generatedAt": "2026-06-12T13:37:32.096Z"
+  },
+  "animal.okapi": {
+    "hash": "90fc106995d1",
+    "file": "90fc106995d1.mp3",
+    "text": "Okapi",
+    "generatedAt": "2026-06-12T13:37:33.059Z"
+  },
+  "animal.pangolin": {
+    "hash": "0ae5e1cf9f70",
+    "file": "0ae5e1cf9f70.mp3",
+    "text": "Łuskowiec",
+    "generatedAt": "2026-06-12T13:37:34.083Z"
+  },
+  "animal.ratel": {
+    "hash": "18fa0e0d7533",
+    "file": "18fa0e0d7533.mp3",
+    "text": "Miodożer",
+    "generatedAt": "2026-06-12T13:37:35.108Z"
+  },
+  "animal.sitatunga": {
+    "hash": "2445476c8bac",
+    "file": "2445476c8bac.mp3",
+    "text": "Sitatunga",
+    "generatedAt": "2026-06-12T13:37:36.148Z"
+  },
+  "animal.bongo": {
+    "hash": "3bc326d765cb",
+    "file": "3bc326d765cb.mp3",
+    "text": "Bongo",
+    "generatedAt": "2026-06-12T13:37:37.067Z"
+  },
+  "animal.caracal": {
+    "hash": "2bdf0381e65d",
+    "file": "2bdf0381e65d.mp3",
+    "text": "Karakal",
+    "generatedAt": "2026-06-12T13:37:38.214Z"
+  },
+  "animal.aye_aye": {
+    "hash": "afe41d18daa4",
+    "file": "afe41d18daa4.mp3",
+    "text": "Aj-aj",
+    "generatedAt": "2026-06-12T13:37:39.160Z"
+  },
+  "animal.genet": {
+    "hash": "9e6ace47dcbd",
+    "file": "9e6ace47dcbd.mp3",
+    "text": "Żeneta",
+    "generatedAt": "2026-06-12T13:37:40.181Z"
+  },
+  "animal.zebra_grevyi": {
+    "hash": "187c0738d6ff",
+    "file": "187c0738d6ff.mp3",
+    "text": "Zebra Grevy’ego",
+    "generatedAt": "2026-06-12T13:37:41.251Z"
+  },
+  "animal.addax": {
+    "hash": "e15182188f61",
+    "file": "e15182188f61.mp3",
+    "text": "Adaks",
+    "generatedAt": "2026-06-12T13:37:42.173Z"
+  },
+  "animal.tapir": {
+    "hash": "0b2f1769ce9d",
+    "file": "0b2f1769ce9d.mp3",
+    "text": "Tapir czaprakowy",
+    "generatedAt": "2026-06-12T13:37:43.201Z"
+  },
+  "animal.proboscis_monkey": {
+    "hash": "d29257936f84",
+    "file": "d29257936f84.mp3",
+    "text": "Nosacz sundajski",
+    "generatedAt": "2026-06-12T13:37:44.202Z"
+  },
+  "animal.clouded_leopard": {
+    "hash": "5a68ae01ae53",
+    "file": "5a68ae01ae53.mp3",
+    "text": "Pantera mglista",
+    "generatedAt": "2026-06-12T13:37:45.246Z"
+  },
+  "animal.serow": {
+    "hash": "287fdced2ad0",
+    "file": "287fdced2ad0.mp3",
+    "text": "Serau",
+    "generatedAt": "2026-06-12T13:37:46.200Z"
+  },
+  "animal.binturong_indo": {
+    "hash": "fe0acfc3076f",
+    "file": "fe0acfc3076f.mp3",
+    "text": "Niedźwiedź pszczelarz",
+    "generatedAt": "2026-06-12T13:37:47.295Z"
+  },
+  "animal.takin": {
+    "hash": "c9018c3ef016",
+    "file": "c9018c3ef016.mp3",
+    "text": "Takin",
+    "generatedAt": "2026-06-12T13:37:48.307Z"
+  },
+  "animal.snow_monkey": {
+    "hash": "66a8e8b03135",
+    "file": "66a8e8b03135.mp3",
+    "text": "Makak japoński",
+    "generatedAt": "2026-06-12T13:37:49.312Z"
+  },
+  "animal.dhole": {
+    "hash": "9adfd4122572",
+    "file": "9adfd4122572.mp3",
+    "text": "Dhole",
+    "generatedAt": "2026-06-12T13:37:50.266Z"
+  },
+  "animal.musk_deer": {
+    "hash": "7aecc0474b47",
+    "file": "7aecc0474b47.mp3",
+    "text": "Piżmowiec",
+    "generatedAt": "2026-06-12T13:37:51.390Z"
+  },
+  "animal.saiga": {
+    "hash": "3bd164ab7803",
+    "file": "3bd164ab7803.mp3",
+    "text": "Suhak",
+    "generatedAt": "2026-06-12T13:37:52.310Z"
+  },
+  "animal.jaguarundi": {
+    "hash": "723c97fec08d",
+    "file": "723c97fec08d.mp3",
+    "text": "Jaguarundi",
+    "generatedAt": "2026-06-12T13:37:53.335Z"
+  },
+  "animal.maned_wolf": {
+    "hash": "bd82ad05fe7c",
+    "file": "bd82ad05fe7c.mp3",
+    "text": "Wilk grzywiasty",
+    "generatedAt": "2026-06-12T13:37:54.390Z"
+  },
+  "animal.coati": {
+    "hash": "acb9ec255589",
+    "file": "acb9ec255589.mp3",
+    "text": "Ostronos",
+    "generatedAt": "2026-06-12T13:37:55.384Z"
+  },
+  "animal.paca": {
+    "hash": "e0322a6be192",
+    "file": "e0322a6be192.mp3",
+    "text": "Paka",
+    "generatedAt": "2026-06-12T13:37:56.408Z"
+  },
+  "animal.tamarin": {
+    "hash": "e4dbff5f48af",
+    "file": "e4dbff5f48af.mp3",
+    "text": "Tamaryna",
+    "generatedAt": "2026-06-12T13:37:57.375Z"
+  },
+  "animal.marmoset": {
+    "hash": "acd7870214b1",
+    "file": "acd7870214b1.mp3",
+    "text": "Marmozeta",
+    "generatedAt": "2026-06-12T13:37:58.349Z"
+  },
+  "animal.vicuna": {
+    "hash": "76de93c2bdbb",
+    "file": "76de93c2bdbb.mp3",
+    "text": "Wikunia",
+    "generatedAt": "2026-06-12T13:37:59.334Z"
+  },
+  "animal.guanaco": {
+    "hash": "e3c20e8be680",
+    "file": "e3c20e8be680.mp3",
+    "text": "Gwanako",
+    "generatedAt": "2026-06-12T13:38:00.374Z"
+  },
+  "animal.giant_otter": {
+    "hash": "45d62b19493d",
+    "file": "45d62b19493d.mp3",
+    "text": "Wydra olbrzymia",
+    "generatedAt": "2026-06-12T13:38:01.389Z"
+  },
+  "animal.pampas_deer": {
+    "hash": "5eaf2c004b32",
+    "file": "5eaf2c004b32.mp3",
+    "text": "Jeleń pampasowy",
+    "generatedAt": "2026-06-12T13:38:02.450Z"
+  },
+  "animal.caribou": {
+    "hash": "9a40fd987cc6",
+    "file": "9a40fd987cc6.mp3",
+    "text": "Karibu",
+    "generatedAt": "2026-06-12T13:38:03.425Z"
+  },
+  "animal.arctic_wolf": {
+    "hash": "ad72b0eea912",
+    "file": "ad72b0eea912.mp3",
+    "text": "Wilk arktyczny",
+    "generatedAt": "2026-06-12T13:38:04.391Z"
+  },
+  "animal.snowshoe_hare": {
+    "hash": "eee700ecd0ea",
+    "file": "eee700ecd0ea.mp3",
+    "text": "Zając rakietkowy",
+    "generatedAt": "2026-06-12T13:38:05.422Z"
+  },
+  "animal.wolverine": {
+    "hash": "f695a876d1ec",
+    "file": "f695a876d1ec.mp3",
+    "text": "Rosomak",
+    "generatedAt": "2026-06-12T13:38:06.440Z"
+  },
+  "animal.orca_killer": {
+    "hash": "811539dfefb8",
+    "file": "811539dfefb8.mp3",
+    "text": "Wieloryb biały (beluga)",
+    "generatedAt": "2026-06-12T13:38:07.574Z"
+  },
+  "animal.blue_whale_pygmy": {
+    "hash": "7b312a6ba49c",
+    "file": "7b312a6ba49c.mp3",
+    "text": "Płetwal karłowaty",
+    "generatedAt": "2026-06-12T13:38:08.633Z"
+  },
+  "animal.humpback": {
+    "hash": "c431f88854a3",
+    "file": "c431f88854a3.mp3",
+    "text": "Humbak",
+    "generatedAt": "2026-06-12T13:38:09.626Z"
+  },
+  "animal.right_whale": {
+    "hash": "373208f86119",
+    "file": "373208f86119.mp3",
+    "text": "Wal biskajski",
+    "generatedAt": "2026-06-12T13:38:10.618Z"
+  },
+  "animal.gray_whale": {
+    "hash": "cf7b8c778fb9",
+    "file": "cf7b8c778fb9.mp3",
+    "text": "Wal szary",
+    "generatedAt": "2026-06-12T13:38:11.666Z"
+  },
+  "animal.dugong": {
+    "hash": "5b92a603dffd",
+    "file": "5b92a603dffd.mp3",
+    "text": "Diugoń",
+    "generatedAt": "2026-06-12T13:38:12.647Z"
+  },
+  "animal.sea_lion": {
+    "hash": "d4b2212131d8",
+    "file": "d4b2212131d8.mp3",
+    "text": "Lew morski",
+    "generatedAt": "2026-06-12T13:38:13.648Z"
+  },
+  "animal.elephant_seal": {
+    "hash": "e8fbef07b22b",
+    "file": "e8fbef07b22b.mp3",
+    "text": "Słoń morski",
+    "generatedAt": "2026-06-12T13:38:14.705Z"
+  },
+  "animal.leopard_seal": {
+    "hash": "421cd4b9ff56",
+    "file": "421cd4b9ff56.mp3",
+    "text": "Foka lampart",
+    "generatedAt": "2026-06-12T13:38:15.672Z"
+  },
+  "animal.crossbill": {
+    "hash": "7eec42284294",
+    "file": "7eec42284294.mp3",
+    "text": "Krzyżodziób",
+    "generatedAt": "2026-06-12T13:38:16.687Z"
+  },
+  "animal.siskin": {
+    "hash": "37a490914179",
+    "file": "37a490914179.mp3",
+    "text": "Czyż",
+    "generatedAt": "2026-06-12T13:38:17.636Z"
+  },
+  "animal.goldcrest": {
+    "hash": "1ac287e44ae2",
+    "file": "1ac287e44ae2.mp3",
+    "text": "Mysikrólik",
+    "generatedAt": "2026-06-12T13:38:18.628Z"
+  },
+  "animal.waxwing": {
+    "hash": "13a3a9e13796",
+    "file": "13a3a9e13796.mp3",
+    "text": "Jemiołuszka",
+    "generatedAt": "2026-06-12T13:38:19.656Z"
+  },
+  "animal.kingfisher": {
+    "hash": "c918cdfa8f95",
+    "file": "c918cdfa8f95.mp3",
+    "text": "Zimorodek",
+    "generatedAt": "2026-06-12T13:38:20.632Z"
+  },
+  "animal.black_woodpecker": {
+    "hash": "53e58e526762",
+    "file": "53e58e526762.mp3",
+    "text": "Dzięcioł czarny",
+    "generatedAt": "2026-06-12T13:38:21.702Z"
+  },
+  "animal.eagle_owl_white": {
+    "hash": "df261442f13f",
+    "file": "df261442f13f.mp3",
+    "text": "Sowa uszata",
+    "generatedAt": "2026-06-12T13:38:22.703Z"
+  },
+  "animal.hawfinch": {
+    "hash": "29c1625f7f14",
+    "file": "29c1625f7f14.mp3",
+    "text": "Grubodziób",
+    "generatedAt": "2026-06-12T13:38:23.730Z"
+  },
+  "animal.serin": {
+    "hash": "9d1b0872bbb0",
+    "file": "9d1b0872bbb0.mp3",
+    "text": "Kulczyk",
+    "generatedAt": "2026-06-12T13:38:24.697Z"
+  },
+  "animal.grebe_great": {
+    "hash": "679bce23810a",
+    "file": "679bce23810a.mp3",
+    "text": "Perkoz dwuczuby",
+    "generatedAt": "2026-06-12T13:38:25.728Z"
+  },
+  "animal.quetzal": {
+    "hash": "eed0f131c969",
+    "file": "eed0f131c969.mp3",
+    "text": "Kwezal",
+    "generatedAt": "2026-06-12T13:38:26.678Z"
+  },
+  "animal.hornbill": {
+    "hash": "f9b76091cca1",
+    "file": "f9b76091cca1.mp3",
+    "text": "Dzioborożec",
+    "generatedAt": "2026-06-12T13:38:27.743Z"
+  },
+  "animal.bird_of_paradise": {
+    "hash": "3a37e17f5edf",
+    "file": "3a37e17f5edf.mp3",
+    "text": "Rajski ptak",
+    "generatedAt": "2026-06-12T13:38:28.745Z"
+  },
+  "animal.toucan_keel": {
+    "hash": "2998b81f0372",
+    "file": "2998b81f0372.mp3",
+    "text": "Tukan tęczowy",
+    "generatedAt": "2026-06-12T13:38:29.756Z"
+  },
+  "animal.shoebill": {
+    "hash": "82639dfe81e0",
+    "file": "82639dfe81e0.mp3",
+    "text": "Trzewikodziób",
+    "generatedAt": "2026-06-12T13:38:30.767Z"
+  },
+  "animal.secretary_bird": {
+    "hash": "e36d5392d9a1",
+    "file": "e36d5392d9a1.mp3",
+    "text": "Sekretarz",
+    "generatedAt": "2026-06-12T13:38:31.740Z"
+  },
+  "animal.cassowary_dwarf": {
+    "hash": "cd980425e13e",
+    "file": "cd980425e13e.mp3",
+    "text": "Karłowaty kazuar",
+    "generatedAt": "2026-06-12T13:38:32.742Z"
+  },
+  "animal.kakapo": {
+    "hash": "6a5c758f79dc",
+    "file": "6a5c758f79dc.mp3",
+    "text": "Kakapo",
+    "generatedAt": "2026-06-12T13:38:33.708Z"
+  },
+  "animal.rockhopper_penguin": {
+    "hash": "7aed150005c4",
+    "file": "7aed150005c4.mp3",
+    "text": "Pingwin skalny",
+    "generatedAt": "2026-06-12T13:38:34.676Z"
+  },
+  "animal.king_penguin": {
+    "hash": "2190a0799cb3",
+    "file": "2190a0799cb3.mp3",
+    "text": "Pingwin królewski",
+    "generatedAt": "2026-06-12T13:38:35.736Z"
+  },
+  "animal.angler_fish": {
+    "hash": "37219cbc77d2",
+    "file": "37219cbc77d2.mp3",
+    "text": "Żabnica",
+    "generatedAt": "2026-06-12T13:38:36.742Z"
+  },
+  "animal.parrotfish": {
+    "hash": "e5bba436882d",
+    "file": "e5bba436882d.mp3",
+    "text": "Papugoryba",
+    "generatedAt": "2026-06-12T13:38:37.748Z"
+  },
+  "animal.wrasse": {
+    "hash": "50697118ac8c",
+    "file": "50697118ac8c.mp3",
+    "text": "Wargacz",
+    "generatedAt": "2026-06-12T13:38:38.698Z"
+  },
+  "animal.lionfish": {
+    "hash": "3d77a7fbbb64",
+    "file": "3d77a7fbbb64.mp3",
+    "text": "Skrzydlica",
+    "generatedAt": "2026-06-12T13:38:39.782Z"
+  },
+  "animal.stonefish": {
+    "hash": "76946d697278",
+    "file": "76946d697278.mp3",
+    "text": "Synanceja",
+    "generatedAt": "2026-06-12T13:38:40.725Z"
+  },
+  "animal.blobfish": {
+    "hash": "3eb4550dcba4",
+    "file": "3eb4550dcba4.mp3",
+    "text": "Blobfisz",
+    "generatedAt": "2026-06-12T13:38:41.672Z"
+  },
+  "animal.pufferfish": {
+    "hash": "23e1d4394b35",
+    "file": "23e1d4394b35.mp3",
+    "text": "Rozdymka",
+    "generatedAt": "2026-06-12T13:38:42.655Z"
+  },
+  "animal.porcupinefish": {
+    "hash": "7f33b959bf5d",
+    "file": "7f33b959bf5d.mp3",
+    "text": "Najeżka",
+    "generatedAt": "2026-06-12T13:38:43.767Z"
+  },
+  "animal.discus": {
+    "hash": "0bb4297fd988",
+    "file": "0bb4297fd988.mp3",
+    "text": "Pielęgnica dyskowiec",
+    "generatedAt": "2026-06-12T13:38:44.800Z"
+  },
+  "animal.arowana": {
+    "hash": "b8a5e8ce07ac",
+    "file": "b8a5e8ce07ac.mp3",
+    "text": "Arowana",
+    "generatedAt": "2026-06-12T13:38:45.793Z"
+  },
+  "animal.koi": {
+    "hash": "9bdf0f9ed32c",
+    "file": "9bdf0f9ed32c.mp3",
+    "text": "Koi",
+    "generatedAt": "2026-06-12T13:38:46.721Z"
+  },
+  "animal.mola_giant": {
+    "hash": "143e987054c1",
+    "file": "143e987054c1.mp3",
+    "text": "Samogłów",
+    "generatedAt": "2026-06-12T13:38:47.717Z"
+  },
+  "animal.king_cobra": {
+    "hash": "ab1f50038d6b",
+    "file": "ab1f50038d6b.mp3",
+    "text": "Kobra królewska",
+    "generatedAt": "2026-06-12T13:38:48.694Z"
+  },
+  "animal.mamba": {
+    "hash": "832d01c156a7",
+    "file": "832d01c156a7.mp3",
+    "text": "Mamba czarna",
+    "generatedAt": "2026-06-12T13:38:49.671Z"
+  },
+  "animal.thorny_devil": {
+    "hash": "8ba5fc18f428",
+    "file": "8ba5fc18f428.mp3",
+    "text": "Moloch australijski",
+    "generatedAt": "2026-06-12T13:38:50.677Z"
+  },
+  "animal.frilled_lizard": {
+    "hash": "6f97d4f7d9ba",
+    "file": "6f97d4f7d9ba.mp3",
+    "text": "Agama kołnierzasta",
+    "generatedAt": "2026-06-12T13:38:51.712Z"
+  },
+  "animal.matamata": {
+    "hash": "1341ed6db71f",
+    "file": "1341ed6db71f.mp3",
+    "text": "Matamata",
+    "generatedAt": "2026-06-12T13:38:52.648Z"
+  },
+  "animal.softshell_turtle": {
+    "hash": "14a0e3241a92",
+    "file": "14a0e3241a92.mp3",
+    "text": "Żółw skorupiasty",
+    "generatedAt": "2026-06-12T13:38:53.683Z"
+  },
+  "animal.alligator_snapping": {
+    "hash": "bf2e87a74987",
+    "file": "bf2e87a74987.mp3",
+    "text": "Żółw aligatorzy",
+    "generatedAt": "2026-06-12T13:38:54.716Z"
+  },
+  "animal.glass_frog": {
+    "hash": "84e47fc29319",
+    "file": "84e47fc29319.mp3",
+    "text": "Żaba szklana",
+    "generatedAt": "2026-06-12T13:38:55.705Z"
+  },
+  "animal.mantella": {
+    "hash": "f8ec749820e0",
+    "file": "f8ec749820e0.mp3",
+    "text": "Mantela",
+    "generatedAt": "2026-06-12T13:38:56.654Z"
+  },
+  "animal.hellbender": {
+    "hash": "384a9134194f",
+    "file": "384a9134194f.mp3",
+    "text": "Skrytoskrzelnik",
+    "generatedAt": "2026-06-12T13:38:57.645Z"
+  },
+  "animal.rhinoceros_beetle": {
+    "hash": "9fa5df05785e",
+    "file": "9fa5df05785e.mp3",
+    "text": "Rohatyniec",
+    "generatedAt": "2026-06-12T13:38:58.647Z"
+  },
+  "animal.hercules_beetle": {
+    "hash": "21c1aaebc1d3",
+    "file": "21c1aaebc1d3.mp3",
+    "text": "Chrząszcz Herkules",
+    "generatedAt": "2026-06-12T13:38:59.656Z"
+  },
+  "animal.praying_mantis_giant": {
+    "hash": "7df709ede457",
+    "file": "7df709ede457.mp3",
+    "text": "Modliszka olbrzymia",
+    "generatedAt": "2026-06-12T13:39:00.680Z"
+  },
+  "animal.jewel_beetle": {
+    "hash": "f8cb3e539aa8",
+    "file": "f8cb3e539aa8.mp3",
+    "text": "Bogatek",
+    "generatedAt": "2026-06-12T13:39:01.651Z"
+  },
+  "animal.walking_stick": {
+    "hash": "687f1e1f59b9",
+    "file": "687f1e1f59b9.mp3",
+    "text": "Patyczak gigantyczny",
+    "generatedAt": "2026-06-12T13:39:02.723Z"
+  },
+  "animal.atlas_butterfly": {
+    "hash": "402fac5954bc",
+    "file": "402fac5954bc.mp3",
+    "text": "Atlas (motyl)",
+    "generatedAt": "2026-06-12T13:39:03.723Z"
+  },
+  "animal.blue_morpho": {
+    "hash": "ce6fbef3cf94",
+    "file": "ce6fbef3cf94.mp3",
+    "text": "Morfej niebieski",
+    "generatedAt": "2026-06-12T13:39:04.725Z"
+  },
+  "animal.monarch": {
+    "hash": "34c7add52e30",
+    "file": "34c7add52e30.mp3",
+    "text": "Monarcha",
+    "generatedAt": "2026-06-12T13:39:05.690Z"
+  },
+  "animal.cicada": {
+    "hash": "2f510f94cd68",
+    "file": "2f510f94cd68.mp3",
+    "text": "Cykada",
+    "generatedAt": "2026-06-12T13:39:06.672Z"
+  },
+  "animal.treehopper": {
+    "hash": "e2696041ac81",
+    "file": "e2696041ac81.mp3",
+    "text": "Pieniugnik",
+    "generatedAt": "2026-06-12T13:39:07.634Z"
+  },
+  "animal.camel_spider": {
+    "hash": "1bb86b8bbd91",
+    "file": "1bb86b8bbd91.mp3",
+    "text": "Solfuga",
+    "generatedAt": "2026-06-12T13:39:08.585Z"
+  },
+  "animal.whip_scorpion": {
+    "hash": "cbe653a18a36",
+    "file": "cbe653a18a36.mp3",
+    "text": "Bicznik",
+    "generatedAt": "2026-06-12T13:39:09.537Z"
+  },
+  "animal.millipede": {
+    "hash": "64c2f051ee48",
+    "file": "64c2f051ee48.mp3",
+    "text": "Krocionóg",
+    "generatedAt": "2026-06-12T13:39:10.544Z"
+  },
+  "animal.mantis_shrimp": {
+    "hash": "96276e6fe764",
+    "file": "96276e6fe764.mp3",
+    "text": "Krewetka modliszkowa",
+    "generatedAt": "2026-06-12T13:39:11.571Z"
+  },
+  "animal.horseshoe_crab": {
+    "hash": "4eb05c34b08d",
+    "file": "4eb05c34b08d.mp3",
+    "text": "Skrzypłocz",
+    "generatedAt": "2026-06-12T13:39:12.593Z"
+  },
+  "animal.nautilus": {
+    "hash": "3a27c7bdc084",
+    "file": "3a27c7bdc084.mp3",
+    "text": "Łodzik",
+    "generatedAt": "2026-06-12T13:39:13.574Z"
+  },
+  "animal.giant_squid": {
+    "hash": "51fc3b15f8c4",
+    "file": "51fc3b15f8c4.mp3",
+    "text": "Kalmar olbrzymi",
+    "generatedAt": "2026-06-12T13:39:14.603Z"
+  },
+  "animal.vampire_squid": {
+    "hash": "65e8b6fd9d2a",
+    "file": "65e8b6fd9d2a.mp3",
+    "text": "Wampirzyca",
+    "generatedAt": "2026-06-12T13:39:15.582Z"
+  },
+  "animal.cone_snail": {
+    "hash": "667ba12822ba",
+    "file": "667ba12822ba.mp3",
+    "text": "Stożek",
+    "generatedAt": "2026-06-12T13:39:16.648Z"
+  },
+  "animal.sea_cucumber": {
+    "hash": "170de7823db4",
+    "file": "170de7823db4.mp3",
+    "text": "Strzykwa",
+    "generatedAt": "2026-06-12T13:39:17.614Z"
+  },
+  "animal.sea_slug": {
+    "hash": "c30ddb7eb46f",
+    "file": "c30ddb7eb46f.mp3",
+    "text": "Ślimak morski",
+    "generatedAt": "2026-06-12T13:39:18.614Z"
+  },
+  "animal.mantis_shrimp_peacock": {
+    "hash": "dadad284b271",
+    "file": "dadad284b271.mp3",
+    "text": "Pawik morski",
+    "generatedAt": "2026-06-12T13:39:19.760Z"
+  },
+  "animal.flatworm": {
+    "hash": "461684fb07ee",
+    "file": "461684fb07ee.mp3",
+    "text": "Płaziniec",
+    "generatedAt": "2026-06-12T13:39:20.745Z"
+  },
+  "animal.trex": {
+    "hash": "cc3d9d318ad8",
+    "file": "cc3d9d318ad8.mp3",
+    "text": "Tyranozaur",
+    "generatedAt": "2026-06-12T13:39:21.705Z"
+  },
+  "animal.brachiosaurus": {
+    "hash": "987a1dc2bef9",
+    "file": "987a1dc2bef9.mp3",
+    "text": "Brachiozaur",
+    "generatedAt": "2026-06-12T13:39:22.678Z"
+  },
+  "animal.velociraptor": {
+    "hash": "a5a579ed424e",
+    "file": "a5a579ed424e.mp3",
+    "text": "Welociraptor",
+    "generatedAt": "2026-06-12T13:39:23.773Z"
+  },
+  "animal.triceratops": {
+    "hash": "04495b4185a9",
+    "file": "04495b4185a9.mp3",
+    "text": "Triceratops",
+    "generatedAt": "2026-06-12T13:39:24.733Z"
+  },
+  "animal.stegosaurus": {
+    "hash": "549a1cce5b83",
+    "file": "549a1cce5b83.mp3",
+    "text": "Stegozaur",
+    "generatedAt": "2026-06-12T13:39:25.686Z"
+  },
+  "animal.mammoth": {
+    "hash": "eb7db6333c60",
+    "file": "eb7db6333c60.mp3",
+    "text": "Mamut włochaty",
+    "generatedAt": "2026-06-12T13:39:26.726Z"
+  },
+  "animal.sabretooth": {
+    "hash": "9396c699f891",
+    "file": "9396c699f891.mp3",
+    "text": "Tygrys szablozębny",
+    "generatedAt": "2026-06-12T13:39:27.726Z"
+  },
+  "animal.dragon": {
+    "hash": "b5960ff6dace",
+    "file": "b5960ff6dace.mp3",
+    "text": "Smok",
+    "generatedAt": "2026-06-12T13:39:28.657Z"
+  },
+  "animal.unicorn": {
+    "hash": "232e858c5bd1",
+    "file": "232e858c5bd1.mp3",
+    "text": "Jednorożec",
+    "generatedAt": "2026-06-12T13:39:29.633Z"
+  },
+  "animal.phoenix": {
+    "hash": "fa9299589e10",
+    "file": "fa9299589e10.mp3",
+    "text": "Feniks",
+    "generatedAt": "2026-06-12T13:39:30.566Z"
+  },
+  "animal.mermaid": {
+    "hash": "478e1a663364",
+    "file": "478e1a663364.mp3",
+    "text": "Syrena",
+    "generatedAt": "2026-06-12T13:39:31.495Z"
+  },
+  "animal.kraken": {
+    "hash": "3515dc3dfe46",
+    "file": "3515dc3dfe46.mp3",
+    "text": "Kraken",
+    "generatedAt": "2026-06-12T13:39:32.425Z"
+  },
+  "animal.yeti": {
+    "hash": "5772bea463e8",
+    "file": "5772bea463e8.mp3",
+    "text": "Yeti",
+    "generatedAt": "2026-06-12T13:39:33.382Z"
+  },
+  "animal.bigfoot": {
+    "hash": "40bd77e4bb63",
+    "file": "40bd77e4bb63.mp3",
+    "text": "Bigfoot",
+    "generatedAt": "2026-06-12T13:39:34.413Z"
+  },
+  "animal.nessie": {
+    "hash": "2075d1ca5eda",
+    "file": "2075d1ca5eda.mp3",
+    "text": "Potwór z Loch Ness",
+    "generatedAt": "2026-06-12T13:39:35.432Z"
+  },
+  "animal.sphinx": {
+    "hash": "28f8cbaed92b",
+    "file": "28f8cbaed92b.mp3",
+    "text": "Sfinks",
+    "generatedAt": "2026-06-12T13:39:36.454Z"
+  },
+  "animal.griffin": {
+    "hash": "a8becc05abab",
+    "file": "a8becc05abab.mp3",
+    "text": "Gryf",
+    "generatedAt": "2026-06-12T13:39:37.479Z"
+  },
+  "animal.mole_eu": {
+    "hash": "58aeb622f61a",
+    "file": "58aeb622f61a.mp3",
+    "text": "Kret europejski",
+    "generatedAt": "2026-06-12T13:39:38.473Z"
+  },
+  "animal.dormouse_garden": {
+    "hash": "fe7ff74281a7",
+    "file": "fe7ff74281a7.mp3",
+    "text": "Żołędnica",
+    "generatedAt": "2026-06-12T13:39:39.435Z"
+  },
+  "animal.chipmunk": {
+    "hash": "f517740d055b",
+    "file": "f517740d055b.mp3",
+    "text": "Burunduk",
+    "generatedAt": "2026-06-12T13:39:40.450Z"
+  },
+  "animal.flying_squirrel": {
+    "hash": "18be76c456c3",
+    "file": "18be76c456c3.mp3",
+    "text": "Polatucha",
+    "generatedAt": "2026-06-12T13:39:41.687Z"
+  },
+  "animal.aardwolf_kenya": {
+    "hash": "f71278d40fe6",
+    "file": "f71278d40fe6.mp3",
+    "text": "Hieniak grzywiasty",
+    "generatedAt": "2026-06-12T13:39:42.711Z"
+  },
+  "animal.honey_badger": {
+    "hash": "60a55738b611",
+    "file": "60a55738b611.mp3",
+    "text": "Borsuk miodożerny",
+    "generatedAt": "2026-06-12T13:39:43.759Z"
+  },
+  "animal.snow_fox": {
+    "hash": "136aa3d8ad0e",
+    "file": "136aa3d8ad0e.mp3",
+    "text": "Lis śnieżny",
+    "generatedAt": "2026-06-12T13:39:44.726Z"
+  },
+  "animal.snub_nosed_monkey": {
+    "hash": "3feb1e9826ea",
+    "file": "3feb1e9826ea.mp3",
+    "text": "Sichuanka",
+    "generatedAt": "2026-06-12T13:39:45.677Z"
+  },
+  "animal.reindeer_svalbard": {
+    "hash": "110ab55262ab",
+    "file": "110ab55262ab.mp3",
+    "text": "Renifer Svalbardzki",
+    "generatedAt": "2026-06-12T13:39:46.691Z"
+  },
+  "animal.gerbil": {
+    "hash": "015e4addd0d1",
+    "file": "015e4addd0d1.mp3",
+    "text": "Myszoskoczek",
+    "generatedAt": "2026-06-12T13:39:47.725Z"
+  },
+  "animal.chinchilla": {
+    "hash": "8d3dff2bae08",
+    "file": "8d3dff2bae08.mp3",
+    "text": "Szynszyla",
+    "generatedAt": "2026-06-12T13:39:48.665Z"
+  },
+  "animal.skunk": {
+    "hash": "c5fbf773c2f2",
+    "file": "c5fbf773c2f2.mp3",
+    "text": "Skunks",
+    "generatedAt": "2026-06-12T13:39:49.665Z"
+  },
+  "animal.aardvark_pig": {
+    "hash": "71d93ad0332f",
+    "file": "71d93ad0332f.mp3",
+    "text": "Pekari",
+    "generatedAt": "2026-06-12T13:39:50.612Z"
+  },
+  "animal.saola": {
+    "hash": "28b0b2becf01",
+    "file": "28b0b2becf01.mp3",
+    "text": "Saola",
+    "generatedAt": "2026-06-12T13:39:51.611Z"
+  },
+  "animal.pichi": {
+    "hash": "16a15f101b67",
+    "file": "16a15f101b67.mp3",
+    "text": "Pancernik karłowaty",
+    "generatedAt": "2026-06-12T13:39:52.631Z"
+  },
+  "animal.bald_eagle": {
+    "hash": "302333134197",
+    "file": "302333134197.mp3",
+    "text": "Orzeł bielik amerykański",
+    "generatedAt": "2026-06-12T13:39:53.714Z"
+  },
+  "animal.peregrine_falcon": {
+    "hash": "1b0691d4ce8b",
+    "file": "1b0691d4ce8b.mp3",
+    "text": "Sokół wędrowny",
+    "generatedAt": "2026-06-12T13:39:54.732Z"
+  },
+  "animal.atlantic_puffin": {
+    "hash": "8472c0ffebeb",
+    "file": "8472c0ffebeb.mp3",
+    "text": "Maskonur atlantycki",
+    "generatedAt": "2026-06-12T13:39:55.777Z"
+  },
+  "animal.kestrel": {
+    "hash": "a5bd7c71632b",
+    "file": "a5bd7c71632b.mp3",
+    "text": "Pustułka",
+    "generatedAt": "2026-06-12T13:39:56.763Z"
+  },
+  "animal.hoatzin": {
+    "hash": "3f8ed579b816",
+    "file": "3f8ed579b816.mp3",
+    "text": "Hoacyn",
+    "generatedAt": "2026-06-12T13:39:57.710Z"
+  },
+  "animal.lyrebird": {
+    "hash": "8bb2ed88881d",
+    "file": "8bb2ed88881d.mp3",
+    "text": "Liroogon",
+    "generatedAt": "2026-06-12T13:39:58.693Z"
+  },
+  "animal.booby": {
+    "hash": "9508ce25c261",
+    "file": "9508ce25c261.mp3",
+    "text": "Głupiec niebieskonogi",
+    "generatedAt": "2026-06-12T13:39:59.766Z"
+  },
+  "animal.seahorse_pygmy": {
+    "hash": "f8bc785bbbea",
+    "file": "f8bc785bbbea.mp3",
+    "text": "Konik morski karłowaty",
+    "generatedAt": "2026-06-12T13:40:00.930Z"
+  },
+  "animal.manta_ray": {
+    "hash": "2507b0a22680",
+    "file": "2507b0a22680.mp3",
+    "text": "Manta",
+    "generatedAt": "2026-06-12T13:40:01.961Z"
+  },
+  "animal.moonjellyfish": {
+    "hash": "b37e1ef427cb",
+    "file": "b37e1ef427cb.mp3",
+    "text": "Chełbia modra",
+    "generatedAt": "2026-06-12T13:40:02.978Z"
+  },
+  "animal.octopus_blue_ring": {
+    "hash": "d633a8a00da1",
+    "file": "d633a8a00da1.mp3",
+    "text": "Ośmiornica niebieskopierścieniowa",
+    "generatedAt": "2026-06-12T13:40:04.173Z"
+  },
+  "animal.crab_japanese_spider": {
+    "hash": "60c8cf874046",
+    "file": "60c8cf874046.mp3",
+    "text": "Krab pajęczy",
+    "generatedAt": "2026-06-12T13:40:05.228Z"
+  },
+  "animal.green_anaconda": {
+    "hash": "6019be80b398",
+    "file": "6019be80b398.mp3",
+    "text": "Anakonda zielona",
+    "generatedAt": "2026-06-12T13:40:06.249Z"
+  },
+  "animal.reticulated_python": {
+    "hash": "258fca829981",
+    "file": "258fca829981.mp3",
+    "text": "Pyton siatkowy",
+    "generatedAt": "2026-06-12T13:40:07.286Z"
+  },
+  "animal.komodo_juvenile": {
+    "hash": "6c016c333d00",
+    "file": "6c016c333d00.mp3",
+    "text": "Smok Komodo",
+    "generatedAt": "2026-06-12T13:40:08.278Z"
+  },
+  "animal.giant_salamander": {
+    "hash": "4cfb583b7665",
+    "file": "4cfb583b7665.mp3",
+    "text": "Salamandra olbrzymia",
+    "generatedAt": "2026-06-12T13:40:09.428Z"
+  },
+  "animal.axolotl_pink": {
+    "hash": "3d5b0de78c50",
+    "file": "3d5b0de78c50.mp3",
+    "text": "Aksolotl różowy",
+    "generatedAt": "2026-06-12T13:40:10.420Z"
+  },
+  "animal.giant_weta": {
+    "hash": "47c4c5da457c",
+    "file": "47c4c5da457c.mp3",
+    "text": "Weta gigantyczna",
+    "generatedAt": "2026-06-12T13:40:11.423Z"
+  },
+  "animal.goliath_beetle": {
+    "hash": "efac8977217c",
+    "file": "efac8977217c.mp3",
+    "text": "Chrząszcz Goliath",
+    "generatedAt": "2026-06-12T13:40:12.472Z"
+  },
+  "animal.peacock_butterfly": {
+    "hash": "a7c6ab1f7518",
+    "file": "a7c6ab1f7518.mp3",
+    "text": "Rusałka pawik",
+    "generatedAt": "2026-06-12T13:40:13.480Z"
+  }
+}

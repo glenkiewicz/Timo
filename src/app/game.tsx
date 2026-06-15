@@ -1,17 +1,25 @@
 import { useRouter } from 'expo-router';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AnswerCard, type AnswerType } from '@/components/buttons/AnswerCard';
 import { PuffyButton } from '@/components/buttons/PuffyButton';
+import { AnimalImage } from '@/components/collection/AnimalImage';
 import { LiveInfoChip } from '@/components/gamification/LiveInfoChip';
 import { SpeechBubble } from '@/components/timo/SpeechBubble';
 import { TimoCharacter } from '@/components/timo/TimoCharacter';
 import { EXPEDITIONS_BY_ID } from '@/data/expeditions';
 import { pickQuestionVariant } from '@/data/questions';
-import { GUESS_INTROS } from '@/data/timo-lines';
+import {
+  pickDontKnowResponse,
+  pickGuessIntro,
+  pickOutsideCategoryLine,
+  pickReaction,
+  type Pick,
+} from '@/data/timo-lines';
 import { DebugOverlay } from '@/features/game/DebugOverlay';
 import { decorateQuestion } from '@/features/game/timo-personality';
+import { timoVoice, useIsTimoSpeaking } from '@/lib/audio/timo-voice';
 import { useGameStore } from '@/lib/stores/game-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { Pressable, Text, View } from '@/tw';
@@ -28,9 +36,21 @@ export default function GameScreen() {
   const guessAttempts = useGameStore((s) => s.guessAttempts);
   const mode = useGameStore((s) => s.mode);
   const expeditionId = useGameStore((s) => s.expeditionId);
+  const expeditionMode = useGameStore((s) => s.expeditionMode);
+  const didEscapeCategory = useGameStore((s) => s.didEscapeCategory);
   const answer = useGameStore((s) => s.answer);
   const acceptGuess = useGameStore((s) => s.acceptGuess);
   const rejectGuess = useGameStore((s) => s.rejectGuess);
+  const acknowledgeEscape = useGameStore((s) => s.acknowledgeEscape);
+
+  /**
+   * Flash bubble — krótki komunikat pod pytaniem, gdy guided gracz powie
+   * "nie wiem" lub gdy silnik wpadnie w fallback (zwierzę spoza puli).
+   * Auto-znika po 2.5s.
+   */
+  const [flashLine, setFlashLine] = useState<Pick | null>(null);
+
+  const isSpeaking = useIsTimoSpeaking();
 
   const expedition =
     mode === 'expedition' && expeditionId ? EXPEDITIONS_BY_ID[expeditionId] : null;
@@ -45,26 +65,77 @@ export default function GameScreen() {
     }
   }, [phase, router]);
 
-  const handleAnswer = (a: AnswerType) => answer(a);
+  // Outside-category flash (guided): pula wyczerpana, silnik rozszerzył do
+  // ANIMALS. Pokaż raz, potem kasuj flagę w store.
+  useEffect(() => {
+    if (didEscapeCategory && expeditionMode === 'guided') {
+      setFlashLine(pickOutsideCategoryLine());
+      acknowledgeEscape();
+    }
+  }, [didEscapeCategory, expeditionMode, acknowledgeEscape]);
 
-  const guessIntro = useMemo(
-    () => GUESS_INTROS[Math.floor(Math.random() * GUESS_INTROS.length)],
-    // re-roll each time a new guess pops up
-    [guess?.id, guessAttempts]
+  // Auto-hide flash bubble + odtwórz głosem.
+  useEffect(() => {
+    if (!flashLine) return;
+    timoVoice.playLine(flashLine.voiceKey);
+    const t = setTimeout(() => setFlashLine(null), 2500);
+    return () => clearTimeout(t);
+  }, [flashLine]);
+
+  const handleAnswer = async (a: AnswerType) => {
+    // Guided "nie wiem" → ciepły komunikat, bez kary.
+    if (a === 'idk' && expeditionMode === 'guided') {
+      setFlashLine(pickDontKnowResponse());
+      answer(a);
+      return;
+    }
+    // Reakcja Timo gra przed przejściem do następnego pytania — wait mode
+    // (disabled buttons) trzyma UI w spokoju.
+    const reaction = pickReaction(a);
+    await timoVoice.playLine(reaction.voiceKey);
+    answer(a);
+  };
+
+  // guessIntro — re-roll przy każdym nowym strzale (Pick = { text, voiceKey }).
+  const guessIntro = useMemo<Pick>(
+    () => pickGuessIntro(),
+    [guess?.id, guessAttempts],
   );
 
   // dekoracja pytania — wybór wariantu + mood + interlude, re-roll per question
-  const decoratedQuestionText = useMemo(() => {
+  const decoratedQuestion = useMemo(() => {
     if (!currentQuestion) return null;
     const variant = pickQuestionVariant(currentQuestion);
     return decorateQuestion(variant, questionsAsked);
   }, [currentQuestion?.id, questionsAsked]);
 
+  // Odtwórz pytanie głosem — sequence: [interlude?, prefix?, question].
+  // 600ms initial delay daje naturalny oddech po reakcji ("Tak!") z poprzedniego ruchu.
+  useEffect(() => {
+    if (!decoratedQuestion) return;
+    timoVoice.playSequence(decoratedQuestion.sequence, { initialDelayMs: 600 });
+  }, [decoratedQuestion]);
+
+  // Odtwórz guess głosem — sequence: [guessIntro, animal.{id}].
+  useEffect(() => {
+    if (!guess) return;
+    timoVoice.playSequence([guessIntro.voiceKey, `animal.${guess.id}`], {
+      initialDelayMs: 400,
+    });
+  }, [guess?.id, guessIntro]);
+
+  // Stop audio gdy opuszczamy ekran gry.
+  useEffect(() => {
+    return () => {
+      timoVoice.stop();
+    };
+  }, []);
+
   // Log dekorowanego tekstu pytania (DEV only) — żeby widzieć co Timo mówi w UI
   useEffect(() => {
     if (!__DEV__) return;
-    if (!decoratedQuestionText) return;
-    const phase =
+    if (!decoratedQuestion) return;
+    const phaseLabel =
       questionsAsked === 0
         ? 'START'
         : questionsAsked < 3
@@ -72,8 +143,8 @@ export default function GameScreen() {
           : questionsAsked < 8
             ? 'MID'
             : 'LATE';
-    console.log(`💬 Q${questionsAsked + 1} [${phase}]  „${decoratedQuestionText}"`);
-  }, [decoratedQuestionText, questionsAsked]);
+    console.log(`💬 Q${questionsAsked + 1} [${phaseLabel}]  „${decoratedQuestion.text}"`);
+  }, [decoratedQuestion, questionsAsked]);
 
   const isAsking = phase === 'asking';
   const isGuessing = phase === 'guess_attempt';
@@ -168,16 +239,36 @@ export default function GameScreen() {
         <View className="flex-1 items-center justify-center gap-3 px-6">
           <TimoCharacter state={isGuessing ? 'pointing' : 'thinking'} size={210} />
 
-          {isAsking && currentQuestion && decoratedQuestionText ? (
+          {isAsking && currentQuestion && decoratedQuestion ? (
             <SpeechBubble eyebrow="TIMO PYTA">
-              {decoratedQuestionText}
+              {decoratedQuestion.text}
             </SpeechBubble>
+          ) : null}
+
+          {flashLine ? (
+            <View
+              className="bg-success rounded-chip px-4 py-2"
+              style={{
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 3 },
+                shadowOpacity: 0.15,
+                shadowRadius: 6,
+                elevation: 3,
+                borderWidth: 1.5,
+                borderColor: 'rgba(255,255,255,0.4)',
+              }}>
+              <Text
+                className="text-paper text-center"
+                style={{ fontFamily: 'Fredoka-Bold', fontSize: 13 }}>
+                {flashLine.text}
+              </Text>
+            </View>
           ) : null}
 
           {isGuessing && guess ? (
             <>
               <SpeechBubble eyebrow="TIMO ZGADUJE">
-                {`${guessIntro} ${guess.name_pl}?`}
+                {`${guessIntro.text} ${guess.name_pl}?`}
               </SpeechBubble>
               <View
                 className="bg-paper rounded-card px-5 py-3 flex-row items-center gap-3 mt-1"
@@ -190,7 +281,7 @@ export default function GameScreen() {
                   borderWidth: 2,
                   borderColor: '#fff6cc',
                 }}>
-                <Text style={{ fontSize: 40 }}>{guess.emoji}</Text>
+                <AnimalImage animalId={guess.id} fallbackEmoji={guess.emoji} size={56} />
                 <Text
                   className="text-ink"
                   style={{ fontFamily: 'Fredoka-Bold', fontSize: 22 }}>
@@ -201,16 +292,16 @@ export default function GameScreen() {
           ) : null}
         </View>
 
-        {/* answers */}
+        {/* answers — wait mode: disabled gdy Timo mówi */}
         {isAsking ? (
           <View className="px-6 gap-3">
             <View className="flex-row gap-3">
-              <AnswerCard answer="yes" onPress={handleAnswer} disabled={!currentQuestion} />
-              <AnswerCard answer="no" onPress={handleAnswer} disabled={!currentQuestion} />
+              <AnswerCard answer="yes" onPress={handleAnswer} disabled={!currentQuestion || isSpeaking} />
+              <AnswerCard answer="no" onPress={handleAnswer} disabled={!currentQuestion || isSpeaking} />
             </View>
             <View className="flex-row gap-3">
-              <AnswerCard answer="idk" onPress={handleAnswer} disabled={!currentQuestion} />
-              <AnswerCard answer="hard" onPress={handleAnswer} disabled={!currentQuestion} />
+              <AnswerCard answer="idk" onPress={handleAnswer} disabled={!currentQuestion || isSpeaking} />
+              <AnswerCard answer="hard" onPress={handleAnswer} disabled={!currentQuestion || isSpeaking} />
             </View>
           </View>
         ) : null}
@@ -221,8 +312,9 @@ export default function GameScreen() {
               label={guess ? `Tak, to ${guess.name_pl}!` : 'Tak!'}
               variant="success"
               onPress={acceptGuess}
+              disabled={isSpeaking}
             />
-            <PuffyButton label="Nie, pudło" variant="rose" size="md" onPress={rejectGuess} />
+            <PuffyButton label="Nie, pudło" variant="rose" size="md" onPress={rejectGuess} disabled={isSpeaking} />
           </View>
         ) : null}
       </View>

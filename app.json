@@ -33,7 +33,8 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 220
         }
-      ]
+      ],
+      "expo-audio"
     ],
     "experiments": {
       "typedRoutes": true,

@@ -31,7 +31,11 @@ yarn-error.*
 *.pem
 
 # local env files
+.env
 .env*.local
+
+# voices smoke test (tymczasowe, do odsłuchu — nie commituj)
+assets/voices/_smoke/
 
 # typescript
 *.tsbuildinfo
@@ -41,3 +45,6 @@ example
 # generated native folders
 /ios
 /android
+
+# backup zoptymalizowanych zdjęć (1500x1500 oryginały) — nie commituj
+assets/animals.original/

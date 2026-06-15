@@ -2,6 +2,7 @@ import { getAnimalDetails } from '@/data/animal-details';
 import type { Animal } from '@/types/game';
 import { ScrollView, Text, View } from '@/tw';
 
+import { AnimalImage } from './AnimalImage';
 import { HabitatMap, regionsLabel } from './HabitatMap';
 
 type Props = {
@@ -35,7 +36,7 @@ export function AnimalCard({ animal, isNewDiscovery }: Props) {
 
       {/* hero */}
       <View className="items-center mb-1">
-        <Text style={{ fontSize: 72, lineHeight: 84 }}>{animal.emoji}</Text>
+        <AnimalImage animalId={animal.id} fallbackEmoji={animal.emoji} size={140} />
       </View>
       <Text
         className="text-ink text-center"

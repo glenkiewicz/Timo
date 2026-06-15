@@ -9,6 +9,7 @@ import { ANIMALS, ANIMALS_BY_ID } from '../src/data/animals';
 import { EXPEDITIONS } from '../src/data/expeditions';
 
 const MIN_ROSTER = 12;
+const GUIDED_INSPIRATION_SIZE = 18;
 
 let errors = 0;
 let warnings = 0;
@@ -25,23 +26,43 @@ function warn(msg: string) {
 const allRosterIds = new Set<string>();
 
 for (const exp of EXPEDITIONS) {
-  console.log(`\n[${exp.id}]  (tag: ${exp.tag}) — ${exp.roster.length} zwierząt`);
+  const isGuided = exp.mode === 'guided';
+  // Dla guided źródło prawdy to inspirationRoster (= grywalna pula = karty).
+  // Dla expert nadal roster.
+  const ids: string[] = isGuided ? (exp.inspirationRoster ?? []) : (exp.roster ?? []);
+  console.log(
+    `\n[${exp.id}]  (mode: ${exp.mode ?? '(expert)'}, tag: ${exp.tag}) — ${ids.length} zwierząt`
+  );
 
   // 1. Min. rozmiar puli
-  if (exp.roster.length < MIN_ROSTER) {
-    err(`roster mniejszy niż ${MIN_ROSTER} (${exp.roster.length})`);
+  if (isGuided) {
+    if (ids.length !== GUIDED_INSPIRATION_SIZE) {
+      err(`guided wyprawa musi mieć dokładnie ${GUIDED_INSPIRATION_SIZE} zwierząt w inspirationRoster (jest ${ids.length})`);
+    }
+  } else if (ids.length < MIN_ROSTER) {
+    err(`roster mniejszy niż ${MIN_ROSTER} (${ids.length})`);
   }
 
-  // 2. Duplikaty wewnątrz rosteru
+  // 1b. target_count musi mieścić się w puli
+  if (exp.target_count > ids.length) {
+    err(`target_count (${exp.target_count}) większy niż pula (${ids.length})`);
+  }
+
+  // 1c. childTitle wymagane dla guided
+  if (isGuided && !exp.childTitle) {
+    warn(`guided wyprawa '${exp.id}' nie ma childTitle (UI pokaże title)`);
+  }
+
+  // 2. Duplikaty wewnątrz puli
   const seen = new Set<string>();
-  for (const id of exp.roster) {
-    if (seen.has(id)) err(`duplikat w roster: '${id}'`);
+  for (const id of ids) {
+    if (seen.has(id)) err(`duplikat w puli: '${id}'`);
     seen.add(id);
     allRosterIds.add(id);
   }
 
   // 3. Nieznane ID
-  for (const id of exp.roster) {
+  for (const id of ids) {
     if (!ANIMALS_BY_ID[id]) err(`nieznane animal_id: '${id}'`);
   }
 
@@ -79,7 +100,7 @@ for (const exp of EXPEDITIONS) {
 
   const rule = SUSPECT_RULES[exp.id];
   if (rule) {
-    for (const id of exp.roster) {
+    for (const id of ids) {
       const a = ANIMALS_BY_ID[id];
       if (a && rule.check(a)) warn(`'${id}' w '${exp.id}': ${rule.label}`);
     }
@@ -97,13 +118,16 @@ if (orphans.length > 0) {
   console.log(`Brak orphanów ✓`);
 }
 
-// 6. Mityczne — nie powinny być w innych wyprawach
+// 6. Mityczne — nie powinny być w innych wyprawach EXPERT
+// (guided "dinos_myths" celowo zawiera mityczne — to dziecięca wersja)
 const myth = EXPEDITIONS.find((e) => e.id === 'mythical');
 if (myth) {
-  const mythSet = new Set(myth.roster);
+  const mythSet = new Set(myth.roster ?? []);
   for (const exp of EXPEDITIONS) {
     if (exp.id === 'mythical') continue;
-    for (const id of exp.roster) {
+    if (exp.mode === 'guided') continue; // guided 'dinos_myths' celowo zawiera mityczne
+    const expIds = exp.roster ?? [];
+    for (const id of expIds) {
       if (mythSet.has(id)) {
         warn(`'${id}' jest zarówno w 'mythical' jak i '${exp.id}' — mityczne stworzenia powinny być tylko w 'mythical'`);
       }
