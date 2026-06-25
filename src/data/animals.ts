@@ -526,7 +526,6 @@ const RAW_ANIMALS: Animal[] = [
   mk('serow', 'Serau', '🦌', 'Serau wygląda jak skrzyżowanie kozy i antylopy.', { mammal: 1, fur: 1, tail: 1, legs: 1, jungle: 1, plant: 1 }),
   mk('binturong_indo', 'Niedźwiedź pszczelarz', '🐻', 'Niedźwiedź pszczelarz ma najdłuższy język wśród niedźwiedzi.', { mammal: 1, fur: 1, tail: 1, legs: 1, jungle: 1, big_d: 1 }),
   mk('takin', 'Takin', '🐂', 'Takin ma złotawe futro i mieszka w wysokich górach Himalajach.', { mammal: 1, fur: 1, tail: 1, legs: 1, plant: 1, big_d: 1 }),
-  mk('snow_monkey', 'Makak japoński', '🐒', 'Makaki japońskie kąpią się w gorących źródłach zimą.', { mammal: 1, fur: 1, tail: 1, legs: 1 }),
   mk('dhole', 'Dhole', '🐕', 'Dhole to azjatycki dziki pies, który "gwiżdże" zamiast wyć.', { mammal: 1, fur: 1, tail: 1, legs: 1, jungle: 1, pred: 1, fast: 1 }),
   mk('musk_deer', 'Piżmowiec', '🦌', 'Piżmowiec ma kły jak małe wąsy — używa ich w walce.', { mammal: 1, fur: 1, tail: 1, legs: 1, plant: 1 }),
   mk('saiga', 'Suhak', '🦌', 'Suhak ma dziwny, opuchnięty nos — filtruje pył stepowy.', { mammal: 1, fur: 1, tail: 1, legs: 1, plant: 1, fast: 1 }),
@@ -676,7 +675,6 @@ const RAW_ANIMALS: Animal[] = [
 
   // Ptaki extra
   mk('bald_eagle', 'Orzeł bielik amerykański', '🦅', 'Bielik amerykański widzi mysz z odległości 3 km.', { bird: 1, feathers: 1, tail: 1, legs: 1, fly: 1, pred: 1, big_d: -1, fast: 1 }),
-  mk('peregrine_falcon', 'Sokół wędrowny', '🦅', 'Sokół wędrowny pikuje 390 km/h — najszybsze zwierzę świata.', { bird: 1, feathers: 1, tail: 1, legs: 1, fly: 1, pred: 1, fast: 1 }),
   mk('atlantic_puffin', 'Maskonur atlantycki', '🐧', 'Maskonur potrafi nieść 10 ryb w dziobie jednocześnie.', { bird: 1, feathers: 1, tail: 1, legs: 1, ocean: -1, fly: 1, small_c: 1 }),
   mk('kestrel', 'Pustułka', '🦅', 'Pustułka wisi nieruchomo w powietrzu — łopocze skrzydłami w miejscu.', { bird: 1, feathers: 1, tail: 1, legs: 1, pol: 1, fly: 1, pred: 1 }),
   mk('hoatzin', 'Hoacyn', '🐦', 'Hoacyn ma w żołądku trawę jak krowa — śmierdzi jak obornik.', { bird: 1, feathers: 1, tail: 1, legs: 1, jungle: 1, fly: 1 }),
@@ -684,8 +682,6 @@ const RAW_ANIMALS: Animal[] = [
   mk('booby', 'Głupiec niebieskonogi', '🐦', 'Głupiec niebieskonogi ma jaskrawoniebieskie stopy — używa ich w tańcu godowym.', { bird: 1, feathers: 1, tail: 1, legs: 1, ocean: 1, fly: 1 }),
 
   // Ryby/morze extra
-  mk('seahorse_pygmy', 'Konik morski karłowaty', '🐴', 'Konik morski karłowaty jest mniejszy od paznokcia.', { fish: 1, tail: 1, water: 1, ocean: 1, small_c: 1 }),
-  mk('manta_ray', 'Manta', '🐟', 'Manta ma rozpiętość 7 metrów — największa płaszczka świata.', { fish: 1, tail: 1, water: 1, ocean: 1, big_d: 1 }),
   mk('moonjellyfish', 'Chełbia modra', '🪼', 'Chełbia modra to najczęstsza meduza Bałtyku.', { water: 1, ocean: 1, pol: -1 }),
   mk('octopus_blue_ring', 'Ośmiornica niebieskopierścieniowa', '🐙', 'Ośmiornica niebieskopierścieniowa ma jad zabijający w minuty.', { water: 1, ocean: 1, pred: 1, danger: 1, venom: 1, small_c: 1 }),
   mk('crab_japanese_spider', 'Krab pajęczy', '🦀', 'Krab pajęczy ma nogi rozpiętości 4 metrów — największy skorupiak świata.', { shell: 1, water: 1, ocean: 1, big_d: 1 }),
@@ -701,6 +697,307 @@ const RAW_ANIMALS: Animal[] = [
   mk('giant_weta', 'Weta gigantyczna', '🦗', 'Weta gigantyczna z Nowej Zelandii jest cięższa od wróbla.', { insect: 1, small_c: -1 }),
   mk('goliath_beetle', 'Chrząszcz Goliath', '🪲', 'Chrząszcz Goliath waży 100 g — najcięższy owad świata.', { insect: 1, fly: 1, jungle: 1, big_d: -1 }),
   mk('peacock_butterfly', 'Rusałka pawik', '🦋', 'Rusałka pawik ma na skrzydłach "oczy" — straszy ptaki.', { insect: 1, fly: 1, pol: 1, small_c: 1 }),
+
+  // === BATCH 4.1: Ssaki świata (rozszerzenie do 800) ===
+  // Australijskie torbacze
+  mk('numbat', 'Numbat', '🦨', 'Numbat zjada 20 000 termitów dziennie — to jego jedyne jedzenie.', { mammal: 1, marsupial: 1, fur: 1, tail: 1, legs: 1, small_c: 1 }),
+  mk('bilby', 'Wielkouch', '🐰', 'Wielkouch ma uszy jak królik, ale to torbacz — kicha się w piasku.', { mammal: 1, marsupial: 1, fur: 1, tail: 1, legs: 1, long_ears: 1, small_c: 1, nocturnal: 1 }),
+  mk('bandicoot', 'Bandikut', '🐀', 'Bandikut ma najszybszą ciążę wśród ssaków — tylko 12 dni.', { mammal: 1, marsupial: 1, fur: 1, tail: 1, legs: 1, nocturnal: 1, small_c: 1 }),
+  mk('honey_possum', 'Możurek miodowy', '🐭', 'Możurek miodowy żyje tylko z nektaru — to jak ssaczy koliber.', { mammal: 1, marsupial: 1, fur: 1, tail: 1, legs: 1, plant: 1, small_c: 1, nocturnal: 1 }),
+  mk('wallaby', 'Walabia', '🦘', 'Walabia to mały kangur — skacze 4 m na jednej parze tylnych łap.', { mammal: 1, marsupial: 1, fur: 1, tail: 1, legs: 1, plant: 1, fast: 1 }),
+  mk('tree_kangaroo', 'Drzewokangur', '🦘', 'Drzewokangur skacze z gałęzi na gałąź na 9 metrów — kangur, który zapomniał o ziemi.', { mammal: 1, marsupial: 1, fur: 1, tail: 1, legs: 1, jungle: 1, plant: 1 }),
+  mk('yapok', 'Yapok', '🐀', 'Yapok to torbacz wodny — pływa pod wodą, a torba zamyka się szczelnie jak suchy worek.', { mammal: 1, marsupial: 1, fur: 1, tail: 1, legs: 1, water: 1, jungle: 1, nocturnal: 1, small_c: 1 }),
+
+  // Madagaskar i Afryka
+  mk('fossa', 'Fossa', '🐈', 'Fossa to największy drapieżnik Madagaskaru — poluje na lemury w koronach drzew.', { mammal: 1, fur: 1, tail: 1, legs: 1, jungle: 1, pred: 1, fast: 1 }),
+  mk('tenrec', 'Tenrek', '🦔', 'Tenreki uderzają kolcami o siebie, by się porozumiewać — to jedyne ssaki które tak robią.', { mammal: 1, fur: -1, tail: 1, legs: 1, jungle: 1, small_c: 1, nocturnal: 1 }),
+  mk('indri', 'Indri', '🐒', 'Indri śpiewają jak wieloryby — ich pieśń niesie się 4 km przez las.', { mammal: 1, primate: 1, fur: 1, tail: -1, legs: 1, jungle: 1, plant: 1 }),
+  mk('sifaka', 'Sifaka', '🐒', 'Sifaki nie chodzą — tańczą bokiem po ziemi jak na sprężynach.', { mammal: 1, primate: 1, fur: 1, tail: 1, legs: 1, jungle: 1, plant: 1 }),
+  mk('galago', 'Galago', '🐒', 'Galago skacze 2 metry w górę — to ssak wielkości szczura.', { mammal: 1, primate: 1, fur: 1, tail: 1, legs: 1, jungle: 1, nocturnal: 1, small_c: 1 }),
+  mk('duiker', 'Dujker', '🦌', 'Dujkery są tak małe, że chowają się w trawie — niektóre ważą mniej niż kot.', { mammal: 1, fur: 1, tail: 1, legs: 1, jungle: 1, plant: 1, horns: 1, small_c: -1, fast: 1 }),
+  mk('klipspringer', 'Skoczek skalny', '🦌', 'Skoczek skalny stoi na czterech kopytach wielkości kropli — balansuje na skale jak akrobata.', { mammal: 1, fur: 1, tail: 1, legs: 1, plant: 1, horns: 1, small_c: -1, fast: 1 }),
+
+  // Azja Wschodnia i Górska
+  mk('tarsier', 'Wyrak', '🐒', 'Wyrak ma oczy większe niż mózg — każde wielkości jego głowy.', { mammal: 1, primate: 1, fur: 1, tail: 1, legs: 1, jungle: 1, nocturnal: 1, small_c: 1, pred: 1 }),
+  mk('markhor', 'Markhor', '🐐', 'Markhor ma śrubowo skręcone rogi długości 1,5 metra — to dziki kozioł Pakistanu.', { mammal: 1, fur: 1, tail: 1, legs: 1, plant: 1, horns: 1, big_d: 1 }),
+  mk('urial', 'Urial', '🐏', 'Urial to dziki kuzyn owcy — żyje w stadach na stromych zboczach Azji.', { mammal: 1, fur: 1, tail: 1, legs: 1, plant: 1, horns: 1, groups: 1, big_d: 1 }),
+  mk('argali', 'Argali', '🐏', 'Argali ma najpotężniejsze rogi wśród owiec — ważą 23 kg, więcej niż reszta ciała.', { mammal: 1, fur: 1, tail: 1, legs: 1, plant: 1, horns: 1, big_d: 1 }),
+  mk('bharal', 'Bharal', '🐏', 'Bharal ma sierść z odcieniem niebieskim — kamuflaż wśród skał Himalajów.', { mammal: 1, fur: 1, tail: 1, legs: 1, plant: 1, horns: 1, big_d: -1 }),
+  mk('banteng', 'Banteng', '🐂', 'Banteng to dziki przodek wielu domowych krów w Azji.', { mammal: 1, fur: 1, tail: 1, legs: 1, jungle: 1, plant: 1, horns: 1, big_d: 1, groups: 1 }),
+  mk('gaur', 'Gaur', '🐂', 'Gaur to największy dziki byk świata — waży 1500 kg, więcej niż samochód.', { mammal: 1, fur: 1, tail: 1, legs: 1, jungle: 1, plant: 1, horns: 1, big_d: 1 }),
+  mk('fishing_cat', 'Kot rybołów', '🐈', 'Kot rybołów nurkuje za rybami — ma błony między palcami jak kaczka.', { mammal: 1, fur: 1, tail: 1, legs: 1, water: 1, jungle: -1, pred: 1, meows: -1 }),
+  mk('pallas_cat', 'Manul', '🐈', 'Manul wygląda jak puchata kula — ma najgrubszą sierść spośród wszystkich kotów.', { mammal: 1, fur: 1, tail: 1, legs: 1, pred: 1, meows: -1 }),
+  mk('sand_cat', 'Kot pustynny', '🐈', 'Kot pustynny ma podeszwy obrosłe sierścią — chodzi po rozżarzonym piasku jak po dywanie.', { mammal: 1, fur: 1, tail: 1, legs: 1, pred: 1, meows: -1, nocturnal: 1, small_c: 1 }),
+  mk('raccoon_dog', 'Jenot', '🐕', 'Jenot wygląda jak szop z maską, ale to dziki pies — zasypia na zimę.', { mammal: 1, fur: 1, tail: 1, legs: 1, forest: 1, pol: -1, pred: 1, nocturnal: 1 }),
+
+  // Ameryki Południowe
+  mk('agouti', 'Aguti', '🐀', 'Aguti to gryzoń, który zna każde ukryte miejsce na orzeszki w lesie deszczowym.', { mammal: 1, rodent: 1, fur: 1, tail: -1, legs: 1, jungle: 1, plant: 1, small_c: 1, fast: 1 }),
+  mk('peccary', 'Pekari obrożny', '🐗', 'Pekari obrożny pachnie piżmem — jego zapach czuć z 100 metrów.', { mammal: 1, fur: 1, tail: 1, legs: 1, jungle: 1, groups: 1 }),
+  mk('olingo', 'Olingo', '🐾', 'Olingo wisi na ogonie jak małpa — to ssak wielkości kota.', { mammal: 1, fur: 1, tail: 1, legs: 1, jungle: 1, nocturnal: 1, small_c: 1 }),
+  mk('margay', 'Margaj', '🐈', 'Margaj wisi głową w dół jak małpa — może obrócić tylne łapy o 180°.', { mammal: 1, fur: 1, tail: 1, legs: 1, jungle: 1, pred: 1, nocturnal: 1, meows: -1 }),
+  mk('spectacled_bear', 'Niedźwiedź andyjski', '🐻', 'Niedźwiedź andyjski ma okulary z białej sierści wokół oczu — każdy ma inne.', { mammal: 1, fur: 1, tail: 1, legs: 1, jungle: 1, plant: 1, big_d: 1 }),
+  mk('bush_dog', 'Pies leśny', '🐕', 'Pies leśny ma palce zrośnięte błoną — pływa za wodnymi gryzoniami w dżungli.', { mammal: 1, fur: 1, tail: 1, legs: 1, jungle: 1, pred: 1, groups: 1, small_c: -1 }),
+  mk('giant_anteater', 'Mrówkojad olbrzymi', '🐜', 'Mrówkojad olbrzymi zjada 35 000 mrówek dziennie — i nie ma ani jednego zęba.', { mammal: 1, fur: 1, tail: 1, legs: 1, big_d: 1 }),
+  mk('silky_anteater', 'Mrówkojad jedwabisty', '🐾', 'Mrówkojad jedwabisty mieści się w dłoni i wisi na ogonie cały dzień — to najmniejszy mrówkojad świata.', { mammal: 1, fur: 1, tail: 1, legs: 1, jungle: 1, nocturnal: 1, small_c: 1 }),
+  mk('mara', 'Mara', '🐰', 'Mara wygląda jak królik na nogach kopytnego — a jest gryzoniem rozmiaru psa.', { mammal: 1, rodent: 1, fur: 1, tail: -1, legs: 1, plant: 1, fast: 1 }),
+  mk('viscacha', 'Wiskacha', '🐰', 'Wiskacha śpi w szczelinach skalnych z 30-osobową rodziną — wszystkie razem.', { mammal: 1, rodent: 1, fur: 1, tail: 1, legs: 1, plant: 1, groups: 1, small_c: -1 }),
+  mk('prairie_dog', 'Piesek preriowy', '🐀', 'Pieski preriowe rozmawiają — mają osobne słowa dla "duży", "wysoki", "niebieski".', { mammal: 1, rodent: 1, fur: 1, tail: 1, legs: 1, plant: 1, groups: 1, small_c: 1 }),
+
+  // Egzotyczne / inne
+  mk('solenodon', 'Almik', '🦔', 'Almik to jeden z niewielu ssaków z jadem — paraliżuje ofiarę śliną.', { mammal: 1, fur: 1, tail: 1, legs: 1, venom: 1, nocturnal: 1, small_c: 1 }),
+  mk('dingo', 'Dingo', '🐕', 'Dingo nie szczeka — wyje jak wilk. To australijski dziki pies.', { mammal: 1, fur: 1, tail: 1, legs: 1, pred: 1, fast: 1, groups: 1 }),
+  mk('sea_otter', 'Wydra morska', '🦦', 'Wydry morskie trzymają się za łapy podczas snu, by się nie rozdzielić.', { mammal: 1, fur: 1, tail: 1, legs: 1, water: 1, ocean: 1, pred: 1 }),
+  mk('naked_mole_rat', 'Golec', '🐀', 'Golec żyje 30 lat — to 10× dłużej niż mysz tego samego rozmiaru.', { mammal: 1, rodent: 1, fur: -1, tail: 1, legs: 1, groups: 1, small_c: 1 }),
+
+  // === BATCH 4.2: Ptaki świata ===
+  // Drapieżne
+  mk('harpy_eagle', 'Harpia', '🦅', 'Harpia ma szpony większe niż łapa niedźwiedzia — łapie małpy w dżungli.', { bird: 1, feathers: 1, tail: 1, legs: 1, jungle: 1, fly: 1, pred: 1, big_d: 1 }),
+  mk('barn_owl', 'Płomykówka', '🦉', 'Płomykówka słyszy mysz w trawie z 100 metrów — w zupełnej ciemności.', { bird: 1, feathers: 1, tail: 1, legs: 1, pol: 1, fly: 1, pred: 1, nocturnal: 1 }),
+  mk('screech_owl', 'Sowa krzykliwa', '🦉', 'Sowa krzykliwa wydaje 14 różnych zawołań — każde znaczy coś innego.', { bird: 1, feathers: 1, tail: 1, legs: 1, forest: 1, fly: 1, pred: 1, nocturnal: 1, small_c: 1 }),
+  mk('great_grey_owl', 'Puszczyk mszarny', '🦉', 'Puszczyk mszarny nurkuje w 60 cm głębokim śniegu, by złapać mysz, której nie widzi.', { bird: 1, feathers: 1, tail: 1, legs: 1, forest: 1, arctic: -1, fly: 1, pred: 1, nocturnal: 1 }),
+
+  // Morskie / Antarktyda
+  mk('albatross', 'Albatros', '🦤', 'Albatros leci dwa lata bez lądowania — śpi w locie.', { bird: 1, feathers: 1, tail: 1, legs: 1, ocean: 1, fly: 1, big_d: 1 }),
+  mk('cormorant', 'Kormoran', '🦅', 'Kormoran nurkuje 45 metrów po ryby — ma pióra częściowo nasiąkliwe, by się szybciej zanurzyć.', { bird: 1, feathers: 1, tail: 1, legs: 1, water: 1, pol: 1, fly: 1, pred: 1 }),
+  mk('gannet', 'Głuptak', '🦅', 'Głuptak nurkuje do morza z 30 metrów z prędkością 100 km/h.', { bird: 1, feathers: 1, tail: 1, legs: 1, ocean: 1, fly: 1, pred: 1 }),
+  mk('frigatebird', 'Fregata wielka', '🦅', 'Fregata kradnie jedzenie innym ptakom w locie — to powietrzny pirat.', { bird: 1, feathers: 1, tail: 1, legs: 1, ocean: 1, fly: 1, pred: 1 }),
+  mk('skua', 'Wydrzyk', '🦅', 'Wydrzyk atakuje człowieka, jeśli podejdzie zbyt blisko gniazda — uderza w głowę.', { bird: 1, feathers: 1, tail: 1, legs: 1, arctic: 1, ocean: 1, fly: 1, pred: 1 }),
+  mk('herring_gull', 'Mewa srebrzysta', '🐦', 'Mewa srebrzysta otwiera muszle, upuszczając je z 20 metrów na skały.', { bird: 1, feathers: 1, tail: 1, legs: 1, ocean: 1, water: 1, fly: 1 }),
+  mk('adelie_penguin', 'Pingwin Adeli', '🐧', 'Pingwiny Adeli rzucają kamieniami swoim partnerom — to gest miłości.', { bird: 1, feathers: 1, tail: 1, legs: 1, arctic: 1, ocean: 1, groups: 1 }),
+  mk('chinstrap_penguin', 'Pingwin maskowy', '🐧', 'Pingwin maskowy ma na buzi czarny "pasek" jak hełm motocyklowy.', { bird: 1, feathers: 1, tail: 1, legs: 1, arctic: 1, ocean: 1, groups: 1 }),
+  mk('gentoo_penguin', 'Pingwin białobrewy', '🐧', 'Pingwin białobrewy to najszybsza pływająca ptak — 36 km/h pod wodą.', { bird: 1, feathers: 1, tail: 1, legs: 1, arctic: 1, ocean: 1, fast: 1, groups: 1 }),
+  mk('macaroni_penguin', 'Pingwin złotoczuby', '🐧', 'Pingwin złotoczuby ma na głowie żółtą koronę z piór, jak makaron z mody.', { bird: 1, feathers: 1, tail: 1, legs: 1, arctic: 1, ocean: 1, groups: 1 }),
+
+  // Egzotyczne tropikalne
+  mk('kookaburra', 'Kukabura', '🐦', 'Kukabura śmieje się "ha-ha-ha" — to ptak, który brzmi jak chichot.', { bird: 1, feathers: 1, tail: 1, legs: 1, fly: 1, pred: 1, small_c: -1 }),
+  mk('bowerbird', 'Altannik', '🐦', 'Altannik buduje pałac z patyków i ozdabia go niebieskimi przedmiotami — by zaimponować samicy.', { bird: 1, feathers: 1, tail: 1, legs: 1, jungle: 1, fly: 1, small_c: 1 }),
+  mk('mockingbird', 'Drozd przedrzeźniacz', '🐦', 'Drozd przedrzeźniacz uczy się 200 piosenek innych ptaków i miesza je w swój własny remiks.', { bird: 1, feathers: 1, tail: 1, legs: 1, fly: 1, small_c: 1 }),
+  mk('bee_eater', 'Żołna', '🐦', 'Żołna zjada 200 pszczół dziennie — uderza ich żądłem o gałąź, by je rozbroić.', { bird: 1, feathers: 1, tail: 1, legs: 1, pol: -1, fly: 1, pred: 1, small_c: 1 }),
+  mk('motmot', 'Motmot', '🦜', 'Motmot ma ogon zakończony "rakietkami" — wisi nim w powietrzu jak metronom.', { bird: 1, feathers: 1, tail: 1, legs: 1, jungle: 1, fly: 1, small_c: 1 }),
+  mk('roller', 'Kraska', '🐦', 'Kraska wykonuje akrobacje w locie — koziołkuje, by zaimponować samicy.', { bird: 1, feathers: 1, tail: 1, legs: 1, pol: 1, fly: 1, small_c: 1 }),
+  mk('sunbird', 'Nektarnik', '🐦', 'Nektarnik trzepocze skrzydłami 50 razy na sekundę — pije nektar w locie jak koliber.', { bird: 1, feathers: 1, tail: 1, legs: 1, jungle: 1, fly: 1, plant: 1, small_c: 1 }),
+  mk('fairy_wren', 'Chwostka', '🐦', 'Chwostka uczy pisklęta hasła w jajku — żeby rozpoznać własne dzieci.', { bird: 1, feathers: 1, tail: 1, legs: 1, fly: 1, groups: 1, small_c: 1 }),
+
+  // Brodzące i błotne
+  mk('crane_grey', 'Żuraw zwyczajny', '🐦', 'Żuraw tańczy podskakując i kłaniając się — to taniec godowy parą na całe życie.', { bird: 1, feathers: 1, tail: 1, legs: 1, water: 1, pol: 1, fly: 1, big_d: -1, groups: 1 }),
+  mk('crowned_crane', 'Żuraw koroniasty', '🐦', 'Żuraw koroniasty śpi na drzewach — jedyny żuraw, który ma palce do chwytania gałęzi.', { bird: 1, feathers: 1, tail: 1, legs: 1, water: 1, fly: 1 }),
+  mk('whooping_crane', 'Żuraw krzykliwy', '🐦', 'Żuraw krzykliwy ma krzyk słyszalny z 3 km — był tak rzadki, że jeden ekspert pamiętał każdego z 16 żywych.', { bird: 1, feathers: 1, tail: 1, legs: 1, water: 1, fly: 1, big_d: -1 }),
+  mk('spoonbill', 'Warzęcha', '🐦', 'Warzęcha ma dziób w kształcie łyżki — przesiewa wodę z muła, łapiąc małe stworzonka.', { bird: 1, feathers: 1, tail: 1, legs: 1, water: 1, pol: -1, fly: 1 }),
+  mk('avocet', 'Szablodziób', '🐦', 'Szablodziób ma dziób wygięty w górę jak szabla — wodzi nim w wodzie szukając zdobyczy.', { bird: 1, feathers: 1, tail: 1, legs: 1, water: 1, pol: -1, fly: 1, small_c: 1 }),
+  mk('stilt', 'Szczudłak', '🐦', 'Szczudłak ma nogi długości połowy jego ciała — chodzi po wodzie jak na szczudłach.', { bird: 1, feathers: 1, tail: 1, legs: 1, water: 1, fly: 1, small_c: 1 }),
+  mk('oystercatcher', 'Ostrygojad', '🐦', 'Ostrygojad otwiera muszle ostryg — to jedyny ptak, który to potrafi.', { bird: 1, feathers: 1, tail: 1, legs: 1, ocean: 1, fly: 1, pred: 1 }),
+  mk('sandpiper', 'Brodziec', '🐦', 'Brodziec biega po plaży za falami, łapie krewetki w piasku — nigdy nie moknie.', { bird: 1, feathers: 1, tail: 1, legs: 1, ocean: 1, water: 1, fly: 1, small_c: 1 }),
+
+  // Małe leśne
+  mk('robin_european', 'Rudzik', '🐦', 'Rudzik śpiewa nawet w nocy przy ulicznej lampie — myśli, że to świt.', { bird: 1, feathers: 1, tail: 1, legs: 1, pol: 1, forest: 1, fly: 1, small_c: 1 }),
+  mk('wagtail', 'Pliszka siwa', '🐦', 'Pliszka kiwa ogonem w górę i w dół — przez to inni ptaki ją zauważają.', { bird: 1, feathers: 1, tail: 1, legs: 1, pol: 1, fly: 1, small_c: 1 }),
+  mk('nuthatch', 'Kowalik', '🐦', 'Kowalik chodzi po pniu drzewa głową w dół — jedyny ptak Polski, który tak potrafi.', { bird: 1, feathers: 1, tail: 1, legs: 1, pol: 1, forest: 1, fly: 1, small_c: 1 }),
+  mk('treecreeper', 'Pełzacz leśny', '🐦', 'Pełzacz wspina się spiralą po pniu — w dół już nie chodzi, leci na następne drzewo.', { bird: 1, feathers: 1, tail: 1, legs: 1, pol: 1, forest: 1, fly: 1, small_c: 1 }),
+  mk('nightjar', 'Lelek', '🐦', 'Lelek wygląda jak gałąź na dzień — w nocy łapie owady wielką otwartą paszczą.', { bird: 1, feathers: 1, tail: 1, legs: 1, pol: 1, forest: 1, fly: 1, nocturnal: 1, pred: 1, small_c: 1 }),
+  mk('swift', 'Jerzyk', '🐦', 'Jerzyk śpi w locie na 3000 metrów — może nie lądować nawet przez 10 miesięcy.', { bird: 1, feathers: 1, tail: 1, legs: 1, pol: 1, fly: 1, fast: 1, small_c: 1 }),
+
+  // Egzotyczne dziwactwa
+  mk('kea', 'Kea', '🦜', 'Kea otwiera plecak turysty i kradnie kanapki — to najinteligentniejszy papuga gór.', { bird: 1, feathers: 1, tail: 1, legs: 1, fly: 1, pred: -1 }),
+  mk('rhea_lesser', 'Nandu mały', '🦤', 'Nandu mały nie lata, ale biega 60 km/h — i to samce wysiadują jaja.', { bird: 1, feathers: 1, tail: -1, legs: 1, fast: 1, big_d: 1 }),
+
+  // === BATCH 4.3: Ryby świata ===
+  // Polskie/europejskie słodkowodne (pikeperch + barbel skipped — `zander` i `catfish_polish` już istnieją z tymi nazwami_pl)
+  mk('asp', 'Boleń', '🐟', 'Boleń atakuje z impetem — "wybucha" wśród rybek, by je ogłuszyć falą.', { fish: 1, scales: 1, tail: 1, water: 1, pol: 1, pred: 1, fast: 1 }),
+  mk('rudd', 'Wzdręga', '🐟', 'Wzdręga ma czerwone płetwy — żyje w zarośniętych jeziorach Polski.', { fish: 1, scales: 1, tail: 1, water: 1, pol: 1, plant: 1, small_c: 1 }),
+  mk('grayling', 'Lipień', '🐟', 'Lipień pachnie tymiankiem, gdy go złapać — od tego dostał polską nazwę.', { fish: 1, scales: 1, tail: 1, water: 1, pol: 1, fast: 1 }),
+  mk('brook_trout', 'Pstrąg potokowy', '🐟', 'Pstrąg potokowy widzi w ciemności jak kot — ma w oku dodatkową warstwę odbijającą światło.', { fish: 1, scales: 1, tail: 1, water: 1, pol: 1, pred: 1, fast: 1 }),
+  mk('smelt', 'Stynka', '🐟', 'Stynka pachnie świeżym ogórkiem — to taki sam aromatyczny związek.', { fish: 1, scales: 1, tail: 1, water: 1, pol: 1, small_c: 1, groups: 1 }),
+  mk('sterlet', 'Sterlet', '🐟', 'Sterlet ma "kostne tarcze" zamiast łusek — to żywy relikt sprzed dinozaurów.', { fish: 1, scales: -1, tail: 1, water: 1, pol: -1 }),
+
+  // Akwariowe tropikalne
+  mk('betta', 'Bojownik wspaniały', '🐠', 'Bojownik puszcza bańki — buduje gniazdo z piany na wodzie dla swojego potomstwa.', { fish: 1, scales: 1, tail: 1, water: 1, small_c: 1, pred: 1 }),
+  mk('guppy', 'Gupik', '🐠', 'Gupik rodzi żywe małe — nie składa ikry. Samice mogą mieć 200 mlecznych w roku.', { fish: 1, scales: 1, tail: 1, water: 1, small_c: 1, groups: 1 }),
+  mk('tetra_neon', 'Neonowiec', '🐠', 'Neonowiec ma na grzbiecie świecący niebieski pasek — błyszczy nawet w ciemnym akwarium.', { fish: 1, scales: 1, tail: 1, water: 1, small_c: 1, groups: 1 }),
+  mk('angelfish', 'Skalar', '🐠', 'Skalar ma trójkątny kształt i pływa wśród korzeni w Amazonii — w domu pływa wśród sztucznych roślin.', { fish: 1, scales: 1, tail: 1, water: 1, jungle: -1, small_c: 1 }),
+  mk('gourami', 'Gurami', '🐠', 'Gurami oddycha powietrzem z atmosfery — wysuwa pyszczek nad wodę co kilka minut.', { fish: 1, scales: 1, tail: 1, water: 1 }),
+  mk('mandarinfish', 'Mandarynka', '🐠', 'Mandarynka ma najbardziej kolorową łuskę morza — niebiesko-pomarańczowy wzór jak kalejdoskop.', { fish: 1, scales: 1, tail: 1, water: 1, ocean: 1, small_c: 1 }),
+
+  // Rafa koralowa
+  mk('triggerfish', 'Rogatnica', '🐠', 'Rogatnica wsuwa się w szczeliny rafy i blokuje wyjście dziwnym kolcem na grzbiecie.', { fish: 1, scales: 1, tail: 1, water: 1, ocean: 1, pred: 1 }),
+  mk('surgeonfish', 'Pokolec', '🐠', 'Pokolec ma ostre "skalpele" przy ogonie — używa ich w walce z rywalem.', { fish: 1, scales: 1, tail: 1, water: 1, ocean: 1, plant: 1 }),
+  mk('butterflyfish', 'Chetonik', '🐠', 'Chetonik ma "fałszywe oko" na ogonie — myli drapieżcę, który atakuje z tyłu.', { fish: 1, scales: 1, tail: 1, water: 1, ocean: 1, small_c: 1 }),
+  mk('grouper', 'Granik', '🐟', 'Granik połyka rekina — niektóre graniki ważą 400 kg.', { fish: 1, scales: 1, tail: 1, water: 1, ocean: 1, pred: 1, big_d: 1 }),
+  mk('snapper', 'Lucjan', '🐟', 'Lucjan grupuje się w ławice tysiąca ryb — wirują razem jak chmura w wodzie.', { fish: 1, scales: 1, tail: 1, water: 1, ocean: 1, groups: 1, pred: 1 }),
+  mk('flying_fish', 'Ryba latająca', '🐟', 'Ryba latająca szybuje 200 metrów nad wodą — używa ogona jak silnik startowy.', { fish: 1, scales: 1, tail: 1, water: 1, ocean: 1, fast: 1, small_c: -1 }),
+
+  // Rekiny
+  mk('great_white', 'Żarłacz biały', '🦈', 'Żarłacz biały wykrywa kroplę krwi w 100 litrach wody — to jak igła w basenie.', { fish: 1, scales: 1, tail: 1, water: 1, ocean: 1, pred: 1, danger: 1, big_d: 1, fast: 1 }),
+  mk('tiger_shark', 'Żarłacz tygrysi', '🦈', 'Żarłacz tygrysi zjada wszystko — w jego brzuchu znaleziono opony i tablice rejestracyjne.', { fish: 1, scales: 1, tail: 1, water: 1, ocean: 1, pred: 1, danger: 1, big_d: 1 }),
+  mk('bull_shark', 'Żarłacz tępogłowy', '🦈', 'Żarłacz tępogłowy pływa w słodkiej wodzie — można go spotkać 1000 km w głębi rzeki.', { fish: 1, scales: 1, tail: 1, water: 1, ocean: 1, pred: 1, danger: 1, big_d: 1 }),
+  mk('nurse_shark', 'Rekin pielęgniarka', '🦈', 'Rekin pielęgniarka śpi w dzień w jaskini, brzuchem do góry, czasem w stosie 30 osobników.', { fish: 1, scales: 1, tail: 1, water: 1, ocean: 1, pred: 1, big_d: 1, nocturnal: 1, groups: 1 }),
+  mk('mako_shark', 'Mako ostronosy', '🦈', 'Mako ostronosy to najszybszy rekin świata — pędzi 80 km/h, jak skuter wodny.', { fish: 1, scales: 1, tail: 1, water: 1, ocean: 1, pred: 1, big_d: 1, fast: 1 }),
+  mk('thresher_shark', 'Kosogon', '🦈', 'Kosogon ma ogon dłuższy niż reszta ciała — biczem ogłusza ryby w ławicy.', { fish: 1, scales: 1, tail: 1, water: 1, ocean: 1, pred: 1, big_d: 1 }),
+  mk('goblin_shark', 'Rekin goblinski', '🦈', 'Rekin gobliński wyrzuca szczękę 8 cm do przodu — jak chwytaka w grze "pluszowy miś".', { fish: 1, scales: 1, tail: 1, water: 1, ocean: 1, pred: 1, big_d: 1, nocturnal: 1 }),
+
+  // Płaszczki i podobne
+  mk('stingray', 'Płaszczka kolczasta', '🐟', 'Płaszczka kolczasta ma kolec na ogonie z jadem — używa go tylko w obronie.', { fish: 1, scales: -1, tail: 1, water: 1, ocean: 1, venom: 1, danger: -1 }),
+  mk('electric_ray', 'Drętwa', '🐟', 'Drętwa porazi cię 200 woltami — to jak rażenie z gniazdka.', { fish: 1, scales: -1, tail: 1, water: 1, ocean: 1, danger: 1, pred: 1 }),
+  mk('sawfish', 'Piła morska', '🐟', 'Piła morska ma pysk z 30 zębami po bokach — macha nim wśród ryb jak mieczem.', { fish: 1, scales: 1, tail: 1, water: 1, ocean: 1, pred: 1, big_d: 1 }),
+
+  // Wyjątki/dziwactwa
+  mk('coelacanth', 'Latimeria', '🐟', 'Latimeria miała wyginąć z dinozaurami, ale została odkryta żyjąca w 1938 roku.', { fish: 1, scales: 1, tail: 1, water: 1, ocean: 1, nocturnal: 1 }),
+  mk('lungfish', 'Prapłaźka', '🐟', 'Prapłaźka oddycha płucami i przeżyje 4 lata w wysychającym błocie — owinięta śluzem.', { fish: 1, scales: 1, tail: 1, water: 1 }),
+  mk('arapaima', 'Arapaima', '🐟', 'Arapaima ma 3 metry długości — to największa słodkowodna ryba świata.', { fish: 1, scales: 1, tail: 1, water: 1, jungle: 1, pred: 1, big_d: 1 }),
+  mk('mudskipper', 'Skoczek mułowy', '🐟', 'Skoczek mułowy chodzi po lądzie godzinami — oddycha skórą i ogonem.', { fish: 1, scales: -1, tail: 1, water: 1, ocean: -1, small_c: 1 }),
+  mk('pacu', 'Pacu', '🐟', 'Pacu ma zęby jak człowiek — używa ich do gryzienia owoców spadających do wody.', { fish: 1, scales: 1, tail: 1, water: 1, jungle: 1, plant: 1 }),
+  mk('tigerfish', 'Goliat afrykański', '🐟', 'Goliat afrykański skacze z wody, by chwycić ptaka w locie — ma 32 ostre zęby.', { fish: 1, scales: 1, tail: 1, water: 1, pred: 1, danger: 1, big_d: 1, fast: 1 }),
+  mk('candiru', 'Kanderu', '🐟', 'Kanderu to pasożyt — wchodzi przez skrzela większej ryby i pije jej krew.', { fish: 1, scales: -1, tail: 1, water: 1, jungle: 1, small_c: 1, pred: 1, danger: 1 }),
+
+  // === BATCH 4.4: Owady i pajęczaki ===
+  // Motyle i ćmy
+  mk('luna_moth', 'Saturniówka księżycowa', '🦋', 'Saturniówka księżycowa nie ma ust — żyje tylko 7 dni, dorosła nie je nic.', { insect: 1, fly: 1, jungle: -1, nocturnal: 1, small_c: 1 }),
+  mk('silkworm', 'Jedwabnik morwowy', '🦋', 'Jedwabnik snuje 1 km jedwabnej nici dla jednego kokonu — z 30 kokonów uszyje się chustka.', { insect: 1, jungle: -1, small_c: 1 }),
+  mk('monarch_butterfly', 'Monarcha amerykański', '🦋', 'Monarcha leci 5000 km na zimowisko — tylko jego prawnuk wraca na miejsce startu.', { insect: 1, fly: 1, fast: 1, small_c: 1, groups: 1 }),
+  mk('swallowtail', 'Paź królowej', '🦋', 'Paź królowej ma "ogonki" na tylnych skrzydłach — myli ptaki, gdzie jest głowa.', { insect: 1, fly: 1, pol: 1, small_c: 1 }),
+  mk('morpho_blue', 'Morfo niebieski', '🦋', 'Morfo niebieski nie ma niebieskiego barwnika — łuski na skrzydłach załamują światło jak płatek śniegu.', { insect: 1, fly: 1, jungle: 1, small_c: 1 }),
+
+  // Ważki i ich krewni
+  mk('damselfly', 'Łątka', '🦟', 'Łątka składa skrzydła "do kupy" w spoczynku — ważka zostawia je rozłożone.', { insect: 1, fly: 1, water: 1, pol: 1, pred: 1, small_c: 1 }),
+  mk('mayfly_giant', 'Jętka olbrzymka', '🦟', 'Jętka żyje 1 dzień jako dorosły owad — to najkrótsze życie wśród zwierząt świata.', { insect: 1, fly: 1, water: 1, pol: 1, small_c: 1 }),
+  mk('water_strider', 'Nartnik', '🦗', 'Nartnik chodzi po wodzie — jego łapy mają mikroskopijne włoski odpychające krople.', { insect: 1, water: 1, pol: 1, small_c: 1, pred: 1 }),
+
+  // Chrząszcze
+  mk('dung_beetle', 'Toczyciel', '🪲', 'Toczyciel ulepi kulkę z kupy 50 razy większą niż on i toczy ją do norki.', { insect: 1, fast: -1, small_c: 1 }),
+  mk('jewel_beetle_emerald', 'Chrząszcz klejnotowy', '🪲', 'Chrząszcz klejnotowy ma pancerz tak błyszczący, że robi się z niego biżuterię.', { insect: 1, fly: 1, jungle: 1, small_c: 1 }),
+  mk('bombardier_beetle', 'Bombardier', '🪲', 'Bombardier strzela wrzącą cieczą z odwłoka — 100°C, prosto w oczy wroga.', { insect: 1, pol: -1, small_c: 1, danger: -1 }),
+  mk('weevil', 'Ryjkowiec', '🪲', 'Ryjkowiec ma "trąbkę" zamiast pyska — wbija ją w nasiona i składa w środku jaja.', { insect: 1, plant: 1, small_c: 1 }),
+
+  // Pluskwiaki i robaczki
+  mk('aphid', 'Mszyca', '🐛', 'Mszyca rodzi 80 dziewcząt tygodniowo, bez samca — wszystkie klony.', { insect: 1, plant: 1, small_c: 1, groups: 1 }),
+  mk('earwig', 'Skorek pospolity', '🐛', 'Skorek opiekuje się jajami jak kura — czyści je językiem przed wykluciem.', { insect: 1, pol: 1, nocturnal: 1, small_c: 1 }),
+  mk('cicada_periodical', 'Cykada okresowa', '🦗', 'Cykada okresowa kryje się pod ziemią 17 lat, potem wszystkie wychodzą w tym samym dniu.', { insect: 1, fly: 1, small_c: 1, groups: 1 }),
+  mk('lacewing', 'Złotook', '🦗', 'Złotook składa jaja na pajęczych nitkach — żeby mrówki ich nie zjadły z gałęzi.', { insect: 1, fly: 1, pol: 1, pred: 1, small_c: 1 }),
+
+  // Mrówki i ich krewni
+  mk('leafcutter_ant', 'Mrówka tnąca liście', '🐜', 'Mrówki tnące hodują grzyby pod ziemią — to pierwsze stworzenia świata uprawiające rolę.', { insect: 1, jungle: 1, groups: 1, small_c: 1 }),
+  mk('army_ant', 'Mrówka wędrowna', '🐜', 'Mrówki wędrowne nie budują gniazda — żyją w "kuli" z własnych ciał, splecionych razem.', { insect: 1, jungle: 1, pred: 1, groups: 1, small_c: 1 }),
+  mk('honeypot_ant', 'Mrówka miodowa', '🐜', 'Mrówka miodowa to "żywy słoik" — robotnice karmią ją słodyczami aż brzuch jej spuchnie do rozmiaru jagody.', { insect: 1, groups: 1, small_c: 1 }),
+  mk('carpenter_ant', 'Mrówka stolarka', '🐜', 'Mrówka stolarka rzeźbi tunele w drewnie — może zniszczyć cały dom w 5 lat.', { insect: 1, forest: 1, pol: 1, groups: 1, small_c: 1 }),
+
+  // Osy i pszczoły specjalne
+  mk('paper_wasp', 'Klecanka', '🐝', 'Klecanka buduje sześciokątne komory papierowe — żuje drewno i miesza ze śliną.', { insect: 1, fly: 1, pol: 1, groups: 1, small_c: 1 }),
+  mk('asian_hornet', 'Szerszeń azjatycki', '🐝', 'Szerszeń azjatycki wycina pszczołom głowy — jedna kolonia może wykończyć cały ul w godzinę.', { insect: 1, fly: 1, pred: 1, danger: 1, groups: 1, venom: 1, small_c: 1 }),
+  mk('tarantula_hawk', 'Nastecznik', '🐝', 'Nastecznik chwyta tarantulę, paraliżuje ją, składa jaja w jej brzuchu — żywa larwa zjada żywą tarantulę.', { insect: 1, fly: 1, pred: 1, danger: 1, venom: 1, small_c: 1 }),
+
+  // Pajęczaki — pająki
+  mk('jumping_spider', 'Skoczek', '🕷️', 'Skoczek widzi w kolorze i ma 8 oczu — najlepsze widzenie wśród pajęczaków.', { jungle: -1, pred: 1, small_c: 1 }),
+  mk('wolf_spider', 'Pogońce', '🕷️', 'Pogońce nie tkają sieci — biega za zdobyczą jak mały wilk.', { pol: 1, pred: 1, nocturnal: 1, small_c: 1 }),
+  mk('orb_weaver', 'Krzyżak', '🕷️', 'Krzyżak tka idealnie okrągłą sieć w ciągu jednej nocy — następnego dnia zjada ją i robi nową.', { pol: 1, pred: 1, small_c: 1 }),
+  mk('trapdoor_spider', 'Gryziel', '🕷️', 'Gryziel buduje drzwi z jedwabiu i ziemi — czeka pod ziemią, aż ofiara przejdzie po pułapce.', { pred: 1, nocturnal: 1, small_c: 1 }),
+  mk('brown_recluse', 'Pustelnik brunatny', '🕷️', 'Pustelnik brunatny ma jad rozkładający tkanki — rana goi się tygodniami.', { pred: 1, danger: 1, venom: 1, small_c: 1, nocturnal: 1 }),
+  mk('huntsman_spider', 'Łownik', '🕷️', 'Łownik ma rozpiętość 30 cm — wielkości talerza obiadowego.', { jungle: 1, pred: 1, nocturnal: 1, fast: 1, small_c: -1 }),
+  mk('funnel_web_spider', 'Atrax', '🕷️', 'Atrax z Sydney to najbardziej jadowity pająk świata — jego kły przebijają but.', { pred: 1, danger: 1, venom: 1, small_c: 1 }),
+  mk('peacock_spider', 'Pawik pająk', '🕷️', 'Pawik pająk tańczy z kolorowym wachlarzem na odwłoku — wielkości ziarna ryżu.', { pred: 1, small_c: 1 }),
+  mk('crab_spider', 'Krabowate', '🕷️', 'Krabowate zmieniają kolor w 2 dni — pasują się do kwiatka, na którym czyhają.', { pol: 1, pred: 1, plant: -1, small_c: 1 }),
+  mk('whip_spider', 'Tarczowce biczowate', '🕷️', 'Tarczowce mają długie "biczowate" odnóża — to nie pająk, ale jego krewniak bez jadu.', { jungle: 1, nocturnal: 1, small_c: 1 }),
+
+  // Skorpiony
+  mk('emperor_scorpion', 'Skorpion imperialny', '🦂', 'Skorpion imperialny świeci na zielono w świetle UV — naukowcy nie wiedzą dlaczego.', { jungle: 1, pred: 1, venom: 1, nocturnal: 1, small_c: 1 }),
+  mk('deathstalker', 'Skorpion żółty', '🦂', 'Skorpion żółty ma jad cenniejszy niż diamenty — 1 gram kosztuje 30 milionów złotych (lekarstwo).', { pred: 1, danger: 1, venom: 1, nocturnal: 1, small_c: 1 }),
+
+  // Wijowce
+  mk('giant_centipede', 'Skolopendra olbrzymia', '🐛', 'Skolopendra olbrzymia łapie nietoperza w locie — wisi z sufitu jaskini.', { jungle: 1, pred: 1, danger: 1, venom: 1, nocturnal: 1 }),
+
+  // Inne pajęczaki
+  mk('sun_spider', 'Solfugi', '🕷️', 'Solfugi nie są ani pająkiem, ani skorpionem — biega 16 km/h, najszybsze pajęczaki.', { pred: 1, fast: 1, nocturnal: 1, small_c: 1 }),
+
+  // === BATCH 4.5: Gady i płazy ===
+  // Węże jadowite
+  mk('tiger_snake', 'Wąż tygrysi', '🐍', 'Wąż tygrysi jest tak jadowity, że jego ukąszenie zabija dorosłego człowieka w 30 minut.', { reptile: 1, scales: 1, pred: 1, danger: 1, venom: 1 }),
+  mk('coral_snake', 'Wąż koralowy', '🐍', 'Wąż koralowy ma czerwono-żółto-czarne paski — pisz wierszyk: "czerwień przy żółtym, zabija dłonie".', { reptile: 1, scales: 1, pred: 1, danger: 1, venom: 1, jungle: 1, small_c: -1 }),
+  mk('gaboon_viper', 'Żmija gabońska', '🐍', 'Żmija gabońska ma najdłuższe kły wśród węży — 5 cm, dłuższe niż palec.', { reptile: 1, scales: 1, pred: 1, danger: 1, venom: 1, jungle: 1 }),
+  mk('sea_snake', 'Wąż morski', '🐍', 'Wąż morski oddycha pod wodą skórą — i jest 10× bardziej jadowity niż kobra.', { reptile: 1, scales: 1, water: 1, ocean: 1, pred: 1, danger: 1, venom: 1 }),
+  mk('sidewinder', 'Grzechotnik wycieczny', '🐍', 'Grzechotnik wycieczny porusza się bokiem na piasku — zostawia ślady jak litera "S".', { reptile: 1, scales: 1, pred: 1, danger: 1, venom: 1, nocturnal: 1 }),
+  mk('copperhead', 'Mokasyn miedziogłowy', '🐍', 'Mokasyn miedziogłowy pachnie świeżymi ogórkami, gdy się go drażni.', { reptile: 1, scales: 1, pred: 1, danger: 1, venom: 1 }),
+  mk('bushmaster', 'Surukuku', '🐍', 'Surukuku to najdłuższy jadowity wąż Ameryki — 3,7 metra, większy niż łóżko.', { reptile: 1, scales: 1, jungle: 1, pred: 1, danger: 1, venom: 1, big_d: 1, nocturnal: 1 }),
+
+  // Węże bez jadu
+  mk('garter_snake', 'Wąż wstęgowy', '🐍', 'Wąż wstęgowy ma pomarańczowe wstęgi na grzbiecie — jest niewielki i nieszkodliwy.', { reptile: 1, scales: 1, water: -1, pred: 1, small_c: -1 }),
+  mk('milk_snake', 'Wąż mleczny', '🐍', 'Wąż mleczny udaje koralowego — barwami straszy wrogów, ale sam nie ma jadu.', { reptile: 1, scales: 1, pred: 1, nocturnal: 1, small_c: 1 }),
+
+  // Krokodyle i krewniacy
+  mk('caiman', 'Kajman okularowy', '🐊', 'Kajman okularowy ma kostną "okulary" wokół oczu — pancerz przed innymi krokodylami.', { reptile: 1, scales: 1, tail: 1, legs: 1, water: 1, jungle: 1, pred: 1, danger: 1, big_d: 1 }),
+
+  // Jaszczurki
+  mk('gila_monster', 'Helodermat', '🦎', 'Helodermat to jedyna duża jadowita jaszczurka świata — gryzie i nie puszcza.', { reptile: 1, scales: 1, tail: 1, legs: 1, pred: 1, danger: 1, venom: 1, small_c: -1 }),
+  mk('beaded_lizard', 'Heloderma meksykańska', '🦎', 'Heloderma ma na skórze "perełki" — to kostne łuski jak bursztynowy szlif.', { reptile: 1, scales: 1, tail: 1, legs: 1, pred: 1, venom: 1, small_c: -1, nocturnal: 1 }),
+  mk('anole', 'Anolis', '🦎', 'Anolis zmienia kolor jak nastrój — zielony szczęśliwy, brązowy zestresowany.', { reptile: 1, scales: 1, tail: 1, legs: 1, jungle: 1, pred: 1, small_c: 1 }),
+  mk('skink', 'Scynk', '🦎', 'Scynk traci ogon, gdy go złapać — odrasta mu nowy w kilka miesięcy.', { reptile: 1, scales: 1, tail: 1, legs: 1, small_c: 1, fast: 1 }),
+  mk('tuatara', 'Tuatara', '🦎', 'Tuatara to jedyne zwierzę z 3 okiem na czubku głowy — żywy relikt sprzed dinozaurów.', { reptile: 1, scales: 1, tail: 1, legs: 1, nocturnal: 1, pred: 1, small_c: 1 }),
+  mk('tokay_gecko', 'Tokej', '🦎', 'Tokej szczeka jak pies — "to-kay, to-kay" — można go usłyszeć z 10 metrów.', { reptile: 1, scales: 1, tail: 1, legs: 1, jungle: 1, nocturnal: 1, small_c: 1 }),
+  mk('crested_gecko', 'Gekon koroniasty', '🦎', 'Gekon koroniasty ma "korońkę" z brwi — uciekał przed wyginięciem i odnaleziono go w 1994 roku.', { reptile: 1, scales: 1, tail: 1, legs: 1, jungle: 1, nocturnal: 1, small_c: 1 }),
+  mk('panther_chameleon', 'Kameleon panterowy', '🦎', 'Kameleon panterowy ma najjaskrawsze kolory świata — niebieski, czerwony, zielony, żółty na jednym ciele.', { reptile: 1, scales: 1, tail: 1, legs: 1, jungle: 1, pred: 1, small_c: 1 }),
+  mk('jackson_chameleon', 'Kameleon Jacksona', '🦎', 'Kameleon Jacksona ma 3 rogi jak triceratops — używa ich w walce z rywalami.', { reptile: 1, scales: 1, tail: 1, legs: 1, jungle: 1, pred: 1, horns: 1, small_c: 1 }),
+
+  // Żółwie
+  mk('hawksbill_turtle', 'Żółw szylkretowy', '🐢', 'Żółw szylkretowy zjada gąbki morskie — w ich brzuchu jest tak dużo soli, że łzy lecą stale.', { reptile: 1, scales: 1, shell: 1, tail: 1, legs: 1, water: 1, ocean: 1, pred: 1, big_d: 1 }),
+  mk('leatherback_turtle', 'Żółw skórzasty', '🐢', 'Żółw skórzasty nie ma twardej skorupy — ma elastyczną skórę i jest największym żółwiem świata.', { reptile: 1, scales: -1, shell: -1, tail: 1, legs: 1, water: 1, ocean: 1, pred: 1, big_d: 1 }),
+  mk('loggerhead_turtle', 'Karetta', '🐢', 'Karetta ma najpotężniejszą szczękę wśród żółwi — zgryzie muszle krabów jak orzechy.', { reptile: 1, scales: 1, shell: 1, tail: 1, legs: 1, water: 1, ocean: 1, pred: 1, big_d: 1 }),
+  mk('galapagos_tortoise', 'Żółw galapagoski', '🐢', 'Żółw galapagoski żyje 175 lat — pamięta tysiąc letnich dni, których my nie pamiętamy.', { reptile: 1, scales: 1, shell: 1, tail: 1, legs: 1, plant: 1, big_d: 1 }),
+  mk('red_eared_slider', 'Żółw czerwonolicy', '🐢', 'Żółw czerwonolicy ma czerwone "uszy" — to nie uszy, ale rysunek za okiem.', { reptile: 1, scales: 1, shell: 1, tail: 1, legs: 1, water: 1, home: -1, small_c: 1 }),
+  mk('painted_turtle', 'Żółw malowany', '🐢', 'Żółw malowany ma na pancerzu wzór jak zachodzące słońce — różowy, żółty, czerwony.', { reptile: 1, scales: 1, shell: 1, tail: 1, legs: 1, water: 1, small_c: 1 }),
+
+  // Płazy — żaby/ropuchy
+  mk('tomato_frog', 'Żaba pomidorowa', '🐸', 'Żaba pomidorowa wydziela białą klejnową ciecz, gdy się ją drażni — przykleja paszczę drapieżcy.', { amphi: 1, tail: -1, legs: 1, jungle: 1, small_c: 1 }),
+  mk('darwin_frog', 'Nosatka', '🐸', 'Nosatka połyka jaja i opiekuje się nimi w pysku — żabki wyskakują z paszczy taty.', { amphi: 1, tail: -1, legs: 1, jungle: 1, small_c: 1 }),
+  mk('surinam_toad', 'Pipa amerykańska', '🐸', 'Pipa amerykańska składa jaja w skórę grzbietu samicy — żabki wykluwają się z jej pleców.', { amphi: 1, tail: -1, legs: 1, water: 1, jungle: 1, small_c: 1 }),
+  mk('cane_toad', 'Aga olbrzymia', '🐸', 'Aga olbrzymia waży 2,5 kg — gdy ją połkniesz, otrucie murzysza w 30 minut.', { amphi: 1, tail: -1, legs: 1, jungle: 1, venom: 1, danger: 1 }),
+  mk('fire_belly_toad', 'Kumak czerwonobrzuchy', '🐸', 'Kumak ma czerwony brzuch — odwraca się brzuchem do góry, by ostrzec, że jest trujący.', { amphi: 1, tail: -1, legs: 1, water: 1, pol: 1, venom: 1, small_c: 1 }),
+  mk('spadefoot_toad', 'Grzebiuszka', '🐸', 'Grzebiuszka kopie tylnymi łapami pod ziemię — chowa się przed suszą na całe lato.', { amphi: 1, tail: -1, legs: 1, pol: 1, small_c: 1, nocturnal: 1 }),
+  mk('wood_frog', 'Żaba leśna', '🐸', 'Żaba leśna zamarza zimą w lód i ożywa wiosną — jej serce zatrzymuje się i restartuje.', { amphi: 1, tail: -1, legs: 1, forest: 1, arctic: -1, small_c: 1 }),
+
+  // Płazy ogoniaste
+  mk('tiger_salamander', 'Salamandra tygrysia', '🦎', 'Salamandra tygrysia zjada własne rodzeństwo, gdy zabraknie jedzenia — i ma żółto-czarne paski.', { amphi: 1, tail: 1, legs: 1, pred: 1, nocturnal: 1, small_c: 1 }),
+  mk('olm', 'Odmieniec jaskiniowy', '🦎', 'Odmieniec żyje 100 lat w ciemności jaskini — biały, ślepy, oddycha skórą.', { amphi: 1, tail: 1, legs: 1, water: 1, nocturnal: 1, small_c: 1 }),
+
+  // === BATCH 4.6: Głębia oceanu i skorupiaki ===
+  // Ryby głębinowe (biolumnescentne, dziwne kształty)
+  mk('viperfish', 'Wężomorz', '🐟', 'Wężomorz ma zęby tak długie, że nie mieszczą się w pysku — sterczą jak kraty.', { fish: 1, scales: -1, tail: 1, water: 1, ocean: 1, pred: 1, nocturnal: 1, small_c: 1 }),
+  mk('dragonfish', 'Wielkogłowy smok', '🐟', 'Wielkogłowy smok świeci czerwonym światłem — widzi w głębinach tym, czym inne ryby są ślepe.', { fish: 1, scales: -1, tail: 1, water: 1, ocean: 1, pred: 1, small_c: 1 }),
+  mk('lanternfish', 'Świetlik morski', '🐟', 'Świetlik świeci na brzuchu jak gwiazdy — ukrywa swój cień przed drapieżcą w dole.', { fish: 1, scales: 1, tail: 1, water: 1, ocean: 1, small_c: 1, groups: 1 }),
+  mk('gulper_eel', 'Worek żarłoczny', '🐟', 'Worek żarłoczny ma paszczę większą niż reszta ciała — może połknąć rybę swojego rozmiaru.', { fish: 1, scales: -1, tail: 1, water: 1, ocean: 1, pred: 1 }),
+  mk('barreleye', 'Beczkooczka', '🐟', 'Beczkooczka ma przezroczystą głowę — widać przez nią oczy patrzące do góry.', { fish: 1, scales: -1, tail: 1, water: 1, ocean: 1, small_c: 1 }),
+  mk('ghost_shark', 'Chimera ryba', '🦈', 'Chimera ma na głowie "młotek" z czujnikami elektrycznymi — szuka jedzenia jak detektor metali.', { fish: 1, scales: -1, tail: 1, water: 1, ocean: 1, pred: 1, big_d: -1 }),
+  mk('frogfish', 'Skrzeczyk', '🐟', 'Skrzeczyk wędkuje rybkami — kiwa "wędką" na głowie, żeby zwabić zdobycz.', { fish: 1, scales: -1, tail: 1, water: 1, ocean: 1, pred: 1, small_c: 1 }),
+  mk('hagfish', 'Śluzica', '🐟', 'Śluzica zalewa wroga 20 litrami galaretowatego śluzu — w sekundę zatka mu skrzela.', { fish: 1, scales: -1, tail: 1, water: 1, ocean: 1, small_c: 1 }),
+  mk('snailfish', 'Ślimakowiec', '🐟', 'Ślimakowiec żyje 8000 metrów pod wodą — to najgłębiej żyjąca ryba świata.', { fish: 1, scales: -1, tail: 1, water: 1, ocean: 1, small_c: 1 }),
+  mk('atolla_jellyfish', 'Atolla', '🪼', 'Atolla świeci spiralą niebieskiego światła, gdy zaatakowana — alarm dla większych ryb, by pożarły napastnika.', { water: 1, ocean: 1, small_c: 1 }),
+
+  // Inne głębinowe
+  mk('yeti_crab', 'Krab yeti', '🦀', 'Krab yeti ma "futro" z bakterii na szczypcach — hoduje je na hydrotermalnych wulkanach głębi.', { shell: 1, water: 1, ocean: 1, small_c: 1 }),
+  mk('tube_worm', 'Robak rurkowiec', '🐛', 'Robak rurkowiec żyje koło wulkanu podwodnego — nie ma ust, je przez bakterię w brzuchu.', { water: 1, ocean: 1, small_c: -1, groups: 1 }),
+  mk('dumbo_octopus', 'Ośmiornica Dumbo', '🐙', 'Ośmiornica Dumbo lata pod wodą — macha "uszami" jak słoń Dumbo.', { water: 1, ocean: 1, small_c: 1 }),
+  mk('glass_octopus', 'Ośmiornica szklana', '🐙', 'Ośmiornica szklana jest przezroczysta — widać tylko jej oczy i jelito.', { water: 1, ocean: 1, pred: 1, small_c: 1 }),
+  mk('vampire_squid_giant', 'Wampirzyca olbrzymia', '🦑', 'Wampirzyca świeci niebiesko z koniuszków macek — straszy wrogów światłem zamiast tuszem.', { water: 1, ocean: 1, nocturnal: 1, small_c: 1 }),
+  mk('lions_mane_jellyfish', 'Chełbia lwiogrzywa', '🪼', 'Chełbia lwiogrzywa ma macki długości 36 metrów — to najdłuższe zwierzę świata.', { water: 1, ocean: 1, arctic: -1, danger: 1, big_d: 1 }),
+  mk('box_jellyfish', 'Osa morska', '🪼', 'Osa morska ma jad zabijający człowieka w 4 minuty — jest najjadowitsza zwierzę świata.', { water: 1, ocean: 1, pred: 1, danger: 1, venom: 1 }),
+  mk('portuguese_man_of_war', 'Bąbelnica portugalska', '🪼', 'Bąbelnica portugalska to nie meduza, a kolonia 4 stworzeń żyjących razem jako jedno.', { water: 1, ocean: 1, danger: 1, venom: 1 }),
+  mk('crown_of_thorns_starfish', 'Rozgwiazda korona cierniowa', '⭐', 'Korona cierniowa zjada koralowce — jedna sztuka pochłania 6 m² rafy rocznie.', { water: 1, ocean: 1, pred: 1, small_c: -1, danger: -1 }),
+  mk('brittle_star', 'Rozgwiazdka', '⭐', 'Rozgwiazdka traci ramię, gdy ją chwycić — wąż morski dostaje ramię, rozgwiazda ucieka.', { water: 1, ocean: 1, small_c: 1 }),
+
+  // Skorupiaki
+  mk('mantis_shrimp_punching', 'Ustonóg uderzający', '🦐', 'Ustonóg uderza pięściami z prędkością kuli — rozbija szybę akwarium.', { shell: 1, water: 1, ocean: 1, pred: 1, fast: 1, small_c: 1 }),
+  mk('pistol_shrimp', 'Krewetka pistoletowa', '🦐', 'Krewetka pistoletowa strzela bańką głośniejszą niż samolot — temperatura wewnątrz 4400°C.', { shell: 1, water: 1, ocean: 1, pred: 1, small_c: 1 }),
+  mk('cleaner_shrimp', 'Krewetka czyściciel', '🦐', 'Krewetka czyściciel sprząta zęby rybom — ryby otwierają usta i czekają.', { shell: 1, water: 1, ocean: 1, small_c: 1 }),
+  mk('blue_crab', 'Krab niebieski', '🦀', 'Krab niebieski ma niebieskie szczypce — samce, samice mają czerwone końcówki, jak lakier.', { shell: 1, water: 1, ocean: 1, pred: 1 }),
+  mk('king_crab', 'Krab królewski', '🦀', 'Krab królewski ma rozpiętość 1,8 m — to największy jadalny krab świata.', { shell: 1, water: 1, ocean: 1, arctic: 1, pred: 1, big_d: -1 }),
+  mk('dungeness_crab', 'Krab Dungeness', '🦀', 'Krab Dungeness żyje 10 lat — zrzucają pancerz 10 razy, by rosnąć.', { shell: 1, water: 1, ocean: 1, pred: 1 }),
+  mk('isopod_giant', 'Rajak głębinowy', '🦗', 'Rajak głębinowy to "morski stonóg" wielkości kota — może 5 lat nie jeść.', { shell: 1, water: 1, ocean: 1, nocturnal: 1, small_c: -1 }),
+  mk('amphipod_giant', 'Obunóg gigantyczny', '🦗', 'Obunóg gigantyczny żyje na 9000 m głębi — ma w brzuchu plastikowe drobinki z naszych śmieci.', { water: 1, ocean: 1, small_c: 1 }),
+
+  // Mięczaki i inne
+  mk('cuttlefish_giant', 'Mątwa olbrzymia', '🦑', 'Mątwa olbrzymia ma 3 serca — bije inne tempo każdym, by tłoczyć niebieską krew.', { water: 1, ocean: 1, pred: 1, big_d: -1 }),
+  mk('nudibranch_rainbow', 'Nagosk tęczowy', '🐌', 'Nagosk tęczowy zjada parzącego stwora morskiego, a potem używa jego komórek paraliżujących jako własnej broni.', { water: 1, ocean: 1, small_c: 1 }),
+  mk('giant_isopod', 'Stonóg morski wielki', '🦗', 'Stonóg morski wielki wygląda jak gigantyczny krewniak stonogi piwniczej — ma 4 nogi i pancerz.', { shell: 1, water: 1, ocean: 1, nocturnal: 1, small_c: -1 }),
+  mk('sand_dollar', 'Jeżowiec piaskowy', '⭐', 'Jeżowiec piaskowy wygląda jak okrągła moneta na plaży — to bezgłowe stworzonko mórz.', { water: 1, ocean: 1, small_c: 1 }),
+  mk('feather_star', 'Liliowiec pierzasty', '⭐', 'Liliowiec wygląda jak pióro tańczące pod wodą — pływa, ale woli "chodzić" po dnie.', { water: 1, ocean: 1, small_c: 1 }),
+  mk('comb_jelly', 'Żebropław', '🪼', 'Żebropław świeci tęczowo, gdy płynie — światło załamuje się na rzęskach.', { water: 1, ocean: 1, small_c: 1, nocturnal: -1 }),
+  mk('sea_pig', 'Świnka morska', '🐷', 'Świnka morska (ogórek-pig) chodzi po dnie 5000 metrów pod wodą — wygląda jak różowy balonik.', { water: 1, ocean: 1, small_c: 1 }),
 ];
 
 /**

@@ -88,7 +88,7 @@ export const EXPEDITIONS: Expedition[] = [
       'european_hamster', 'wolverine', 'crossbill', 'siskin', 'goldcrest',
       'waxwing', 'kingfisher', 'black_woodpecker', 'eagle_owl_white',
       'hawfinch', 'serin', 'grebe_great', 'cicada', 'millipede', 'mole_eu',
-      'dormouse_garden', 'chipmunk', 'flying_squirrel', 'peregrine_falcon',
+      'dormouse_garden', 'chipmunk', 'flying_squirrel', 
       'kestrel', 'peacock_butterfly', 'tick',
     ],
   },
@@ -137,7 +137,7 @@ export const EXPEDITIONS: Expedition[] = [
       'blobfish', 'pufferfish', 'porcupinefish', 'mola_giant', 'mantis_shrimp',
       'horseshoe_crab', 'nautilus', 'giant_squid', 'vampire_squid',
       'cone_snail', 'sea_cucumber', 'sea_slug', 'mantis_shrimp_peacock',
-      'atlantic_puffin', 'booby', 'seahorse_pygmy', 'manta_ray',
+      'atlantic_puffin', 'booby', 
       'moonjellyfish', 'octopus_blue_ring', 'crab_japanese_spider', 'flatworm',
     ],
   },
@@ -249,9 +249,9 @@ export const EXPEDITIONS: Expedition[] = [
       'condor', 'trout', 'yak', 'chamois', 'mountain_hare', 'red_panda',
       'moon_bear', 'japanese_macaque', 'snow_leopard', 'puma', 'coyote',
       'grizzly', 'bison_american', 'white_eagle', 'buzzard', 'marmot', 'ibex',
-      'clouded_leopard', 'serow', 'takin', 'snow_monkey', 'dhole', 'musk_deer',
+      'clouded_leopard', 'serow', 'takin', 'dhole', 'musk_deer',
       'vicuna', 'guanaco', 'wolverine', 'snub_nosed_monkey', 'bald_eagle',
-      'peregrine_falcon', 'giant_salamander',
+      'giant_salamander',
     ],
   },
   {
@@ -302,7 +302,7 @@ export const EXPEDITIONS: Expedition[] = [
       'king_cobra', 'mamba', 'matamata', 'alligator_snapping',
       'praying_mantis_giant', 'camel_spider', 'whip_scorpion', 'mantis_shrimp',
       'giant_squid', 'cone_snail', 'mantis_shrimp_peacock', 'mole_eu',
-      'honey_badger', 'snow_fox', 'bald_eagle', 'peregrine_falcon',
+      'honey_badger', 'snow_fox', 'bald_eagle', 
       'octopus_blue_ring', 'green_anaconda', 'reticulated_python',
       'komodo_juvenile',
     ],
@@ -402,7 +402,7 @@ export const EXPEDITIONS: Expedition[] = [
     roster: [
       'chimpanzee', 'gorilla', 'orangutan', 'lemur', 'mandrill', 'gibbon',
       'macaque', 'langur', 'japanese_macaque', 'aye_aye', 'proboscis_monkey',
-      'snow_monkey', 'tamarin', 'marmoset', 'snub_nosed_monkey',
+      'tamarin', 'marmoset', 'snub_nosed_monkey',
     ],
   },
   {
@@ -432,7 +432,7 @@ export const EXPEDITIONS: Expedition[] = [
       'rhino', 'orca', 'bison', 'sperm_whale', 'asian_elephant', 'grizzly',
       'bison_american', 'bowhead', 'whale_shark', 'orca_killer',
       'blue_whale_pygmy', 'humpback', 'right_whale', 'gray_whale', 'dugong',
-      'elephant_seal', 'giant_squid', 'manta_ray', 'crab_japanese_spider',
+      'elephant_seal', 'giant_squid', 'crab_japanese_spider',
       'green_anaconda', 'reticulated_python', 'komodo_juvenile',
       'giant_salamander',
     ],
@@ -754,8 +754,8 @@ export const EXPEDITIONS: Expedition[] = [
     inspirationRoster: [
       'chimpanzee', 'gorilla', 'orangutan', 'lemur', 'mandrill', 'gibbon',
       'macaque', 'langur', 'japanese_macaque', 'aye_aye', 'proboscis_monkey',
-      'snow_monkey', 'tamarin', 'marmoset', 'snub_nosed_monkey', 'binturong',
-      'sloth', 'red_panda',
+      'tamarin', 'marmoset', 'snub_nosed_monkey', 'binturong',
+      'sloth', 'red_panda', 'koala',
     ],
   },
   {
@@ -800,7 +800,7 @@ export const EXPEDITIONS: Expedition[] = [
     inspirationRoster: [
       'whale', 'shark', 'orca', 'manta', 'swordfish', 'octopus', 'sperm_whale',
       'humpback', 'whale_shark', 'hammerhead', 'beluga', 'narwhal', 'walrus',
-      'elephant_seal', 'giant_squid', 'sea_turtle', 'manta_ray', 'dolphin',
+      'elephant_seal', 'giant_squid', 'sea_turtle', 'dolphin', 'blue_whale_pygmy',
     ],
   },
   {
