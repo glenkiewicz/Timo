@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="70" viewBox="0 0 320 70">
+  <title>Główne CTA — Zagraj z Timo</title>
+  
+  <defs>
+    <linearGradient id="btnGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F28238"></stop>
+      <stop offset="1" stop-color="#A24D17"></stop>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="6" width="320" height="60" rx="30" fill="#A24D17"></rect>
+  <rect x="0" y="0" width="320" height="60" rx="30" fill="url(#btnGrad)"></rect>
+  <rect x="6" y="6" width="308" height="6" rx="3" fill="rgba(255,255,255,0.35)"></rect>
+  <g transform="translate(98 22)" fill="#fff">
+    <path d="M0 0 L18 10 L0 20 Z"></path>
+  </g>
+  <text x="180" y="38" font-family="Fredoka, sans-serif" font-weight="600" font-size="22" fill="#fff">Zagraj z Timo</text>
+
+</svg>

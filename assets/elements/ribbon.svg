@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="290" height="56" viewBox="0 0 290 56">
+  <title>Wstążka — odkryłeś zwierzę</title>
+  
+  <defs>
+    <linearGradient id="ribGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F28238"></stop>
+      <stop offset="1" stop-color="#A24D17"></stop>
+    </linearGradient>
+  </defs>
+  <path d="M0 14 L26 8 L40 22 L20 28 Z" fill="#A24D17"></path>
+  <path d="M290 14 L264 8 L250 22 L270 28 Z" fill="#A24D17"></path>
+  <path d="M16 4 H274 V40 L260 32 H30 L16 40 Z" fill="url(#ribGrad)"></path>
+  <path d="M16 4 H274 V8 H16 Z" fill="rgba(255,255,255,0.25)"></path>
+  <text x="145" y="28" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="16" fill="#FFF6CC" letter-spacing="2">ODKRYŁEŚ ZWIERZĘ!</text>
+
+</svg>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="96" viewBox="0 0 280 96">
+  <title>Dymek rozmowy</title>
+  
+  <g>
+    <rect x="2" y="2" width="276" height="76" rx="26" fill="#fff" stroke="#FFF1DF" stroke-width="2"></rect>
+    <path d="M38 76 Q 46 80 50 90 Q 54 80 66 76 Z" fill="#fff" stroke="#FFF1DF" stroke-width="2" stroke-linejoin="round"></path>
+  </g>
+
+</svg>
