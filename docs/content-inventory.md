@@ -1,6 +1,6 @@
 # Timo — przegląd treści
 
-Spis wszystkich danych użytkowych aplikacji: pytania, odpowiedzi, warianty, linie osobowości Liska, wyprawy, odznaki, mechanika nagród.
+Spis wszystkich danych użytkowych aplikacji: pytania, odpowiedzi, warianty, linie osobowości Liska, wyprawy, odznaki, mechanika zgadywania i nagród.
 
 ## Spis
 
@@ -10,11 +10,13 @@ Spis wszystkich danych użytkowych aplikacji: pytania, odpowiedzi, warianty, lin
 4. [Odpowiedzi dziecka (4)](#4-odpowiedzi-dziecka-4)
 5. [Biblioteka Liska Timo — osobowość](#5-biblioteka-liska-timo--osobowość)
 6. [Zwierzęta (500) — kategorie z liczbami](#6-zwierzęta-500--kategorie-z-liczbami)
-7. [Wyprawy (21)](#7-wyprawy-21)
+7. [Wyprawy (45 — 24 guided + 21 expert)](#7-wyprawy-45--24-guided--21-expert)
 8. [Odznaki (20)](#8-odznaki-20)
 9. [Tytuły poziomów (7)](#9-tytuły-poziomów-7)
 10. [Mechanika nagród](#10-mechanika-nagród)
-11. [Notatki / do przeglądu](#11-notatki--do-przeglądu)
+11. [Mechanika zgadywania (silnik)](#11-mechanika-zgadywania-silnik)
+12. [Ekrany i nawigacja](#12-ekrany-i-nawigacja)
+13. [Notatki / do przeglądu](#13-notatki--do-przeglądu)
 
 ---
 
@@ -22,14 +24,17 @@ Spis wszystkich danych użytkowych aplikacji: pytania, odpowiedzi, warianty, lin
 
 | Element | Ile |
 |---|---|
-| Zwierząt | **500** |
+| Zwierząt | **500** (w Free Play grywalne **483** — mityczne wyłączone) |
+| Zdjęć zwierząt (`assets/animals/`) | **500** |
 | Atrybutów | **38** |
 | Pytań (każde z ~3 wariantami) | **38** |
 | Wariantów pytań łącznie | **~125** |
-| Wypraw (10 biomowych + 10 tematycznych + 1 mityczna) | **21** |
+| Wypraw | **45** — **24 guided** (widoczne w UI) + **21 expert** (ukryte flagą) |
 | Odznak | **20** |
 | Tytułów poziomów | **7** |
 | Linii osobowości Liska | **~70** (prefixy + interludy + reakcje + powitania + zwycięstwa + porażki + strzały) |
+| Plików głosowych (`assets/voices/*.mp3`) | **863** |
+| Waga `assets/` | **~84 MB** |
 
 ---
 
@@ -387,47 +392,107 @@ Zwierzęta `mythical` mają **tylko** ten tag — nie pojawiają się w Free Pla
 
 ---
 
-## 7. Wyprawy (21)
+## 7. Wyprawy (45 — 24 guided + 21 expert)
 
-### Biomowe (10)
+Wyprawy mają **dwa tryby**, sterowane polem `mode` w `src/data/expeditions.ts`.
 
-| ID | Tytuł | Hero | Target | 🐾 | ✨ XP |
-|---|---|---|---|---|---|
-| `polish_forest` | Polski las | 🌲 | 8 | 120 | 240 |
-| `savanna` | Afrykańska sawanna | 🦁 | 6 | 90 | 180 |
-| `ocean` | Oceaniczna głębia | 🌊 | 8 | 120 | 240 |
-| `farm` | Wiejska farma | 🐄 | 5 | 75 | 150 |
-| `jungle` | Amazońska dżungla | 🌴 | 6 | 90 | 180 |
-| `arctic` | Arktyczna kraina | ❄️ | 5 | 75 | 150 |
-| `australia` | Australijski busz | 🦘 | 4 | 60 | 120 |
-| `night_forest` | Nocny las | 🌙 | 6 | 90 | 180 |
-| `mountain` | Górska wyprawa | ⛰️ | 4 | 60 | 120 |
-| `home_pets` | Domowi przyjaciele | 🏠 | 5 | 75 | 150 |
+| | `guided` — "Wyprawa z Timo" | `expert` — klasyczna kategoria |
+|---|---|---|
+| Widoczność w UI | **tak** | **nie** — `SHOW_EXPERT_EXPEDITIONS = false` |
+| Adresat | dziecko | starszy gracz / przyszły tryb |
+| Nazewnictwo | konkretne, dziecięce ("Wodne Zwierzaki") | abstrakcyjne ("Oceaniczna głębia") |
+| Źródło puli | `inspirationRoster` — **18 zwierząt** | `roster` — pełna lista (14–138) |
+| Karty inspiracji na `/expedition-intro/[id]` | 18 kart ze zdjęciami | brak |
+| Fallback gdy pula się wyczerpie | `expeditionExpansionPool()` → 18 kart + rostery wypraw powiązanych (`GUIDED_EXPANSION_REFS`); UI raz pokazuje komunikat "poza kategorią" i kasuje flagę `didEscapeCategory` | zostaje w `roster` |
+| `target_count` | **10** (jednolicie) | 4–8 |
+| Nagroda | **150 🐾 / 300 ✨** | `target × 15` 🐾 / `target × 30` ✨ |
 
-### Tematyczne (10)
+Pole `childTitle` istnieje przy każdej guided, ale w praktyce duplikuje `title` (jedyny wyjątek: `flyers` — `title: 'Latające Zwierzaki'`, `childTitle: 'Zwierzęta, które latają'`).
 
-| ID | Tytuł | Hero | Target | 🐾 | ✨ XP |
-|---|---|---|---|---|---|
-| `predators` | Drapieżniki świata | 🐺 | 8 | 120 | 240 |
-| `insects` | Świat owadów | 🦋 | 6 | 90 | 180 |
-| `freshwater` | Słodkie wody Polski | 🎣 | 4 | 60 | 120 |
-| `reptiles` | Gady i pancerze | 🐍 | 6 | 90 | 180 |
-| `amphibians` | Świat płazów | 🐸 | 4 | 60 | 120 |
-| `songbirds` | Ptaki śpiewające | 🎶 | 5 | 75 | 150 |
-| `monkeys` | Małpy świata | 🐒 | 4 | 60 | 120 |
-| `big_cats` | Wielkie koty | 🐯 | 5 | 75 | 150 |
-| `giants` | Olbrzymy świata | 🐘 | 5 | 75 | 150 |
-| `herbivores` | Roślinożerni | 🌿 | 7 | 105 | 210 |
+### 7.1 Guided (24) — widoczne w aplikacji
 
-### Specjalna (1)
+Wszystkie mają `target_count: 10`, `inspirationRoster` = 18 zwierząt, nagrodę **150 🐾 / 300 ✨**.
 
-| ID | Tytuł | Hero | Target | 🐾 | ✨ XP |
-|---|---|---|---|---|---|
-| `mythical` | Legendy i Mity | 🐉 | 5 | 75 | 150 |
+| ID | Tytuł | Hero | Rozszerzenie puli (`GUIDED_EXPANSION_REFS`) |
+|---|---|---|---|
+| `water_friends` | Wodne Zwierzaki | 🐬 | `ocean`, `freshwater` |
+| `farm_timo` | Farma Timo | 🐄 | `farm` |
+| `green_jungle` | Zielona Dżungla | 🌴 | `jungle` |
+| `forest_kids` | Leśne Zwierzaki | 🦊 | `polish_forest`, `night_forest` |
+| `flyers` | Latające Zwierzaki | 🦋 | `songbirds`, `polish_forest` |
+| `night_animals` | Nocne Zwierzaki | 🌙 | `night_forest`, `polish_forest` |
+| `big_animals` | Wielkie Zwierzęta | 🐘 | `giants` |
+| `small_animals` | Małe Zwierzęta | 🐭 | `insects` |
+| `scary_animals` | Groźne Zwierzaki | 🦁 | `predators` |
+| `ice_land` | Lodowa Kraina | ❄️ | `arctic` |
+| `home_pets_friends` | Domowi Pupile | 🐶 | `home_pets` |
+| `feathered` | Z Piórami | 🪶 | `songbirds`, `polish_forest` |
+| `furry` | Z Futrem | 🐻 | `polish_forest`, `savanna`, `arctic`, `home_pets` |
+| `bugs_and_worms` | Owady i Robaki | 🐝 | `insects` |
+| `savanna_kids` | Sawanna | 🦓 | `savanna` |
+| `jumpers` | Skoczki | 🦘 | `polish_forest`, `savanna`, `australia` |
+| `swimmers` | Pływające Zwierzaki | 🐟 | `ocean`, `freshwater` |
+| `monkey_friends` | Małpki i Naczelne | 🐵 | `monkeys`, `jungle` |
+| `striped_spotted` | Pasiaste i Cętkowane | 🐅 | `big_cats`, `savanna` |
+| `long_nose` | Z Trąbą i Długim Nosem | 🐘 | `savanna`, `jungle` |
+| `water_giants` | Wodne Olbrzymy | 🐋 | `ocean`, `giants` |
+| `dinos_myths` | Dinozaury i Mity | 🦖 | `mythical` |
+| `shelled` | Ze Skorupą | 🐢 | `ocean`, `reptiles` |
+| `colorful` | Kolorowe Zwierzaki | 🦜 | `jungle` |
 
-> Pula `mythical` to 17 stworzeń (dinozaury + fantasy) z `expedition_tags: ['mythical']` — wyłącznie ten tag, więc nie wpadają do Free Play ani do innych wypraw.
+> Rostery expert wskazane w prawej kolumnie **nie są widoczne jako wyprawy** — służą wyłącznie jako zaplecze puli, gdy dziecko pomyśli o zwierzęciu spoza 18 kart.
 
-**Mechanika dnia:** codziennie z 21 wypraw losowane 3 propozycje (deterministyczne — ten sam zestaw cały dzień). Gracz wybiera jedną. Po ukończeniu — blok do jutra + nagroda. Reszta wypraw na `/expeditions` zablokowana.
+### 7.2 Expert (21) — ukryte flagą `SHOW_EXPERT_EXPEDITIONS`
+
+Kolumna `roster` = rzeczywista liczba zwierząt w puli.
+
+**Biomowe (10)**
+
+| ID | Tytuł | Hero | Target | 🐾 | ✨ XP | roster |
+|---|---|---|---|---|---|---|
+| `polish_forest` | Polski las | 🌲 | 8 | 120 | 240 | 119 |
+| `savanna` | Afrykańska sawanna | 🦁 | 6 | 90 | 180 | 54 |
+| `ocean` | Oceaniczna głębia | 🌊 | 8 | 120 | 240 | 85 |
+| `farm` | Wiejska farma | 🐄 | 5 | 75 | 150 | 17 |
+| `jungle` | Amazońska dżungla | 🌴 | 6 | 90 | 180 | 93 |
+| `arctic` | Arktyczna kraina | ❄️ | 5 | 75 | 150 | 29 |
+| `australia` | Australijski busz | 🦘 | 4 | 60 | 120 | 17 |
+| `night_forest` | Nocny las | 🌙 | 6 | 90 | 180 | 46 |
+| `mountain` | Górska wyprawa | ⛰️ | 4 | 60 | 120 | 35 |
+| `home_pets` | Domowi przyjaciele | 🏠 | 5 | 75 | 150 | 19 |
+
+**Tematyczne (10)**
+
+| ID | Tytuł | Hero | Target | 🐾 | ✨ XP | roster |
+|---|---|---|---|---|---|---|
+| `predators` | Drapieżniki świata | 🐺 | 8 | 120 | 240 | 138 |
+| `insects` | Świat owadów | 🦋 | 6 | 90 | 180 | 42 |
+| `freshwater` | Słodkie wody Polski | 🎣 | 4 | 60 | 120 | 26 |
+| `reptiles` | Gady i pancerze | 🐍 | 6 | 90 | 180 | 34 |
+| `amphibians` | Świat płazów | 🐸 | 4 | 60 | 120 | 15 |
+| `songbirds` | Ptaki śpiewające | 🎶 | 5 | 75 | 150 | 22 |
+| `monkeys` | Małpy świata | 🐒 | 4 | 60 | 120 | 14 |
+| `big_cats` | Wielkie koty | 🐯 | 5 | 75 | 150 | 15 |
+| `giants` | Olbrzymy świata | 🐘 | 5 | 75 | 150 | 28 |
+| `herbivores` | Roślinożerni | 🌿 | 7 | 105 | 210 | 81 |
+
+**Specjalna (1)**
+
+| ID | Tytuł | Hero | Target | 🐾 | ✨ XP | roster |
+|---|---|---|---|---|---|---|
+| `mythical` | Legendy i Mity | 🐉 | 5 | 75 | 150 | 17 |
+
+> Pula `mythical` to 17 stworzeń (dinozaury + fantasy). `game-store.start()` odejmuje je z Free Play (`ANIMALS.filter(a => !mythicalIds.has(a.id))` → **483 zwierzęta**), żeby losowy "zgadnij zwierzę" pozostał realny. Do gry trafiają tylko przez wyprawę `mythical` (expert, ukryta) lub guided `dinos_myths`.
+
+### 7.3 Wyprawa Dnia
+
+`pickDailyGuided(todayKey())` losuje **3 wyprawy spośród guided**, hashując string daty — ten sam dzień daje ten sam zestaw na każdym urządzeniu. Wynik trafia do `profile-store.dailyChoice` i jest cache'owany do końca dnia.
+
+Statusy kart na `/expeditions` (`CardStatus`): `completed` → `in_progress` → `available_today` (jedna z 3 dzisiejszych) → `locked` (reszta).
+
+`pickDailyThree()` (losowanie ze **wszystkich** 45) zostało w kodzie jako fallback i zaplecze pod przyszły tryb Eksperta — obecnie nieużywane w praktyce.
+
+⚠️ **`DEV_UNLOCK_ALL = __DEV__`** (`src/config/features.ts`) — w dev buildzie wszystkie wyprawy mają status `available_today` i cała kolekcja jest widoczna jako odkryta. W buildzie release (`preview`, `production`) flaga jest `false`, więc aplikacja startuje od zera.
 
 ---
 
@@ -452,9 +517,17 @@ Zwierzęta `mythical` mają **tylko** ten tag — nie pojawiają się w Free Pla
 | `explorer_1` | Pierwsza wyprawa | 1 wyprawa ukończona | 🗺️ |
 | `explorer_5` | Podróżnik | 5 wypraw | 🌍 |
 | `explorer_10` | Mistrz wypraw | 10 wypraw | 🎖️ |
-| `explorer_all` | Globtroter | Wszystkie 20 wypraw | 👑 |
-| `night_owl` | Nocna sowa | Gra po 21:00 | 🦉 |
-| `early_bird` | Ranny ptaszek | Gra przed 8:00 | 🐤 |
+| `explorer_all` | Globtroter | `completedCount >= 20` | 👑 |
+| `night_owl` | Nocna sowa | Gra po 21:00 (lub przed 4:00) | 🦉 |
+| `early_bird` | Ranny ptaszek | Gra między 5:00 a 8:00 | 🐤 |
+
+**Gdzie odblokowywane:**
+
+- `awardRound()` w `features/gamification/award.ts` — `first_*`, `streak_*`, `collector_*`, `fast_thinker` (wszystko, co da się policzyć z wyniku rundy).
+- `profile-store.award()` — `lightning`, `daily_streak_*`, `night_owl`, `early_bird` (wymagają stanu profilu lub zegara).
+- `profile-store.recordExpeditionDiscovery()` — `explorer_*` (odpalane w momencie ukończenia wyprawy).
+
+⚠️ **Do poprawki:** opis `explorer_all` mówi *"Wszystkie 20 wypraw zaliczone!"*, a warunek to `completedCount >= 20` przy **24 widocznych** wyprawach guided. Odznaka jest zdobywalna, ale copy kłamie — albo podnieść próg do 24, albo zmienić tekst.
 
 ---
 
@@ -498,6 +571,8 @@ Pokazywane na Home pod avatarem ("Tytuł · L*N*").
 | Pierwsze odkrycie zwierzęcia | dodatkowo +25 |
 | Wyprawa ukończona | bonus `target × 30` |
 
+Ponieważ wszystkie widoczne wyprawy (guided) mają `target_count: 10`, w praktyce ukończenie wyprawy to zawsze **+150 🐾 / +300 ✨**.
+
 ### Krzywa levelu
 
 - `xpForLevel(n) = 50 + 50 × (n − 1)` → 50, 100, 150, 200, 250…
@@ -510,9 +585,119 @@ Poziomy: L1 (0–50), L2 (50–150), L3 (150–300), L4 (300–500), L5 (500–7
 - 🔥 **Streak rund** — wygrane z rzędu. Reset przy porażce. +5 tropów bonus przy ≥3.
 - 📅 **Streak dni** — codziennie zagrał ≥1 rundę. Reset przy pominiętym dniu. +50 tropów + odznaka przy 7.
 
+### Gwiazdki ⭐ — wycofane
+
+Pole `stars` żyje jeszcze w `profile-store` i w kształcie `lastReward` (`starsDelta`), ale `awardRound()` zawsze zwraca `0` i UI ich nie pokazuje. Zostawione wyłącznie dla zgodności ze schematem persystencji `timo-profile-v1`.
+
+### Persystencja
+
+Zustand + AsyncStorage, klucz **`timo-profile-v1`**. `partialize` zapisuje: `paws`, `stars`, `xp`, `streak`, `dailyStreak`, `lastPlayDate`, `fast_wins`, `collection`, `badges`, `dailyChoice`, `expeditionProgress`, `audioMuted`. Pola `lastReward` / `lastExpeditionReward` są **celowo nietrwałe** — to payload jednej rundy, z którego Home i Result czytają animacje count-up.
+
 ---
 
-## 11. Notatki / do przeglądu
+## 11. Mechanika zgadywania (silnik)
+
+`src/features/game/guessing-engine.ts`. Stan silnika żyje w `lib/stores/game-store.ts` (Zustand, bez persystencji — runda ginie po restarcie).
+
+### Stałe
+
+| Stała | Wartość | Znaczenie |
+|---|---|---|
+| `MAX_QUESTIONS` | 20 | Twardy limit — potem Timo się poddaje |
+| `MIN_QUESTIONS_BEFORE_GUESS` | 4 | Nie strzela wcześniej (chyba że został 1 kandydat) |
+| `GUESS_SCORE_GAP` | 3 | Przewaga top-1 nad top-2 wystarczająca do strzału |
+| `FORCED_GUESS_POOL` | 3 | Tylu kandydatów lub mniej → strzelaj mimo braku gapu |
+| `DESPERATE_AFTER` | 13 | Po tylu pytaniach strzela, gdy pula ≤ 8 |
+
+### Scoring kandydata (`scoreAnimal`)
+
+Za każdą dotychczasową odpowiedź:
+
+| Odpowiedź | Wartość atrybutu | Punkty |
+|---|---|---|
+| `yes` | `true` | **+3** |
+| `yes` | `null` | +0.5 |
+| `no` | `false` | **+3** |
+| `no` | `null` | +0.5 |
+| `hard` ("to zależy") | `null` | **+2** |
+| `idk` | — | 0 (neutralne) |
+
+Suma × **`popularityOf(id)`** — mnożnik **1.0–1.35** z `features/game/popularity.ts`, przesuwający do przodu zwierzęta, o których dziecko pomyśli najpierw (pies 1.35, kot 1.3, lew/tygrys 1.3–1.25, sowa 1.25…). Zakres był kiedyś do 1.8 i powodował, że "Pies" wygrywał strzał już po 3 pytaniach niezależnie od odpowiedzi — stąd obniżenie.
+
+### Wybór pytania (`pickNextQuestion`)
+
+Information gain liczony **nie na całej puli, tylko na top-K kandydatów** — inaczej drzewo marnowałoby pytania na rozdzielanie 500 zwierząt, z których 90% dawno odpadło.
+
+| Faza | Okno kandydatów | Losowanie z top-N pytań |
+|---|---|---|
+| Q1 | cała pula | 5 |
+| Q2 | cała pula | 3 |
+| Q3–Q5 | top-30 | 3 (Q3+ → 2) |
+| Q6+ | top-15 | 2 |
+
+Score pytania: `|yes − no| + ambiguous × 0.7` (im niżej, tym lepiej — czyli podział 50/50 wygrywa, a atrybuty z dużą liczbą `null` dostają karę). Losowanie z top-N sprawia, że kolejne partie zaczynają się inaczej.
+
+### Filtrowanie (`applyAnswer`)
+
+`idk` i `hard` **nie filtrują** puli — wpływają tylko na scoring. `yes`/`no` odsiewa zwierzęta z przeciwną wartością; `null` **zawsze zostaje** (bo znaczy "czasem").
+
+### Kiedy strzelać (`shouldAttemptGuess`)
+
+1. Pusta pula → nie.
+2. 1 kandydat → strzał.
+3. `questionsAsked < 4` → nie.
+4. Pula ≤ 3 → strzał.
+5. `gap(top1, top2) ≥ 3` → strzał.
+6. `questionsAsked ≥ 13` i pula ≤ 8 → strzał z desperacji.
+
+Po odrzuceniu strzału zwierzę ląduje w `excludedAnimals` i gra wraca do pytań. Poddanie się: `questionsAsked >= 20` albo zero eligible kandydatów.
+
+### Pule startowe
+
+| Tryb | Pula |
+|---|---|
+| Free Play | 500 − 17 mitycznych = **483** |
+| Wyprawa guided | `inspirationRoster` = **18**, z fallbackiem `expeditionExpansionPool()` |
+| Wyprawa expert | pełny `roster` (14–138), fallback zostaje w `roster` |
+
+W obu trybach wyprawy zwierzęta już odkryte (`excludeDiscovered`) startują w `excludedAnimals`.
+
+---
+
+## 12. Ekrany i nawigacja
+
+Expo Router, `src/app/`. Root stack: `headerShown: false`, `animation: 'fade'`.
+
+### Taby (`(tabs)/_layout.tsx`)
+
+Custom `PuffyTabBar`. Kolejność w pasku: **Kolekcja 📒 · Wyprawy 🗺️ · Odznaki 🏅 · Menu 🏠**, ale `initialRouteName="index"` (Menu).
+
+| Trasa | Plik | Zawartość |
+|---|---|---|
+| `/` | `(tabs)/index.tsx` | Polana — Timo z dymkiem ("TIMO MÓWI"), liczniki tropów/XP/streaku z animacją count-up po rundzie, CTA "Zagraj z Timo" / "Kontynuuj wyprawę", toggle głosu |
+| `/collection` | `(tabs)/collection.tsx` | Album odkrytych zwierząt + `HabitatMap`, filtr "Wszystkie" |
+| `/expeditions` | `(tabs)/expeditions.tsx` | Wyprawa Dnia (3 karty) + licznik `completedCount / visibleExpeditions.length` |
+| `/badges` | `(tabs)/badges.tsx` | 20 odznak w 7 grupach |
+
+### Poza tabami
+
+| Trasa | Plik | Zawartość |
+|---|---|---|
+| `/game` | `game.tsx` | "TIMO PYTA" + 4 przyciski odpowiedzi; w fazie strzału "TIMO ZGADUJE" + "Tak!" / "Nie, pudło" |
+| `/result` | `result.tsx` | Karta zwierzęcia, plakietka "Nowe!", przyrost 🐾/✨, nowe odznaki, "Zagraj jeszcze raz" / "Wróć na Polanę" |
+| `/expedition-intro/[id]` | `expedition-intro/[id].tsx` | 18 kart inspiracji + "Mam zwierzę!" |
+| `/animal/[id]` | `animal/[id].tsx` | Zdjęcie, ciekawostka, szczegóły z `animal-details.ts` |
+
+### Warstwa wizualna i audio
+
+- **Fonty:** Fredoka (400/500/600/700) — nagłówki i UI; Nunito (400/600/700/800/900) — treść.
+- **Styling:** NativeWind 5 preview przez wrapper `src/tw/`. Tokeny: `paper`, `brand`, `brand-pale`, `brand-deep`, `ink-soft`, `rounded-card`, `rounded-chip`.
+- **Audio:** `expo-audio`, `setAudioModeAsync({ playsInSilentMode: true, interruptionMode: 'duckOthers' })` — głos Timo gra także przy wyciszonym iPhonie i ścisza inne aplikacje. Wyciszenie z poziomu Menu (`audioMuted`, persystowane).
+- **Voice pipeline:** `scripts/generate-timo-voices.ts` generuje `src/data/voice-manifest.ts` (863 pliki, klucze = hash treści). **Nie edytować manifestu ręcznie.** Odtwarzanie: `lib/audio/timo-voice.ts`.
+
+---
+
+## 13. Notatki / do przeglądu
 
 Miejsce na uwagi po przeglądzie:
 
@@ -522,14 +707,18 @@ Miejsce na uwagi po przeglądzie:
 - [ ] Sprawdzić warianty pod kątem konfliktu z prefixami (np. wariant zaczynający się od "Hmm").
 
 ### Wyprawy
-- [ ] Czy 20 wypraw to nie za dużo na MVP? Może wybrać 10 najlepszych?
-- [ ] Tematyczne i biomowe overlap (np. `predators` przecina `polish_forest` i `savanna`). OK?
-- [ ] Czy `target_count` powinien być proporcjonalny do puli, czy zawsze 3 dla łatwości?
+- [x] ~~Czy 20 wypraw to nie za dużo na MVP?~~ — rozwiązane podziałem na tryby: 24 guided widoczne, 21 expert ukryte za `SHOW_EXPERT_EXPEDITIONS`.
+- [ ] **Kiedy odblokować tryb Ekspert?** Wymaga dorobienia ekranu wyboru ("Wyprawa z Timo" vs "Wyprawa Eksperta") — dziś flaga po prostu ukrywa 21 wypraw.
+- [ ] `target_count: 10` przy 18 kartach inspiracji — czy to nie za długa sesja dla przedszkolaka? 10 wygranych rund na jedną wyprawę.
+- [ ] Guided overlap jest duży z założenia (`furry` przecina `forest_kids`, `savanna_kids`, `ice_land`, `home_pets_friends`). Świadome — sprawdzić, czy nie nudzi.
+- [ ] `childTitle` duplikuje `title` przy 23 z 24 guided. Albo wykorzystać pole na krótszy wariant do kart, albo usunąć.
+- [ ] `pickDailyThree()` jest martwym kodem do czasu włączenia trybu Ekspert — zostawiamy czy usuwamy?
 
 ### Odznaki
 - [ ] 20 odznak na MVP — czy są zbyt łatwe? Zbyt trudne?
 - [ ] `night_owl` / `early_bird` — fajne ale wymagają zegara. Sprawdzić działanie.
 - [ ] Brakuje odznaki "za szczęście" (np. zgadł z 2 zwierząt zostałych)?
+- [ ] `explorer_all` — próg `>= 20` vs opis "Wszystkie 20 wypraw" przy 24 guided. Ujednolicić (patrz sekcja 8).
 
 ### Linie osobowości
 - [ ] Reakcje (Faza 2) — czy w ogóle wprowadzać? Wpływa na flow gry (800ms delay).
@@ -547,3 +736,15 @@ Miejsce na uwagi po przeglądzie:
 ### Poziomy
 - [ ] Czy tytuł "Profesor Timo" na L25 to za dużo? L25 = ~7500 XP = ~150 wygranych. Realistyczne?
 - [ ] Może dodać avatar / odznakę zmiany koloru / tła przy level up?
+
+### Silnik zgadywania
+- [ ] Zmierzyć realną skuteczność: ile pytań średnio do trafienia w Free Play (483 zwierzęta) vs guided (18)? Jest `features/game/game-log.ts` — użyć.
+- [ ] Przy puli 18 zwierząt (guided) `MIN_QUESTIONS_BEFORE_GUESS = 4` może być za dużo — Timo mógłby trafić po 2–3 pytaniach.
+- [ ] `popularity` pokrywa ~120 z 483 zwierząt. Reszta ma 1.0 — czy warto rozszerzyć, czy to już wystarcza?
+- [ ] `hard` ("to zależy") daje +2 tylko zwierzętom z `null`. Czy dzieci w ogóle używają tego przycisku? Sprawdzić w logach.
+
+---
+
+> **Aktualizacja:** 2026-08-07 — dokument zweryfikowany względem kodu. Główna zmiana od poprzedniej wersji: wyprawy rozbite na tryby `guided`/`expert` (było 21, jest 45). Dodane sekcje 11 (silnik) i 12 (ekrany).
+>
+> Skrypty walidujące dane: `scripts/validate-animals.ts`, `scripts/validate-expeditions.ts`. Generatory: `generate-rosters.ts`, `generate-timo-voices.ts`, `generate-animal-images.ts`.

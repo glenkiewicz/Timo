@@ -3,11 +3,12 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AnswerCard, type AnswerType } from '@/components/buttons/AnswerCard';
-import { PuffyButton } from '@/components/buttons/PuffyButton';
 import { AnimalImage } from '@/components/collection/AnimalImage';
-import { LiveInfoChip } from '@/components/gamification/LiveInfoChip';
-import { SpeechBubble } from '@/components/timo/SpeechBubble';
 import { TimoCharacter } from '@/components/timo/TimoCharacter';
+import { Bubble } from '@/components/ui/Bubble';
+import { Button } from '@/components/ui/Button';
+import { Icon } from '@/components/ui/Icon';
+import { StatBadge } from '@/components/ui/StatBadge';
 import { EXPEDITIONS_BY_ID } from '@/data/expeditions';
 import { pickQuestionVariant } from '@/data/questions';
 import {
@@ -22,8 +23,8 @@ import { decorateQuestion } from '@/features/game/timo-personality';
 import { timoVoice, useIsTimoSpeaking } from '@/lib/audio/timo-voice';
 import { useGameStore } from '@/lib/stores/game-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
+import { UI } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
-import { Image } from '@/tw/image';
 
 export default function GameScreen() {
   const router = useRouter();
@@ -150,116 +151,84 @@ export default function GameScreen() {
   const isGuessing = phase === 'guess_attempt';
 
   return (
-    <View className="flex-1 bg-bg">
-      <Image
-        source={require('../../assets/backgrounds/game-bg.png')}
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          width: '100%',
-          height: '100%',
-        }}
-        contentFit="cover"
-      />
-
+    <View className="flex-1 bg-canvas">
       <View
         className="flex-1"
-        style={{ paddingTop: insets.top + 12, paddingBottom: insets.bottom + 16 }}>
-        {/* top bar */}
-        <View className="flex-row items-center justify-between px-5">
+        style={{ paddingTop: insets.top + 8, paddingBottom: insets.bottom + 14 }}>
+        {/* ---------- pasek gry ---------- */}
+        <View className="flex-row items-center gap-2 px-4">
           <Pressable
-            onPress={() => router.replace('/')}
-            className="w-10 h-10 rounded-full bg-paper items-center justify-center"
-            style={{
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.12,
-              shadowRadius: 4,
-              elevation: 3,
-            }}>
-            <Text
-              className="text-ink"
-              style={{ fontFamily: 'Fredoka-Bold', fontSize: 18 }}>
-              ✕
-            </Text>
+            onPress={() => router.replace('/(tabs)')}
+            accessibilityRole="button"
+            accessibilityLabel="Zakończ grę"
+            className="w-10 h-10 items-center justify-center rounded-pill"
+            style={{ backgroundColor: UI.sunken }}>
+            <Icon name="close" size={20} color={UI.textSoft} strokeWidth={2.6} />
           </Pressable>
 
-          <View className="flex-row items-center gap-2 flex-1 justify-end">
-            {expedition ? (
-              <View
-                className="bg-brand rounded-chip px-2.5 py-1.5 flex-row items-center gap-1"
-                style={{
-                  shadowColor: '#000',
-                  shadowOffset: { width: 0, height: 2 },
-                  shadowOpacity: 0.12,
-                  shadowRadius: 4,
-                  elevation: 3,
-                }}>
-                <Text style={{ fontSize: 13 }}>{expedition.hero_emoji}</Text>
-                <Text
-                  className="text-paper"
-                  style={{ fontFamily: 'Fredoka-Bold', fontSize: 11 }}
-                  numberOfLines={1}>
-                  {expedition.title}
-                </Text>
-              </View>
-            ) : null}
-
-            <LiveInfoChip
-              tooltipKey="paws"
-              icon="paw"
-              from={previousPaws}
-              to={paws}
-              variant="paper"
-            />
-
+          {expedition ? (
             <View
-              className="bg-paper rounded-chip px-2.5 py-1.5 flex-row items-center gap-1"
-              style={{
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.1,
-                shadowRadius: 4,
-                elevation: 2,
-              }}>
-              <Text style={{ fontSize: 12 }}>🐾</Text>
+              className="rounded-pill px-3 py-1.5 flex-row items-center gap-1.5 flex-1"
+              style={{ backgroundColor: UI.skyPale }}>
+              <Text style={{ fontSize: 13 }}>{expedition.hero_emoji}</Text>
               <Text
-                className="text-ink"
-                style={{ fontFamily: 'Fredoka-Bold', fontSize: 11 }}>
-                {questionsAsked + 1}
+                numberOfLines={1}
+                style={{
+                  color: UI.skyDeep,
+                  fontFamily: 'Fredoka-Bold',
+                  fontSize: 11,
+                  flex: 1,
+                }}>
+                {expedition.title}
               </Text>
             </View>
+          ) : (
+            <View className="flex-1" />
+          )}
+
+          <View
+            className="rounded-pill px-3 py-1.5"
+            style={{ backgroundColor: UI.sunken }}>
+            <Text
+              style={{
+                color: UI.textSoft,
+                fontFamily: 'Fredoka-Bold',
+                fontSize: 11,
+              }}>
+              Pytanie {questionsAsked + 1}
+            </Text>
           </View>
+
+          <StatBadge
+            tooltipKey="paws"
+            icon="paw"
+            from={previousPaws}
+            to={paws}
+            accent="sky"
+          />
         </View>
 
-        {/* center stage */}
+        {/* ---------- scena ---------- */}
         <View className="flex-1 items-center justify-center gap-3 px-6">
-          <TimoCharacter state={isGuessing ? 'pointing' : 'thinking'} size={210} />
+          <TimoCharacter state={isGuessing ? 'pointing' : 'thinking'} size={190} />
 
           {isAsking && currentQuestion && decoratedQuestion ? (
-            <SpeechBubble eyebrow="TIMO PYTA">
+            <Bubble eyebrow="TIMO PYTA" tail="top-center" size="lg">
               {decoratedQuestion.text}
-            </SpeechBubble>
+            </Bubble>
           ) : null}
 
           {flashLine ? (
             <View
-              className="bg-success rounded-chip px-4 py-2"
-              style={{
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 3 },
-                shadowOpacity: 0.15,
-                shadowRadius: 6,
-                elevation: 3,
-                borderWidth: 1.5,
-                borderColor: 'rgba(255,255,255,0.4)',
-              }}>
+              className="rounded-pill px-4 py-2"
+              style={{ backgroundColor: UI.primaryPale }}>
               <Text
-                className="text-paper text-center"
-                style={{ fontFamily: 'Fredoka-Bold', fontSize: 13 }}>
+                className="text-center"
+                style={{
+                  color: UI.primaryDeep,
+                  fontFamily: 'Fredoka-Bold',
+                  fontSize: 13,
+                }}>
                 {flashLine.text}
               </Text>
             </View>
@@ -267,24 +236,21 @@ export default function GameScreen() {
 
           {isGuessing && guess ? (
             <>
-              <SpeechBubble eyebrow="TIMO ZGADUJE">
+              <Bubble eyebrow="TIMO ZGADUJE" tail="top-center" size="lg">
                 {`${guessIntro.text} ${guess.name_pl}?`}
-              </SpeechBubble>
+              </Bubble>
               <View
-                className="bg-paper rounded-card px-5 py-3 flex-row items-center gap-3 mt-1"
+                className="flex-row items-center gap-3 px-5 py-3"
                 style={{
-                  shadowColor: '#000',
-                  shadowOffset: { width: 0, height: 4 },
-                  shadowOpacity: 0.12,
-                  shadowRadius: 8,
-                  elevation: 4,
+                  backgroundColor: UI.canvas,
+                  borderRadius: 20,
                   borderWidth: 2,
-                  borderColor: '#fff6cc',
+                  borderBottomWidth: 4,
+                  borderColor: UI.line,
                 }}>
                 <AnimalImage animalId={guess.id} fallbackEmoji={guess.emoji} size={56} />
                 <Text
-                  className="text-ink"
-                  style={{ fontFamily: 'Fredoka-Bold', fontSize: 22 }}>
+                  style={{ color: UI.text, fontFamily: 'Fredoka-Bold', fontSize: 22 }}>
                   {guess.name_pl}
                 </Text>
               </View>
@@ -292,9 +258,9 @@ export default function GameScreen() {
           ) : null}
         </View>
 
-        {/* answers — wait mode: disabled gdy Timo mówi */}
+        {/* ---------- odpowiedzi — wait mode: disabled gdy Timo mówi ---------- */}
         {isAsking ? (
-          <View className="px-6 gap-3">
+          <View className="px-5 gap-3">
             <View className="flex-row gap-3">
               <AnswerCard answer="yes" onPress={handleAnswer} disabled={!currentQuestion || isSpeaking} />
               <AnswerCard answer="no" onPress={handleAnswer} disabled={!currentQuestion || isSpeaking} />
@@ -307,14 +273,20 @@ export default function GameScreen() {
         ) : null}
 
         {isGuessing ? (
-          <View className="px-6 gap-2.5">
-            <PuffyButton
-              label={guess ? `Tak, to ${guess.name_pl}!` : 'Tak!'}
-              variant="success"
+          <View className="px-5 gap-2.5">
+            <Button
+              label={guess ? `TAK, TO ${guess.name_pl.toUpperCase()}!` : 'TAK!'}
+              variant="primary"
               onPress={acceptGuess}
               disabled={isSpeaking}
             />
-            <PuffyButton label="Nie, pudło" variant="rose" size="md" onPress={rejectGuess} disabled={isSpeaking} />
+            <Button
+              label="Nie, pudło"
+              variant="ghost"
+              size="md"
+              onPress={rejectGuess}
+              disabled={isSpeaking}
+            />
           </View>
         ) : null}
       </View>

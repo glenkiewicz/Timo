@@ -3,19 +3,20 @@ import { useEffect, useMemo } from 'react';
 import { FlatList } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { PuffyButton } from '@/components/buttons/PuffyButton';
 import { AnimalImage } from '@/components/collection/AnimalImage';
-import { SpeechBubble } from '@/components/timo/SpeechBubble';
 import { TimoCharacter } from '@/components/timo/TimoCharacter';
+import { Bubble } from '@/components/ui/Bubble';
+import { Button } from '@/components/ui/Button';
+import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { ANIMALS_BY_ID } from '@/data/animals';
 import { EXPEDITIONS_BY_ID } from '@/data/expeditions';
 import { pickExpeditionIntro, type Pick } from '@/data/timo-lines';
 import { timoVoice } from '@/lib/audio/timo-voice';
 import { useGameStore } from '@/lib/stores/game-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
+import { UI } from '@/theme/ui';
 import type { Animal } from '@/types/game';
-import { Pressable, Text, View } from '@/tw';
-import { Image } from '@/tw/image';
+import { Text, View } from '@/tw';
 
 export default function ExpeditionIntroScreen() {
   const router = useRouter();
@@ -52,17 +53,17 @@ export default function ExpeditionIntroScreen() {
 
   if (!exp || exp.mode !== 'guided') {
     return (
-      <View className="flex-1 bg-bg items-center justify-center px-6">
-        <Text className="text-ink" style={{ fontFamily: 'Fredoka-Bold', fontSize: 18 }}>
+      <View className="flex-1 bg-canvas items-center justify-center px-6">
+        <Text style={{ color: UI.text, fontFamily: 'Fredoka-Bold', fontSize: 18 }}>
           Nie znaleziono wyprawy.
         </Text>
-        <Pressable
-          onPress={() => router.replace('/(tabs)/expeditions')}
-          className="mt-4 bg-brand rounded-chip px-4 py-2">
-          <Text className="text-paper" style={{ fontFamily: 'Fredoka-Bold' }}>
-            Wróć
-          </Text>
-        </Pressable>
+        <View className="mt-4" style={{ alignSelf: 'stretch' }}>
+          <Button
+            label="Wróć"
+            size="md"
+            onPress={() => router.replace('/(tabs)/expeditions')}
+          />
+        </View>
       </View>
     );
   }
@@ -81,85 +82,38 @@ export default function ExpeditionIntroScreen() {
   };
 
   return (
-    <View className="flex-1 bg-bg">
-      <Image
-        source={require('../../../assets/backgrounds/home-bg.png')}
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          width: '100%',
-          height: '100%',
-        }}
-        contentFit="cover"
+    <View className="flex-1 bg-canvas">
+      <ScreenHeader
+        eyebrow="WYPRAWA Z TIMO"
+        title={`${exp.hero_emoji}  ${exp.childTitle ?? exp.title}`}
+        onBack={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)'))}
       />
 
-      {/* Top bar */}
-      <View
-        style={{
-          paddingTop: insets.top + 12,
-          paddingHorizontal: 16,
-          paddingBottom: 8,
-        }}>
-        <View className="flex-row items-center justify-between mb-2">
-          <Pressable
-            onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
-            className="w-10 h-10 rounded-full bg-paper items-center justify-center"
-            style={{
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.12,
-              shadowRadius: 4,
-              elevation: 3,
-            }}>
-            <Text className="text-ink" style={{ fontFamily: 'Fredoka-Bold', fontSize: 18 }}>
-              ←
-            </Text>
-          </Pressable>
-
-          <View className="items-center flex-1 px-3">
-            <Text
-              className="text-brand-deep"
-              style={{ fontFamily: 'Fredoka-Bold', fontSize: 11, letterSpacing: 1.2 }}>
-              WYPRAWA Z TIMO
-            </Text>
-            <Text
-              className="text-ink"
-              numberOfLines={1}
-              style={{ fontFamily: 'Fredoka-Bold', fontSize: 18 }}>
-              {exp.hero_emoji}  {exp.childTitle ?? exp.title}
-            </Text>
-          </View>
-
-          <View style={{ width: 40 }} />
-        </View>
-      </View>
-
       {/* Timo + dymek */}
-      <View className="px-4 flex-row items-end gap-3 mb-2">
-        <TimoCharacter size={90} />
+      <View className="px-4 flex-row items-end gap-2 mt-3 mb-2">
+        <TimoCharacter size={86} />
         <View className="flex-1 pb-2">
-          <SpeechBubble eyebrow="TIMO MÓWI">
-            <Text className="text-ink" style={{ fontFamily: 'Nunito-Bold', fontSize: 14 }}>
+          <Bubble eyebrow="TIMO MÓWI" tail="bottom-left">
+            <Text
+              style={{
+                color: UI.text,
+                fontFamily: 'Nunito-Bold',
+                fontSize: 14,
+                lineHeight: 19,
+              }}>
               {introPick?.text ?? ''}
             </Text>
-          </SpeechBubble>
+          </Bubble>
         </View>
       </View>
 
       {/* Etykieta nad gridem */}
       <View className="px-4 mb-2 items-center">
         <View
-          className="bg-paper rounded-chip px-3 py-1.5"
-          style={{
-            borderWidth: 1.5,
-            borderColor: '#fff6cc',
-          }}>
+          className="rounded-pill px-3 py-1.5"
+          style={{ backgroundColor: UI.goldPale }}>
           <Text
-            className="text-ink"
-            style={{ fontFamily: 'Fredoka-Bold', fontSize: 11 }}>
+            style={{ color: UI.goldDeep, fontFamily: 'Fredoka-Bold', fontSize: 11 }}>
             🤫  Wybierz w głowie — nie klikaj!
           </Text>
         </View>
@@ -171,6 +125,7 @@ export default function ExpeditionIntroScreen() {
         keyExtractor={(a) => a.id}
         numColumns={3}
         scrollEnabled
+        showsVerticalScrollIndicator={false}
         renderItem={({ item }) => <InspirationCard animal={item} />}
         contentContainerStyle={{
           paddingHorizontal: 12,
@@ -188,12 +143,7 @@ export default function ExpeditionIntroScreen() {
           right: 16,
           bottom: insets.bottom + 12,
         }}>
-        <PuffyButton
-          label="Mam zwierzę!"
-          variant="success"
-          size="lg"
-          onPress={handleStart}
-        />
+        <Button label="MAM ZWIERZĘ!" onPress={handleStart} />
       </View>
     </View>
   );
@@ -204,22 +154,21 @@ function InspirationCard({ animal }: { animal: Animal }) {
   return (
     <View
       pointerEvents="none"
-      className="flex-1 rounded-card bg-paper items-center justify-center px-2 py-2"
+      className="flex-1 items-center justify-center px-2 py-2"
       style={{
         aspectRatio: 1,
+        backgroundColor: UI.canvas,
+        borderRadius: 18,
         borderWidth: 2,
-        borderColor: '#fff6cc',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 3 },
-        shadowOpacity: 0.12,
-        shadowRadius: 6,
-        elevation: 3,
+        borderBottomWidth: 4,
+        borderColor: UI.line,
       }}>
       <AnimalImage animalId={animal.id} fallbackEmoji={animal.emoji} size={60} />
       <Text
-        className="text-ink text-center"
+        className="text-center"
         numberOfLines={1}
         style={{
+          color: UI.text,
           fontFamily: 'Fredoka-Bold',
           fontSize: 11,
           marginTop: 4,

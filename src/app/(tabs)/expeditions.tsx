@@ -4,6 +4,10 @@ import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { InfoModal } from '@/components/gamification/InfoModal';
+import { Card } from '@/components/ui/Card';
+import { Icon } from '@/components/ui/Icon';
+import { ProgressBar } from '@/components/ui/ProgressBar';
+import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { DEV_UNLOCK_ALL } from '@/config/features';
 import {
   EXPEDITIONS,
@@ -12,8 +16,8 @@ import {
 } from '@/data/expeditions';
 import { useGameStore } from '@/lib/stores/game-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
-import { Pressable, Text, View } from '@/tw';
-import { Image } from '@/tw/image';
+import { ACCENT, UI, type Accent } from '@/theme/ui';
+import { Text, View } from '@/tw';
 
 type CardStatus = 'completed' | 'in_progress' | 'available_today' | 'locked';
 
@@ -29,6 +33,12 @@ function statusOrder(s: CardStatus): number {
       return 3;
   }
 }
+
+const STATUS_ACCENT: Record<Exclude<CardStatus, 'locked'>, Accent> = {
+  completed: 'primary',
+  in_progress: 'fox',
+  available_today: 'sky',
+};
 
 export default function ExpeditionsScreen() {
   const router = useRouter();
@@ -111,94 +121,32 @@ export default function ExpeditionsScreen() {
   };
 
   return (
-    <View className="flex-1 bg-bg">
-      <Image
-        source={require('../../../assets/backgrounds/home-bg.png')}
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          width: '100%',
-          height: '100%',
-        }}
-        contentFit="cover"
-      />
-
-      <View
-        style={{
-          paddingTop: insets.top + 12,
-          paddingHorizontal: 16,
-          paddingBottom: 8,
-        }}>
-        <View className="flex-row items-center justify-between mb-2">
-          <Pressable
-            onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
-            className="w-10 h-10 rounded-full bg-paper items-center justify-center"
-            style={{
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.12,
-              shadowRadius: 4,
-              elevation: 3,
-            }}>
-            <Text className="text-ink" style={{ fontFamily: 'Fredoka-Bold', fontSize: 18 }}>
-              ←
-            </Text>
-          </Pressable>
-
-          <View className="items-center">
-            <Text
-              className="text-brand-deep"
-              style={{
-                fontFamily: 'Fredoka-Bold',
-                fontSize: 11,
-                letterSpacing: 1.2,
-              }}>
-              MAPA TIMO
-            </Text>
-            <Text
-              className="text-ink"
-              style={{ fontFamily: 'Fredoka-Bold', fontSize: 20 }}>
-              Wyprawy
-            </Text>
-          </View>
-
-          <View
-            className="bg-brand rounded-chip px-3 py-1.5"
-            style={{
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.12,
-              shadowRadius: 4,
-              elevation: 3,
-            }}>
-            <Text
-              className="text-paper"
-              style={{ fontFamily: 'Fredoka-Bold', fontSize: 13 }}>
-              {completedCount} / {visibleExpeditions.length}
-            </Text>
-          </View>
-        </View>
-
+    <View className="flex-1 bg-canvas">
+      <ScreenHeader
+        eyebrow="MAPA TIMO"
+        title="Wyprawy"
+        counter={{ value: completedCount, total: visibleExpeditions.length, accent: 'sky' }}
+        onBack={() => router.navigate('/(tabs)')}>
         <Text
-          className="text-ink-soft text-center"
+          className="text-center"
           style={{
+            color: UI.textSoft,
             fontFamily: 'Nunito-Bold',
             fontSize: 11,
             lineHeight: 15,
             paddingHorizontal: 8,
-            marginBottom: 4,
+            marginTop: 8,
           }}>
           Wyprawy odkrywasz przez codzienną Wyprawę Dnia. Każdy dzień to 3 nowe propozycje
           — wybierz jedną i odkrywaj świat z Timo.
         </Text>
-      </View>
+      </ScreenHeader>
 
       <ScrollView
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           paddingHorizontal: 16,
+          paddingTop: 12,
           paddingBottom: insets.bottom + 24,
           gap: 10,
         }}>
@@ -244,117 +192,118 @@ function ExpeditionCard({
   const isLocked = status === 'locked';
   const isCompleted = status === 'completed';
   const isInProgress = status === 'in_progress';
-  const isAvailable = status === 'available_today';
 
-  const borderColor =
-    isCompleted
-      ? '#357a2a'
-      : isInProgress
-        ? '#a24d17'
-        : isAvailable
-          ? '#f28238'
-          : 'rgba(107,79,49,0.18)';
+  const accent = isLocked ? null : ACCENT[STATUS_ACCENT[status]];
 
-  const accentColor =
-    isCompleted
-      ? '#5bb04c'
-      : isInProgress
-        ? '#f28238'
-        : isAvailable
-          ? '#a24d17'
-          : '#a9967e';
-
-  const statusLabel =
-    isCompleted
-      ? '✓ UKOŃCZONA'
-      : isInProgress
-        ? `W TRAKCIE · ${discoveredCount}/${e.target_count}`
-        : isAvailable
-          ? '🌟 DOSTĘPNA DZIŚ'
-          : '🔒 ZABLOKOWANA';
+  const statusLabel = isCompleted
+    ? 'UKOŃCZONA'
+    : isInProgress
+      ? `W TRAKCIE · ${discoveredCount}/${e.target_count}`
+      : isLocked
+        ? 'ZABLOKOWANA'
+        : 'DOSTĘPNA DZIŚ';
 
   return (
-    <Pressable onPress={onPress}>
-      <View
-        className="bg-paper rounded-card p-4 flex-row items-center gap-3"
-        style={{
-          borderWidth: 2,
-          borderColor,
-          borderStyle: isLocked ? 'dashed' : 'solid',
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 4 },
-          shadowOpacity: 0.12,
-          shadowRadius: 8,
-          elevation: 4,
-          opacity: isLocked ? 0.55 : 1,
-        }}>
+    <Card
+      onPress={onPress}
+      accessibilityLabel={e.childTitle ?? e.title}
+      // Ramkę koloruje tylko stan wyjątkowy — inaczej lista robi się krzykliwa.
+      borderColor={
+        isCompleted ? UI.primary : isInProgress ? UI.fox : UI.line
+      }
+      background={isLocked ? UI.sunken : UI.canvas}
+      padding={14}>
+      <View className="flex-row items-center gap-3">
         <View
-          className="rounded-card items-center justify-center"
+          className="items-center justify-center"
           style={{
-            width: 64,
-            height: 64,
-            backgroundColor: 'rgba(255,241,223,0.7)',
-            borderWidth: 2,
-            borderColor: '#fff6cc',
+            width: 60,
+            height: 60,
+            borderRadius: 16,
+            backgroundColor: accent ? accent.pale : UI.line,
           }}>
-          <Text style={{ fontSize: 36 }}>{isLocked ? '🔒' : e.hero_emoji}</Text>
+          {isLocked ? (
+            <Icon name="lock" size={26} color={UI.textFaint} strokeWidth={2.4} />
+          ) : (
+            <Text style={{ fontSize: 32 }}>{e.hero_emoji}</Text>
+          )}
         </View>
 
         <View className="flex-1">
           <Text
             style={{
+              color: accent ? accent.deep : UI.textFaint,
               fontFamily: 'Fredoka-Bold',
               fontSize: 10,
-              letterSpacing: 1.2,
-              color: accentColor,
+              letterSpacing: 1.1,
             }}>
             {statusLabel}
           </Text>
           <Text
-            className="text-ink"
-            style={{ fontFamily: 'Fredoka-Bold', fontSize: 16, marginTop: 2 }}>
+            style={{
+              color: isLocked ? UI.textSoft : UI.text,
+              fontFamily: 'Fredoka-Bold',
+              fontSize: 16,
+              marginTop: 2,
+            }}>
             {e.childTitle ?? e.title}
           </Text>
           <Text
-            className="text-ink-soft"
             numberOfLines={2}
             style={{
+              color: UI.textSoft,
               fontFamily: 'Nunito',
               fontSize: 12,
               lineHeight: 16,
               marginTop: 2,
             }}>
-            {isLocked
-              ? 'Pojawi się kiedyś jako Wyprawa Dnia.'
-              : e.description_pl}
+            {isLocked ? 'Pojawi się kiedyś jako Wyprawa Dnia.' : e.description_pl}
           </Text>
 
           {!isCompleted && !isLocked ? (
-            <View className="flex-row items-center gap-2 mt-1.5">
-              <Text style={{ fontSize: 12 }}>🐾</Text>
-              <Text
-                className="text-brand-deep"
-                style={{ fontFamily: 'Fredoka-Bold', fontSize: 11 }}>
-                +{e.reward_paws}
-              </Text>
-              <Text style={{ fontSize: 12 }}>✨</Text>
-              <Text
-                className="text-brand-deep"
-                style={{ fontFamily: 'Fredoka-Bold', fontSize: 11 }}>
-                +{e.reward_xp} XP
-              </Text>
+            <View className="flex-row items-center gap-3 mt-2">
+              <View className="flex-row items-center gap-1">
+                <Icon name="paw" size={14} color={UI.sky} />
+                <Text
+                  style={{
+                    color: UI.skyDeep,
+                    fontFamily: 'Fredoka-Bold',
+                    fontSize: 11,
+                  }}>
+                  +{e.reward_paws}
+                </Text>
+              </View>
+              <View className="flex-row items-center gap-1">
+                <Icon name="bolt" size={14} color={UI.gold} />
+                <Text
+                  style={{
+                    color: UI.goldDeep,
+                    fontFamily: 'Fredoka-Bold',
+                    fontSize: 11,
+                  }}>
+                  +{e.reward_xp} XP
+                </Text>
+              </View>
             </View>
           ) : null}
         </View>
 
-        {isAvailable || isInProgress ? (
-          <Text
-            className="text-brand"
-            style={{ fontFamily: 'Fredoka-Bold', fontSize: 22 }}>
-            ›
-          </Text>
-        ) : null}
+        {isCompleted ? (
+          <Icon name="check" size={22} color={UI.primaryDeep} strokeWidth={3} />
+        ) : isLocked ? null : (
+          <Icon name="chevron-right" size={20} color={UI.textFaint} strokeWidth={2.6} />
+        )}
       </View>
-    </Pressable>
+
+      {isInProgress ? (
+        <View className="mt-3">
+          <ProgressBar
+            value={e.target_count > 0 ? discoveredCount / e.target_count : 0}
+            accent="fox"
+            height={10}
+          />
+        </View>
+      ) : null}
+    </Card>
   );
 }

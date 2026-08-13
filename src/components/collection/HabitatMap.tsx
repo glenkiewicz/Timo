@@ -4,6 +4,7 @@ import { View } from 'react-native';
 import Svg, { Circle, G, Path, Rect, Text as SvgText } from 'react-native-svg';
 
 import type { MapRegion } from '@/data/animal-details';
+import { UI } from '@/theme/ui';
 
 type Props = {
   regions: MapRegion[];
@@ -111,9 +112,9 @@ export function HabitatMap({ regions, width = 320 }: Props) {
         alignSelf: 'center',
         borderRadius: 14,
         overflow: 'hidden',
-        backgroundColor: imgError ? '#ffe5cc' : '#f7f3ec',
-        borderWidth: 1.5,
-        borderColor: '#fff6cc',
+        backgroundColor: imgError ? UI.sunken : '#f7f3ec',
+        borderWidth: 2,
+        borderColor: UI.line,
       }}>
       <Image
         source={WORLD_MAP}
@@ -191,8 +192,8 @@ function MythicalMap({ width, height }: { width: number; height: number }) {
         borderRadius: 14,
         overflow: 'hidden',
         backgroundColor: '#f4e5c5',
-        borderWidth: 1.5,
-        borderColor: '#fff6cc',
+        borderWidth: 2,
+        borderColor: UI.line,
       }}>
       <Svg
         width={width}

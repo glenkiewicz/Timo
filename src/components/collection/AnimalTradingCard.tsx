@@ -1,6 +1,8 @@
 import { Link } from 'expo-router';
 
+import { Icon } from '@/components/ui/Icon';
 import { getAnimalDetails } from '@/data/animal-details';
+import { UI } from '@/theme/ui';
 import type { Animal } from '@/types/game';
 import { Text, View } from '@/tw';
 
@@ -17,8 +19,9 @@ type Props = {
 };
 
 /**
- * Karta zwierzęcia w stylu TCG (trading card game) — Pokemon / Panini-style.
- * Pełnoekranowa, kolekcjonerska, kolorowa. Dla dzieci 5-7 lat.
+ * Karta zwierzęcia w stylu TCG (trading card game) — kolekcjonerska, ale
+ * utrzymana w płaskiej palecie UI 2.0: biała powierzchnia, kolorowe pasy
+ * sekcji, wyraźne obramowania zamiast cieni.
  */
 export function AnimalTradingCard({
   animal,
@@ -30,36 +33,32 @@ export function AnimalTradingCard({
 
   return (
     <View>
-      {/* === KARTA (TCG-style) === */}
+      {/* === KARTA === */}
       <View
-        className="bg-paper rounded-card mx-4 mb-4"
+        className="mx-4 mb-4"
         style={{
-          borderWidth: 3,
-          borderColor: '#fff6cc',
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 6 },
-          shadowOpacity: 0.18,
-          shadowRadius: 14,
-          elevation: 8,
+          backgroundColor: UI.canvas,
+          borderRadius: 22,
+          borderWidth: 2,
+          borderBottomWidth: 4,
+          borderColor: UI.line,
           overflow: 'hidden',
         }}>
-        {/* === Top strip — kategoria + numer === */}
+        {/* === Górny pas — nazwa + numer === */}
         <View
-          className="bg-brand"
           style={{
+            backgroundColor: UI.violet,
             paddingHorizontal: 14,
             paddingVertical: 10,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            borderBottomWidth: 3,
-            borderBottomColor: '#a24d17',
           }}>
           <View className="flex-row items-center" style={{ gap: 8 }}>
             <Text style={{ fontSize: 20 }}>{animal.emoji}</Text>
             <Text
-              className="text-paper"
               style={{
+                color: UI.canvas,
                 fontFamily: 'Fredoka-Bold',
                 fontSize: 18,
                 letterSpacing: 0.5,
@@ -69,11 +68,18 @@ export function AnimalTradingCard({
           </View>
           {cardNumber && cardTotal ? (
             <View
-              className="bg-paper rounded-chip"
-              style={{ paddingHorizontal: 10, paddingVertical: 3 }}>
+              className="rounded-pill"
+              style={{
+                backgroundColor: UI.canvas,
+                paddingHorizontal: 10,
+                paddingVertical: 3,
+              }}>
               <Text
-                className="text-brand-deep"
-                style={{ fontFamily: 'Fredoka-Bold', fontSize: 11 }}>
+                style={{
+                  color: UI.violetDeep,
+                  fontFamily: 'Fredoka-Bold',
+                  fontSize: 11,
+                }}>
                 #{String(cardNumber).padStart(3, '0')} / {cardTotal}
               </Text>
             </View>
@@ -84,23 +90,18 @@ export function AnimalTradingCard({
         <View
           className="items-center justify-center"
           style={{
-            backgroundColor: '#fff6cc',
+            backgroundColor: UI.sunken,
             paddingVertical: 18,
             paddingHorizontal: 12,
           }}>
           <Link.AppleZoomTarget>
             <View
               style={{
-                borderWidth: 3,
-                borderColor: '#a24d17',
-                borderRadius: 12,
+                borderWidth: 2,
+                borderColor: UI.line,
+                borderRadius: 16,
                 padding: 4,
-                backgroundColor: '#fff1df',
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 4 },
-                shadowOpacity: 0.18,
-                shadowRadius: 8,
-                elevation: 4,
+                backgroundColor: UI.canvas,
               }}>
               <AnimalImage
                 animalId={animal.id}
@@ -115,14 +116,15 @@ export function AnimalTradingCard({
         {d.tagline_pl ? (
           <View
             style={{
-              backgroundColor: '#fff1df',
               paddingHorizontal: 14,
-              paddingVertical: 8,
+              paddingVertical: 10,
               alignItems: 'center',
+              borderTopWidth: 2,
+              borderTopColor: UI.line,
             }}>
             <Text
-              className="text-brand-deep"
               style={{
+                color: UI.violetDeep,
                 fontFamily: 'Nunito-Bold',
                 fontSize: 14,
                 fontStyle: 'italic',
@@ -132,15 +134,14 @@ export function AnimalTradingCard({
           </View>
         ) : null}
 
-        {/* === Stat strip — 3 ikony obok siebie === */}
+        {/* === Pas statystyk — 3 komórki obok siebie === */}
         {d.size_pl || d.lifespan_pl || d.diet_pl ? (
           <View
             style={{
               flexDirection: 'row',
-              backgroundColor: '#fff1df',
               borderTopWidth: 2,
-              borderTopColor: '#fff6cc',
-              paddingVertical: 10,
+              borderTopColor: UI.line,
+              paddingVertical: 12,
             }}>
             {d.size_pl ? (
               <StatCell emoji="📏" label="ROZMIAR" value={d.size_pl} />
@@ -149,7 +150,7 @@ export function AnimalTradingCard({
               <StatCell emoji="⏳" label="ŻYJE" value={d.lifespan_pl} />
             ) : null}
             {d.diet_pl ? (
-              <StatCell emoji="🍽️" label="JE" value={d.diet_pl} />
+              <StatCell emoji="🍽️" label="JE" value={d.diet_pl} last />
             ) : null}
           </View>
         ) : null}
@@ -162,28 +163,31 @@ export function AnimalTradingCard({
               flexWrap: 'wrap',
               gap: 6,
               padding: 12,
-              backgroundColor: '#fff1df',
               borderTopWidth: 2,
-              borderTopColor: '#fff6cc',
+              borderTopColor: UI.line,
               justifyContent: 'center',
             }}>
             {d.chips.map((c) => (
               <View
                 key={c.label}
-                className="bg-paper-light rounded-chip"
+                className="rounded-pill"
                 style={{
+                  backgroundColor: UI.sunken,
                   paddingHorizontal: 10,
-                  paddingVertical: 4,
-                  borderWidth: 1.5,
-                  borderColor: '#a24d17',
+                  paddingVertical: 5,
+                  borderWidth: 2,
+                  borderColor: UI.line,
                   flexDirection: 'row',
                   alignItems: 'center',
                   gap: 4,
                 }}>
                 <Text style={{ fontSize: 12 }}>{c.emoji}</Text>
                 <Text
-                  className="text-ink"
-                  style={{ fontFamily: 'Fredoka-Bold', fontSize: 11 }}>
+                  style={{
+                    color: UI.text,
+                    fontFamily: 'Fredoka-Bold',
+                    fontSize: 11,
+                  }}>
                   {c.label}
                 </Text>
               </View>
@@ -191,22 +195,22 @@ export function AnimalTradingCard({
           </View>
         ) : null}
 
-        {/* === Bottom strip — odkryte na wyprawie === */}
+        {/* === Dolny pas — odkryte na wyprawie === */}
         {discoveredOn ? (
           <View
-            className="bg-brand-deep"
             style={{
+              backgroundColor: UI.primaryPale,
               paddingHorizontal: 14,
-              paddingVertical: 8,
+              paddingVertical: 9,
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center',
               gap: 6,
             }}>
-            <Text style={{ fontSize: 12 }}>🏆</Text>
+            <Icon name="award" size={14} color={UI.primaryDeep} strokeWidth={2.6} />
             <Text
-              className="text-paper"
               style={{
+                color: UI.primaryDeep,
                 fontFamily: 'Fredoka-Bold',
                 fontSize: 11,
                 letterSpacing: 0.8,
@@ -219,60 +223,48 @@ export function AnimalTradingCard({
 
       {/* === Sekcja: CZY WIESZ? === */}
       <View className="mx-4 mt-2 mb-4">
-        <View className="flex-row items-center mb-2" style={{ gap: 6 }}>
-          <View
-            className="bg-reward rounded-chip"
-            style={{
-              paddingHorizontal: 10,
-              paddingVertical: 3,
-              borderWidth: 1.5,
-              borderColor: '#a8730c',
-            }}>
-            <Text
-              style={{
-                fontFamily: 'Fredoka-Bold',
-                fontSize: 11,
-                letterSpacing: 0.8,
-                color: '#33210f',
-              }}>
-              💡  CZY WIESZ?
-            </Text>
-          </View>
-        </View>
+        <SectionLabel
+          text="CZY WIESZ?"
+          emoji="💡"
+          background={UI.goldPale}
+          color={UI.goldDeep}
+        />
         <View
-          className="bg-paper rounded-card"
           style={{
+            backgroundColor: UI.canvas,
+            borderRadius: 20,
             padding: 14,
-            borderWidth: 1.5,
-            borderColor: '#fff6cc',
+            borderWidth: 2,
+            borderBottomWidth: 4,
+            borderColor: UI.line,
             gap: 10,
           }}>
           {d.facts_pl.map((fact, i) => (
             <View
               key={i}
-              style={{
-                flexDirection: 'row',
-                gap: 8,
-                alignItems: 'flex-start',
-              }}>
+              style={{ flexDirection: 'row', gap: 8, alignItems: 'flex-start' }}>
               <View
-                className="bg-brand-pale rounded-chip"
+                className="rounded-pill"
                 style={{
                   width: 22,
                   height: 22,
+                  backgroundColor: UI.goldPale,
                   alignItems: 'center',
                   justifyContent: 'center',
                   marginTop: 1,
                 }}>
                 <Text
-                  className="text-brand-deep"
-                  style={{ fontFamily: 'Fredoka-Bold', fontSize: 12 }}>
+                  style={{
+                    color: UI.goldDeep,
+                    fontFamily: 'Fredoka-Bold',
+                    fontSize: 12,
+                  }}>
                   {i + 1}
                 </Text>
               </View>
               <Text
-                className="text-ink"
                 style={{
+                  color: UI.text,
                   fontFamily: 'Nunito',
                   fontSize: 14,
                   lineHeight: 20,
@@ -287,42 +279,32 @@ export function AnimalTradingCard({
 
       {/* === Sekcja: GDZIE SPOTKASZ === */}
       <View className="mx-4 mb-6">
-        <View className="flex-row items-center mb-2" style={{ gap: 6 }}>
-          <View
-            className="bg-mystery rounded-chip"
-            style={{
-              paddingHorizontal: 10,
-              paddingVertical: 3,
-              borderWidth: 1.5,
-              borderColor: '#2f6a92',
-            }}>
-            <Text
-              className="text-paper"
-              style={{
-                fontFamily: 'Fredoka-Bold',
-                fontSize: 11,
-                letterSpacing: 0.8,
-              }}>
-              🗺️  GDZIE SPOTKASZ
-            </Text>
-          </View>
-        </View>
+        <SectionLabel
+          text="GDZIE SPOTKASZ"
+          emoji="🗺️"
+          background={UI.skyPale}
+          color={UI.skyDeep}
+        />
         <View
-          className="bg-paper rounded-card items-center"
+          className="items-center"
           style={{
+            backgroundColor: UI.canvas,
+            borderRadius: 20,
             padding: 12,
-            borderWidth: 1.5,
-            borderColor: '#fff6cc',
+            borderWidth: 2,
+            borderBottomWidth: 4,
+            borderColor: UI.line,
           }}>
           <HabitatMap regions={d.map_regions} width={300} />
           <Text
-            className="text-ink text-center mt-3"
-            style={{ fontFamily: 'Fredoka-Bold', fontSize: 14 }}>
+            className="text-center mt-3"
+            style={{ color: UI.text, fontFamily: 'Fredoka-Bold', fontSize: 14 }}>
             {regionsLabel(d.map_regions)}
           </Text>
           <Text
-            className="text-ink-soft text-center"
+            className="text-center"
             style={{
+              color: UI.textSoft,
               fontFamily: 'Nunito',
               fontSize: 12,
               marginTop: 2,
@@ -336,14 +318,47 @@ export function AnimalTradingCard({
   );
 }
 
+function SectionLabel({
+  text,
+  emoji,
+  background,
+  color,
+}: {
+  text: string;
+  emoji: string;
+  background: string;
+  color: string;
+}) {
+  return (
+    <View className="flex-row items-center mb-2">
+      <View
+        className="rounded-pill flex-row items-center gap-1.5"
+        style={{ backgroundColor: background, paddingHorizontal: 12, paddingVertical: 5 }}>
+        <Text style={{ fontSize: 12 }}>{emoji}</Text>
+        <Text
+          style={{
+            color,
+            fontFamily: 'Fredoka-Bold',
+            fontSize: 11,
+            letterSpacing: 0.8,
+          }}>
+          {text}
+        </Text>
+      </View>
+    </View>
+  );
+}
+
 function StatCell({
   emoji,
   label,
   value,
+  last = false,
 }: {
   emoji: string;
   label: string;
   value: string;
+  last?: boolean;
 }) {
   return (
     <View
@@ -351,13 +366,13 @@ function StatCell({
         flex: 1,
         alignItems: 'center',
         paddingHorizontal: 6,
-        borderRightWidth: 1.5,
-        borderRightColor: '#fff6cc',
+        borderRightWidth: last ? 0 : 2,
+        borderRightColor: UI.line,
       }}>
       <Text style={{ fontSize: 18, marginBottom: 2 }}>{emoji}</Text>
       <Text
-        className="text-brand-deep"
         style={{
+          color: UI.textFaint,
           fontFamily: 'Fredoka-Bold',
           fontSize: 9,
           letterSpacing: 0.8,
@@ -366,9 +381,10 @@ function StatCell({
         {label}
       </Text>
       <Text
-        className="text-ink text-center"
+        className="text-center"
         numberOfLines={3}
         style={{
+          color: UI.text,
           fontFamily: 'Nunito-Bold',
           fontSize: 11,
           lineHeight: 14,

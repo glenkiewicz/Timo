@@ -1,4 +1,6 @@
+import * as Haptics from 'expo-haptics';
 import { useEffect, useState } from 'react';
+import { Platform } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -8,27 +10,25 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import { Chip } from '@/components/gamification/Chip';
+import { Icon, type IconName } from '@/components/ui/Icon';
 import { TOOLTIPS, type TooltipKey } from '@/data/info-tooltips';
+import { ACCENT, UI, type Accent } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
 
-import { InfoModal } from './InfoModal';
+import { InfoModal } from '../gamification/InfoModal';
 
-type ChipVariant = 'brand' | 'reward' | 'success' | 'paper';
-type ChipIcon = 'flame' | 'paw' | 'star' | 'medal' | 'leaf' | 'sparkle';
-
-type AnimatedRewardChipProps = {
+type RewardTileProps = {
   tooltipKey: TooltipKey;
-  icon: ChipIcon;
+  icon: IconName;
   value: number;
-  variant?: ChipVariant;
-  /** ms before entrance starts */
+  accent?: Accent;
+  /** ms zanim kafel wskoczy */
   delay?: number;
-  /** small caption under the chip */
   label?: string;
   prefix?: string;
 };
 
+/** Liczenie od zera — nagroda ma się „naliczać", nie pojawiać gotowa. */
 function useCountUp(target: number, durationMs: number, delayMs: number) {
   const [val, setVal] = useState(0);
   useEffect(() => {
@@ -41,7 +41,6 @@ function useCountUp(target: number, durationMs: number, delayMs: number) {
         return;
       }
       const pct = Math.min(1, elapsed / durationMs);
-      // easeOutCubic for satisfying count
       const eased = 1 - Math.pow(1 - pct, 3);
       setVal(Math.round(target * eased));
       if (pct < 1) raf = requestAnimationFrame(step);
@@ -52,18 +51,22 @@ function useCountUp(target: number, durationMs: number, delayMs: number) {
   return val;
 }
 
-export function AnimatedRewardChip({
+/**
+ * Kafel nagrody na ekranie wyniku — wskakuje z dołu i nalicza wartość.
+ */
+export function RewardTile({
   tooltipKey,
   icon,
   value,
-  variant,
+  accent = 'sky',
   delay = 0,
   label,
   prefix = '+',
-}: AnimatedRewardChipProps) {
+}: RewardTileProps) {
   const [open, setOpen] = useState(false);
   const enter = useSharedValue(0);
   const countValue = useCountUp(value, 750, delay + 80);
+  const a = ACCENT[accent];
 
   useEffect(() => {
     enter.value = 0;
@@ -86,19 +89,52 @@ export function AnimatedRewardChip({
   }));
 
   return (
-    <View className="flex-1 items-center">
+    <View className="flex-1">
       <Animated.View style={style}>
-        <Pressable onPress={() => setOpen(true)}>
-          <Chip icon={icon} value={`${prefix}${countValue}`} variant={variant} />
+        <Pressable
+          onPress={() => {
+            if (Platform.OS !== 'web') Haptics.selectionAsync();
+            setOpen(true);
+          }}
+          accessibilityRole="button"
+          accessibilityLabel={`${label ?? ''} ${prefix}${value}`}>
+          <View
+            className="items-center"
+            style={{
+              backgroundColor: a.pale,
+              borderRadius: 16,
+              borderWidth: 2,
+              borderBottomWidth: 4,
+              borderColor: a.base,
+              paddingVertical: 10,
+              paddingHorizontal: 6,
+            }}>
+            <Icon name={icon} size={22} color={a.deep} strokeWidth={2.4} />
+            <Text
+              style={{
+                color: a.deep,
+                fontFamily: 'Fredoka-Bold',
+                fontSize: 17,
+                marginTop: 2,
+              }}>
+              {prefix}
+              {countValue}
+            </Text>
+            {label ? (
+              <Text
+                style={{
+                  color: a.deep,
+                  fontFamily: 'Nunito-Bold',
+                  fontSize: 11,
+                  opacity: 0.8,
+                }}>
+                {label}
+              </Text>
+            ) : null}
+          </View>
         </Pressable>
       </Animated.View>
-      {label ? (
-        <Text
-          className="text-ink-soft mt-1"
-          style={{ fontFamily: 'Nunito-Bold', fontSize: 11 }}>
-          {label}
-        </Text>
-      ) : null}
+
       <InfoModal
         visible={open}
         tooltip={TOOLTIPS[tooltipKey]}

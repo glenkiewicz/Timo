@@ -4,11 +4,13 @@ import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AnimalTradingCard } from '@/components/collection/AnimalTradingCard';
+import { Button } from '@/components/ui/Button';
+import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { ANIMALS_BY_ID } from '@/data/animals';
 import { EXPEDITIONS_BY_ID } from '@/data/expeditions';
 import { useProfileStore } from '@/lib/stores/profile-store';
-import { Pressable, Text, View } from '@/tw';
-import { Image } from '@/tw/image';
+import { UI } from '@/theme/ui';
+import { Text, View } from '@/tw';
 
 export default function AnimalCardScreen() {
   const router = useRouter();
@@ -42,77 +44,30 @@ export default function AnimalCardScreen() {
 
   if (!animal) {
     return (
-      <View className="flex-1 bg-bg items-center justify-center px-6">
-        <Text className="text-ink" style={{ fontFamily: 'Fredoka-Bold', fontSize: 18 }}>
+      <View className="flex-1 bg-canvas items-center justify-center px-6">
+        <Text style={{ color: UI.text, fontFamily: 'Fredoka-Bold', fontSize: 18 }}>
           Nie znaleziono zwierzęcia.
         </Text>
-        <Pressable
-          onPress={() => router.replace('/(tabs)/collection')}
-          className="mt-4 bg-brand rounded-chip px-4 py-2">
-          <Text className="text-paper" style={{ fontFamily: 'Fredoka-Bold' }}>
-            Wróć do kolekcji
-          </Text>
-        </Pressable>
+        <View className="mt-4" style={{ alignSelf: 'stretch' }}>
+          <Button
+            label="Wróć do kolekcji"
+            size="md"
+            onPress={() => router.replace('/(tabs)/collection')}
+          />
+        </View>
       </View>
     );
   }
 
   return (
-    <View className="flex-1 bg-bg">
-      <Image
-        source={require('../../../assets/backgrounds/home-bg.png')}
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          width: '100%',
-          height: '100%',
-        }}
-        contentFit="cover"
+    <View className="flex-1 bg-canvas">
+      <ScreenHeader
+        eyebrow="KARTA ODKRYWCY"
+        title={animal.name_pl}
+        onBack={() =>
+          router.canGoBack() ? router.back() : router.replace('/(tabs)/collection')
+        }
       />
-
-      {/* Top bar */}
-      <View
-        style={{
-          paddingTop: insets.top + 12,
-          paddingHorizontal: 16,
-          paddingBottom: 8,
-        }}>
-        <View className="flex-row items-center justify-between">
-          <Pressable
-            onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)/collection'))}
-            className="w-10 h-10 rounded-full bg-paper items-center justify-center"
-            style={{
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.12,
-              shadowRadius: 4,
-              elevation: 3,
-            }}>
-            <Text className="text-ink" style={{ fontFamily: 'Fredoka-Bold', fontSize: 18 }}>
-              ←
-            </Text>
-          </Pressable>
-
-          <View className="items-center flex-1 px-3">
-            <Text
-              className="text-brand-deep"
-              style={{ fontFamily: 'Fredoka-Bold', fontSize: 11, letterSpacing: 1.2 }}>
-              KARTA ODKRYWCY
-            </Text>
-            <Text
-              className="text-ink"
-              numberOfLines={1}
-              style={{ fontFamily: 'Fredoka-Bold', fontSize: 18 }}>
-              {animal.name_pl}
-            </Text>
-          </View>
-
-          <View style={{ width: 40 }} />
-        </View>
-      </View>
 
       <ScrollView
         contentContainerStyle={{

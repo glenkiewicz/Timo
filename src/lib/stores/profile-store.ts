@@ -10,6 +10,9 @@ import {
   todayKey,
 } from '@/data/expeditions';
 import { awardRound, type AwardInput } from '@/features/gamification/award';
+import { isoWeekKey } from '@/features/leaderboard/week';
+import { useAuthStore } from '@/lib/stores/auth-store';
+import { supabase } from '@/lib/supabase';
 
 type DailyChoice = {
   date: string;
@@ -34,6 +37,11 @@ type ProfileState = {
   lastPlayDate: string | null;
   /** Liczba szybkich zwycięstw (≤3 pytań) — do odznaki `lightning` */
   fast_wins: number;
+
+  /** XP zdobyte w bieżącym tygodniu ISO — wynik wysyłany do rankingu online. */
+  weeklyXp: number;
+  /** Tydzień, którego dotyczy `weeklyXp` (np. `2026-W33`). */
+  weekKey: string | null;
   collection: string[];
   badges: string[];
 
@@ -75,6 +83,13 @@ type ProfileState = {
 
   setAudioMuted: (value: boolean) => void;
 
+  /** Wczytuje stan gry wybranego profilu z bazy (baza jest źródłem prawdy). */
+  hydrateFromServer: (profileId: string) => Promise<void>;
+  /** Zapisuje bieżący stan do bazy; przy błędzie zostawia `dirty`. */
+  pushToServer: () => Promise<void>;
+  /** Czy lokalny stan wyprzedza bazę (nieudany zapis, brak sieci). */
+  dirty: boolean;
+
   resetAll: () => void;
 };
 
@@ -87,6 +102,8 @@ const initial: Omit<
   | 'chooseExpedition'
   | 'recordExpeditionDiscovery'
   | 'setAudioMuted'
+  | 'hydrateFromServer'
+  | 'pushToServer'
   | 'resetAll'
 > = {
   paws: 0,
@@ -96,6 +113,8 @@ const initial: Omit<
   dailyStreak: 0,
   lastPlayDate: null,
   fast_wins: 0,
+  weeklyXp: 0,
+  weekKey: null,
   collection: [] as string[],
   badges: [] as string[],
   dailyChoice: null,
@@ -103,6 +122,7 @@ const initial: Omit<
   lastReward: null,
   lastExpeditionReward: null,
   audioMuted: false,
+  dirty: false,
 };
 
 function todayLocal(): string {
@@ -181,10 +201,17 @@ export const useProfileStore = create<ProfileState>()(
           pawsBonus += 50;
         }
 
+        // Tygodniowe XP — zeruje się przy zmianie tygodnia ISO, żeby ranking
+        // startował co poniedziałek od nowa.
+        const currentWeek = isoWeekKey();
+        const weeklyBase = state.weekKey === currentWeek ? state.weeklyXp : 0;
+
         set({
           paws: state.paws + result.pawsDelta + pawsBonus,
           stars: state.stars + result.starsDelta,
           xp: state.xp + result.xpDelta,
+          weeklyXp: weeklyBase + result.xpDelta,
+          weekKey: currentWeek,
           streak: result.nextStreak,
           dailyStreak: nextDailyStreak,
           lastPlayDate: today,
@@ -202,6 +229,9 @@ export const useProfileStore = create<ProfileState>()(
             isFirstDiscovery: result.isFirstDiscovery,
           },
         });
+
+        // Baza jest źródłem prawdy — zapis idzie w tle, UI nie czeka.
+        void get().pushToServer();
       },
 
       clearLastReward: () => set({ lastReward: null }),
@@ -304,9 +334,67 @@ export const useProfileStore = create<ProfileState>()(
         }
 
         set(updates as ProfileState);
+        void get().pushToServer();
       },
 
       setAudioMuted: (value) => set({ audioMuted: value }),
+
+      hydrateFromServer: async (profileId) => {
+        // Czyścimy stan poprzedniego dziecka, zanim pokażemy cokolwiek nowego.
+        set({ ...initial, audioMuted: get().audioMuted });
+
+        const { data, error } = await supabase
+          .from('progress')
+          .select(
+            'xp, paws, streak, daily_streak, last_play_date, fast_wins, collection, badges'
+          )
+          .eq('profile_id', profileId)
+          .maybeSingle();
+
+        if (error || !data) {
+          if (__DEV__ && error) {
+            console.warn('[profile] hydrate failed:', error.message);
+          }
+          return;
+        }
+
+        set({
+          xp: data.xp ?? 0,
+          paws: data.paws ?? 0,
+          streak: data.streak ?? 0,
+          dailyStreak: data.daily_streak ?? 0,
+          lastPlayDate: data.last_play_date ?? null,
+          fast_wins: data.fast_wins ?? 0,
+          collection: data.collection ?? [],
+          badges: data.badges ?? [],
+          dirty: false,
+        });
+      },
+
+      pushToServer: async () => {
+        const profileId = useAuthStore.getState().activeProfileId;
+        if (!profileId) return;
+
+        const s = get();
+        const { error } = await supabase
+          .from('progress')
+          .update({
+            xp: s.xp,
+            paws: s.paws,
+            streak: s.streak,
+            daily_streak: s.dailyStreak,
+            last_play_date: s.lastPlayDate,
+            fast_wins: s.fast_wins,
+            collection: s.collection,
+            badges: s.badges,
+            updated_at: new Date().toISOString(),
+          })
+          .eq('profile_id', profileId);
+
+        // Nieudany zapis zostawia `dirty` — spróbujemy ponownie po następnej
+        // rundzie albo przy kolejnym wejściu do aplikacji.
+        set({ dirty: Boolean(error) });
+      },
 
       resetAll: () => set({ ...initial }),
     }),

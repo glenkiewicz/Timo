@@ -4,13 +4,16 @@ import { FlatList, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AnimalImage } from '@/components/collection/AnimalImage';
+import { FilterChip } from '@/components/ui/FilterChip';
+import { Icon } from '@/components/ui/Icon';
+import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { DEV_UNLOCK_ALL } from '@/config/features';
 import { ANIMALS } from '@/data/animals';
 import { EXPEDITIONS, EXPEDITIONS_BY_ID } from '@/data/expeditions';
 import { useProfileStore } from '@/lib/stores/profile-store';
+import { UI } from '@/theme/ui';
 import type { Animal } from '@/types/game';
 import { Pressable, Text, View } from '@/tw';
-import { Image } from '@/tw/image';
 
 type CardData = {
   id: string;
@@ -58,86 +61,25 @@ export default function CollectionScreen() {
   const sectionTotal = data.length;
 
   return (
-    <View className="flex-1 bg-bg">
-      <Image
-        source={require('../../../assets/backgrounds/home-bg.png')}
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          width: '100%',
-          height: '100%',
-        }}
-        contentFit="cover"
-      />
-
-      <View style={{ paddingTop: insets.top + 12, paddingHorizontal: 16, paddingBottom: 8 }}>
-        <View className="flex-row items-center justify-between mb-3">
-          <Pressable
-            onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
-            className="w-10 h-10 rounded-full bg-paper items-center justify-center"
-            style={{
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.12,
-              shadowRadius: 4,
-              elevation: 3,
-            }}>
-            <Text className="text-ink" style={{ fontFamily: 'Fredoka-Bold', fontSize: 18 }}>
-              ←
-            </Text>
-          </Pressable>
-
-          <View className="items-center">
-            <Text
-              className="text-brand-deep"
-              style={{
-                fontFamily: 'Fredoka-Bold',
-                fontSize: 11,
-                letterSpacing: 1.2,
-              }}>
-              KSIĘGA TIMO
-            </Text>
-            <Text
-              className="text-ink"
-              style={{ fontFamily: 'Fredoka-Bold', fontSize: 20 }}>
-              Kolekcja zwierząt
-            </Text>
-          </View>
-
-          <View
-            className="bg-brand rounded-chip px-3 py-1.5"
-            style={{
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.12,
-              shadowRadius: 4,
-              elevation: 3,
-            }}>
-            <Text
-              className="text-paper"
-              style={{ fontFamily: 'Fredoka-Bold', fontSize: 13 }}>
-              {sectionDiscovered} / {sectionTotal}
-            </Text>
-          </View>
-        </View>
-
-        {/* tabs */}
+    <View className="flex-1 bg-canvas">
+      <ScreenHeader
+        eyebrow="KSIĘGA TIMO"
+        title="Kolekcja zwierząt"
+        counter={{ value: sectionDiscovered, total: sectionTotal, accent: 'violet' }}
+        onBack={() => router.navigate('/(tabs)')}>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ gap: 8, paddingVertical: 4 }}
-          style={{ marginHorizontal: -16, paddingHorizontal: 16 }}>
-          <TabChip
+          style={{ marginHorizontal: -16, paddingHorizontal: 16, marginTop: 8 }}>
+          <FilterChip
             label="Wszystkie"
             emoji="🐾"
             active={activeExpId === null}
             onPress={() => setActiveExpId(null)}
           />
           {EXPEDITIONS.map((e) => (
-            <TabChip
+            <FilterChip
               key={e.id}
               label={e.title}
               emoji={e.hero_emoji}
@@ -146,14 +88,16 @@ export default function CollectionScreen() {
             />
           ))}
         </ScrollView>
-      </View>
+      </ScreenHeader>
 
       <FlatList
         data={data}
         keyExtractor={(item) => item.id}
         numColumns={NUM_COLUMNS}
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           paddingHorizontal: 12,
+          paddingTop: 12,
           paddingBottom: insets.bottom + 24,
           gap: CARD_GAP,
         }}
@@ -164,83 +108,46 @@ export default function CollectionScreen() {
   );
 }
 
-function TabChip({
-  label,
-  emoji,
-  active,
-  onPress,
-}: {
-  label: string;
-  emoji: string;
-  active: boolean;
-  onPress: () => void;
-}) {
-  return (
-    <Pressable onPress={onPress}>
-      <View
-        className={`${active ? 'bg-brand' : 'bg-paper'} rounded-chip flex-row items-center gap-1.5`}
-        style={{
-          paddingHorizontal: 12,
-          paddingVertical: 8,
-          borderWidth: 2,
-          borderColor: active ? '#a24d17' : '#fff6cc',
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.1,
-          shadowRadius: 4,
-          elevation: 2,
-        }}>
-        <Text style={{ fontSize: 13 }}>{emoji}</Text>
-        <Text
-          className={active ? 'text-paper' : 'text-ink'}
-          style={{ fontFamily: 'Fredoka-Bold', fontSize: 12 }}>
-          {label}
-        </Text>
-      </View>
-    </Pressable>
-  );
-}
-
 function CollectionTile({ item }: { item: CardData }) {
   if (!item.discovered) {
     return (
       <View
-        className="flex-1 rounded-card items-center justify-center"
+        className="flex-1 items-center justify-center"
         style={{
           aspectRatio: 1,
-          backgroundColor: 'rgba(255,241,223,0.6)',
+          backgroundColor: UI.sunken,
+          borderRadius: 18,
           borderWidth: 2,
-          borderColor: 'rgba(107,79,49,0.18)',
+          borderColor: UI.line,
           borderStyle: 'dashed',
         }}>
-        <Text style={{ fontSize: 26, opacity: 0.45 }}>🔒</Text>
+        <Icon name="lock" size={24} color={UI.textFaint} strokeWidth={2.4} />
         <Text
-          className="text-ink-muted"
           style={{
-            fontFamily: 'Nunito-Bold',
+            color: UI.textFaint,
+            fontFamily: 'Fredoka-Bold',
             fontSize: 10,
-            marginTop: 2,
+            marginTop: 4,
           }}>
           ?????
         </Text>
       </View>
     );
   }
+
   return (
     <Link href={`/animal/${item.id}`} asChild>
       <Link.AppleZoom>
         <Pressable className="flex-1">
           <View
-            className="rounded-card overflow-hidden bg-paper"
+            className="overflow-hidden"
             style={{
               aspectRatio: 1,
+              backgroundColor: UI.canvas,
+              borderRadius: 18,
               borderWidth: 2,
-              borderColor: '#fff6cc',
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 3 },
-              shadowOpacity: 0.12,
-              shadowRadius: 6,
-              elevation: 3,
+              borderBottomWidth: 4,
+              borderColor: UI.line,
             }}>
             <AnimalImage animalId={item.id} fallbackEmoji={item.emoji} fill />
             <View
@@ -254,9 +161,10 @@ function CollectionTile({ item }: { item: CardData }) {
                 paddingVertical: 4,
               }}>
               <Text
-                className="text-paper text-center"
+                className="text-center"
                 numberOfLines={1}
                 style={{
+                  color: UI.canvas,
                   fontFamily: 'Fredoka-Bold',
                   fontSize: 11,
                 }}>

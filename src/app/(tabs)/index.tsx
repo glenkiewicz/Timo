@@ -1,474 +1,458 @@
-import { useRouter } from "expo-router";
-import { useEffect, useRef, useState } from "react";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useRouter } from 'expo-router';
+import { useEffect, useRef, useState } from 'react';
+import { ScrollView } from 'react-native';
 import Animated, {
-	useAnimatedStyle,
-	useSharedValue,
-	withDelay,
-	withSequence,
-	withSpring,
-} from "react-native-reanimated";
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withSequence,
+  withSpring,
+} from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { PuffyButton } from "@/components/buttons/PuffyButton";
-import { AnimatedCounter } from "@/components/gamification/AnimatedCounter";
-import { FloatingDelta } from "@/components/gamification/FloatingDelta";
-import { InfoModal } from "@/components/gamification/InfoModal";
-import { LiveInfoChip } from "@/components/gamification/LiveInfoChip";
-import { SpeechBubble } from "@/components/timo/SpeechBubble";
-import { TimoCharacter } from "@/components/timo/TimoCharacter";
-import { ANIMALS } from "@/data/animals";
-import { BADGES } from "@/data/badges";
-import { EXPEDITIONS_BY_ID } from "@/data/expeditions";
-import { TOOLTIPS } from "@/data/info-tooltips";
-import { pickGreeting } from "@/data/timo-lines";
-import { levelFromXp } from "@/features/gamification/award";
-import { titleFor } from "@/features/gamification/titles";
-import { timoVoice } from "@/lib/audio/timo-voice";
-import { useGameStore } from "@/lib/stores/game-store";
-import { useProfileStore } from "@/lib/stores/profile-store";
-import { Pressable, Text, View } from "@/tw";
-import { Image } from "@/tw/image";
+import { AnimatedCounter } from '@/components/gamification/AnimatedCounter';
+import { LeaderboardCard } from '@/components/leaderboard/LeaderboardCard';
+import { FloatingDelta } from '@/components/gamification/FloatingDelta';
+import { InfoModal } from '@/components/gamification/InfoModal';
+import { TimoCharacter } from '@/components/timo/TimoCharacter';
+import { Bubble } from '@/components/ui/Bubble';
+import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
+import { Icon } from '@/components/ui/Icon';
+import { ProgressBar } from '@/components/ui/ProgressBar';
+import { StatBadge } from '@/components/ui/StatBadge';
+import { EXPEDITIONS_BY_ID } from '@/data/expeditions';
+import { TOOLTIPS } from '@/data/info-tooltips';
+import { pickGreeting } from '@/data/timo-lines';
+import { levelFromXp, xpProgress } from '@/features/gamification/award';
+import { titleFor } from '@/features/gamification/titles';
+import { timoVoice } from '@/lib/audio/timo-voice';
+import { useGameStore } from '@/lib/stores/game-store';
+import { useProfileStore } from '@/lib/stores/profile-store';
+import { UI } from '@/theme/ui';
+import { Pressable, Text, View } from '@/tw';
 
 export default function HomeScreen() {
-	const router = useRouter();
-	const insets = useSafeAreaInsets();
-	const start = useGameStore((s) => s.start);
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const start = useGameStore((s) => s.start);
 
-	const paws = useProfileStore((s) => s.paws);
-	const streak = useProfileStore((s) => s.streak);
-	const dailyStreak = useProfileStore((s) => s.dailyStreak);
-	const xp = useProfileStore((s) => s.xp);
-	const collection = useProfileStore((s) => s.collection);
-	const badges = useProfileStore((s) => s.badges);
-	const lastReward = useProfileStore((s) => s.lastReward);
-	const clearLastReward = useProfileStore((s) => s.clearLastReward);
-	const ensureDailyChoice = useProfileStore((s) => s.ensureDailyChoice);
-	const audioMuted = useProfileStore((s) => s.audioMuted);
-	const setAudioMuted = useProfileStore((s) => s.setAudioMuted);
+  const paws = useProfileStore((s) => s.paws);
+  const streak = useProfileStore((s) => s.streak);
+  const dailyStreak = useProfileStore((s) => s.dailyStreak);
+  const xp = useProfileStore((s) => s.xp);
+  const collection = useProfileStore((s) => s.collection);
+  const lastReward = useProfileStore((s) => s.lastReward);
+  const clearLastReward = useProfileStore((s) => s.clearLastReward);
+  const ensureDailyChoice = useProfileStore((s) => s.ensureDailyChoice);
+  const audioMuted = useProfileStore((s) => s.audioMuted);
+  const setAudioMuted = useProfileStore((s) => s.setAudioMuted);
 
-	const level = levelFromXp(xp);
-	const title = titleFor(level);
-	const previousPaws = lastReward?.previousPaws ?? paws;
-	const previousStreak = lastReward?.previousStreak ?? streak;
-	const previousLevel = lastReward
-		? levelFromXp(lastReward.previousXp)
-		: level;
+  const level = levelFromXp(xp);
+  const title = titleFor(level);
+  const progress = xpProgress(xp);
 
-	// make sure today's expedition picks are present
-	useEffect(() => {
-		ensureDailyChoice();
-	}, [ensureDailyChoice]);
+  const previousPaws = lastReward?.previousPaws ?? paws;
+  const previousStreak = lastReward?.previousStreak ?? streak;
+  const previousXp = lastReward?.previousXp ?? xp;
+  const previousLevel = levelFromXp(previousXp);
+  const levelUp = level > previousLevel;
+  // Po awansie pasek startuje od zera — stary procent dotyczył innego poziomu.
+  const progressFrom = levelUp ? 0 : xpProgress(previousXp).pct;
 
-	// Greeting Timo — gra raz na sesję aplikacji (nie przy każdym powrocie na home).
-	const greetedThisSession = useRef(false);
-	useEffect(() => {
-		if (greetedThisSession.current) return;
-		greetedThisSession.current = true;
-		const g = pickGreeting();
-		timoVoice.playLine(g.voiceKey);
-	}, []);
+  // make sure today's expedition picks are present
+  useEffect(() => {
+    ensureDailyChoice();
+  }, [ensureDailyChoice]);
 
-	// clear lastReward after the entrance animation has played out
-	useEffect(() => {
-		if (!lastReward) return;
-		const t = setTimeout(() => clearLastReward(), 1600);
-		return () => clearTimeout(t);
-	}, [lastReward, clearLastReward]);
+  // Greeting Timo — gra raz na sesję aplikacji (nie przy każdym powrocie na home).
+  // Cleanup ucina powitanie, gdy ekran znika (np. wylogowanie albo zmiana
+  // profilu) — inaczej Timo mówiłby do ekranu logowania.
+  const greetedThisSession = useRef(false);
+  useEffect(() => {
+    if (!greetedThisSession.current) {
+      greetedThisSession.current = true;
+      const g = pickGreeting();
+      timoVoice.playLine(g.voiceKey);
+    }
+    return () => {
+      timoVoice.stop();
+    };
+  }, []);
 
-	const [levelInfoOpen, setLevelInfoOpen] = useState(false);
+  // clear lastReward after the entrance animation has played out
+  useEffect(() => {
+    if (!lastReward) return;
+    const t = setTimeout(() => clearLastReward(), 1600);
+    return () => clearTimeout(t);
+  }, [lastReward, clearLastReward]);
 
-	const levelUp = level > previousLevel;
-	const avatarPulse = useSharedValue(1);
+  const [levelInfoOpen, setLevelInfoOpen] = useState(false);
 
-	useEffect(() => {
-		if (!levelUp) return;
-		avatarPulse.value = withDelay(
-			200,
-			withSequence(
-				withSpring(1.25, { damping: 7, stiffness: 220 }),
-				withSpring(1, { damping: 14, stiffness: 180 }),
-			),
-		);
-	}, [levelUp, avatarPulse]);
+  const avatarPulse = useSharedValue(1);
+  useEffect(() => {
+    if (!levelUp) return;
+    avatarPulse.value = withDelay(
+      200,
+      withSequence(
+        withSpring(1.25, { damping: 7, stiffness: 220 }),
+        withSpring(1, { damping: 14, stiffness: 180 })
+      )
+    );
+  }, [levelUp, avatarPulse]);
 
-	const avatarStyle = useAnimatedStyle(() => ({
-		transform: [{ scale: avatarPulse.value }],
-	}));
+  const avatarStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: avatarPulse.value }],
+  }));
 
-	const handlePlay = () => {
-		start();
-		router.push("/game");
-	};
+  const handlePlay = () => {
+    start();
+    router.push('/game');
+  };
 
-	return (
-		<View className="flex-1 bg-bg">
-			<Image
-				source={require("../../../assets/backgrounds/home-bg.png")}
-				style={{
-					position: "absolute",
-					top: 0,
-					left: 0,
-					right: 0,
-					bottom: 0,
-					width: "100%",
-					height: "100%",
-				}}
-				contentFit="cover"
-			/>
+  return (
+    <View className="flex-1 bg-canvas">
+      {/* ---------- górny pasek statystyk ---------- */}
+      <View
+        className="flex-row items-center justify-between px-4"
+        style={{ paddingTop: insets.top + 8, paddingBottom: 10 }}>
+        <View className="flex-row items-center">
+          <StatBadge
+            tooltipKey="streak"
+            icon="flame"
+            from={previousStreak}
+            to={streak}
+            accent="fox"
+            delayMs={120}
+            dimWhenZero
+          />
+          <StatBadge
+            tooltipKey="paws"
+            icon="paw"
+            from={previousPaws}
+            to={paws}
+            accent="sky"
+          />
+          {dailyStreak > 0 ? (
+            <StatBadge
+              tooltipKey="daily_streak"
+              icon="leaf"
+              from={dailyStreak}
+              to={dailyStreak}
+              accent="primary"
+              delayMs={60}
+            />
+          ) : null}
+        </View>
 
-			<View
-				className="flex-1"
-				style={{
-					paddingTop: insets.top + 12,
-					paddingBottom: insets.bottom + 24,
-				}}
-			>
-				{/* top bar */}
-				<View className="flex-row items-center justify-between px-5">
-					<View style={{ alignItems: "center" }}>
-						<Animated.View style={avatarStyle}>
-							<Pressable onPress={() => setLevelInfoOpen(true)}>
-								<View
-									className="w-12 h-12 rounded-full bg-brand items-center justify-center"
-									style={{
-										borderWidth: 3,
-										borderColor: "#fff1df",
-										shadowColor: "#000",
-										shadowOffset: { width: 0, height: 3 },
-										shadowOpacity: 0.18,
-										shadowRadius: 6,
-										elevation: 4,
-									}}
-								>
-									<AnimatedCounter
-										from={previousLevel}
-										to={level}
-										durationMs={700}
-										delayMs={200}
-										className="text-paper"
-										style={{
-											fontFamily: "Fredoka-Bold",
-											fontSize: 18,
-										}}
-									/>
-								</View>
-							</Pressable>
-						</Animated.View>
-						{levelUp ? (
-							<FloatingDelta
-								value={level - previousLevel}
-								delayMs={200}
-								color="#a8730c"
-								containerStyle={{ top: -2 }}
-							/>
-						) : null}
-					</View>
-					<View className="flex-row gap-2 items-center">
-						<Pressable
-							onPress={() => setAudioMuted(!audioMuted)}
-							accessibilityRole="button"
-							accessibilityLabel={audioMuted ? "Włącz głos Timo" : "Wycisz głos Timo"}
-							className="w-10 h-10 rounded-full bg-paper items-center justify-center"
-							style={{
-								borderWidth: 1.5,
-								borderColor: "#fff6cc",
-								shadowColor: "#000",
-								shadowOffset: { width: 0, height: 2 },
-								shadowOpacity: 0.12,
-								shadowRadius: 4,
-								elevation: 3,
-							}}
-						>
-							<Text style={{ fontSize: 16 }}>{audioMuted ? "🔇" : "🔊"}</Text>
-						</Pressable>
-						{dailyStreak > 0 ? (
-							<LiveInfoChip
-								tooltipKey="daily_streak"
-								icon="leaf"
-								from={dailyStreak}
-								to={dailyStreak}
-								variant="success"
-								delayMs={60}
-							/>
-						) : null}
-						<LiveInfoChip
-							tooltipKey="streak"
-							icon="flame"
-							from={previousStreak}
-							to={streak}
-							variant={streak > 0 ? "brand" : "paper"}
-							delayMs={120}
-						/>
-						<LiveInfoChip
-							tooltipKey="paws"
-							icon="paw"
-							from={previousPaws}
-							to={paws}
-							variant="paper"
-							delayMs={0}
-						/>
-					</View>
-				</View>
+        <Pressable
+          onPress={() => setAudioMuted(!audioMuted)}
+          accessibilityRole="button"
+          accessibilityLabel={audioMuted ? 'Włącz głos Timo' : 'Wycisz głos Timo'}
+          className="w-11 h-11 items-center justify-center rounded-pill"
+          style={{ backgroundColor: UI.sunken }}>
+          <Icon
+            name={audioMuted ? 'sound-off' : 'sound-on'}
+            size={21}
+            color={audioMuted ? UI.textFaint : UI.textSoft}
+            strokeWidth={2.4}
+          />
+        </Pressable>
+      </View>
 
-				{/* Tytuł odkrywcy pod top barem */}
-				<View className="items-start px-5 mt-1.5">
-					<View
-						className="bg-paper rounded-chip"
-						style={{
-							paddingHorizontal: 10,
-							paddingVertical: 3,
-							borderWidth: 1.5,
-							borderColor: "#fff6cc",
-						}}
-					>
-						<Text
-							className="text-brand-deep"
-							style={{
-								fontFamily: "Fredoka-Bold",
-								fontSize: 11,
-								letterSpacing: 0.5,
-							}}
-						>
-							{title} · L{level}
-						</Text>
-					</View>
-				</View>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingHorizontal: 20,
+          paddingBottom: 12,
+        }}>
+        {/* ---------- poziom + pasek XP ---------- */}
+        <Pressable
+          onPress={() => setLevelInfoOpen(true)}
+          accessibilityRole="button"
+          accessibilityLabel={`Poziom ${level}, ${title}`}
+          className="flex-row items-center gap-3">
+          <View style={{ alignItems: 'center' }}>
+            <Animated.View style={avatarStyle}>
+              <View
+                className="w-14 h-14 items-center justify-center rounded-pill"
+                style={{
+                  backgroundColor: UI.primaryPale,
+                  borderWidth: 3,
+                  borderColor: UI.primary,
+                }}>
+                <AnimatedCounter
+                  from={previousLevel}
+                  to={level}
+                  durationMs={700}
+                  delayMs={200}
+                  style={{
+                    color: UI.primaryDeep,
+                    fontFamily: 'Fredoka-Bold',
+                    fontSize: 20,
+                  }}
+                />
+              </View>
+            </Animated.View>
+            {levelUp ? (
+              <FloatingDelta
+                value={level - previousLevel}
+                delayMs={200}
+                color={UI.primaryDeep}
+                containerStyle={{ top: -2 }}
+              />
+            ) : null}
+          </View>
 
-				<InfoModal
-					visible={levelInfoOpen}
-					tooltip={TOOLTIPS.level}
-					onClose={() => setLevelInfoOpen(false)}
-				/>
+          <View className="flex-1">
+            <View className="flex-row items-center justify-between mb-1.5">
+              <Text
+                style={{
+                  color: UI.text,
+                  fontFamily: 'Fredoka-Bold',
+                  fontSize: 16,
+                }}>
+                {title}
+              </Text>
+              <Text
+                style={{
+                  color: UI.textFaint,
+                  fontFamily: 'Nunito-Bold',
+                  fontSize: 12,
+                }}>
+                {progress.current}/{progress.nextLevelAt} XP
+              </Text>
+            </View>
+            <ProgressBar
+              value={progress.pct}
+              from={progressFrom}
+              delayMs={200}
+              height={14}
+            />
+          </View>
+        </Pressable>
 
-				{/* hero */}
-				<View className="items-center gap-1 px-6 mt-3">
-					<View style={{ alignSelf: "flex-start", maxWidth: "88%" }}>
-						<SpeechBubble eyebrow="TIMO MÓWI" tailSide="left">
-							{collection.length === 0
-								? "Cześć! Pomyśl o zwierzęciu — spróbuję zgadnąć!"
-								: `Mamy razem ${collection.length} ${
-										collection.length === 1
-											? "zwierzę"
-											: collection.length < 5
-												? "zwierzęta"
-												: "zwierząt"
-									}. Gramy dalej?`}
-						</SpeechBubble>
-					</View>
-					<TimoCharacter state="greeting" size={200} />
-				</View>
+        <InfoModal
+          visible={levelInfoOpen}
+          tooltip={TOOLTIPS.level}
+          onClose={() => setLevelInfoOpen(false)}
+        />
 
-				<View className="flex-1" />
+        {/* ---------- Timo ---------- */}
+        <View className="flex-1 items-center justify-center" style={{ marginTop: 16 }}>
+          <View style={{ alignSelf: 'stretch', paddingRight: 24 }}>
+            <Bubble eyebrow="TIMO MÓWI" tail="bottom-left">
+              {collection.length === 0
+                ? 'Cześć! Pomyśl o zwierzęciu — spróbuję zgadnąć!'
+                : `Mamy razem ${collection.length} ${plural(collection.length)}. Gramy dalej?`}
+            </Bubble>
+          </View>
+          <TimoCharacter state="greeting" size={190} />
+        </View>
 
-				{/* CTA */}
-				<View className="px-6 gap-2">
-					<PuffyButton label="Zagraj z Timo" onPress={handlePlay} />
-					
-				</View>
-			</View>
-		</View>
-	);
+        {/* ---------- wyprawa dnia ---------- */}
+        <ExpeditionDailyCard />
+
+        {/* ---------- ranking tygodnia ---------- */}
+        <LeaderboardCard />
+      </ScrollView>
+
+      {/* ---------- CTA ---------- */}
+      <View
+        className="px-5 bg-canvas"
+        style={{ paddingTop: 10, paddingBottom: 12 }}>
+        <Button label="ZAGRAJ Z TIMO" icon="bolt" onPress={handlePlay} />
+      </View>
+    </View>
+  );
 }
 
-/* ---------------- Wyprawa Dnia card ---------------- */
+/** Polska odmiana rzeczownika „zwierzę" po liczebniku. */
+function plural(n: number): string {
+  if (n === 1) return 'zwierzę';
+  const rest10 = n % 10;
+  const rest100 = n % 100;
+  const few = rest10 >= 2 && rest10 <= 4 && !(rest100 >= 12 && rest100 <= 14);
+  return few ? 'zwierzęta' : 'zwierząt';
+}
+
+/* ---------------- Wyprawa Dnia ---------------- */
+
+function SectionLabel({ children }: { children: string }) {
+  return (
+    <Text
+      style={{
+        color: UI.textFaint,
+        fontFamily: 'Fredoka-Bold',
+        fontSize: 11,
+        letterSpacing: 1.2,
+        marginBottom: 8,
+      }}>
+      {children}
+    </Text>
+  );
+}
 
 function ExpeditionDailyCard() {
-	const router = useRouter();
-	const dailyChoice = useProfileStore((s) => s.dailyChoice);
-	const expeditionProgress = useProfileStore((s) => s.expeditionProgress);
-	const chooseExpedition = useProfileStore((s) => s.chooseExpedition);
-	const startGame = useGameStore((s) => s.start);
+  const router = useRouter();
+  const dailyChoice = useProfileStore((s) => s.dailyChoice);
+  const expeditionProgress = useProfileStore((s) => s.expeditionProgress);
+  const chooseExpedition = useProfileStore((s) => s.chooseExpedition);
+  const startGame = useGameStore((s) => s.start);
 
-	if (!dailyChoice) return null;
+  if (!dailyChoice) return null;
 
-	const chosenId = dailyChoice.chosen_id;
-	const chosen = chosenId ? EXPEDITIONS_BY_ID[chosenId] : null;
-	const progress = chosenId ? expeditionProgress[chosenId] : undefined;
-	const completed = progress?.completed_at != null;
-	const discoveredCount = progress?.discovered.length ?? 0;
-	const targetCount = chosen?.target_count ?? 3;
+  const chosenId = dailyChoice.chosen_id;
+  const chosen = chosenId ? EXPEDITIONS_BY_ID[chosenId] : null;
+  const progress = chosenId ? expeditionProgress[chosenId] : undefined;
+  const completed = progress?.completed_at != null;
+  const discoveredCount = progress?.discovered.length ?? 0;
+  const targetCount = chosen?.target_count ?? 3;
 
-	const cardStyle = {
-		borderWidth: 2,
-		borderColor: "#fff6cc" as const,
-		shadowColor: "#000",
-		shadowOffset: { width: 0, height: 4 },
-		shadowOpacity: 0.12,
-		shadowRadius: 8,
-		elevation: 4,
-	};
+  const launch = (id: string) => {
+    chooseExpedition(id);
+    const exp = EXPEDITIONS_BY_ID[id];
+    if (exp?.mode === 'guided') {
+      // Wyprawa z Timo → najpierw ekran kart inspiracji.
+      router.push(`/expedition-intro/${id}`);
+      return;
+    }
+    const prog = expeditionProgress[id];
+    startGame({
+      expeditionId: id,
+      expeditionMode: exp?.mode ?? 'expert',
+      excludeDiscovered: prog?.discovered ?? [],
+    });
+    router.push('/game');
+  };
 
-	const launch = (id: string) => {
-		chooseExpedition(id);
-		const exp = EXPEDITIONS_BY_ID[id];
-		if (exp?.mode === "guided") {
-			// Wyprawa z Timo → najpierw ekran kart inspiracji.
-			router.push(`/expedition-intro/${id}`);
-			return;
-		}
-		const prog = expeditionProgress[id];
-		startGame({
-			expeditionId: id,
-			expeditionMode: exp?.mode ?? "expert",
-			excludeDiscovered: prog?.discovered ?? [],
-		});
-		router.push("/game");
-	};
+  // Stan C — ukończona
+  if (chosen && completed) {
+    return (
+      <View className="mt-4">
+        <SectionLabel>WYPRAWA DNIA</SectionLabel>
+        <Card borderColor={UI.primary} background={UI.primaryPale}>
+          <View className="flex-row items-center gap-3">
+            <Text style={{ fontSize: 30 }}>{chosen.hero_emoji}</Text>
+            <View className="flex-1">
+              <Text
+                style={{
+                  color: UI.text,
+                  fontFamily: 'Fredoka-Bold',
+                  fontSize: 16,
+                }}>
+                {chosen.childTitle ?? chosen.title}
+              </Text>
+              <Text
+                style={{
+                  color: UI.primaryDeep,
+                  fontFamily: 'Nunito-Bold',
+                  fontSize: 13,
+                }}>
+                Ukończona! Jutro czeka nowa przygoda.
+              </Text>
+            </View>
+            <Icon name="check" size={26} color={UI.primaryDeep} strokeWidth={3} />
+          </View>
+        </Card>
+      </View>
+    );
+  }
 
-	// State C — completed
-	if (chosen && completed) {
-		return (
-			<View className="bg-paper rounded-card p-4" style={cardStyle}>
-				<Text
-					className="text-brand-deep"
-					style={{
-						fontFamily: "Fredoka-Bold",
-						fontSize: 10,
-						letterSpacing: 1.2,
-						marginBottom: 2,
-					}}
-				>
-					✓ WYPRAWA UKOŃCZONA
-				</Text>
-				<View className="flex-row items-center gap-3">
-					<Text style={{ fontSize: 30 }}>{chosen.hero_emoji}</Text>
-					<View className="flex-1">
-						<Text
-							className="text-ink"
-							style={{ fontFamily: "Fredoka-Bold", fontSize: 16 }}
-						>
-							{chosen.childTitle ?? chosen.title}
-						</Text>
-						<Text
-							className="text-ink-soft"
-							style={{ fontFamily: "Nunito-Bold", fontSize: 12 }}
-						>
-							Jutro czeka nowa przygoda!
-						</Text>
-					</View>
-				</View>
-			</View>
-		);
-	}
+  // Stan B — wybrana, w toku
+  if (chosen) {
+    return (
+      <View className="mt-4">
+        <SectionLabel>WYPRAWA DNIA</SectionLabel>
+        <Card>
+          <View className="flex-row items-center gap-3 mb-3">
+            <Text style={{ fontSize: 30 }}>{chosen.hero_emoji}</Text>
+            <View className="flex-1">
+              <Text
+                style={{
+                  color: UI.text,
+                  fontFamily: 'Fredoka-Bold',
+                  fontSize: 16,
+                }}>
+                {chosen.childTitle ?? chosen.title}
+              </Text>
+              <Text
+                style={{
+                  color: UI.textSoft,
+                  fontFamily: 'Nunito-Bold',
+                  fontSize: 12,
+                }}>
+                Odkryte {discoveredCount} z {targetCount}
+              </Text>
+            </View>
+          </View>
+          <View className="mb-3">
+            <ProgressBar
+              value={targetCount > 0 ? discoveredCount / targetCount : 0}
+              accent="sky"
+              height={12}
+            />
+          </View>
+          <Button
+            label={discoveredCount === 0 ? 'RUSZAMY!' : 'KONTYNUUJ'}
+            variant="sky"
+            size="md"
+            onPress={() => launch(chosen.id)}
+          />
+        </Card>
+      </View>
+    );
+  }
 
-	// State B — chosen, in progress
-	if (chosen) {
-		return (
-			<View className="bg-paper rounded-card p-4" style={cardStyle}>
-				<Text
-					className="text-brand-deep"
-					style={{
-						fontFamily: "Fredoka-Bold",
-						fontSize: 10,
-						letterSpacing: 1.2,
-						marginBottom: 4,
-					}}
-				>
-					WYPRAWA DNIA
-				</Text>
-				<View className="flex-row items-center gap-3 mb-2">
-					<Text style={{ fontSize: 30 }}>{chosen.hero_emoji}</Text>
-					<View className="flex-1">
-						<Text
-							className="text-ink"
-							style={{ fontFamily: "Fredoka-Bold", fontSize: 16 }}
-						>
-							{chosen.childTitle ?? chosen.title}
-						</Text>
-						<Text
-							className="text-ink-soft"
-							style={{ fontFamily: "Nunito-Bold", fontSize: 12 }}
-						>
-							Odkryte: {discoveredCount} / {targetCount}
-						</Text>
-					</View>
-				</View>
-				<Pressable
-					onPress={() => launch(chosen.id)}
-					className="bg-brand rounded-chip py-2 items-center"
-				>
-					<Text
-						className="text-paper"
-						style={{ fontFamily: "Fredoka-Bold", fontSize: 14 }}
-					>
-						{discoveredCount === 0
-							? "Ruszamy!"
-							: "Kontynuuj wyprawę"}
-					</Text>
-				</Pressable>
-			</View>
-		);
-	}
+  // Stan A — trzy propozycje do wyboru
+  const options = dailyChoice.expedition_ids
+    .map((id) => EXPEDITIONS_BY_ID[id])
+    .filter(Boolean);
 
-	// State A — 3 choices
-	const options = dailyChoice.expedition_ids
-		.map((id) => EXPEDITIONS_BY_ID[id])
-		.filter(Boolean);
-
-	return (
-		<View>
-			<Text
-				className="text-brand-deep"
-				style={{
-					fontFamily: "Fredoka-Bold",
-					fontSize: 11,
-					letterSpacing: 1.2,
-					marginBottom: 6,
-					paddingLeft: 4,
-				}}
-			>
-				🌟 WYPRAWA DNIA — wybierz jedną
-			</Text>
-			<View className="flex-row gap-2">
-				{options.map((e) => {
-					const prog = expeditionProgress[e.id];
-					const done = prog?.completed_at != null;
-					return (
-						<Pressable
-							key={e.id}
-							onPress={() => launch(e.id)}
-							className="flex-1"
-						>
-							<View
-								className="bg-paper rounded-card items-center justify-center"
-								style={{
-									paddingVertical: 12,
-									paddingHorizontal: 4,
-									...cardStyle,
-									opacity: done ? 0.55 : 1,
-								}}
-							>
-								<Text style={{ fontSize: 32 }}>
-									{e.hero_emoji}
-								</Text>
-								<Text
-									className="text-ink text-center"
-									numberOfLines={2}
-									style={{
-										fontFamily: "Fredoka-Bold",
-										fontSize: 11,
-										marginTop: 4,
-									}}
-								>
-									{e.childTitle ?? e.title}
-								</Text>
-								{done ? (
-									<Text
-										className="text-success"
-										style={{
-											fontFamily: "Fredoka-Bold",
-											fontSize: 9,
-											marginTop: 2,
-										}}
-									>
-										✓
-									</Text>
-								) : null}
-							</View>
-						</Pressable>
-					);
-				})}
-			</View>
-		</View>
-	);
+  return (
+    <View className="mt-4">
+      <SectionLabel>WYPRAWA DNIA — WYBIERZ JEDNĄ</SectionLabel>
+      <View className="flex-row gap-2">
+        {options.map((e) => {
+          const prog = expeditionProgress[e.id];
+          const done = prog?.completed_at != null;
+          return (
+            <View key={e.id} className="flex-1">
+              <Card
+                onPress={() => launch(e.id)}
+                disabled={done}
+                accessibilityLabel={e.childTitle ?? e.title}
+                padding={10}
+                radius={16}
+                style={{ alignItems: 'center', minHeight: 104 }}>
+                <Text style={{ fontSize: 30 }}>{e.hero_emoji}</Text>
+                <Text
+                  numberOfLines={2}
+                  style={{
+                    color: UI.text,
+                    fontFamily: 'Fredoka-Bold',
+                    fontSize: 12,
+                    textAlign: 'center',
+                    marginTop: 4,
+                  }}>
+                  {e.childTitle ?? e.title}
+                </Text>
+                {done ? (
+                  <View style={{ marginTop: 2 }}>
+                    <Icon
+                      name="check"
+                      size={16}
+                      color={UI.primaryDeep}
+                      strokeWidth={3}
+                    />
+                  </View>
+                ) : null}
+              </Card>
+            </View>
+          );
+        })}
+      </View>
+    </View>
+  );
 }

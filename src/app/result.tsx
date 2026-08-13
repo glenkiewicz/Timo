@@ -1,21 +1,25 @@
 import { useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef } from 'react';
+import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { PuffyButton } from '@/components/buttons/PuffyButton';
 import { AnimalImage } from '@/components/collection/AnimalImage';
 import { AnimatedCounter } from '@/components/gamification/AnimatedCounter';
-import { AnimatedRewardChip } from '@/components/gamification/AnimatedRewardChip';
-import { LiveInfoChip } from '@/components/gamification/LiveInfoChip';
 import { TimoCharacter } from '@/components/timo/TimoCharacter';
+import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
+import { Icon } from '@/components/ui/Icon';
+import { ProgressBar } from '@/components/ui/ProgressBar';
+import { RewardTile } from '@/components/ui/RewardTile';
+import { StatBadge } from '@/components/ui/StatBadge';
 import { EXPEDITIONS_BY_ID } from '@/data/expeditions';
 import { pickGiveUpLine, pickGuidedGiveUp, pickVictoryLine } from '@/data/timo-lines';
 import { levelFromXp } from '@/features/gamification/award';
 import { timoVoice } from '@/lib/audio/timo-voice';
 import { useGameStore } from '@/lib/stores/game-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
+import { UI } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
-import { Image } from '@/tw/image';
 
 export default function ResultScreen() {
   const router = useRouter();
@@ -146,90 +150,66 @@ export default function ResultScreen() {
   const home = useCallback(() => {
     // keep lastReward — Home animates the gain and clears after
     startGame();
-    router.replace('/');
+    router.replace('/(tabs)');
   }, [startGame, router]);
 
   return (
-    <View className="flex-1 bg-bg">
-      <Image
-        source={require('../../assets/backgrounds/result-bg.png')}
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          width: '100%',
-          height: '100%',
-        }}
-        contentFit="cover"
-      />
-
+    <View className="flex-1 bg-canvas">
+      {/* ---------- pasek statystyk ---------- */}
       <View
-        className="flex-1 items-center"
-        style={{
-          paddingTop: insets.top + 12,
-          paddingBottom: insets.bottom + 24,
-          paddingHorizontal: 24,
-        }}>
-        {/* top bar — level + streak + paws (animate after award) */}
+        className="flex-row items-center justify-between px-5"
+        style={{ paddingTop: insets.top + 8, paddingBottom: 8 }}>
         <View
-          className="flex-row items-center justify-between mb-3"
-          style={{ alignSelf: 'stretch' }}>
-          <View
-            className="w-11 h-11 rounded-full bg-brand items-center justify-center"
-            style={{
-              borderWidth: 3,
-              borderColor: '#fff1df',
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 3 },
-              shadowOpacity: 0.18,
-              shadowRadius: 6,
-              elevation: 4,
-            }}>
-            <AnimatedCounter
-              from={previousLevel}
-              to={level}
-              durationMs={700}
-              delayMs={200}
-              className="text-paper"
-              style={{ fontFamily: 'Fredoka-Bold', fontSize: 16 }}
-            />
-          </View>
-          <View className="flex-row gap-2">
-            <LiveInfoChip
-              tooltipKey="streak"
-              icon="flame"
-              from={previousStreak}
-              to={streak}
-              variant={streak > 0 ? 'brand' : 'paper'}
-              delayMs={120}
-            />
-            <LiveInfoChip
-              tooltipKey="paws"
-              icon="paw"
-              from={previousPaws}
-              to={paws}
-              variant="paper"
-              delayMs={0}
-            />
-          </View>
+          className="w-11 h-11 items-center justify-center rounded-pill"
+          style={{
+            backgroundColor: UI.primaryPale,
+            borderWidth: 3,
+            borderColor: UI.primary,
+          }}>
+          <AnimatedCounter
+            from={previousLevel}
+            to={level}
+            durationMs={700}
+            delayMs={200}
+            style={{ color: UI.primaryDeep, fontFamily: 'Fredoka-Bold', fontSize: 16 }}
+          />
         </View>
 
-        {/* ribbon */}
+        <View className="flex-row items-center">
+          <StatBadge
+            tooltipKey="streak"
+            icon="flame"
+            from={previousStreak}
+            to={streak}
+            accent="fox"
+            delayMs={120}
+            dimWhenZero
+          />
+          <StatBadge
+            tooltipKey="paws"
+            icon="paw"
+            from={previousPaws}
+            to={paws}
+            accent="sky"
+          />
+        </View>
+      </View>
+
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          flexGrow: 1,
+          alignItems: 'center',
+          paddingHorizontal: 20,
+          paddingBottom: 12,
+        }}>
+        {/* ---------- werdykt ---------- */}
         <View
-          className={`${won ? 'bg-success' : 'bg-rose'} rounded-card px-6 py-2.5`}
-          style={{
-            transform: [{ rotate: '-3deg' }],
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 4 },
-            shadowOpacity: 0.18,
-            shadowRadius: 8,
-            elevation: 6,
-          }}>
+          className="rounded-pill px-6 py-2"
+          style={{ backgroundColor: won ? UI.primary : UI.danger }}>
           <Text
-            className="text-paper"
             style={{
+              color: UI.canvas,
               fontFamily: 'Fredoka-Bold',
               fontSize: 14,
               letterSpacing: 1.5,
@@ -242,226 +222,257 @@ export default function ResultScreen() {
           </Text>
         </View>
 
-        <View className="mt-2">
-          <TimoCharacter state={won ? 'happy' : 'oops'} size={210} />
-        </View>
+        <TimoCharacter state={won ? 'happy' : 'oops'} size={180} />
 
-        {/* reveal card / lost card */}
-        <View
-          className="bg-paper rounded-card items-center px-6 py-4 mt-3"
-          style={{
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 8 },
-            shadowOpacity: 0.14,
-            shadowRadius: 18,
-            elevation: 8,
-            borderWidth: 2,
-            borderColor: '#fff6cc',
-            alignSelf: 'stretch',
-          }}>
-          <Text
-            className="text-brand-deep"
-            style={{
-              fontFamily: 'Fredoka-Bold',
-              fontSize: 11,
-              letterSpacing: 1.2,
-              marginBottom: 4,
-            }}>
-            {won ? 'ODKRYTE ZWIERZĘ' : 'TYM RAZEM TAJEMNICA'}
-          </Text>
-          {won && guess ? (
-            <>
-              <View className="items-center mb-2">
+        {/* ---------- odkryte zwierzę ---------- */}
+        <View style={{ alignSelf: 'stretch' }}>
+          <Card padding={18}>
+            <Text
+              className="text-center"
+              style={{
+                color: UI.textFaint,
+                fontFamily: 'Fredoka-Bold',
+                fontSize: 11,
+                letterSpacing: 1.2,
+                marginBottom: 6,
+              }}>
+              {won ? 'ODKRYTE ZWIERZĘ' : 'TYM RAZEM TAJEMNICA'}
+            </Text>
+
+            {won && guess ? (
+              <View className="items-center">
                 <AnimalImage animalId={guess.id} fallbackEmoji={guess.emoji} size={96} />
-              </View>
-              <Text
-                className="text-ink"
-                style={{ fontFamily: 'Fredoka-Bold', fontSize: 24, marginBottom: 4 }}>
-                {guess.name_pl}
-              </Text>
-              <Text
-                className="text-ink-soft text-center"
-                style={{ fontFamily: 'Nunito', fontSize: 13, lineHeight: 19 }}>
-                {guess.fun_fact_pl}
-              </Text>
-              <Pressable
-                onPress={() => guess && router.push(`/animal/${guess.id}`)}
-                className="bg-brand-pale rounded-chip mt-3"
-                style={{
-                  paddingHorizontal: 14,
-                  paddingVertical: 7,
-                  borderWidth: 1.5,
-                  borderColor: '#f28238',
-                }}>
                 <Text
-                  className="text-brand-deep"
-                  style={{ fontFamily: 'Fredoka-Bold', fontSize: 13 }}>
-                  📖  Zobacz kartę zwierzęcia
+                  style={{
+                    color: UI.text,
+                    fontFamily: 'Fredoka-Bold',
+                    fontSize: 24,
+                    marginTop: 8,
+                    marginBottom: 4,
+                  }}>
+                  {guess.name_pl}
                 </Text>
-              </Pressable>
-            </>
-          ) : (
-            <>
-              <Text
-                className="text-ink"
-                style={{ fontFamily: 'Fredoka-Bold', fontSize: 20, marginBottom: 4 }}>
-                {expedition?.mode === 'guided'
-                  ? 'Wybrałeś świetnie!'
-                  : 'Nie udało mi się!'}
-              </Text>
-              <Text
-                className="text-ink-soft text-center"
-                style={{ fontFamily: 'Nunito', fontSize: 13, lineHeight: 19 }}>
-                {expedition?.mode === 'guided'
-                  ? 'Pokaż mi, kogo wybrałeś — spróbujemy znów na nowej wyprawie!'
-                  : 'Powiedz mi, jakie to było zwierzę — następnym razem na pewno zgadnę!'}
-              </Text>
-            </>
-          )}
+                <Text
+                  className="text-center"
+                  style={{
+                    color: UI.textSoft,
+                    fontFamily: 'Nunito',
+                    fontSize: 13,
+                    lineHeight: 19,
+                  }}>
+                  {guess.fun_fact_pl}
+                </Text>
+                <Pressable
+                  onPress={() => guess && router.push(`/animal/${guess.id}`)}
+                  accessibilityRole="button"
+                  accessibilityLabel="Zobacz kartę zwierzęcia"
+                  className="rounded-pill mt-3 flex-row items-center gap-1.5"
+                  style={{
+                    backgroundColor: UI.skyPale,
+                    paddingHorizontal: 14,
+                    paddingVertical: 8,
+                  }}>
+                  <Icon name="grid" size={15} color={UI.skyDeep} strokeWidth={2.6} />
+                  <Text
+                    style={{
+                      color: UI.skyDeep,
+                      fontFamily: 'Fredoka-Bold',
+                      fontSize: 13,
+                    }}>
+                    Zobacz kartę zwierzęcia
+                  </Text>
+                </Pressable>
+              </View>
+            ) : (
+              <View className="items-center">
+                <Text
+                  style={{
+                    color: UI.text,
+                    fontFamily: 'Fredoka-Bold',
+                    fontSize: 20,
+                    marginBottom: 4,
+                  }}>
+                  {expedition?.mode === 'guided'
+                    ? 'Wybrałeś świetnie!'
+                    : 'Nie udało mi się!'}
+                </Text>
+                <Text
+                  className="text-center"
+                  style={{
+                    color: UI.textSoft,
+                    fontFamily: 'Nunito',
+                    fontSize: 13,
+                    lineHeight: 19,
+                  }}>
+                  {expedition?.mode === 'guided'
+                    ? 'Pokaż mi, kogo wybrałeś — spróbujemy znów na nowej wyprawie!'
+                    : 'Powiedz mi, jakie to było zwierzę — następnym razem na pewno zgadnę!'}
+                </Text>
+              </View>
+            )}
+          </Card>
         </View>
 
-        {/* rewards */}
+        {/* ---------- nagrody ---------- */}
         {lastReward ? (
-          <View className="flex-row gap-3 mt-3" style={{ alignSelf: 'stretch' }}>
-            <AnimatedRewardChip
+          <View className="flex-row gap-2.5 mt-3" style={{ alignSelf: 'stretch' }}>
+            <RewardTile
               tooltipKey="paws"
               icon="paw"
               value={lastReward.pawsDelta}
-              variant="brand"
+              accent="sky"
               label="Tropy"
               delay={0}
             />
-            <AnimatedRewardChip
+            <RewardTile
               tooltipKey="xp"
-              icon="sparkle"
+              icon="bolt"
               value={lastReward.xpDelta}
-              variant="success"
+              accent="gold"
               label="XP"
               delay={180}
             />
             {lastReward.isFirstDiscovery ? (
-              <AnimatedRewardChip
+              <RewardTile
                 tooltipKey="collection"
-                icon="sparkle"
+                icon="star"
                 value={1}
-                variant="reward"
+                accent="violet"
                 label="Nowe!"
-                prefix="🆕 "
                 delay={360}
               />
             ) : null}
           </View>
         ) : null}
 
-        {/* expedition progress / completion banner */}
+        {/* ---------- postęp wyprawy ---------- */}
         {won && expedition && expProgress ? (
-          <View
-            className={`${expCompletionJustHappened ? 'bg-success' : 'bg-paper'} rounded-card px-4 py-3 mt-3`}
-            style={{
-              alignSelf: 'stretch',
-              borderWidth: 2,
-              borderColor: expCompletionJustHappened ? '#357a2a' : '#fff6cc',
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 4 },
-              shadowOpacity: 0.14,
-              shadowRadius: 8,
-              elevation: 5,
-            }}>
-            {expCompletionJustHappened ? (
-              <>
-                <Text
-                  className="text-paper mb-1"
-                  style={{
-                    fontFamily: 'Fredoka-Bold',
-                    fontSize: 11,
-                    letterSpacing: 1.2,
-                  }}>
-                  🏆  WYPRAWA ZAKOŃCZONA!
-                </Text>
-                <Text
-                  className="text-paper"
-                  style={{ fontFamily: 'Fredoka-Bold', fontSize: 16 }}>
-                  {expedition.hero_emoji}  {expedition.title}
-                </Text>
-                <Text
-                  className="text-paper mt-0.5"
-                  style={{ fontFamily: 'Nunito-Bold', fontSize: 12 }}>
-                  +{lastExpeditionReward.pawsDelta} tropów ·  +{lastExpeditionReward.xpDelta} XP
-                </Text>
-              </>
-            ) : (
-              <View className="flex-row items-center gap-2.5">
-                <Text style={{ fontSize: 22 }}>{expedition.hero_emoji}</Text>
-                <View className="flex-1">
+          <View className="mt-3" style={{ alignSelf: 'stretch' }}>
+            <Card
+              borderColor={expCompletionJustHappened ? UI.primary : UI.line}
+              background={expCompletionJustHappened ? UI.primaryPale : UI.canvas}
+              padding={14}>
+              {expCompletionJustHappened ? (
+                <>
+                  <View className="flex-row items-center gap-1.5 mb-1">
+                    <Icon name="award" size={16} color={UI.primaryDeep} strokeWidth={2.6} />
+                    <Text
+                      style={{
+                        color: UI.primaryDeep,
+                        fontFamily: 'Fredoka-Bold',
+                        fontSize: 11,
+                        letterSpacing: 1.2,
+                      }}>
+                      WYPRAWA ZAKOŃCZONA!
+                    </Text>
+                  </View>
                   <Text
-                    className="text-brand-deep"
+                    style={{ color: UI.text, fontFamily: 'Fredoka-Bold', fontSize: 16 }}>
+                    {expedition.hero_emoji}  {expedition.title}
+                  </Text>
+                  <Text
                     style={{
-                      fontFamily: 'Fredoka-Bold',
-                      fontSize: 10,
-                      letterSpacing: 1.2,
+                      color: UI.primaryDeep,
+                      fontFamily: 'Nunito-Bold',
+                      fontSize: 12,
+                      marginTop: 2,
                     }}>
-                    WYPRAWA: {expedition.title.toUpperCase()}
+                    +{lastExpeditionReward.pawsDelta} tropów · +{lastExpeditionReward.xpDelta} XP
                   </Text>
-                  <Text
-                    className="text-ink"
-                    style={{ fontFamily: 'Fredoka-Bold', fontSize: 14 }}>
-                    Odkryte: {expProgress.discovered.length} / {expedition.target_count}
-                  </Text>
-                </View>
-              </View>
-            )}
+                </>
+              ) : (
+                <>
+                  <View className="flex-row items-center gap-2.5">
+                    <Text style={{ fontSize: 22 }}>{expedition.hero_emoji}</Text>
+                    <View className="flex-1">
+                      <Text
+                        style={{
+                          color: UI.textFaint,
+                          fontFamily: 'Fredoka-Bold',
+                          fontSize: 10,
+                          letterSpacing: 1.2,
+                        }}>
+                        WYPRAWA: {expedition.title.toUpperCase()}
+                      </Text>
+                      <Text
+                        style={{
+                          color: UI.text,
+                          fontFamily: 'Fredoka-Bold',
+                          fontSize: 14,
+                        }}>
+                        Odkryte: {expProgress.discovered.length} / {expedition.target_count}
+                      </Text>
+                    </View>
+                  </View>
+                  <View className="mt-2">
+                    <ProgressBar
+                      value={
+                        expedition.target_count > 0
+                          ? expProgress.discovered.length / expedition.target_count
+                          : 0
+                      }
+                      accent="sky"
+                      height={10}
+                    />
+                  </View>
+                </>
+              )}
+            </Card>
           </View>
         ) : null}
 
-        {/* new badges */}
+        {/* ---------- nowe odznaki ---------- */}
         {lastReward && lastReward.newBadges.length > 0 ? (
-          <View
-            className="bg-reward rounded-card px-4 py-3 mt-3"
-            style={{
-              alignSelf: 'stretch',
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 4 },
-              shadowOpacity: 0.14,
-              shadowRadius: 8,
-              elevation: 5,
-            }}>
-            <Text
-              className="text-brand-deep mb-1"
-              style={{
-                fontFamily: 'Fredoka-Bold',
-                fontSize: 11,
-                letterSpacing: 1.2,
-              }}>
-              NOWA ODZNAKA!
-            </Text>
-            {lastReward.newBadges.map((b) => (
-              <View key={b.id} className="flex-row items-center gap-2.5 mt-1">
-                <Text style={{ fontSize: 28 }}>{b.emoji}</Text>
-                <View className="flex-1">
-                  <Text
-                    className="text-brand-deep"
-                    style={{ fontFamily: 'Fredoka-Bold', fontSize: 16 }}>
-                    {b.label_pl}
-                  </Text>
-                  <Text
-                    className="text-ink-soft"
-                    style={{ fontFamily: 'Nunito', fontSize: 12, lineHeight: 16 }}>
-                    {b.description_pl}
-                  </Text>
+          <View className="mt-3" style={{ alignSelf: 'stretch' }}>
+            <Card borderColor={UI.gold} background={UI.goldPale} padding={14}>
+              <Text
+                style={{
+                  color: UI.goldDeep,
+                  fontFamily: 'Fredoka-Bold',
+                  fontSize: 11,
+                  letterSpacing: 1.2,
+                  marginBottom: 4,
+                }}>
+                NOWA ODZNAKA!
+              </Text>
+              {lastReward.newBadges.map((b) => (
+                <View key={b.id} className="flex-row items-center gap-2.5 mt-1">
+                  <Text style={{ fontSize: 28 }}>{b.emoji}</Text>
+                  <View className="flex-1">
+                    <Text
+                      style={{
+                        color: UI.text,
+                        fontFamily: 'Fredoka-Bold',
+                        fontSize: 16,
+                      }}>
+                      {b.label_pl}
+                    </Text>
+                    <Text
+                      style={{
+                        color: UI.textSoft,
+                        fontFamily: 'Nunito',
+                        fontSize: 12,
+                        lineHeight: 16,
+                      }}>
+                      {b.description_pl}
+                    </Text>
+                  </View>
                 </View>
-              </View>
-            ))}
+              ))}
+            </Card>
           </View>
         ) : null}
 
         <View className="flex-1" />
+      </ScrollView>
 
-        <View className="gap-2.5" style={{ alignSelf: 'stretch' }}>
-          <PuffyButton label="Zagraj jeszcze raz" onPress={playAgain} />
-          <PuffyButton label="Wróć na Polanę" variant="secondary" size="md" onPress={home} />
-        </View>
+      {/* ---------- CTA ---------- */}
+      <View
+        className="px-5 gap-2.5 bg-canvas"
+        style={{ paddingTop: 10, paddingBottom: insets.bottom + 12 }}>
+        <Button label="ZAGRAJ JESZCZE RAZ" onPress={playAgain} />
+        <Button label="Wróć na Polanę" variant="ghost" size="md" onPress={home} />
       </View>
-
     </View>
   );
 }

@@ -21,34 +21,50 @@
     --font-display: 'Fredoka', system-ui, sans-serif;
     --font-body: 'Nunito', system-ui, sans-serif;
 
-    /* Timo semantic palette — extracted from mockup SVG assets (2026-05-28) */
-    --color-brand: #f28238;
-    --color-brand-deep: #a24d17;
-    --color-brand-pale: #ffd4a9;
+    /* ============================================================
+     * Paleta UI — czysta, płaska skala (kierunek Duolingo).
+     * Hex-owe lustro tych wartości: src/theme/ui.ts
+     * ============================================================ */
 
-    --color-success: #5bb04c;
-    --color-success-deep: #357a2a;
+    /* powierzchnie i linie */
+    --color-canvas: #ffffff;
+    --color-sunken: #f7f7f7;
+    --color-line: #e5e5e5;
+    --color-line-deep: #d4d4d4;
 
-    --color-reward: #f2b524;
-    --color-reward-deep: #a8730c;
+    /* tekst */
+    --color-text: #4b4b4b;
+    --color-text-soft: #777777;
+    --color-text-faint: #afafaf;
 
-    --color-mystery: #5a98c4;
-    --color-mystery-deep: #2f6a92;
+    /* akcenty — każdy z wariantem deep (cień 3D) i pale (tło) */
+    --color-primary: #58cc02;
+    --color-primary-deep: #46a302;
+    --color-primary-pale: #d7ffb8;
 
-    --color-rose: #e58787;
-    --color-rose-deep: #a84747;
+    --color-fox: #ff9600;
+    --color-fox-deep: #cc7a00;
+    --color-fox-pale: #ffeacc;
 
-    --color-paper: #fff1df;
-    --color-paper-light: #fff6cc;
-    --color-bg: #ebe7dd;
+    --color-sky: #1cb0f6;
+    --color-sky-deep: #1899d6;
+    --color-sky-pale: #ddf4ff;
 
-    --color-ink: #33210f;
-    --color-ink-soft: #6b4f31;
-    --color-ink-muted: #8b5928;
+    --color-gold: #ffc800;
+    --color-gold-deep: #e5a600;
+    --color-gold-pale: #fff4cc;
 
-    /* radii — puffy buttons / cards */
-    --radius-puffy: 22px;
-    --radius-card: 18px;
-    --radius-chip: 999px;
+    --color-danger: #ff4b4b;
+    --color-danger-deep: #e02c2c;
+    --color-danger-pale: #ffe0e0;
+
+    --color-violet: #ce82ff;
+    --color-violet-deep: #a568cc;
+    --color-violet-pale: #f4e6ff;
+
+    /* radii UI 2.0 */
+    --radius-btn: 16px;
+    --radius-tile: 20px;
+    --radius-pill: 999px;
   }
 }

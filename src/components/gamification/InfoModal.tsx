@@ -7,7 +7,9 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { Button } from '@/components/ui/Button';
 import type { TooltipDef } from '@/data/info-tooltips';
+import { UI } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
 
 type InfoModalProps = {
@@ -60,17 +62,12 @@ export function InfoModal({ visible, tooltip, onClose }: InfoModalProps) {
         <Animated.View
           style={[
             {
-              backgroundColor: '#fff1df',
-              borderRadius: 22,
+              backgroundColor: UI.canvas,
+              borderRadius: 24,
               borderWidth: 2,
-              borderColor: '#fff6cc',
+              borderColor: UI.line,
               paddingHorizontal: 24,
               paddingVertical: 22,
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 10 },
-              shadowOpacity: 0.22,
-              shadowRadius: 24,
-              elevation: 12,
               maxWidth: 340,
             },
             cardStyle,
@@ -79,25 +76,29 @@ export function InfoModal({ visible, tooltip, onClose }: InfoModalProps) {
             <Text style={{ fontSize: 56, lineHeight: 64 }}>{tooltip.emoji}</Text>
           </View>
           <Text
-            className="text-ink text-center"
-            style={{ fontFamily: 'Fredoka-Bold', fontSize: 22, marginBottom: 8 }}>
+            className="text-center"
+            style={{
+              color: UI.text,
+              fontFamily: 'Fredoka-Bold',
+              fontSize: 22,
+              marginBottom: 8,
+            }}>
             {tooltip.title}
           </Text>
           <Text
-            className="text-ink-soft text-center"
-            style={{ fontFamily: 'Nunito', fontSize: 15, lineHeight: 22 }}>
+            className="text-center"
+            style={{
+              color: UI.textSoft,
+              fontFamily: 'Nunito',
+              fontSize: 15,
+              lineHeight: 22,
+            }}>
             {tooltip.description}
           </Text>
 
-          <Pressable
-            onPress={onClose}
-            className="bg-brand rounded-puffy mt-5 py-3 items-center">
-            <Text
-              className="text-paper"
-              style={{ fontFamily: 'Fredoka-Bold', fontSize: 16 }}>
-              Już rozumiem!
-            </Text>
-          </Pressable>
+          <View className="mt-5">
+            <Button label="JUŻ ROZUMIEM!" size="md" onPress={onClose} />
+          </View>
         </Animated.View>
       </View>
     </Modal>

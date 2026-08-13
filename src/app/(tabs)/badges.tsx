@@ -4,10 +4,13 @@ import { FlatList } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { InfoModal } from '@/components/gamification/InfoModal';
+import { Card } from '@/components/ui/Card';
+import { Icon } from '@/components/ui/Icon';
+import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { BADGES, type BadgeDef } from '@/data/badges';
 import { useProfileStore } from '@/lib/stores/profile-store';
-import { Pressable, Text, View } from '@/tw';
-import { Image } from '@/tw/image';
+import { UI } from '@/theme/ui';
+import { Text, View } from '@/tw';
 
 type BadgeCard = BadgeDef & { unlocked: boolean };
 
@@ -44,84 +47,22 @@ export default function BadgesScreen() {
   const unlockedCount = badges.length;
 
   return (
-    <View className="flex-1 bg-bg">
-      <Image
-        source={require('../../../assets/backgrounds/home-bg.png')}
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          width: '100%',
-          height: '100%',
-        }}
-        contentFit="cover"
+    <View className="flex-1 bg-canvas">
+      <ScreenHeader
+        eyebrow="GALERIA TIMO"
+        title="Odznaki"
+        counter={{ value: unlockedCount, total: BADGES.length, accent: 'gold' }}
+        onBack={() => router.navigate('/(tabs)')}
       />
-
-      <View
-        style={{
-          paddingTop: insets.top + 12,
-          paddingHorizontal: 16,
-          paddingBottom: 8,
-        }}>
-        <View className="flex-row items-center justify-between mb-3">
-          <Pressable
-            onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
-            className="w-10 h-10 rounded-full bg-paper items-center justify-center"
-            style={{
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.12,
-              shadowRadius: 4,
-              elevation: 3,
-            }}>
-            <Text className="text-ink" style={{ fontFamily: 'Fredoka-Bold', fontSize: 18 }}>
-              ←
-            </Text>
-          </Pressable>
-
-          <View className="items-center">
-            <Text
-              className="text-brand-deep"
-              style={{
-                fontFamily: 'Fredoka-Bold',
-                fontSize: 11,
-                letterSpacing: 1.2,
-              }}>
-              GALERIA TIMO
-            </Text>
-            <Text
-              className="text-ink"
-              style={{ fontFamily: 'Fredoka-Bold', fontSize: 20 }}>
-              Odznaki
-            </Text>
-          </View>
-
-          <View
-            className="bg-brand rounded-chip px-3 py-1.5"
-            style={{
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.12,
-              shadowRadius: 4,
-              elevation: 3,
-            }}>
-            <Text
-              className="text-paper"
-              style={{ fontFamily: 'Fredoka-Bold', fontSize: 13 }}>
-              {unlockedCount} / {BADGES.length}
-            </Text>
-          </View>
-        </View>
-      </View>
 
       <FlatList
         data={data}
         keyExtractor={(item) => item.id}
         numColumns={NUM_COLUMNS}
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           paddingHorizontal: 12,
+          paddingTop: 12,
           paddingBottom: insets.bottom + 24,
           gap: CARD_GAP,
         }}
@@ -152,59 +93,55 @@ function BadgeTile({ item, onPress }: { item: BadgeCard; onPress: () => void }) 
   if (!item.unlocked) {
     return (
       <View
-        className="flex-1 rounded-card items-center justify-center"
+        className="flex-1 items-center justify-center"
         style={{
           aspectRatio: 1,
-          backgroundColor: 'rgba(255,241,223,0.6)',
+          backgroundColor: UI.sunken,
+          borderRadius: 20,
           borderWidth: 2,
-          borderColor: 'rgba(107,79,49,0.18)',
+          borderColor: UI.line,
           borderStyle: 'dashed',
           paddingHorizontal: 6,
-          paddingVertical: 6,
         }}>
-        <Text style={{ fontSize: 30, opacity: 0.35 }}>{item.emoji}</Text>
+        <Icon name="lock" size={26} color={UI.textFaint} strokeWidth={2.4} />
         <Text
-          className="text-ink-muted text-center"
+          className="text-center"
           numberOfLines={2}
           style={{
+            color: UI.textFaint,
             fontFamily: 'Fredoka-Bold',
             fontSize: 10,
-            marginTop: 4,
+            marginTop: 6,
           }}>
           ?????
         </Text>
       </View>
     );
   }
+
   return (
-    <Pressable onPress={onPress} className="flex-1">
-      <View
-        className="rounded-card items-center justify-center bg-paper"
-        style={{
-          aspectRatio: 1,
-          paddingHorizontal: 6,
-          paddingVertical: 6,
-          borderWidth: 2,
-          borderColor: '#fff6cc',
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 3 },
-          shadowOpacity: 0.12,
-          shadowRadius: 6,
-          elevation: 3,
-        }}>
+    <View className="flex-1">
+      <Card
+        onPress={onPress}
+        accessibilityLabel={item.label_pl}
+        borderColor={UI.gold}
+        background={UI.goldPale}
+        padding={6}
+        style={{ aspectRatio: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text style={{ fontSize: 36 }}>{item.emoji}</Text>
         <Text
-          className="text-ink text-center"
+          className="text-center"
           numberOfLines={2}
           style={{
+            color: UI.text,
             fontFamily: 'Fredoka-Bold',
             fontSize: 10,
-            marginTop: 4,
             lineHeight: 12,
+            marginTop: 4,
           }}>
           {item.label_pl}
         </Text>
-      </View>
-    </Pressable>
+      </Card>
+    </View>
   );
 }
