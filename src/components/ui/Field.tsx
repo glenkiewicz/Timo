@@ -17,7 +17,7 @@ export function Field({ label, ...inputProps }: FieldProps) {
       <Text
         style={{
           color: UI.textSoft,
-          fontFamily: 'Fredoka-Bold',
+          fontFamily: 'Gabarito-Bold',
           fontSize: 12,
           letterSpacing: 0.4,
         }}>
@@ -35,13 +35,13 @@ export function Field({ label, ...inputProps }: FieldProps) {
         }}
         placeholderTextColor={UI.textFaint}
         style={{
-          backgroundColor: UI.canvas,
+          backgroundColor: UI.surface,
           borderRadius: 14,
           borderWidth: 2,
           borderColor: focused ? UI.sky : UI.line,
           paddingHorizontal: 14,
           paddingVertical: 12,
-          fontFamily: 'Nunito-Bold',
+          fontFamily: 'Lexend-Bold',
           fontSize: 15,
           color: UI.text,
         }}

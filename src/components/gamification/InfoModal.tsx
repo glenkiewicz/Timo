@@ -62,7 +62,7 @@ export function InfoModal({ visible, tooltip, onClose }: InfoModalProps) {
         <Animated.View
           style={[
             {
-              backgroundColor: UI.canvas,
+              backgroundColor: UI.surface,
               borderRadius: 24,
               borderWidth: 2,
               borderColor: UI.line,
@@ -79,7 +79,7 @@ export function InfoModal({ visible, tooltip, onClose }: InfoModalProps) {
             className="text-center"
             style={{
               color: UI.text,
-              fontFamily: 'Fredoka-Bold',
+              fontFamily: 'Gabarito-Bold',
               fontSize: 22,
               marginBottom: 8,
             }}>
@@ -89,7 +89,7 @@ export function InfoModal({ visible, tooltip, onClose }: InfoModalProps) {
             className="text-center"
             style={{
               color: UI.textSoft,
-              fontFamily: 'Nunito',
+              fontFamily: 'Lexend',
               fontSize: 15,
               lineHeight: 22,
             }}>

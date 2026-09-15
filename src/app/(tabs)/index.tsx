@@ -189,7 +189,7 @@ export default function HomeScreen() {
                   delayMs={200}
                   style={{
                     color: UI.primaryDeep,
-                    fontFamily: 'Fredoka-Bold',
+                    fontFamily: 'Gabarito-Bold',
                     fontSize: 20,
                   }}
                 />
@@ -210,7 +210,7 @@ export default function HomeScreen() {
               <Text
                 style={{
                   color: UI.text,
-                  fontFamily: 'Fredoka-Bold',
+                  fontFamily: 'Gabarito-Bold',
                   fontSize: 16,
                 }}>
                 {title}
@@ -218,7 +218,7 @@ export default function HomeScreen() {
               <Text
                 style={{
                   color: UI.textFaint,
-                  fontFamily: 'Nunito-Bold',
+                  fontFamily: 'Lexend-Bold',
                   fontSize: 12,
                 }}>
                 {progress.current}/{progress.nextLevelAt} XP
@@ -284,7 +284,7 @@ function SectionLabel({ children }: { children: string }) {
     <Text
       style={{
         color: UI.textFaint,
-        fontFamily: 'Fredoka-Bold',
+        fontFamily: 'Gabarito-Bold',
         fontSize: 11,
         letterSpacing: 1.2,
         marginBottom: 8,
@@ -339,7 +339,7 @@ function ExpeditionDailyCard() {
               <Text
                 style={{
                   color: UI.text,
-                  fontFamily: 'Fredoka-Bold',
+                  fontFamily: 'Gabarito-Bold',
                   fontSize: 16,
                 }}>
                 {chosen.childTitle ?? chosen.title}
@@ -347,7 +347,7 @@ function ExpeditionDailyCard() {
               <Text
                 style={{
                   color: UI.primaryDeep,
-                  fontFamily: 'Nunito-Bold',
+                  fontFamily: 'Lexend-Bold',
                   fontSize: 13,
                 }}>
                 Ukończona! Jutro czeka nowa przygoda.
@@ -372,7 +372,7 @@ function ExpeditionDailyCard() {
               <Text
                 style={{
                   color: UI.text,
-                  fontFamily: 'Fredoka-Bold',
+                  fontFamily: 'Gabarito-Bold',
                   fontSize: 16,
                 }}>
                 {chosen.childTitle ?? chosen.title}
@@ -380,7 +380,7 @@ function ExpeditionDailyCard() {
               <Text
                 style={{
                   color: UI.textSoft,
-                  fontFamily: 'Nunito-Bold',
+                  fontFamily: 'Lexend-Bold',
                   fontSize: 12,
                 }}>
                 Odkryte {discoveredCount} z {targetCount}
@@ -431,7 +431,7 @@ function ExpeditionDailyCard() {
                   numberOfLines={2}
                   style={{
                     color: UI.text,
-                    fontFamily: 'Fredoka-Bold',
+                    fontFamily: 'Gabarito-Bold',
                     fontSize: 12,
                     textAlign: 'center',
                     marginTop: 4,

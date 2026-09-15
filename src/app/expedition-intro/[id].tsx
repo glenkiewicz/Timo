@@ -54,7 +54,7 @@ export default function ExpeditionIntroScreen() {
   if (!exp || exp.mode !== 'guided') {
     return (
       <View className="flex-1 bg-canvas items-center justify-center px-6">
-        <Text style={{ color: UI.text, fontFamily: 'Fredoka-Bold', fontSize: 18 }}>
+        <Text style={{ color: UI.text, fontFamily: 'Gabarito-Bold', fontSize: 18 }}>
           Nie znaleziono wyprawy.
         </Text>
         <View className="mt-4" style={{ alignSelf: 'stretch' }}>
@@ -97,7 +97,7 @@ export default function ExpeditionIntroScreen() {
             <Text
               style={{
                 color: UI.text,
-                fontFamily: 'Nunito-Bold',
+                fontFamily: 'Lexend-Bold',
                 fontSize: 14,
                 lineHeight: 19,
               }}>
@@ -113,7 +113,7 @@ export default function ExpeditionIntroScreen() {
           className="rounded-pill px-3 py-1.5"
           style={{ backgroundColor: UI.goldPale }}>
           <Text
-            style={{ color: UI.goldDeep, fontFamily: 'Fredoka-Bold', fontSize: 11 }}>
+            style={{ color: UI.goldDeep, fontFamily: 'Gabarito-Bold', fontSize: 11 }}>
             🤫  Wybierz w głowie — nie klikaj!
           </Text>
         </View>
@@ -157,7 +157,7 @@ function InspirationCard({ animal }: { animal: Animal }) {
       className="flex-1 items-center justify-center px-2 py-2"
       style={{
         aspectRatio: 1,
-        backgroundColor: UI.canvas,
+        backgroundColor: UI.surface,
         borderRadius: 18,
         borderWidth: 2,
         borderBottomWidth: 4,
@@ -169,7 +169,7 @@ function InspirationCard({ animal }: { animal: Animal }) {
         numberOfLines={1}
         style={{
           color: UI.text,
-          fontFamily: 'Fredoka-Bold',
+          fontFamily: 'Gabarito-Bold',
           fontSize: 11,
           marginTop: 4,
         }}>

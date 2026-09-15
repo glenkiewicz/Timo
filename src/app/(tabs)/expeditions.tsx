@@ -131,7 +131,7 @@ export default function ExpeditionsScreen() {
           className="text-center"
           style={{
             color: UI.textSoft,
-            fontFamily: 'Nunito-Bold',
+            fontFamily: 'Lexend-Bold',
             fontSize: 11,
             lineHeight: 15,
             paddingHorizontal: 8,
@@ -211,7 +211,7 @@ function ExpeditionCard({
       borderColor={
         isCompleted ? UI.primary : isInProgress ? UI.fox : UI.line
       }
-      background={isLocked ? UI.sunken : UI.canvas}
+      background={isLocked ? UI.sunken : UI.surface}
       padding={14}>
       <View className="flex-row items-center gap-3">
         <View
@@ -233,7 +233,7 @@ function ExpeditionCard({
           <Text
             style={{
               color: accent ? accent.deep : UI.textFaint,
-              fontFamily: 'Fredoka-Bold',
+              fontFamily: 'Gabarito-Bold',
               fontSize: 10,
               letterSpacing: 1.1,
             }}>
@@ -242,7 +242,7 @@ function ExpeditionCard({
           <Text
             style={{
               color: isLocked ? UI.textSoft : UI.text,
-              fontFamily: 'Fredoka-Bold',
+              fontFamily: 'Gabarito-Bold',
               fontSize: 16,
               marginTop: 2,
             }}>
@@ -252,7 +252,7 @@ function ExpeditionCard({
             numberOfLines={2}
             style={{
               color: UI.textSoft,
-              fontFamily: 'Nunito',
+              fontFamily: 'Lexend',
               fontSize: 12,
               lineHeight: 16,
               marginTop: 2,
@@ -267,7 +267,7 @@ function ExpeditionCard({
                 <Text
                   style={{
                     color: UI.skyDeep,
-                    fontFamily: 'Fredoka-Bold',
+                    fontFamily: 'Gabarito-Bold',
                     fontSize: 11,
                   }}>
                   +{e.reward_paws}
@@ -278,7 +278,7 @@ function ExpeditionCard({
                 <Text
                   style={{
                     color: UI.goldDeep,
-                    fontFamily: 'Fredoka-Bold',
+                    fontFamily: 'Gabarito-Bold',
                     fontSize: 11,
                   }}>
                   +{e.reward_xp} XP

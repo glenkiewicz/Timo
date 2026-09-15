@@ -1,18 +1,20 @@
 import '@/global.css';
 
 import {
-  Fredoka_400Regular,
-  Fredoka_500Medium,
-  Fredoka_600SemiBold,
-  Fredoka_700Bold,
-} from '@expo-google-fonts/fredoka';
+  Gabarito_400Regular,
+  Gabarito_500Medium,
+  Gabarito_600SemiBold,
+  Gabarito_700Bold,
+  Gabarito_800ExtraBold,
+} from '@expo-google-fonts/gabarito';
 import {
-  Nunito_400Regular,
-  Nunito_600SemiBold,
-  Nunito_700Bold,
-  Nunito_800ExtraBold,
-  Nunito_900Black,
-} from '@expo-google-fonts/nunito';
+  Lexend_400Regular,
+  Lexend_500Medium,
+  Lexend_600SemiBold,
+  Lexend_700Bold,
+  Lexend_800ExtraBold,
+  Lexend_900Black,
+} from '@expo-google-fonts/lexend';
 import { setAudioModeAsync } from 'expo-audio';
 import { useFonts } from 'expo-font';
 import { Stack, useRouter, useSegments } from 'expo-router';
@@ -26,16 +28,20 @@ import { useAuthStore } from '@/lib/stores/auth-store';
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  // Gabarito niesie nagłówki, liczby i przyciski; Lexend jest krojem do
+  // czytania — powstał po to, żeby dzieciom czytało się płynniej.
   const [loaded, error] = useFonts({
-    Fredoka: Fredoka_400Regular,
-    'Fredoka-Medium': Fredoka_500Medium,
-    'Fredoka-SemiBold': Fredoka_600SemiBold,
-    'Fredoka-Bold': Fredoka_700Bold,
-    Nunito: Nunito_400Regular,
-    'Nunito-SemiBold': Nunito_600SemiBold,
-    'Nunito-Bold': Nunito_700Bold,
-    'Nunito-ExtraBold': Nunito_800ExtraBold,
-    'Nunito-Black': Nunito_900Black,
+    Gabarito: Gabarito_400Regular,
+    'Gabarito-Medium': Gabarito_500Medium,
+    'Gabarito-SemiBold': Gabarito_600SemiBold,
+    'Gabarito-Bold': Gabarito_700Bold,
+    'Gabarito-ExtraBold': Gabarito_800ExtraBold,
+    Lexend: Lexend_400Regular,
+    'Lexend-Medium': Lexend_500Medium,
+    'Lexend-SemiBold': Lexend_600SemiBold,
+    'Lexend-Bold': Lexend_700Bold,
+    'Lexend-ExtraBold': Lexend_800ExtraBold,
+    'Lexend-Black': Lexend_900Black,
   });
 
   const init = useAuthStore((s) => s.init);

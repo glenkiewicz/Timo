@@ -22,7 +22,7 @@ function tailStyle(tail: Exclude<BubbleTail, 'none'>): ViewStyle {
     position: 'absolute',
     width: TAIL_SIZE,
     height: TAIL_SIZE,
-    backgroundColor: UI.canvas,
+    backgroundColor: UI.surface,
     transform: [{ rotate: '45deg' }],
     borderColor: UI.line,
   };
@@ -60,7 +60,7 @@ export function Bubble({
   return (
     <View
       style={{
-        backgroundColor: UI.canvas,
+        backgroundColor: UI.surface,
         borderRadius: 20,
         borderWidth: 2,
         borderColor: UI.line,
@@ -74,7 +74,7 @@ export function Bubble({
         <Text
           style={{
             color: UI.textFaint,
-            fontFamily: 'Fredoka-Bold',
+            fontFamily: 'Gabarito-Bold',
             fontSize: 11,
             letterSpacing: 1.2,
             marginBottom: 4,
@@ -89,7 +89,7 @@ export function Bubble({
         <Text
           style={{
             color: UI.text,
-            fontFamily: 'Fredoka-Bold',
+            fontFamily: 'Gabarito-Bold',
             fontSize: size === 'lg' ? 20 : 17,
             lineHeight: size === 'lg' ? 27 : 23,
           }}>

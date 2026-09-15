@@ -80,7 +80,7 @@ function TabItem({
       <Text
         style={{
           color: focused ? accent.deep : UI.textFaint,
-          fontFamily: 'Fredoka-Bold',
+          fontFamily: 'Gabarito-Bold',
           fontSize: 11,
           letterSpacing: 0.3,
           marginTop: 3,

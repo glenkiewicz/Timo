@@ -48,14 +48,14 @@ export function LeaderboardCard() {
         <Text
           style={{
             color: UI.textFaint,
-            fontFamily: 'Fredoka-Bold',
+            fontFamily: 'Gabarito-Bold',
             fontSize: 11,
             letterSpacing: 1.2,
           }}>
           TABELA WYNIKÓW
         </Text>
         <Text
-          style={{ color: UI.textFaint, fontFamily: 'Nunito-Bold', fontSize: 11 }}>
+          style={{ color: UI.textFaint, fontFamily: 'Lexend-Bold', fontSize: 11 }}>
           zostało {timeLeftLabel()}
         </Text>
       </View>
@@ -73,7 +73,7 @@ export function LeaderboardCard() {
               className="text-center"
               style={{
                 color: UI.textSoft,
-                fontFamily: 'Nunito-Bold',
+                fontFamily: 'Lexend-Bold',
                 fontSize: 13,
                 marginTop: 6,
               }}>
@@ -108,7 +108,7 @@ export function LeaderboardCard() {
               <Text
                 style={{
                   color: UI.skyDeep,
-                  fontFamily: 'Fredoka-Bold',
+                  fontFamily: 'Gabarito-Bold',
                   fontSize: 12,
                 }}>
                 Zobacz całą tabelę

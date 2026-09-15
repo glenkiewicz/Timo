@@ -37,7 +37,7 @@ export function AnimalTradingCard({
       <View
         className="mx-4 mb-4"
         style={{
-          backgroundColor: UI.canvas,
+          backgroundColor: UI.surface,
           borderRadius: 22,
           borderWidth: 2,
           borderBottomWidth: 4,
@@ -58,8 +58,8 @@ export function AnimalTradingCard({
             <Text style={{ fontSize: 20 }}>{animal.emoji}</Text>
             <Text
               style={{
-                color: UI.canvas,
-                fontFamily: 'Fredoka-Bold',
+                color: UI.surface,
+                fontFamily: 'Gabarito-Bold',
                 fontSize: 18,
                 letterSpacing: 0.5,
               }}>
@@ -70,14 +70,14 @@ export function AnimalTradingCard({
             <View
               className="rounded-pill"
               style={{
-                backgroundColor: UI.canvas,
+                backgroundColor: UI.surface,
                 paddingHorizontal: 10,
                 paddingVertical: 3,
               }}>
               <Text
                 style={{
                   color: UI.violetDeep,
-                  fontFamily: 'Fredoka-Bold',
+                  fontFamily: 'Gabarito-Bold',
                   fontSize: 11,
                 }}>
                 #{String(cardNumber).padStart(3, '0')} / {cardTotal}
@@ -101,7 +101,7 @@ export function AnimalTradingCard({
                 borderColor: UI.line,
                 borderRadius: 16,
                 padding: 4,
-                backgroundColor: UI.canvas,
+                backgroundColor: UI.surface,
               }}>
               <AnimalImage
                 animalId={animal.id}
@@ -125,7 +125,7 @@ export function AnimalTradingCard({
             <Text
               style={{
                 color: UI.violetDeep,
-                fontFamily: 'Nunito-Bold',
+                fontFamily: 'Lexend-Bold',
                 fontSize: 14,
                 fontStyle: 'italic',
               }}>
@@ -185,7 +185,7 @@ export function AnimalTradingCard({
                 <Text
                   style={{
                     color: UI.text,
-                    fontFamily: 'Fredoka-Bold',
+                    fontFamily: 'Gabarito-Bold',
                     fontSize: 11,
                   }}>
                   {c.label}
@@ -211,7 +211,7 @@ export function AnimalTradingCard({
             <Text
               style={{
                 color: UI.primaryDeep,
-                fontFamily: 'Fredoka-Bold',
+                fontFamily: 'Gabarito-Bold',
                 fontSize: 11,
                 letterSpacing: 0.8,
               }}>
@@ -231,7 +231,7 @@ export function AnimalTradingCard({
         />
         <View
           style={{
-            backgroundColor: UI.canvas,
+            backgroundColor: UI.surface,
             borderRadius: 20,
             padding: 14,
             borderWidth: 2,
@@ -256,7 +256,7 @@ export function AnimalTradingCard({
                 <Text
                   style={{
                     color: UI.goldDeep,
-                    fontFamily: 'Fredoka-Bold',
+                    fontFamily: 'Gabarito-Bold',
                     fontSize: 12,
                   }}>
                   {i + 1}
@@ -265,7 +265,7 @@ export function AnimalTradingCard({
               <Text
                 style={{
                   color: UI.text,
-                  fontFamily: 'Nunito',
+                  fontFamily: 'Lexend',
                   fontSize: 14,
                   lineHeight: 20,
                   flex: 1,
@@ -288,7 +288,7 @@ export function AnimalTradingCard({
         <View
           className="items-center"
           style={{
-            backgroundColor: UI.canvas,
+            backgroundColor: UI.surface,
             borderRadius: 20,
             padding: 12,
             borderWidth: 2,
@@ -298,14 +298,14 @@ export function AnimalTradingCard({
           <HabitatMap regions={d.map_regions} width={300} />
           <Text
             className="text-center mt-3"
-            style={{ color: UI.text, fontFamily: 'Fredoka-Bold', fontSize: 14 }}>
+            style={{ color: UI.text, fontFamily: 'Gabarito-Bold', fontSize: 14 }}>
             {regionsLabel(d.map_regions)}
           </Text>
           <Text
             className="text-center"
             style={{
               color: UI.textSoft,
-              fontFamily: 'Nunito',
+              fontFamily: 'Lexend',
               fontSize: 12,
               marginTop: 2,
               fontStyle: 'italic',
@@ -338,7 +338,7 @@ function SectionLabel({
         <Text
           style={{
             color,
-            fontFamily: 'Fredoka-Bold',
+            fontFamily: 'Gabarito-Bold',
             fontSize: 11,
             letterSpacing: 0.8,
           }}>
@@ -373,7 +373,7 @@ function StatCell({
       <Text
         style={{
           color: UI.textFaint,
-          fontFamily: 'Fredoka-Bold',
+          fontFamily: 'Gabarito-Bold',
           fontSize: 9,
           letterSpacing: 0.8,
           marginBottom: 1,
@@ -385,7 +385,7 @@ function StatCell({
         numberOfLines={3}
         style={{
           color: UI.text,
-          fontFamily: 'Nunito-Bold',
+          fontFamily: 'Lexend-Bold',
           fontSize: 11,
           lineHeight: 14,
         }}>

@@ -45,7 +45,7 @@ export default function AnimalCardScreen() {
   if (!animal) {
     return (
       <View className="flex-1 bg-canvas items-center justify-center px-6">
-        <Text style={{ color: UI.text, fontFamily: 'Fredoka-Bold', fontSize: 18 }}>
+        <Text style={{ color: UI.text, fontFamily: 'Gabarito-Bold', fontSize: 18 }}>
           Nie znaleziono zwierzęcia.
         </Text>
         <View className="mt-4" style={{ alignSelf: 'stretch' }}>

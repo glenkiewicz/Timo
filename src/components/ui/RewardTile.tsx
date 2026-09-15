@@ -113,7 +113,7 @@ export function RewardTile({
             <Text
               style={{
                 color: a.deep,
-                fontFamily: 'Fredoka-Bold',
+                fontFamily: 'Gabarito-Bold',
                 fontSize: 17,
                 marginTop: 2,
               }}>
@@ -124,7 +124,7 @@ export function RewardTile({
               <Text
                 style={{
                   color: a.deep,
-                  fontFamily: 'Nunito-Bold',
+                  fontFamily: 'Lexend-Bold',
                   fontSize: 11,
                   opacity: 0.8,
                 }}>

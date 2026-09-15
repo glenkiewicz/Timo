@@ -41,22 +41,22 @@ export function DebugOverlay() {
       <Text
         style={{
           color: '#f2b524',
-          fontFamily: 'Fredoka-Bold',
+          fontFamily: 'Gabarito-Bold',
           fontSize: 10,
           letterSpacing: 1,
         }}>
         DEBUG
       </Text>
-      <Text style={{ color: '#fff', fontFamily: 'Nunito-Bold', fontSize: 11 }}>
+      <Text style={{ color: '#fff', fontFamily: 'Lexend-Bold', fontSize: 11 }}>
         Kandydaci: {scored.length}
       </Text>
-      <Text style={{ color: '#fff', fontFamily: 'Nunito-Bold', fontSize: 11 }}>
+      <Text style={{ color: '#fff', fontFamily: 'Lexend-Bold', fontSize: 11 }}>
         Pytanie #{questionsAsked} · strzał #{guessAttempts}
       </Text>
       <Text
         style={{
           color: '#5bb04c',
-          fontFamily: 'Fredoka-Bold',
+          fontFamily: 'Gabarito-Bold',
           fontSize: 10,
           marginTop: 4,
         }}>
@@ -67,7 +67,7 @@ export function DebugOverlay() {
           key={s.animal.id}
           style={{
             color: '#fff',
-            fontFamily: 'Nunito-Bold',
+            fontFamily: 'Lexend-Bold',
             fontSize: 10,
             lineHeight: 13,
           }}>
@@ -78,26 +78,26 @@ export function DebugOverlay() {
       <Text
         style={{
           color: '#7fc9ff',
-          fontFamily: 'Fredoka-Bold',
+          fontFamily: 'Gabarito-Bold',
           fontSize: 10,
           marginTop: 6,
           letterSpacing: 1,
         }}>
         AUDIO
       </Text>
-      <Text style={{ color: '#fff', fontFamily: 'Nunito-Bold', fontSize: 10, lineHeight: 13 }}>
+      <Text style={{ color: '#fff', fontFamily: 'Lexend-Bold', fontSize: 10, lineHeight: 13 }}>
         playbackRate: {TIMO_VOICE_DEBUG_PARAMS.playbackRate}x
       </Text>
-      <Text style={{ color: '#fff', fontFamily: 'Nunito-Bold', fontSize: 10, lineHeight: 13 }}>
+      <Text style={{ color: '#fff', fontFamily: 'Lexend-Bold', fontSize: 10, lineHeight: 13 }}>
         clip gap: {TIMO_VOICE_DEBUG_PARAMS.interClipGapMs}ms
       </Text>
-      <Text style={{ color: '#fff', fontFamily: 'Nunito-Bold', fontSize: 10, lineHeight: 13 }}>
+      <Text style={{ color: '#fff', fontFamily: 'Lexend-Bold', fontSize: 10, lineHeight: 13 }}>
         retry after: {TIMO_VOICE_DEBUG_PARAMS.retryPlayAfterMs}ms
       </Text>
-      <Text style={{ color: '#fff', fontFamily: 'Nunito-Bold', fontSize: 10, lineHeight: 13 }}>
+      <Text style={{ color: '#fff', fontFamily: 'Lexend-Bold', fontSize: 10, lineHeight: 13 }}>
         timeout cap: {TIMO_VOICE_DEBUG_PARAMS.clipTimeoutDefaultMs / 1000}s
       </Text>
-      <Text style={{ color: '#fff', fontFamily: 'Nunito-Bold', fontSize: 10, lineHeight: 13 }}>
+      <Text style={{ color: '#fff', fontFamily: 'Lexend-Bold', fontSize: 10, lineHeight: 13 }}>
         speaking: {isSpeaking ? 'yes' : 'no'}  ·  muted: {audioMuted ? 'yes' : 'no'}
       </Text>
     </View>

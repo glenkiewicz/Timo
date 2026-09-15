@@ -175,7 +175,7 @@ export default function GameScreen() {
                 numberOfLines={1}
                 style={{
                   color: UI.skyDeep,
-                  fontFamily: 'Fredoka-Bold',
+                  fontFamily: 'Gabarito-Bold',
                   fontSize: 11,
                   flex: 1,
                 }}>
@@ -192,7 +192,7 @@ export default function GameScreen() {
             <Text
               style={{
                 color: UI.textSoft,
-                fontFamily: 'Fredoka-Bold',
+                fontFamily: 'Gabarito-Bold',
                 fontSize: 11,
               }}>
               Pytanie {questionsAsked + 1}
@@ -226,7 +226,7 @@ export default function GameScreen() {
                 className="text-center"
                 style={{
                   color: UI.primaryDeep,
-                  fontFamily: 'Fredoka-Bold',
+                  fontFamily: 'Gabarito-Bold',
                   fontSize: 13,
                 }}>
                 {flashLine.text}
@@ -242,7 +242,7 @@ export default function GameScreen() {
               <View
                 className="flex-row items-center gap-3 px-5 py-3"
                 style={{
-                  backgroundColor: UI.canvas,
+                  backgroundColor: UI.surface,
                   borderRadius: 20,
                   borderWidth: 2,
                   borderBottomWidth: 4,
@@ -250,7 +250,7 @@ export default function GameScreen() {
                 }}>
                 <AnimalImage animalId={guess.id} fallbackEmoji={guess.emoji} size={56} />
                 <Text
-                  style={{ color: UI.text, fontFamily: 'Fredoka-Bold', fontSize: 22 }}>
+                  style={{ color: UI.text, fontFamily: 'Gabarito-Bold', fontSize: 22 }}>
                   {guess.name_pl}
                 </Text>
               </View>

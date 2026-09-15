@@ -27,7 +27,7 @@ export function Card({
   children,
   onPress,
   borderColor = UI.line,
-  background = UI.canvas,
+  background = UI.surface,
   padding = 16,
   radius = 20,
   style,

@@ -62,7 +62,7 @@ export function FloatingDelta({
       ]}>
       <Text
         style={{
-          fontFamily: 'Fredoka-Bold',
+          fontFamily: 'Gabarito-Bold',
           fontSize: 16,
           color,
           textShadowColor: 'rgba(255,255,255,0.9)',

@@ -38,7 +38,7 @@ export function FilterChip({
         style={{
           paddingHorizontal: 14,
           paddingVertical: 8,
-          backgroundColor: active ? a.base : UI.canvas,
+          backgroundColor: active ? a.base : UI.surface,
           borderWidth: 2,
           borderBottomWidth: 3,
           borderColor: active ? a.deep : UI.line,
@@ -46,8 +46,8 @@ export function FilterChip({
         {emoji ? <Text style={{ fontSize: 13 }}>{emoji}</Text> : null}
         <Text
           style={{
-            color: active ? UI.canvas : UI.textSoft,
-            fontFamily: 'Fredoka-Bold',
+            color: active ? UI.surface : UI.textSoft,
+            fontFamily: 'Gabarito-Bold',
             fontSize: 12,
           }}>
           {label}

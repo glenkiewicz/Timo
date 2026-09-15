@@ -86,7 +86,7 @@ export default function LeaderboardScreen() {
           <Text
             style={{
               color: UI.textFaint,
-              fontFamily: 'Fredoka-Bold',
+              fontFamily: 'Gabarito-Bold',
               fontSize: 10,
               letterSpacing: 1.2,
               marginBottom: 6,
@@ -97,11 +97,11 @@ export default function LeaderboardScreen() {
             <Text style={{ fontSize: 30 }}>{me.emoji}</Text>
             <View className="flex-1">
               <Text
-                style={{ color: UI.text, fontFamily: 'Fredoka-Bold', fontSize: 17 }}>
+                style={{ color: UI.text, fontFamily: 'Gabarito-Bold', fontSize: 17 }}>
                 {me.name}
               </Text>
               <Text
-                style={{ color: UI.textSoft, fontFamily: 'Nunito-Bold', fontSize: 12 }}>
+                style={{ color: UI.textSoft, fontFamily: 'Lexend-Bold', fontSize: 12 }}>
                 {weeklyXp} XP w tym tygodniu · zostało {timeLeftLabel()}
               </Text>
             </View>
@@ -126,7 +126,7 @@ export default function LeaderboardScreen() {
                   className="flex-1"
                   style={{
                     color: UI.goldDeep,
-                    fontFamily: 'Nunito-Bold',
+                    fontFamily: 'Lexend-Bold',
                     fontSize: 12,
                     lineHeight: 17,
                   }}>
@@ -149,7 +149,7 @@ export default function LeaderboardScreen() {
                   className="text-center"
                   style={{
                     color: UI.text,
-                    fontFamily: 'Fredoka-Bold',
+                    fontFamily: 'Gabarito-Bold',
                     fontSize: 16,
                     marginTop: 8,
                   }}>
@@ -159,7 +159,7 @@ export default function LeaderboardScreen() {
                   className="text-center"
                   style={{
                     color: UI.textSoft,
-                    fontFamily: 'Nunito',
+                    fontFamily: 'Lexend',
                     fontSize: 13,
                     lineHeight: 19,
                     marginTop: 4,
@@ -194,7 +194,7 @@ export default function LeaderboardScreen() {
           className="text-center mt-4"
           style={{
             color: UI.textFaint,
-            fontFamily: 'Nunito',
+            fontFamily: 'Lexend',
             fontSize: 11,
             lineHeight: 16,
           }}>

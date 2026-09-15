@@ -109,7 +109,7 @@ function BadgeTile({ item, onPress }: { item: BadgeCard; onPress: () => void }) 
           numberOfLines={2}
           style={{
             color: UI.textFaint,
-            fontFamily: 'Fredoka-Bold',
+            fontFamily: 'Gabarito-Bold',
             fontSize: 10,
             marginTop: 6,
           }}>
@@ -134,7 +134,7 @@ function BadgeTile({ item, onPress }: { item: BadgeCard; onPress: () => void }) 
           numberOfLines={2}
           style={{
             color: UI.text,
-            fontFamily: 'Fredoka-Bold',
+            fontFamily: 'Gabarito-Bold',
             fontSize: 10,
             lineHeight: 12,
             marginTop: 4,

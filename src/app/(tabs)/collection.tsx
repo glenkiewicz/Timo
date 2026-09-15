@@ -125,7 +125,7 @@ function CollectionTile({ item }: { item: CardData }) {
         <Text
           style={{
             color: UI.textFaint,
-            fontFamily: 'Fredoka-Bold',
+            fontFamily: 'Gabarito-Bold',
             fontSize: 10,
             marginTop: 4,
           }}>
@@ -143,7 +143,7 @@ function CollectionTile({ item }: { item: CardData }) {
             className="overflow-hidden"
             style={{
               aspectRatio: 1,
-              backgroundColor: UI.canvas,
+              backgroundColor: UI.surface,
               borderRadius: 18,
               borderWidth: 2,
               borderBottomWidth: 4,
@@ -164,8 +164,8 @@ function CollectionTile({ item }: { item: CardData }) {
                 className="text-center"
                 numberOfLines={1}
                 style={{
-                  color: UI.canvas,
-                  fontFamily: 'Fredoka-Bold',
+                  color: UI.surface,
+                  fontFamily: 'Gabarito-Bold',
                   fontSize: 11,
                 }}>
                 {item.name_pl}

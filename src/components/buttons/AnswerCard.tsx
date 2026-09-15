@@ -97,7 +97,7 @@ export function AnswerCard({ answer, onPress, disabled }: AnswerCardProps) {
           style={[
             {
               marginBottom: DEPTH,
-              backgroundColor: UI.canvas,
+              backgroundColor: UI.surface,
               borderRadius: 18,
               borderWidth: 2,
               borderColor: UI.line,
@@ -115,7 +115,7 @@ export function AnswerCard({ answer, onPress, disabled }: AnswerCardProps) {
             <Text
               style={{
                 color: accent.deep,
-                fontFamily: 'Fredoka-Bold',
+                fontFamily: 'Gabarito-Bold',
                 fontSize: 22,
                 lineHeight: 26,
               }}>
@@ -123,7 +123,7 @@ export function AnswerCard({ answer, onPress, disabled }: AnswerCardProps) {
             </Text>
           </View>
           <Text
-            style={{ color: UI.text, fontFamily: 'Fredoka-Bold', fontSize: 16 }}>
+            style={{ color: UI.text, fontFamily: 'Gabarito-Bold', fontSize: 16 }}>
             {LABEL[answer]}
           </Text>
         </Animated.View>

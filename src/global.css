@@ -18,53 +18,73 @@
 
 @layer theme {
   @theme {
-    --font-display: 'Fredoka', system-ui, sans-serif;
-    --font-body: 'Nunito', system-ui, sans-serif;
+    --font-display: 'Gabarito', system-ui, sans-serif;
+    --font-body: 'Lexend', system-ui, sans-serif;
 
     /* ============================================================
-     * Paleta UI — czysta, płaska skala (kierunek Duolingo).
+     * Paleta UI 3.0 „Polana" — ciepłe światło dnia.
      * Hex-owe lustro tych wartości: src/theme/ui.ts
+     * Specyfikacja światła i głębi: docs/design-3.0.md
      * ============================================================ */
 
-    /* powierzchnie i linie */
-    --color-canvas: #ffffff;
-    --color-sunken: #f7f7f7;
-    --color-line: #e5e5e5;
-    --color-line-deep: #d4d4d4;
+    /* powierzchnie
+     * canvas to kość, nie biel — biel zostaje dla kart, żeby miały
+     * z czego się podnieść cieniem. */
+    --color-canvas: #fbf9f6;
+    --color-surface: #ffffff;
+    --color-sunken: #f1efe9;
+    --color-line: #ede9e3;
+    --color-line-deep: #ded9d0;
+
+    /* atmosfera — poświata nieba i pasmo horyzontu */
+    --color-sky-wash: #e4f0ee;
+    --color-meadow: #e7f1e5;
+    --color-meadow-soft: #eff4ec;
 
     /* tekst */
-    --color-text: #4b4b4b;
-    --color-text-soft: #777777;
-    --color-text-faint: #afafaf;
+    --color-text: #1e2a26;
+    --color-text-soft: #7c8a82;
+    --color-text-faint: #9aa8a0;
 
-    /* akcenty — każdy z wariantem deep (cień 3D) i pale (tło) */
-    --color-primary: #58cc02;
-    --color-primary-deep: #46a302;
-    --color-primary-pale: #d7ffb8;
+    /* akcenty — każdy z wariantem deep (tekst/ikona na pale) i pale (tło) */
+    --color-primary: #2e8079;
+    --color-primary-deep: #246a64;
+    --color-primary-pale: #e3f0ec;
 
-    --color-fox: #ff9600;
-    --color-fox-deep: #cc7a00;
-    --color-fox-pale: #ffeacc;
+    --color-fox: #e38a35;
+    --color-fox-deep: #c77329;
+    --color-fox-pale: #fbefdf;
+    /* jaśniejszy przystanek gradientu CTA i awatara poziomu */
+    --color-fox-lift: #ee9b47;
 
-    --color-sky: #1cb0f6;
-    --color-sky-deep: #1899d6;
-    --color-sky-pale: #ddf4ff;
+    --color-sky: #3e8fa8;
+    --color-sky-deep: #2f7389;
+    --color-sky-pale: #e1eff4;
 
-    --color-gold: #ffc800;
-    --color-gold-deep: #e5a600;
-    --color-gold-pale: #fff4cc;
+    --color-gold: #dda53e;
+    --color-gold-deep: #b8842b;
+    --color-gold-pale: #faf0dc;
 
-    --color-danger: #ff4b4b;
-    --color-danger-deep: #e02c2c;
-    --color-danger-pale: #ffe0e0;
+    --color-danger: #c0653f;
+    --color-danger-deep: #a24f2e;
+    --color-danger-pale: #f7e7e0;
 
-    --color-violet: #ce82ff;
-    --color-violet-deep: #a568cc;
-    --color-violet-pale: #f4e6ff;
+    --color-violet: #b183c0;
+    --color-violet-deep: #8e5fa0;
+    --color-violet-pale: #f2eaf6;
 
-    /* radii UI 2.0 */
-    --radius-btn: 16px;
-    --radius-tile: 20px;
+    /* radii UI 3.0 */
+    --radius-btn: 999px;
+    --radius-card: 24px;
+    --radius-tile: 18px;
     --radius-pill: 999px;
+
+    /* drabina cieni — każdy stopień to cień kontaktowy + otoczenie
+     * z ujemnym spreadem. Cień jest atramentem w niskiej alfie,
+     * nigdy czernią, więc zostaje ciepły jak płótno. */
+    --shadow-e0: 0 1px 2px rgba(30, 42, 38, 0.04), 0 2px 8px rgba(30, 42, 38, 0.05);
+    --shadow-e1: 0 1px 2px rgba(30, 42, 38, 0.04), 0 8px 24px -6px rgba(30, 42, 38, 0.1);
+    --shadow-e2: 0 2px 4px rgba(30, 42, 38, 0.05), 0 16px 40px -10px rgba(30, 42, 38, 0.14);
+    --shadow-e3: 0 4px 8px rgba(30, 42, 38, 0.06), 0 24px 56px -12px rgba(30, 42, 38, 0.18);
   }
 }

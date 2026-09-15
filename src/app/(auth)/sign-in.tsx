@@ -47,14 +47,14 @@ export default function SignInScreen() {
             <Icon name="check" size={30} color={UI.primaryDeep} strokeWidth={3} />
             <Text
               className="text-center"
-              style={{ color: UI.text, fontFamily: 'Fredoka-Bold', fontSize: 18 }}>
+              style={{ color: UI.text, fontFamily: 'Gabarito-Bold', fontSize: 18 }}>
               Konto założone
             </Text>
             <Text
               className="text-center"
               style={{
                 color: UI.primaryDeep,
-                fontFamily: 'Nunito',
+                fontFamily: 'Lexend',
                 fontSize: 13,
                 lineHeight: 19,
               }}>
@@ -91,14 +91,14 @@ export default function SignInScreen() {
         }}>
         <View className="items-center mb-4">
           <TimoCharacter size={120} />
-          <Text style={{ color: UI.text, fontFamily: 'Fredoka-Bold', fontSize: 24 }}>
+          <Text style={{ color: UI.text, fontFamily: 'Gabarito-Bold', fontSize: 24 }}>
             Witaj w Timo!
           </Text>
           <Text
             className="text-center"
             style={{
               color: UI.textSoft,
-              fontFamily: 'Nunito',
+              fontFamily: 'Lexend',
               fontSize: 13,
               lineHeight: 19,
               marginTop: 4,
@@ -114,7 +114,7 @@ export default function SignInScreen() {
               <Text
                 style={{
                   color: UI.goldDeep,
-                  fontFamily: 'Nunito-Bold',
+                  fontFamily: 'Lexend-Bold',
                   fontSize: 12,
                   lineHeight: 17,
                 }}>
@@ -158,7 +158,7 @@ export default function SignInScreen() {
               <Text
                 style={{
                   color: UI.dangerDeep,
-                  fontFamily: 'Nunito-Bold',
+                  fontFamily: 'Lexend-Bold',
                   fontSize: 12,
                   lineHeight: 17,
                 }}>
@@ -176,7 +176,7 @@ export default function SignInScreen() {
               className="text-center"
               style={{
                 color: UI.textFaint,
-                fontFamily: 'Nunito',
+                fontFamily: 'Lexend',
                 fontSize: 11,
                 lineHeight: 16,
               }}>
@@ -189,7 +189,7 @@ export default function SignInScreen() {
         <View className="flex-row items-center gap-3 my-4">
           <View style={{ flex: 1, height: 2, backgroundColor: UI.line }} />
           <Text
-            style={{ color: UI.textFaint, fontFamily: 'Fredoka-Bold', fontSize: 11 }}>
+            style={{ color: UI.textFaint, fontFamily: 'Gabarito-Bold', fontSize: 11 }}>
             ALBO
           </Text>
           <View style={{ flex: 1, height: 2, backgroundColor: UI.line }} />

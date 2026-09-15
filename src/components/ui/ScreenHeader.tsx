@@ -36,7 +36,7 @@ export function ScreenHeader({
         paddingTop: insets.top + 8,
         paddingHorizontal: 16,
         paddingBottom: 10,
-        backgroundColor: UI.canvas,
+        backgroundColor: UI.surface,
         borderBottomWidth: 2,
         borderBottomColor: UI.line,
       }}>
@@ -62,7 +62,7 @@ export function ScreenHeader({
             <Text
               style={{
                 color: UI.textFaint,
-                fontFamily: 'Fredoka-Bold',
+                fontFamily: 'Gabarito-Bold',
                 fontSize: 10,
                 letterSpacing: 1.2,
               }}>
@@ -71,7 +71,7 @@ export function ScreenHeader({
           ) : null}
           <Text
             numberOfLines={1}
-            style={{ color: UI.text, fontFamily: 'Fredoka-Bold', fontSize: 19 }}>
+            style={{ color: UI.text, fontFamily: 'Gabarito-Bold', fontSize: 19 }}>
             {title}
           </Text>
         </View>
@@ -83,7 +83,7 @@ export function ScreenHeader({
             <Text
               style={{
                 color: accent.deep,
-                fontFamily: 'Fredoka-Bold',
+                fontFamily: 'Gabarito-Bold',
                 fontSize: 13,
               }}>
               {counter.value}/{counter.total}

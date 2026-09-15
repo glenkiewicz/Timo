@@ -76,14 +76,14 @@ export default function ProfilesScreen() {
         }}>
         <Text
           className="text-center"
-          style={{ color: UI.text, fontFamily: 'Fredoka-Bold', fontSize: 26 }}>
+          style={{ color: UI.text, fontFamily: 'Gabarito-Bold', fontSize: 26 }}>
           Kto gra?
         </Text>
         <Text
           className="text-center"
           style={{
             color: UI.textSoft,
-            fontFamily: 'Nunito',
+            fontFamily: 'Lexend',
             fontSize: 13,
             marginTop: 4,
             marginBottom: 20,
@@ -105,7 +105,7 @@ export default function ProfilesScreen() {
                   numberOfLines={1}
                   style={{
                     color: UI.text,
-                    fontFamily: 'Fredoka-Bold',
+                    fontFamily: 'Gabarito-Bold',
                     fontSize: 18,
                   }}>
                   {profile.nick}
@@ -145,7 +145,7 @@ export default function ProfilesScreen() {
                   <Text
                     style={{
                       color: UI.textSoft,
-                      fontFamily: 'Fredoka-Bold',
+                      fontFamily: 'Gabarito-Bold',
                       fontSize: 12,
                       letterSpacing: 0.4,
                     }}>
@@ -177,7 +177,7 @@ export default function ProfilesScreen() {
                   <Text
                     style={{
                       color: UI.dangerDeep,
-                      fontFamily: 'Nunito-Bold',
+                      fontFamily: 'Lexend-Bold',
                       fontSize: 12,
                     }}>
                     {error}

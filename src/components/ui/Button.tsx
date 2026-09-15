@@ -22,14 +22,14 @@ const SIZE = {
 
 function faces(variant: Variant) {
   if (variant === 'ghost') {
-    return { face: UI.canvas, plate: UI.line, label: UI.textSoft };
+    return { face: UI.surface, plate: UI.line, label: UI.textSoft };
   }
   const a = ACCENT[variant];
   // Żółty jest zbyt jasny na biały tekst — czytamy go ciemnym złotem.
   return {
     face: a.base,
     plate: a.deep,
-    label: variant === 'gold' ? '#7a5a00' : UI.canvas,
+    label: variant === 'gold' ? '#7a5a00' : UI.surface,
   };
 }
 
@@ -132,7 +132,7 @@ export function Button({
           <Text
             style={{
               color: disabled ? UI.textFaint : labelColor,
-              fontFamily: 'Fredoka-Bold',
+              fontFamily: 'Gabarito-Bold',
               fontSize: s.font,
               letterSpacing: 0.6,
             }}>

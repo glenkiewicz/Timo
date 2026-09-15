@@ -171,7 +171,7 @@ export default function ResultScreen() {
             to={level}
             durationMs={700}
             delayMs={200}
-            style={{ color: UI.primaryDeep, fontFamily: 'Fredoka-Bold', fontSize: 16 }}
+            style={{ color: UI.primaryDeep, fontFamily: 'Gabarito-Bold', fontSize: 16 }}
           />
         </View>
 
@@ -209,8 +209,8 @@ export default function ResultScreen() {
           style={{ backgroundColor: won ? UI.primary : UI.danger }}>
           <Text
             style={{
-              color: UI.canvas,
-              fontFamily: 'Fredoka-Bold',
+              color: UI.surface,
+              fontFamily: 'Gabarito-Bold',
               fontSize: 14,
               letterSpacing: 1.5,
             }}>
@@ -231,7 +231,7 @@ export default function ResultScreen() {
               className="text-center"
               style={{
                 color: UI.textFaint,
-                fontFamily: 'Fredoka-Bold',
+                fontFamily: 'Gabarito-Bold',
                 fontSize: 11,
                 letterSpacing: 1.2,
                 marginBottom: 6,
@@ -245,7 +245,7 @@ export default function ResultScreen() {
                 <Text
                   style={{
                     color: UI.text,
-                    fontFamily: 'Fredoka-Bold',
+                    fontFamily: 'Gabarito-Bold',
                     fontSize: 24,
                     marginTop: 8,
                     marginBottom: 4,
@@ -256,7 +256,7 @@ export default function ResultScreen() {
                   className="text-center"
                   style={{
                     color: UI.textSoft,
-                    fontFamily: 'Nunito',
+                    fontFamily: 'Lexend',
                     fontSize: 13,
                     lineHeight: 19,
                   }}>
@@ -276,7 +276,7 @@ export default function ResultScreen() {
                   <Text
                     style={{
                       color: UI.skyDeep,
-                      fontFamily: 'Fredoka-Bold',
+                      fontFamily: 'Gabarito-Bold',
                       fontSize: 13,
                     }}>
                     Zobacz kartę zwierzęcia
@@ -288,7 +288,7 @@ export default function ResultScreen() {
                 <Text
                   style={{
                     color: UI.text,
-                    fontFamily: 'Fredoka-Bold',
+                    fontFamily: 'Gabarito-Bold',
                     fontSize: 20,
                     marginBottom: 4,
                   }}>
@@ -300,7 +300,7 @@ export default function ResultScreen() {
                   className="text-center"
                   style={{
                     color: UI.textSoft,
-                    fontFamily: 'Nunito',
+                    fontFamily: 'Lexend',
                     fontSize: 13,
                     lineHeight: 19,
                   }}>
@@ -350,7 +350,7 @@ export default function ResultScreen() {
           <View className="mt-3" style={{ alignSelf: 'stretch' }}>
             <Card
               borderColor={expCompletionJustHappened ? UI.primary : UI.line}
-              background={expCompletionJustHappened ? UI.primaryPale : UI.canvas}
+              background={expCompletionJustHappened ? UI.primaryPale : UI.surface}
               padding={14}>
               {expCompletionJustHappened ? (
                 <>
@@ -359,7 +359,7 @@ export default function ResultScreen() {
                     <Text
                       style={{
                         color: UI.primaryDeep,
-                        fontFamily: 'Fredoka-Bold',
+                        fontFamily: 'Gabarito-Bold',
                         fontSize: 11,
                         letterSpacing: 1.2,
                       }}>
@@ -367,13 +367,13 @@ export default function ResultScreen() {
                     </Text>
                   </View>
                   <Text
-                    style={{ color: UI.text, fontFamily: 'Fredoka-Bold', fontSize: 16 }}>
+                    style={{ color: UI.text, fontFamily: 'Gabarito-Bold', fontSize: 16 }}>
                     {expedition.hero_emoji}  {expedition.title}
                   </Text>
                   <Text
                     style={{
                       color: UI.primaryDeep,
-                      fontFamily: 'Nunito-Bold',
+                      fontFamily: 'Lexend-Bold',
                       fontSize: 12,
                       marginTop: 2,
                     }}>
@@ -388,7 +388,7 @@ export default function ResultScreen() {
                       <Text
                         style={{
                           color: UI.textFaint,
-                          fontFamily: 'Fredoka-Bold',
+                          fontFamily: 'Gabarito-Bold',
                           fontSize: 10,
                           letterSpacing: 1.2,
                         }}>
@@ -397,7 +397,7 @@ export default function ResultScreen() {
                       <Text
                         style={{
                           color: UI.text,
-                          fontFamily: 'Fredoka-Bold',
+                          fontFamily: 'Gabarito-Bold',
                           fontSize: 14,
                         }}>
                         Odkryte: {expProgress.discovered.length} / {expedition.target_count}
@@ -428,7 +428,7 @@ export default function ResultScreen() {
               <Text
                 style={{
                   color: UI.goldDeep,
-                  fontFamily: 'Fredoka-Bold',
+                  fontFamily: 'Gabarito-Bold',
                   fontSize: 11,
                   letterSpacing: 1.2,
                   marginBottom: 4,
@@ -442,7 +442,7 @@ export default function ResultScreen() {
                     <Text
                       style={{
                         color: UI.text,
-                        fontFamily: 'Fredoka-Bold',
+                        fontFamily: 'Gabarito-Bold',
                         fontSize: 16,
                       }}>
                       {b.label_pl}
@@ -450,7 +450,7 @@ export default function ResultScreen() {
                     <Text
                       style={{
                         color: UI.textSoft,
-                        fontFamily: 'Nunito',
+                        fontFamily: 'Lexend',
                         fontSize: 12,
                         lineHeight: 16,
                       }}>

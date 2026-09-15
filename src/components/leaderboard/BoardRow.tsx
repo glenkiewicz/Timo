@@ -35,7 +35,7 @@ export function BoardRow({ entry, isPlayer = false, compact = false }: BoardRowP
         className="items-center justify-center rounded-pill"
         style={{ width: 28, height: 28, backgroundColor: medal.background }}>
         <Text
-          style={{ color: medal.color, fontFamily: 'Fredoka-Bold', fontSize: 13 }}>
+          style={{ color: medal.color, fontFamily: 'Gabarito-Bold', fontSize: 13 }}>
           {entry.rank}
         </Text>
       </View>
@@ -47,7 +47,7 @@ export function BoardRow({ entry, isPlayer = false, compact = false }: BoardRowP
         className="flex-1"
         style={{
           color: isPlayer ? UI.primaryDeep : UI.text,
-          fontFamily: 'Fredoka-Bold',
+          fontFamily: 'Gabarito-Bold',
           fontSize: compact ? 14 : 15,
         }}>
         {isPlayer ? 'TY' : entry.name}
@@ -56,7 +56,7 @@ export function BoardRow({ entry, isPlayer = false, compact = false }: BoardRowP
       <Text
         style={{
           color: isPlayer ? UI.primaryDeep : UI.textSoft,
-          fontFamily: 'Fredoka-Bold',
+          fontFamily: 'Gabarito-Bold',
           fontSize: compact ? 13 : 14,
         }}>
         {entry.score} XP

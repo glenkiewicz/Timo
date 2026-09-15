@@ -87,7 +87,7 @@ export function StatBadge({
             durationMs={durationMs}
             style={{
               color: textColor,
-              fontFamily: 'Fredoka-Bold',
+              fontFamily: 'Gabarito-Bold',
               fontSize: 17,
             }}
           />
