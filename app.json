@@ -51,7 +51,8 @@
       "expo-image",
       "expo-status-bar",
       "expo-web-browser",
-      "expo-asset"
+      "expo-asset",
+      "./plugins/withUISceneLifecycle"
     ],
     "experiments": {
       "typedRoutes": true,
