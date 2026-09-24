@@ -7,19 +7,37 @@ export type BadgeDef = {
   group: 'firsts' | 'streak' | 'daily' | 'collection' | 'speed' | 'expeditions' | 'special';
 };
 
+/**
+ * Grupy odznak: nazwa na kartce i podpowiedź pod przyciskiem „i".
+ * Kolejność tej tablicy jest kolejnością kartek na ekranie.
+ */
+export const BADGE_GROUPS: {
+  id: BadgeDef['group'];
+  label: string;
+  hint: string;
+}[] = [
+  { id: 'firsts', label: 'Pierwsze kroki', hint: 'Za pierwsze razy — pierwszą wygraną, pierwszą pomyłkę Timo.' },
+  { id: 'streak', label: 'Seria wygranych', hint: 'Za wygrane jedna po drugiej, bez przerwy.' },
+  { id: 'daily', label: 'Codzienna wizyta', hint: 'Za wracanie do Timo dzień po dniu.' },
+  { id: 'collection', label: 'Kolekcja zwierząt', hint: 'Za odkrywanie kolejnych zwierząt do kolekcji.' },
+  { id: 'speed', label: 'Szybkie zgadywanie', hint: 'Za zagadki rozwiązane w niewielu pytaniach.' },
+  { id: 'expeditions', label: 'Wyprawy', hint: 'Za ukończone wyprawy z Timo.' },
+  { id: 'special', label: 'Wyjątkowe', hint: 'Rzadkie odznaki za nietypowe osiągnięcia.' },
+];
+
 export const BADGES: BadgeDef[] = [
   // === PIERWSZE KROKI ===
   {
     id: 'first_win',
     label_pl: 'Pierwsza zagadka',
-    description_pl: 'Twoja pierwsza wygrana z Timo!',
+    description_pl: 'Pierwszy raz doprowadziłeś Timo do swojego zwierzęcia!',
     emoji: '🌱',
     group: 'firsts',
   },
   {
     id: 'first_loss',
-    label_pl: 'Próba się liczy',
-    description_pl: 'Czasem Timo się myli — i to też jest cenne!',
+    label_pl: 'Przechytrzony lis',
+    description_pl: 'Wybrałeś zwierzę, którego Timo nie zgadł. Brawo!',
     emoji: '🧩',
     group: 'firsts',
   },
@@ -51,8 +69,15 @@ export const BADGES: BadgeDef[] = [
   {
     id: 'daily_streak_7',
     label_pl: 'Tydzień z Timo',
-    description_pl: '7 dni z rzędu zagraliście razem.',
+    description_pl: '7 dni z rzędu zajrzałeś do Timo.',
     emoji: '📅',
+    group: 'daily',
+  },
+  {
+    id: 'daily_streak_14',
+    label_pl: 'Dwa tygodnie',
+    description_pl: '14 dni z rzędu — Timo już na Ciebie czeka.',
+    emoji: '📆',
     group: 'daily',
   },
   {
@@ -103,15 +128,15 @@ export const BADGES: BadgeDef[] = [
   // === SZYBKOŚĆ ===
   {
     id: 'fast_thinker',
-    label_pl: 'Szybki ogon',
-    description_pl: 'Timo zgadł w 4 pytaniach albo mniej.',
+    label_pl: 'Bez wahania',
+    description_pl: 'Runda, w której znałeś odpowiedź na każde pytanie.',
     emoji: '⚡',
     group: 'speed',
   },
   {
     id: 'lightning',
     label_pl: 'Błyskawica',
-    description_pl: '3 wygrane w 3 pytaniach lub mniej — błyskawiczne tropienie!',
+    description_pl: 'Trzy rundy bez ani jednego „nie wiem" — znasz swoje zwierzęta!',
     emoji: '🌩️',
     group: 'speed',
   },

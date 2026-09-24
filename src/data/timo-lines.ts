@@ -203,23 +203,55 @@ export const GREETINGS: string[] = [
   'Witaj na śledztwie! Wybierz w głowie jedno stworzenie, a ja zacznę pytać.',
 ];
 
-/* ===================== Po wygranej / przegranej ===================== */
+/* ===================== Seria dzienna ===================== */
 
-export const VICTORY_LINES: string[] = [
-  'Sprawa rozwiązana! Detektyw Timo trafił.',
-  'Mam cię! Lupa zadziałała jak należy.',
-  'Brawo nam — udało się rozwikłać zagadkę!',
-  'Tak myślałem! Notes mi się dzisiaj nie pomylił.',
-  'Bingo, bingo, bingo! Lisia metoda działa.',
-  'Sprawca pod lupą — śledztwo zakończone sukcesem.',
+/**
+ * Powitanie w dniu, w którym seria urosła.
+ *
+ * Bez liczby w tekście — ta jest na ekranie wielką cyfrą, a klipy głosowe są
+ * przywiązane do indeksu kwestii, więc wersja „drugi dzień" wymagałaby osobnego
+ * nagrania na każdy dzień serii.
+ */
+export const STREAK_LINES: string[] = [
+  'Przyszedłeś! Nasza seria rośnie — tak trzymaj.',
+  'Kolejny dzień razem. Lubię, kiedy zaglądasz.',
+  'Jesteś! Zaznaczam nam dzisiejszy dzień w notesie.',
+  'Witaj znowu, tropicielu. Seria trwa dalej!',
 ];
 
+/** Kwestie na progu serii — 7, 14 i 30 dni. Rzadkie, więc mocniejsze. */
+export const STREAK_MILESTONE_LINES: string[] = [
+  'To dopiero wyczyn! Masz u mnie dodatkowe tropy.',
+  'Cała kupka tropów dla ciebie — zasłużyłeś.',
+];
+
+/* ===================== Po wygranej / przegranej ===================== */
+
+/**
+ * Kwestie po trafieniu — mówią o WSPÓLNYM tropieniu, nie o sukcesie Timo.
+ * Wcześniej brzmiały „Detektyw Timo trafił", co utrwalało, że to lis wygrywa,
+ * choć punkty dostaje dziecko. Zasługa należy się opisowi dziecka.
+ */
+export const VICTORY_LINES: string[] = [
+  'Udało się! Tak dobrze go opisałeś, że go znalazłem.',
+  'Mam go — dzięki tobie. Bez twoich podpowiedzi błądziłbym do wieczora.',
+  'Brawo nam — udało się rozwikłać zagadkę!',
+  'Znalazłem! Prowadziłeś mnie prosto do celu.',
+  'Jest! Świetnie znasz swoje zwierzę.',
+  'Razem go wytropiliśmy. Dobra robota, tropicielu!',
+];
+
+/**
+ * Kwestie po poddaniu się — to jest SUKCES DZIECKA, nie jego porażka.
+ * Pytanie na końcu zostaje: teraz wreszcie ma odpowiedź, bo po tym ekranie
+ * dziecko wskazuje zwierzę (`AnimalReveal`).
+ */
 export const GIVE_UP_LINES: string[] = [
-  'Hmm, detektyw musi się tym razem poddać. Powiedz mi, kogo wymyśliłeś?',
-  'Sprawa za trudna na dziś. Co to było za stworzenie?',
-  'Mój notes jest pusty — ten zwierzak mnie przechytrzył. Kto to?',
-  'Nawet najlepszy detektyw ma czasem trudny dzień. Zdradź mi rozwiązanie!',
-  'Łapy w górę — poddaję się. Powiedz, jakie to zwierzę?',
+  'Przechytrzyłeś mnie! Pokaż, kogo wymyśliłeś?',
+  'Ale trudne zwierzę wybrałeś! Co to było za stworzenie?',
+  'Mój notes jest pusty — wygrałeś ze mną. Kto to?',
+  'Nie mam pojęcia, a ty wiedziałeś od początku. Zdradzisz mi?',
+  'Łapy w górę, poddaję się. Powiedz, jakie to zwierzę?',
 ];
 
 /* ===================== Strzały (guess intros) ===================== */
@@ -367,9 +399,9 @@ export const OUTSIDE_CATEGORY_LINES = [
 
 /** Łagodniejszy give-up dla guided. */
 export const GUIDED_GIVE_UP_LINES = [
-  'Detektyw musi się tym razem poddać. Pokaż mi, kogo wybrałeś!',
-  'Trochę się zgubiłem na tropie... ale wybrałeś świetnie! Powiedz, co to było?',
-  'Mój notes jest pusty, sprawa nierozwiązana. Zdradź mi rozwiązanie!',
+  'Przechytrzyłeś mnie! Pokaż, kogo wybrałeś.',
+  'Zgubiłem trop, a ty wybrałeś świetnie! Powiedz, co to było?',
+  'Mój notes pusty — tym razem twoje. Zdradzisz mi rozwiązanie?',
 ];
 
 // === HELPERY z anti-repeat (ostatnie 3 użyte nie wracają, jeśli pula > 3) ===
@@ -422,6 +454,12 @@ export function pickGuidedGiveUp(): Pick {
 
 export function pickGreeting(): Pick {
   return pickWithKey('greeting', GREETINGS, 'greeting');
+}
+
+export function pickStreakLine(milestone: boolean): Pick {
+  return milestone
+    ? pickWithKey('streak_milestone', STREAK_MILESTONE_LINES, 'streak_milestone')
+    : pickWithKey('streak', STREAK_LINES, 'streak');
 }
 
 export function pickVictoryLine(): Pick {

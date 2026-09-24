@@ -224,7 +224,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         questionsAsked: nextAsked,
         currentQuestion: null,
         guess: null,
-        phase: 'lost',
+        phase: 'child_stumped',
       });
       return;
     }
@@ -267,7 +267,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         questionsAsked: nextAsked,
         currentQuestion: null,
         guess,
-        phase: guess ? 'guess_attempt' : 'lost',
+        phase: guess ? 'guess_attempt' : 'child_stumped',
         guessAttempts: state.guessAttempts + (guess ? 1 : 0),
         didEscapeCategory: state.didEscapeCategory || didEscape,
       });
@@ -286,7 +286,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         questionsAsked: nextAsked,
         currentQuestion: null,
         guess,
-        phase: guess ? 'guess_attempt' : 'lost',
+        phase: guess ? 'guess_attempt' : 'child_stumped',
         guessAttempts: state.guessAttempts + (guess ? 1 : 0),
         didEscapeCategory: state.didEscapeCategory || didEscape,
       });
@@ -306,7 +306,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   acceptGuess: () => {
     logGuessAccepted(get().guess);
-    set({ phase: 'won' });
+    set({ phase: 'timo_guessed' });
   },
 
   rejectGuess: () => {
@@ -332,7 +332,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       set({
         excludedAnimals: nextExcluded,
         guess: null,
-        phase: 'lost',
+        phase: 'child_stumped',
       });
       return;
     }
@@ -370,7 +370,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         candidates: workingState.candidates,
         excludedAnimals: nextExcluded,
         guess: newGuess,
-        phase: newGuess ? 'guess_attempt' : 'lost',
+        phase: newGuess ? 'guess_attempt' : 'child_stumped',
         guessAttempts: state.guessAttempts + (newGuess ? 1 : 0),
         didEscapeCategory: state.didEscapeCategory || didEscape,
       });

@@ -1,24 +1,27 @@
 import { useRouter } from 'expo-router';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AnimalImage } from '@/components/collection/AnimalImage';
+import { AnimalReveal } from '@/components/game/AnimalReveal';
 import { AnimatedCounter } from '@/components/gamification/AnimatedCounter';
-import { TimoCharacter } from '@/components/timo/TimoCharacter';
+import { LevelUpCelebration } from '@/components/gamification/LevelUpCelebration';
+import { SceneBackdrop, TimoStage, sceneBaseColor } from '@/components/timo/TimoStage';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Icon } from '@/components/ui/Icon';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { RewardTile } from '@/components/ui/RewardTile';
 import { StatBadge } from '@/components/ui/StatBadge';
+import { ANIMALS_BY_ID } from '@/data/animals';
 import { EXPEDITIONS_BY_ID } from '@/data/expeditions';
 import { pickGiveUpLine, pickGuidedGiveUp, pickVictoryLine } from '@/data/timo-lines';
 import { levelFromXp } from '@/features/gamification/award';
 import { timoVoice } from '@/lib/audio/timo-voice';
 import { useGameStore } from '@/lib/stores/game-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
-import { UI } from '@/theme/ui';
+import { SHADOW, UI } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
 
 export default function ResultScreen() {
@@ -43,43 +46,64 @@ export default function ResultScreen() {
   const clearLastReward = useProfileStore((s) => s.clearLastReward);
   const clearLastExpeditionReward = useProfileStore((s) => s.clearLastExpeditionReward);
 
+  // Linia gruntu sceny — mierzona z pozycji Timo, jak na Home i w grze.
+  const [groundY, setGroundY] = useState<number | null>(null);
+
   const level = levelFromXp(xp);
   const previousPaws = lastReward?.previousPaws ?? paws;
   const previousStreak = lastReward?.previousStreak ?? streak;
   const previousLevel = lastReward ? levelFromXp(lastReward.previousXp) : level;
 
-  const won = phase === 'won';
+  const timoGuessed = phase === 'timo_guessed';
+  const answers = useGameStore((s) => s.answers);
   const awarded = useRef(false);
-  const autoOpened = useRef(false);
+
+  // Po poddaniu się Timo dziecko wskazuje zwierzę. Dopóki tego nie zrobi (albo
+  // nie powie „nie pamiętam"), NIE naliczamy nagrody — inaczej policzylibyśmy ją
+  // bez zwierzęcia i kolekcja by nie urosła.
+  // Awans pokazujemy DOPIERO po naliczeniu nagród. Kafelki kończą liczyć
+  // ~1190 ms; wcześniejsze wejście zasłoniłoby je tak samo, jak robiła to
+  // kiedyś automatycznie otwierana karta zwierzaka.
+  const [showLevelUp, setShowLevelUp] = useState(false);
+  const levelUpShown = useRef(false);
+
+  const [revealedId, setRevealedId] = useState<string | null>(null);
+  const [revealSkipped, setRevealSkipped] = useState(false);
+  const needsReveal = phase === 'child_stumped' && revealedId === null && !revealSkipped;
+
+  /** Zwierzę rundy: strzał Timo albo wskazanie dziecka. */
+  const roundAnimal = timoGuessed
+    ? guess
+    : revealedId
+      ? (ANIMALS_BY_ID[revealedId] ?? null)
+      : null;
   const voicePlayed = useRef(false);
   const expeditionMode = useGameStore((s) => s.expeditionMode);
 
-  // Auto-otwórz pełnoekranową kartę 600ms po wejściu, jeśli to pierwsze odkrycie.
-  useEffect(() => {
-    if (autoOpened.current) return;
-    if (won && guess && lastReward?.isFirstDiscovery) {
-      const t = setTimeout(() => {
-        autoOpened.current = true;
-        router.push(`/animal/${guess.id}`);
-      }, 600);
-      return () => clearTimeout(t);
-    }
-  }, [won, guess, lastReward?.isFirstDiscovery]);
+  // Pełnoekranowa karta zwierzaka NIE otwiera się już sama.
+  //
+  // Wcześniej robił to `router.push` po 600 ms — i wjeżdżał w środek naliczania
+  // nagród. Kafelki liczą się tak: Tropy kończą na ~830 ms, XP na ~1010 ms,
+  // a „Nowe!" na ~1190 ms. Co gorsza, auto-otwarcie odpalało się WYŁĄCZNIE przy
+  // `isFirstDiscovery`, czyli dokładnie wtedy, gdy pojawia się kafelek „Nowe!" —
+  // ten najciekawszy miał więc gwarancję, że zostanie zasłonięty.
+  //
+  // Kartę otwiera teraz przycisk „Zobacz kartę zwierzęcia" pod zwierzakiem.
 
   // Autoplay voice: po 600ms.
   // Wygrana: [victory.{i}, animal.{guess.id}] — Timo cieszy się + woła zwierzaka po imieniu.
   // Przegrana: [giveup.{i}] (lub guided_giveup w trybie guided).
   useEffect(() => {
     if (voicePlayed.current) return;
-    if (phase !== 'won' && phase !== 'lost') return;
+    if (phase !== 'timo_guessed' && phase !== 'child_stumped') return;
     voicePlayed.current = true;
     const t = setTimeout(() => {
-      if (phase === 'won' && guess) {
+      if (phase === 'timo_guessed' && guess) {
         const v = pickVictoryLine();
         timoVoice.playSequence([v.voiceKey, `animal.${guess.id}`], {
           initialDelayMs: 400,
         });
-      } else if (phase === 'lost') {
+      } else if (phase === 'child_stumped') {
         const g = expeditionMode === 'guided' ? pickGuidedGiveUp() : pickGiveUpLine();
         timoVoice.playLine(g.voiceKey);
       }
@@ -95,22 +119,46 @@ export default function ResultScreen() {
   const expCompletionJustHappened =
     lastExpeditionReward !== null && lastExpeditionReward.expedition_id === expeditionId;
 
-  // Award once on mount based on phase
+  // Nagroda naliczana RAZ — po trafieniu od razu, po poddaniu dopiero gdy
+  // dziecko wskaże zwierzę albo je pominie.
   useEffect(() => {
     if (awarded.current) return;
-    if (phase === 'won' || phase === 'lost') {
-      award({
-        won: phase === 'won',
-        questionsAsked,
-        animalId: guess?.id ?? null,
-      });
-      // expedition discovery only on win
-      if (phase === 'won' && mode === 'expedition' && expeditionId && guess) {
-        recordExpeditionDiscovery(expeditionId, guess.id);
-      }
-      awarded.current = true;
+    if (phase !== 'timo_guessed' && phase !== 'child_stumped') return;
+    if (needsReveal) return;
+
+    const animalId = roundAnimal?.id ?? null;
+    award({ timoGuessed, questionsAsked, animalId, answers });
+
+    // Odkrycie w wyprawie liczy się też wtedy, gdy zwierzę wskazało dziecko —
+    // wcześniej było zabramkowane trafieniem Timo.
+    if (mode === 'expedition' && expeditionId && animalId) {
+      recordExpeditionDiscovery(expeditionId, animalId);
     }
-  }, [phase, award, questionsAsked, guess, mode, expeditionId, recordExpeditionDiscovery]);
+    awarded.current = true;
+  }, [
+    phase,
+    needsReveal,
+    roundAnimal,
+    timoGuessed,
+    answers,
+    award,
+    questionsAsked,
+    mode,
+    expeditionId,
+    recordExpeditionDiscovery,
+  ]);
+
+  const levelUp = level > previousLevel;
+
+  useEffect(() => {
+    if (levelUpShown.current) return;
+    if (!levelUp || !lastReward) return;
+    const t = setTimeout(() => {
+      levelUpShown.current = true;
+      setShowLevelUp(true);
+    }, 1400);
+    return () => clearTimeout(t);
+  }, [levelUp, lastReward]);
 
   const playAgain = useCallback(() => {
     clearLastReward();
@@ -154,18 +202,27 @@ export default function ResultScreen() {
   }, [startGame, router]);
 
   return (
-    <View className="flex-1 bg-canvas">
+    <View
+      className="flex-1"
+      style={{
+        backgroundColor: sceneBaseColor(
+          'result',
+          mode === 'expedition' ? expeditionId : null
+        ),
+      }}>
+      <SceneBackdrop
+        groundY={groundY}
+        scene="result"
+        expeditionId={mode === 'expedition' ? expeditionId : null}
+      />
+
       {/* ---------- pasek statystyk ---------- */}
       <View
         className="flex-row items-center justify-between px-5"
         style={{ paddingTop: insets.top + 8, paddingBottom: 8 }}>
         <View
           className="w-11 h-11 items-center justify-center rounded-pill"
-          style={{
-            backgroundColor: UI.primaryPale,
-            borderWidth: 3,
-            borderColor: UI.primary,
-          }}>
+          style={{ backgroundColor: UI.surface, boxShadow: SHADOW.e0 }}>
           <AnimatedCounter
             from={previousLevel}
             to={level}
@@ -206,7 +263,7 @@ export default function ResultScreen() {
         {/* ---------- werdykt ---------- */}
         <View
           className="rounded-pill px-6 py-2"
-          style={{ backgroundColor: won ? UI.primary : UI.danger }}>
+          style={{ backgroundColor: timoGuessed ? UI.primary : UI.gold }}>
           <Text
             style={{
               color: UI.surface,
@@ -214,104 +271,116 @@ export default function ResultScreen() {
               fontSize: 14,
               letterSpacing: 1.5,
             }}>
-            {won
-              ? 'ZGADŁEM!'
-              : expedition?.mode === 'guided'
-                ? 'SPRÓBUJMY ZNÓW!'
-                : 'PODDAJĘ SIĘ!'}
+            {timoGuessed ? 'UDAŁO SIĘ NAM!' : 'PRZECHYTRZYŁEŚ TIMO!'}
           </Text>
         </View>
 
-        <TimoCharacter state={won ? 'happy' : 'oops'} size={180} />
-
-        {/* ---------- odkryte zwierzę ---------- */}
         <View style={{ alignSelf: 'stretch' }}>
-          <Card padding={18}>
-            <Text
-              className="text-center"
-              style={{
-                color: UI.textFaint,
-                fontFamily: 'Gabarito-Bold',
-                fontSize: 11,
-                letterSpacing: 1.2,
-                marginBottom: 6,
-              }}>
-              {won ? 'ODKRYTE ZWIERZĘ' : 'TYM RAZEM TAJEMNICA'}
-            </Text>
+          <TimoStage onGroundY={setGroundY} />
+        </View>
 
-            {won && guess ? (
-              <View className="items-center">
-                <AnimalImage animalId={guess.id} fallbackEmoji={guess.emoji} size={96} />
-                <Text
-                  style={{
-                    color: UI.text,
-                    fontFamily: 'Gabarito-Bold',
-                    fontSize: 24,
-                    marginTop: 8,
-                    marginBottom: 4,
-                  }}>
-                  {guess.name_pl}
-                </Text>
-                <Text
-                  className="text-center"
-                  style={{
-                    color: UI.textSoft,
-                    fontFamily: 'Lexend',
-                    fontSize: 13,
-                    lineHeight: 19,
-                  }}>
-                  {guess.fun_fact_pl}
-                </Text>
-                <Pressable
-                  onPress={() => guess && router.push(`/animal/${guess.id}`)}
-                  accessibilityRole="button"
-                  accessibilityLabel="Zobacz kartę zwierzęcia"
-                  className="rounded-pill mt-3 flex-row items-center gap-1.5"
-                  style={{
-                    backgroundColor: UI.skyPale,
-                    paddingHorizontal: 14,
-                    paddingVertical: 8,
-                  }}>
-                  <Icon name="grid" size={15} color={UI.skyDeep} strokeWidth={2.6} />
+        {/* ---------- ujawnienie albo karta zwierzęcia ----------
+            Po poddaniu się Timo dziecko najpierw wskazuje zwierzę; nagrody
+            czekają, bo bez `animalId` kolekcja by nie urosła. */}
+        {needsReveal ? (
+          <AnimalReveal
+            answers={answers}
+            poolIds={mode === 'expedition' ? expedition?.roster : undefined}
+            onPick={setRevealedId}
+            onSkip={() => setRevealSkipped(true)}
+          />
+        ) : (
+          <View style={{ alignSelf: 'stretch' }}>
+            <Card padding={18}>
+              <Text
+                className="text-center"
+                style={{
+                  color: UI.textFaint,
+                  fontFamily: 'Gabarito-Bold',
+                  fontSize: 11,
+                  letterSpacing: 1.2,
+                  marginBottom: 6,
+                }}>
+                {timoGuessed ? 'ODKRYTE RAZEM' : 'TWOJE ZWIERZĘ'}
+              </Text>
+
+              {roundAnimal ? (
+                <View className="items-center">
+                  <AnimalImage
+                    animalId={roundAnimal.id}
+                    size={96}
+                  />
                   <Text
                     style={{
-                      color: UI.skyDeep,
+                      color: UI.text,
                       fontFamily: 'Gabarito-Bold',
-                      fontSize: 13,
+                      fontSize: 24,
+                      marginTop: 8,
+                      marginBottom: 4,
                     }}>
-                    Zobacz kartę zwierzęcia
+                    {roundAnimal.name_pl}
                   </Text>
-                </Pressable>
-              </View>
-            ) : (
-              <View className="items-center">
-                <Text
-                  style={{
-                    color: UI.text,
-                    fontFamily: 'Gabarito-Bold',
-                    fontSize: 20,
-                    marginBottom: 4,
-                  }}>
-                  {expedition?.mode === 'guided'
-                    ? 'Wybrałeś świetnie!'
-                    : 'Nie udało mi się!'}
-                </Text>
-                <Text
-                  className="text-center"
-                  style={{
-                    color: UI.textSoft,
-                    fontFamily: 'Lexend',
-                    fontSize: 13,
-                    lineHeight: 19,
-                  }}>
-                  {expedition?.mode === 'guided'
-                    ? 'Pokaż mi, kogo wybrałeś — spróbujemy znów na nowej wyprawie!'
-                    : 'Powiedz mi, jakie to było zwierzę — następnym razem na pewno zgadnę!'}
-                </Text>
-              </View>
-            )}
-          </Card>
-        </View>
+                  <Text
+                    className="text-center"
+                    style={{
+                      color: UI.textSoft,
+                      fontFamily: 'Lexend',
+                      fontSize: 13,
+                      lineHeight: 19,
+                    }}>
+                    {roundAnimal.fun_fact_pl}
+                  </Text>
+                  <Pressable
+                    onPress={() => router.push(`/animal/${roundAnimal.id}`)}
+                    accessibilityRole="button"
+                    accessibilityLabel="Zobacz kartę zwierzęcia"
+                    className="rounded-pill mt-3 flex-row items-center gap-1.5"
+                    style={{
+                      backgroundColor: UI.skyPale,
+                      paddingHorizontal: 14,
+                      paddingVertical: 8,
+                    }}>
+                    <Icon name="grid" size={15} color={UI.skyDeep} strokeWidth={2.6} />
+                    <Text
+                      style={{
+                        color: UI.skyDeep,
+                        fontFamily: 'Gabarito-Bold',
+                        fontSize: 13,
+                      }}>
+                      Zobacz kartę zwierzęcia
+                    </Text>
+                  </Pressable>
+                </View>
+              ) : (
+                <View className="items-center">
+                  <Text
+                    style={{
+                      color: UI.text,
+                      fontFamily: 'Gabarito-Bold',
+                      fontSize: 20,
+                      marginBottom: 4,
+                    }}>
+                    {expedition?.mode === 'guided'
+                      ? 'Wybrałeś świetnie!'
+                      : 'Nie udało mi się!'}
+                  </Text>
+                  <Text
+                    className="text-center"
+                    style={{
+                      color: UI.textSoft,
+                      fontFamily: 'Lexend',
+                      fontSize: 13,
+                      lineHeight: 19,
+                    }}>
+                    {expedition?.mode === 'guided'
+                      ? 'Pokaż mi, kogo wybrałeś — spróbujemy znów na nowej wyprawie!'
+                      : 'Powiedz mi, jakie to było zwierzę — następnym razem na pewno zgadnę!'}
+                  </Text>
+                </View>
+              )}
+            </Card>
+          </View>
+        )}
 
         {/* ---------- nagrody ---------- */}
         {lastReward ? (
@@ -321,7 +390,13 @@ export default function ResultScreen() {
               icon="paw"
               value={lastReward.pawsDelta}
               accent="sky"
-              label="Tropy"
+              /* Etykieta mówi, ZA CO są tropy — to tu dziecko ma zobaczyć, że
+                 punkty należą się jego wiedzy, nie szybkości Timo. */
+              label={
+                lastReward.askedQuestions > 0
+                  ? `Wiesz ${lastReward.knownAnswers}/${lastReward.askedQuestions}`
+                  : 'Tropy'
+              }
               delay={0}
             />
             <RewardTile
@@ -346,7 +421,7 @@ export default function ResultScreen() {
         ) : null}
 
         {/* ---------- postęp wyprawy ---------- */}
-        {won && expedition && expProgress ? (
+        {timoGuessed && expedition && expProgress ? (
           <View className="mt-3" style={{ alignSelf: 'stretch' }}>
             <Card
               borderColor={expCompletionJustHappened ? UI.primary : UI.line}
@@ -473,6 +548,13 @@ export default function ResultScreen() {
         <Button label="ZAGRAJ JESZCZE RAZ" onPress={playAgain} />
         <Button label="Wróć na Polanę" variant="ghost" size="md" onPress={home} />
       </View>
+
+      <LevelUpCelebration
+        visible={showLevelUp}
+        level={level}
+        previousLevel={previousLevel}
+        onClose={() => setShowLevelUp(false)}
+      />
     </View>
   );
 }

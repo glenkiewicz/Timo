@@ -10,6 +10,11 @@ import {
   todayKey,
 } from '@/data/expeditions';
 import { awardRound, type AwardInput } from '@/features/gamification/award';
+import {
+  STREAK_BADGES,
+  advanceStreak,
+  todayLocal,
+} from '@/features/gamification/streak';
 import { isoWeekKey } from '@/features/leaderboard/week';
 import { useAuthStore } from '@/lib/stores/auth-store';
 import { supabase } from '@/lib/supabase';
@@ -25,6 +30,22 @@ type ExpeditionProgress = {
   completed_at: string | null;
 };
 
+/** Wynik dziennego meldunku — czym karmimy ekran serii. */
+export type StreakCheckIn = {
+  /** Czy seria urosła (czyli czy pokazać ekran). */
+  advanced: boolean;
+  /** Seria PO meldunku. */
+  streak: number;
+  /** Seria PRZED meldunkiem — 0 przy pierwszym uruchomieniu. */
+  previous: number;
+  /** Czy seria została przerwana i zaczyna się od nowa. */
+  reset: boolean;
+  /** Tropy z progu (7/14/30), 0 w zwykły dzień. */
+  bonusPaws: number;
+  /** Odznaki odblokowane tym meldunkiem. */
+  newBadges: BadgeDef[];
+};
+
 type ProfileState = {
   paws: number;
   /** Legacy — pole zostawione w schemie persystencji, nie pokazywane w UI */
@@ -33,8 +54,16 @@ type ProfileState = {
   streak: number;
   /** Codzienna seria — ile dni z rzędu zagrał ≥1 rundę */
   dailyStreak: number;
-  /** Ostatni dzień gry — YYYY-MM-DD (lokalna data) */
+  /** Ostatni dzień ukończonej rundy — YYYY-MM-DD (lokalna data) */
   lastPlayDate: string | null;
+  /**
+   * Ostatni dzień OTWARCIA aplikacji — YYYY-MM-DD (lokalna data).
+   *
+   * To on, a nie `lastPlayDate`, napędza serię dzienną: dziecko dostaje dzień
+   * za przyjście do Timo, nie za dograną rundę. Pięciolatek nie zawsze zdąży
+   * zagrać, a seria ma budować nawyk odwiedzin.
+   */
+  lastSeenDate: string | null;
   /** Liczba szybkich zwycięstw (≤3 pytań) — do odznaki `lightning` */
   fast_wins: number;
 
@@ -61,6 +90,10 @@ type ProfileState = {
     previousStreak: number;
     /** Czy to pierwsze odkrycie tego zwierzęcia (do UI). */
     isFirstDiscovery: boolean;
+    /** Ile z zadanych pytań dziecko umiało rozstrzygnąć — ekran wyniku mówi
+     *  tym, ZA CO są punkty, zamiast pokazywać samą liczbę. */
+    knownAnswers: number;
+    askedQuestions: number;
   } | null;
 
   /** Last expedition reward (paws/xp bonus when expedition completes) */
@@ -73,7 +106,27 @@ type ProfileState = {
   /** Czy głos Timo jest wyciszony — toggle w UI. */
   audioMuted: boolean;
 
+  /**
+   * Dzisiejszy meldunek czekający na pokazanie, albo null.
+   *
+   * Leży w store, a nie w stanie lokalnym haka, bo czytają go DWA ekrany:
+   * layout zakładek pokazuje z niego ekran serii, a Home wstrzymuje na ten
+   * czas swoje powitanie głosowe. Bez tego obie kwestie startują naraz i
+   * `playLine` ucina jedną z nich. Nie jest persystowany — to stan sesji.
+   */
+  streakCelebration: StreakCheckIn | null;
+
   award: (input: Omit<AwardInput, 'streak' | 'collection' | 'badges'>) => void;
+  /**
+   * Melduje dzisiejszą obecność i przesuwa serię dzienną.
+   *
+   * Wołane przy wejściu do aplikacji, nie po rundzie. Zwraca `advanced: false`,
+   * gdy dziecko było już dziś — dzięki temu ekran serii pokazuje się raz na
+   * dobę, a nie przy każdym powrocie z tła.
+   */
+  checkInToday: () => StreakCheckIn;
+  /** Zamyka ekran serii. */
+  dismissStreakCelebration: () => void;
   clearLastReward: () => void;
   clearLastExpeditionReward: () => void;
 
@@ -98,6 +151,8 @@ const initial: Omit<
   | 'award'
   | 'clearLastReward'
   | 'clearLastExpeditionReward'
+  | 'checkInToday'
+  | 'dismissStreakCelebration'
   | 'ensureDailyChoice'
   | 'chooseExpedition'
   | 'recordExpeditionDiscovery'
@@ -112,6 +167,7 @@ const initial: Omit<
   streak: 0,
   dailyStreak: 0,
   lastPlayDate: null,
+  lastSeenDate: null,
   fast_wins: 0,
   weeklyXp: 0,
   weekKey: null,
@@ -122,27 +178,10 @@ const initial: Omit<
   lastReward: null,
   lastExpeditionReward: null,
   audioMuted: false,
+  streakCelebration: null,
   dirty: false,
 };
 
-function todayLocal(): string {
-  const d = new Date();
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  return `${y}-${m}-${day}`;
-}
-
-function yesterdayOf(today: string): string {
-  // today = 'YYYY-MM-DD'
-  const [y, m, d] = today.split('-').map(Number);
-  const dt = new Date(y, m - 1, d);
-  dt.setDate(dt.getDate() - 1);
-  const yy = dt.getFullYear();
-  const mm = String(dt.getMonth() + 1).padStart(2, '0');
-  const dd = String(dt.getDate()).padStart(2, '0');
-  return `${yy}-${mm}-${dd}`;
-}
 
 export const useProfileStore = create<ProfileState>()(
   persist(
@@ -158,22 +197,17 @@ export const useProfileStore = create<ProfileState>()(
           badges: state.badges,
         });
 
-        // Daily streak update
+        // Seria dzienna NIE jest już liczona tutaj — przeniesiona do
+        // `checkInToday`, bo należy się za przyjście do Timo, nie za rundę.
         const today = todayLocal();
-        let nextDailyStreak = state.dailyStreak;
-        if (state.lastPlayDate !== today) {
-          if (state.lastPlayDate === yesterdayOf(today)) {
-            nextDailyStreak = state.dailyStreak + 1;
-          } else {
-            nextDailyStreak = 1;
-          }
-        }
 
-        // Fast wins counter (≤3 pytań)
-        const nextFastWins =
-          input.won && input.questionsAsked <= 3
-            ? state.fast_wins + 1
-            : state.fast_wins;
+        // Licznik rund bez ani jednego „nie wiem". Wcześniej liczył rundy,
+        // w których TIMO trafił w ≤3 pytaniach — czyli jego szybkość, na którą
+        // dziecko nie ma wpływu. Odznaka `lightning` wisi na tym liczniku.
+        const flawless =
+          input.answers.length >= 4 &&
+          input.answers.every((a) => a.answer !== 'idk');
+        const nextFastWins = flawless ? state.fast_wins + 1 : state.fast_wins;
 
         // Extra unlocks not handled by awardRound (need profile state)
         const unlockedIds = new Set(result.nextBadges);
@@ -186,20 +220,9 @@ export const useProfileStore = create<ProfileState>()(
           }
         };
         tryExtraUnlock('lightning', nextFastWins >= 3);
-        tryExtraUnlock('daily_streak_7', nextDailyStreak >= 7);
-        tryExtraUnlock('daily_streak_30', nextDailyStreak >= 30);
         const hour = new Date().getHours();
         tryExtraUnlock('night_owl', hour >= 21 || hour < 4);
         tryExtraUnlock('early_bird', hour >= 5 && hour < 8);
-
-        // Bonus tropów za 7. dzień streaku (jednorazowo per osiągnięcie)
-        let pawsBonus = 0;
-        if (
-          nextDailyStreak === 7 &&
-          state.dailyStreak < 7 // świeży próg
-        ) {
-          pawsBonus += 50;
-        }
 
         // Tygodniowe XP — zeruje się przy zmianie tygodnia ISO, żeby ranking
         // startował co poniedziałek od nowa.
@@ -207,19 +230,18 @@ export const useProfileStore = create<ProfileState>()(
         const weeklyBase = state.weekKey === currentWeek ? state.weeklyXp : 0;
 
         set({
-          paws: state.paws + result.pawsDelta + pawsBonus,
+          paws: state.paws + result.pawsDelta,
           stars: state.stars + result.starsDelta,
           xp: state.xp + result.xpDelta,
           weeklyXp: weeklyBase + result.xpDelta,
           weekKey: currentWeek,
           streak: result.nextStreak,
-          dailyStreak: nextDailyStreak,
           lastPlayDate: today,
           fast_wins: nextFastWins,
           collection: result.nextCollection,
           badges: Array.from(unlockedIds),
           lastReward: {
-            pawsDelta: result.pawsDelta + pawsBonus,
+            pawsDelta: result.pawsDelta,
             starsDelta: result.starsDelta,
             xpDelta: result.xpDelta,
             newBadges: [...result.newBadges, ...extraBadges],
@@ -227,12 +249,62 @@ export const useProfileStore = create<ProfileState>()(
             previousXp: state.xp,
             previousStreak: state.streak,
             isFirstDiscovery: result.isFirstDiscovery,
+            knownAnswers: result.knownAnswers,
+            askedQuestions: result.askedQuestions,
           },
         });
 
         // Baza jest źródłem prawdy — zapis idzie w tle, UI nie czeka.
         void get().pushToServer();
       },
+
+      checkInToday: () => {
+        const state = get();
+        const move = advanceStreak(state.lastSeenDate, state.dailyStreak, todayLocal());
+
+        if (!move.advanced) {
+          return {
+            advanced: false,
+            streak: move.streak,
+            previous: state.dailyStreak,
+            reset: false,
+            bonusPaws: 0,
+            newBadges: [],
+          };
+        }
+
+        const unlocked = new Set(state.badges);
+        const newBadges: BadgeDef[] = [];
+        for (const [threshold, id] of STREAK_BADGES) {
+          if (move.streak >= threshold && !unlocked.has(id)) {
+            unlocked.add(id);
+            const def = BADGES.find((b) => b.id === id);
+            if (def) newBadges.push(def);
+          }
+        }
+
+        const celebration: StreakCheckIn = {
+          advanced: true,
+          streak: move.streak,
+          previous: state.dailyStreak,
+          reset: move.reset,
+          bonusPaws: move.bonusPaws,
+          newBadges,
+        };
+
+        set({
+          dailyStreak: move.streak,
+          lastSeenDate: todayLocal(),
+          paws: state.paws + move.bonusPaws,
+          badges: Array.from(unlocked),
+          streakCelebration: celebration,
+        });
+        void get().pushToServer();
+
+        return celebration;
+      },
+
+      dismissStreakCelebration: () => set({ streakCelebration: null }),
 
       clearLastReward: () => set({ lastReward: null }),
       clearLastExpeditionReward: () => set({ lastExpeditionReward: null }),
@@ -346,7 +418,7 @@ export const useProfileStore = create<ProfileState>()(
         const { data, error } = await supabase
           .from('progress')
           .select(
-            'xp, paws, streak, daily_streak, last_play_date, fast_wins, collection, badges'
+            'xp, paws, streak, daily_streak, last_play_date, last_seen_date, fast_wins, collection, badges'
           )
           .eq('profile_id', profileId)
           .maybeSingle();
@@ -364,6 +436,7 @@ export const useProfileStore = create<ProfileState>()(
           streak: data.streak ?? 0,
           dailyStreak: data.daily_streak ?? 0,
           lastPlayDate: data.last_play_date ?? null,
+          lastSeenDate: data.last_seen_date ?? null,
           fast_wins: data.fast_wins ?? 0,
           collection: data.collection ?? [],
           badges: data.badges ?? [],
@@ -384,6 +457,7 @@ export const useProfileStore = create<ProfileState>()(
             streak: s.streak,
             daily_streak: s.dailyStreak,
             last_play_date: s.lastPlayDate,
+            last_seen_date: s.lastSeenDate,
             fast_wins: s.fast_wins,
             collection: s.collection,
             badges: s.badges,
@@ -408,6 +482,7 @@ export const useProfileStore = create<ProfileState>()(
         streak: state.streak,
         dailyStreak: state.dailyStreak,
         lastPlayDate: state.lastPlayDate,
+        lastSeenDate: state.lastSeenDate,
         fast_wins: state.fast_wins,
         collection: state.collection,
         badges: state.badges,

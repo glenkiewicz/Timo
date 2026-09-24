@@ -45,6 +45,8 @@ import {
 	GENERIC_EXPEDITION_INTRO,
 	GIVE_UP_LINES,
 	GREETINGS,
+	STREAK_LINES,
+	STREAK_MILESTONE_LINES,
 	GUESS_INTROS,
 	GUIDED_GIVE_UP_LINES,
 	INTERLUDES_LATE,
@@ -305,6 +307,10 @@ function buildStaticLines(): Line[] {
 	REACTION_IDK.forEach((t, i) => lines.push({ voiceKey: `reaction.idk.${i}`, text: t }));
 	REACTION_HARD.forEach((t, i) => lines.push({ voiceKey: `reaction.hard.${i}`, text: t }));
 	GREETINGS.forEach((t, i) => lines.push({ voiceKey: `greeting.${i}`, text: t }));
+	STREAK_LINES.forEach((t, i) => lines.push({ voiceKey: `streak.${i}`, text: t }));
+	STREAK_MILESTONE_LINES.forEach((t, i) =>
+		lines.push({ voiceKey: `streak_milestone.${i}`, text: t })
+	);
 	VICTORY_LINES.forEach((t, i) => lines.push({ voiceKey: `victory.${i}`, text: t }));
 	GIVE_UP_LINES.forEach((t, i) => lines.push({ voiceKey: `giveup.${i}`, text: t }));
 	GUIDED_GIVE_UP_LINES.forEach((t, i) => lines.push({ voiceKey: `guided_giveup.${i}`, text: t }));

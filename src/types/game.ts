@@ -34,4 +34,12 @@ export type GameAnswer = {
   remaining_candidates: number;
 };
 
-export type GamePhase = 'asking' | 'guess_attempt' | 'won' | 'lost';
+/**
+ * Fazy rundy nazwane z perspektywy DZIECKA, nie Timo.
+ *
+ * Wcześniej było `'won' | 'lost'`, gdzie „wygrana" oznaczała, że Timo zgadł —
+ * czyli że dziecko przegrało pojedynek, i właśnie za to dostawało najwięcej
+ * punktów. Ta nazwa kodowała zły model gry; `docs/game-design.md` opisuje to
+ * w sekcji o nagrodzie zależnej od Timo.
+ */
+export type GamePhase = 'asking' | 'guess_attempt' | 'timo_guessed' | 'child_stumped';

@@ -612,88 +612,88 @@
     "generatedAt": "2026-06-12T13:25:44.734Z"
   },
   "victory.0": {
-    "hash": "4d5e51b7d683",
-    "file": "4d5e51b7d683.mp3",
-    "text": "Sprawa rozwiązana! Detektyw Timo trafił.",
-    "generatedAt": "2026-06-12T13:25:46.051Z"
+    "hash": "8eb7e81f3276",
+    "file": "8eb7e81f3276.mp3",
+    "text": "Udało się! Tak dobrze go opisałeś, że go znalazłem.",
+    "generatedAt": "2026-09-22T18:26:50.841Z"
   },
   "victory.1": {
-    "hash": "d23723783bde",
-    "file": "d23723783bde.mp3",
-    "text": "Mam cię! Lupa zadziałała jak należy.",
-    "generatedAt": "2026-06-12T13:25:47.253Z"
+    "hash": "fe3a23de77a8",
+    "file": "fe3a23de77a8.mp3",
+    "text": "Mam go — dzięki tobie. Bez twoich podpowiedzi błądziłbym do wieczora.",
+    "generatedAt": "2026-09-22T18:26:52.145Z"
   },
   "victory.2": {
     "hash": "710773cdc6ba",
     "file": "710773cdc6ba.mp3",
     "text": "Brawo nam — udało się rozwikłać zagadkę!",
-    "generatedAt": "2026-06-12T13:25:48.445Z"
+    "generatedAt": "2026-09-22T18:26:53.282Z"
   },
   "victory.3": {
-    "hash": "d3800ea1f119",
-    "file": "d3800ea1f119.mp3",
-    "text": "Tak myślałem! Notes mi się dzisiaj nie pomylił.",
-    "generatedAt": "2026-06-12T13:25:49.657Z"
+    "hash": "9e0ab18cd07f",
+    "file": "9e0ab18cd07f.mp3",
+    "text": "Znalazłem! Prowadziłeś mnie prosto do celu.",
+    "generatedAt": "2026-09-22T18:26:54.354Z"
   },
   "victory.4": {
-    "hash": "02cafaead7d0",
-    "file": "02cafaead7d0.mp3",
-    "text": "Bingo, bingo, bingo! Lisia metoda działa.",
-    "generatedAt": "2026-06-12T13:25:50.927Z"
+    "hash": "5c472f75adc9",
+    "file": "5c472f75adc9.mp3",
+    "text": "Jest! Świetnie znasz swoje zwierzę.",
+    "generatedAt": "2026-09-22T18:26:55.413Z"
   },
   "victory.5": {
-    "hash": "9c55fc450bd0",
-    "file": "9c55fc450bd0.mp3",
-    "text": "Sprawca pod lupą — śledztwo zakończone sukcesem.",
-    "generatedAt": "2026-06-12T13:25:52.200Z"
+    "hash": "ea0e4f9f8a70",
+    "file": "ea0e4f9f8a70.mp3",
+    "text": "Razem go wytropiliśmy. Dobra robota, tropicielu!",
+    "generatedAt": "2026-09-22T18:26:56.604Z"
   },
   "giveup.0": {
-    "hash": "ca7ad62f1f61",
-    "file": "ca7ad62f1f61.mp3",
-    "text": "Hmm, detektyw musi się tym razem poddać. Powiedz mi, kogo wymyśliłeś?",
-    "generatedAt": "2026-06-12T13:25:53.652Z"
+    "hash": "53e082e8c92a",
+    "file": "53e082e8c92a.mp3",
+    "text": "Przechytrzyłeś mnie! Pokaż, kogo wymyśliłeś?",
+    "generatedAt": "2026-09-22T18:26:58.051Z"
   },
   "giveup.1": {
-    "hash": "a8bbd2cee440",
-    "file": "a8bbd2cee440.mp3",
-    "text": "Sprawa za trudna na dziś. Co to było za stworzenie?",
-    "generatedAt": "2026-06-12T13:25:54.997Z"
+    "hash": "6438d8bc0e3d",
+    "file": "6438d8bc0e3d.mp3",
+    "text": "Ale trudne zwierzę wybrałeś! Co to było za stworzenie?",
+    "generatedAt": "2026-09-22T18:26:59.191Z"
   },
   "giveup.2": {
-    "hash": "746d802c340a",
-    "file": "746d802c340a.mp3",
-    "text": "Mój notes jest pusty — ten zwierzak mnie przechytrzył. Kto to?",
-    "generatedAt": "2026-06-12T13:25:56.364Z"
+    "hash": "0100f7824901",
+    "file": "0100f7824901.mp3",
+    "text": "Mój notes jest pusty — wygrałeś ze mną. Kto to?",
+    "generatedAt": "2026-09-22T18:27:00.368Z"
   },
   "giveup.3": {
-    "hash": "856d43f6e114",
-    "file": "856d43f6e114.mp3",
-    "text": "Nawet najlepszy detektyw ma czasem trudny dzień. Zdradź mi rozwiązanie!",
-    "generatedAt": "2026-06-12T13:25:57.789Z"
+    "hash": "378fc520f251",
+    "file": "378fc520f251.mp3",
+    "text": "Nie mam pojęcia, a ty wiedziałeś od początku. Zdradzisz mi?",
+    "generatedAt": "2026-09-22T18:27:01.487Z"
   },
   "giveup.4": {
-    "hash": "7ade86c78168",
-    "file": "7ade86c78168.mp3",
-    "text": "Łapy w górę — poddaję się. Powiedz, jakie to zwierzę?",
-    "generatedAt": "2026-06-12T13:25:59.081Z"
+    "hash": "e4dd613b4f76",
+    "file": "e4dd613b4f76.mp3",
+    "text": "Łapy w górę, poddaję się. Powiedz, jakie to zwierzę?",
+    "generatedAt": "2026-09-22T18:27:02.720Z"
   },
   "guided_giveup.0": {
-    "hash": "17295e8612af",
-    "file": "17295e8612af.mp3",
-    "text": "Detektyw musi się tym razem poddać. Pokaż mi, kogo wybrałeś!",
-    "generatedAt": "2026-06-12T13:26:00.401Z"
+    "hash": "1ee1b444605f",
+    "file": "1ee1b444605f.mp3",
+    "text": "Przechytrzyłeś mnie! Pokaż, kogo wybrałeś.",
+    "generatedAt": "2026-09-22T18:27:03.768Z"
   },
   "guided_giveup.1": {
-    "hash": "0b7a6281fa68",
-    "file": "0b7a6281fa68.mp3",
-    "text": "Trochę się zgubiłem na tropie... ale wybrałeś świetnie! Powiedz, co to było?",
-    "generatedAt": "2026-06-12T13:26:01.804Z"
+    "hash": "9eb24b237ef9",
+    "file": "9eb24b237ef9.mp3",
+    "text": "Zgubiłem trop, a ty wybrałeś świetnie! Powiedz, co to było?",
+    "generatedAt": "2026-09-22T18:27:04.993Z"
   },
   "guided_giveup.2": {
-    "hash": "d4547d6b0cd0",
-    "file": "d4547d6b0cd0.mp3",
-    "text": "Mój notes jest pusty, sprawa nierozwiązana. Zdradź mi rozwiązanie!",
-    "generatedAt": "2026-06-12T13:26:03.207Z"
+    "hash": "4ebfb15e136b",
+    "file": "4ebfb15e136b.mp3",
+    "text": "Mój notes pusty — tym razem twoje. Zdradzisz mi rozwiązanie?",
+    "generatedAt": "2026-09-22T18:27:06.271Z"
   },
   "guess_intro.0": {
     "hash": "e5f494375745",
@@ -5236,5 +5236,41 @@
     "file": "a7c6ab1f7518.mp3",
     "text": "Rusałka pawik",
     "generatedAt": "2026-06-12T13:40:13.480Z"
+  },
+  "streak.0": {
+    "hash": "11863bc6cefa",
+    "file": "11863bc6cefa.mp3",
+    "text": "Przyszedłeś! Nasza seria rośnie — tak trzymaj.",
+    "generatedAt": "2026-09-23T08:51:17.387Z"
+  },
+  "streak.1": {
+    "hash": "cb99d2e7f903",
+    "file": "cb99d2e7f903.mp3",
+    "text": "Kolejny dzień razem. Lubię, kiedy zaglądasz.",
+    "generatedAt": "2026-09-23T08:51:18.467Z"
+  },
+  "streak.2": {
+    "hash": "1bb46f761df9",
+    "file": "1bb46f761df9.mp3",
+    "text": "Jesteś! Zaznaczam nam dzisiejszy dzień w notesie.",
+    "generatedAt": "2026-09-23T08:51:19.651Z"
+  },
+  "streak.3": {
+    "hash": "915d5f1abb63",
+    "file": "915d5f1abb63.mp3",
+    "text": "Witaj znowu, tropicielu. Seria trwa dalej!",
+    "generatedAt": "2026-09-23T08:51:20.893Z"
+  },
+  "streak_milestone.0": {
+    "hash": "a99dbd5c480b",
+    "file": "a99dbd5c480b.mp3",
+    "text": "To dopiero wyczyn! Masz u mnie dodatkowe tropy.",
+    "generatedAt": "2026-09-23T08:51:22.043Z"
+  },
+  "streak_milestone.1": {
+    "hash": "b581b5ff29d1",
+    "file": "b581b5ff29d1.mp3",
+    "text": "Cała kupka tropów dla ciebie — zasłużyłeś.",
+    "generatedAt": "2026-09-23T08:51:23.124Z"
   }
 }

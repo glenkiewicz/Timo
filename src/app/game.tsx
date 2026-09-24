@@ -4,9 +4,10 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AnswerCard, type AnswerType } from '@/components/buttons/AnswerCard';
 import { AnimalImage } from '@/components/collection/AnimalImage';
-import { TimoCharacter } from '@/components/timo/TimoCharacter';
+import { SceneBackdrop, TimoStage, sceneBaseColor } from '@/components/timo/TimoStage';
 import { Bubble } from '@/components/ui/Bubble';
 import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
 import { Icon } from '@/components/ui/Icon';
 import { StatBadge } from '@/components/ui/StatBadge';
 import { EXPEDITIONS_BY_ID } from '@/data/expeditions';
@@ -18,12 +19,13 @@ import {
   pickReaction,
   type Pick,
 } from '@/data/timo-lines';
+import { SHOW_GAME_DEBUG } from '@/config/features';
 import { DebugOverlay } from '@/features/game/DebugOverlay';
 import { decorateQuestion } from '@/features/game/timo-personality';
 import { timoVoice, useIsTimoSpeaking } from '@/lib/audio/timo-voice';
 import { useGameStore } from '@/lib/stores/game-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
-import { UI } from '@/theme/ui';
+import { SHADOW, UI } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
 
 export default function GameScreen() {
@@ -61,7 +63,7 @@ export default function GameScreen() {
   const previousPaws = lastReward?.previousPaws ?? paws;
 
   useEffect(() => {
-    if (phase === 'won' || phase === 'lost') {
+    if (phase === 'timo_guessed' || phase === 'child_stumped') {
       router.replace('/result');
     }
   }, [phase, router]);
@@ -150,8 +152,14 @@ export default function GameScreen() {
   const isAsking = phase === 'asking';
   const isGuessing = phase === 'guess_attempt';
 
+  // Linia gruntu sceny — mierzona z pozycji Timo, tak jak na Home.
+  const [groundY, setGroundY] = useState<number | null>(null);
+
   return (
-    <View className="flex-1 bg-canvas">
+    <View
+      className="flex-1"
+      style={{ backgroundColor: sceneBaseColor('game', expedition?.id) }}>
+      <SceneBackdrop groundY={groundY} scene="game" expeditionId={expedition?.id} />
       <View
         className="flex-1"
         style={{ paddingTop: insets.top + 8, paddingBottom: insets.bottom + 14 }}>
@@ -162,14 +170,14 @@ export default function GameScreen() {
             accessibilityRole="button"
             accessibilityLabel="Zakończ grę"
             className="w-10 h-10 items-center justify-center rounded-pill"
-            style={{ backgroundColor: UI.sunken }}>
+            style={{ backgroundColor: UI.surface, boxShadow: SHADOW.e0 }}>
             <Icon name="close" size={20} color={UI.textSoft} strokeWidth={2.6} />
           </Pressable>
 
           {expedition ? (
             <View
               className="rounded-pill px-3 py-1.5 flex-row items-center gap-1.5 flex-1"
-              style={{ backgroundColor: UI.skyPale }}>
+              style={{ backgroundColor: UI.surface, boxShadow: SHADOW.e0 }}>
               <Text style={{ fontSize: 13 }}>{expedition.hero_emoji}</Text>
               <Text
                 numberOfLines={1}
@@ -188,7 +196,7 @@ export default function GameScreen() {
 
           <View
             className="rounded-pill px-3 py-1.5"
-            style={{ backgroundColor: UI.sunken }}>
+            style={{ backgroundColor: UI.surface, boxShadow: SHADOW.e0 }}>
             <Text
               style={{
                 color: UI.textSoft,
@@ -208,10 +216,22 @@ export default function GameScreen() {
           />
         </View>
 
-        {/* ---------- scena ---------- */}
-        <View className="flex-1 items-center justify-center gap-3 px-6">
-          <TimoCharacter state={isGuessing ? 'pointing' : 'thinking'} size={190} />
+        {/* ---------- scena ----------
+            Timo ma STAŁĄ pozycję u góry sceny. Gdyby jeździł w pionie razem
+            z wysokością dymka, linia gruntu zmieniałaby się przy każdym pytaniu
+            i tło przeskalowywałoby się w kółko. Luz pionowy zbiera więc blok
+            pod nim — to dymek pływa w wolnej przestrzeni, nie lisek. */}
+        <View className="flex-1 items-center px-6" style={{ paddingTop: 12 }}>
+          <TimoStage onGroundY={setGroundY} />
 
+          <View
+            style={{
+              flex: 1,
+              alignSelf: 'stretch',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 12,
+            }}>
           {isAsking && currentQuestion && decoratedQuestion ? (
             <Bubble eyebrow="TIMO PYTA" tail="top-center" size="lg">
               {decoratedQuestion.text}
@@ -236,26 +256,21 @@ export default function GameScreen() {
 
           {isGuessing && guess ? (
             <>
-              <Bubble eyebrow="TIMO ZGADUJE" tail="top-center" size="lg">
+              <Bubble eyebrow="TIMO ZGADUJE — POTWIERDŹ ALBO POPRAW" tail="top-center" size="lg">
                 {`${guessIntro.text} ${guess.name_pl}?`}
               </Bubble>
-              <View
-                className="flex-row items-center gap-3 px-5 py-3"
-                style={{
-                  backgroundColor: UI.surface,
-                  borderRadius: 20,
-                  borderWidth: 2,
-                  borderBottomWidth: 4,
-                  borderColor: UI.line,
-                }}>
-                <AnimalImage animalId={guess.id} fallbackEmoji={guess.emoji} size={56} />
-                <Text
-                  style={{ color: UI.text, fontFamily: 'Gabarito-Bold', fontSize: 22 }}>
-                  {guess.name_pl}
-                </Text>
-              </View>
+              <Card padding={14}>
+                <View className="flex-row items-center gap-3">
+                  <AnimalImage animalId={guess.id} size={56} />
+                  <Text
+                    style={{ color: UI.text, fontFamily: 'Gabarito-Bold', fontSize: 22 }}>
+                    {guess.name_pl}
+                  </Text>
+                </View>
+              </Card>
             </>
           ) : null}
+          </View>
         </View>
 
         {/* ---------- odpowiedzi — wait mode: disabled gdy Timo mówi ---------- */}
@@ -291,7 +306,7 @@ export default function GameScreen() {
         ) : null}
       </View>
 
-      <DebugOverlay />
+      {SHOW_GAME_DEBUG ? <DebugOverlay /> : null}
     </View>
   );
 }

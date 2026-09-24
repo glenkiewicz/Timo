@@ -88,20 +88,44 @@ deterministycznie z daty — tego samego dnia każdy dostaje ten sam zestaw.
 
 ## Ekonomia
 
+Nagroda należy się za to, co robi **dziecko**, nie za to, jak poradził sobie
+Timo. Trafienie i poddanie się lisa liczą się tak samo — bo w obu wypadkach
+dziecko opisywało swoje zwierzę.
+
 | Zdarzenie | Tropy | XP |
 | --- | --- | --- |
-| Timo zgadł | 20 × mnożnik | 50 |
-| Timo się poddał | 5 | 15 |
+| Ukończona runda | 10 | 20 |
+| Wiedza o zwierzęciu (udział pytań bez „nie wiem") | do +20 | do +20 |
+| Rzadkość zwierzęcia | 0–10 | — |
 | Pierwsze odkrycie zwierzęcia | +10 | +25 |
 | Seria od trzeciej rundy | +5 | — |
 | Siódmy dzień z rzędu | +50 | — |
 | Ukończona wyprawa | cel × 15 | cel × 30 |
 
-Mnożnik tropów: ×2 przy czterech pytaniach lub mniej, ×1,5 do dziewięciu, dalej
-×1. Poziom *n* wymaga 50 + 50·(*n*−1) XP, czyli łącznie 25·*n*·(*n*−1). Tytuły
-zmieniają się na poziomach 1, 3, 5, 8, 12, 17 i 25. Do rankingu tygodniowego
-trafia XP zdobyte w danym tygodniu ISO, pod pseudonimem liczonym z ziarna —
-imię dziecka nie opuszcza urządzenia.
+Premia za wiedzę liczy **udział**, nie liczbę odpowiedzi — inaczej opłacałoby się
+przeciągać rundę. Rzadkość odwraca `popularity.ts`: im mniej oczywiste zwierzę,
+tym większa premia, więc wybieranie „psa" przestaje być optymalne. Seria liczy
+ukończone rundy, nie trafienia Timo, i nie zeruje się, gdy lis się podda.
+
+Rozważano premię za **zgodność** odpowiedzi z atrybutami zwierzęcia — odrzucona
+po pomiarze: mediana 6 jawnie opisanych atrybutów na 38, a `lives_in_forest` ma
+wartość tylko u 9 z 715 zwierząt. Taka premia karałaby dziecko za prawdziwe
+odpowiedzi tam, gdzie brakuje danych (patrz usterka 1).
+
+Do rankingu tygodniowego trafia XP zdobyte w danym tygodniu ISO, pod pseudonimem
+liczonym z ziarna — imię dziecka nie opuszcza urządzenia.
+
+### Poziomy i rangi
+
+Drabina ma **84 poziomy: dwanaście rang po siedem stopni**, więc każdy poziom ma
+własną etykietę („Detektyw 3", nie samo „Detektyw"). Poziom *n* wymaga
+60 + 13·(*n*−1) XP zaokrąglone do dziesiątek; do maksa jest 49 260 XP.
+
+Krzywa jest policzona pod **średnią retencję 3–4 miesięcy przy dziennym limicie
+10 rund** — limitu jeszcze nie ma w kodzie.
+
+Pełny opis, wraz z tabelą rang, wyliczeniem retencji, decyzją o braku migracji i
+tym, czego brakuje: **[progression.md](progression.md)**.
 
 ## Z czego zrobiony jest Timo
 
@@ -162,22 +186,25 @@ do zera — dopiero wtedy włącza się rozszerzenie. Pięciolatek, który raz z
 się przy „czy ma futro?", przegrywa rundę bez żadnego sygnału, że coś poszło nie
 tak; Timo po prostu pyta dalej i po dwudziestu pytaniach się poddaje.
 
-### 4. Nagroda zależy od Timo, nie od dziecka (projekt)
+### 4. Nagroda zależy od Timo, nie od dziecka — NAPRAWIONE
 
-Podwójna stawka tropów należy się za odgadnięcie w czterech pytaniach — czyli za
-to, jak szybko trafi Timo. Dziecko nie ma na to żadnego wpływu; jedyne, co może
-zrobić, to odpowiadać zgodnie z prawdą. Głębiej siedzi ta sama sprzeczność: stan
-nazwany w kodzie wygraną to moment, w którym Timo zgadł, czyli dziecko przegrało
-pojedynek — i za to dostaje najwięcej. Kolekcja też rośnie wyłącznie wtedy, gdy
-Timo trafi, więc dziecko nie ma sprawczości w budowaniu własnego zbioru.
+Było: podwójna stawka tropów za odgadnięcie w czterech pytaniach, czyli za
+szybkość Timo, na którą dziecko nie ma wpływu; stan nazwany w kodzie `won`
+oznaczał, że lis zgadł, a dziecko przegrało pojedynek — i właśnie za to dostawało
+najwięcej; kolekcja rosła wyłącznie wtedy, gdy Timo trafił.
+
+Jest: fazy nazwane `timo_guessed` / `child_stumped`, mnożnik za szybkość
+usunięty, nagroda liczona z wiedzy dziecka i rzadkości jego zwierzęcia, a po
+poddaniu się lisa dziecko **wskazuje zwierzę** i to ono wpada do kolekcji.
 
 ## Pytania, od których zależy kierunek
 
 To są rozwidlenia, a nie usterki — każde prowadzi do innej gry. Warto je
 rozstrzygnąć przed kolejną linijką kodu.
 
-- **Kto ma wygrywać?** Pojedynek z Timo czy wspólne tropienie? Dziś gra nagradza
-  dziecko za to, że Timo je pokonał. Odpowiedź przesądza o całej ekonomii.
+- ~~**Kto ma wygrywać?**~~ **Rozstrzygnięte: wspólne tropienie.** Dziecko jest
+  przewodnikiem, Timo uczniem. Punkty należą się za wiedzę o własnym zwierzęciu,
+  a poddanie się lisa jest sukcesem dziecka, nie porażką.
 - **Filtr czy prawdopodobieństwo?** Przejście na model bayesowski z tolerancją
   błędu usuwa ślepe uliczki, ale wymaga przepisania silnika i innych danych.
 - **715 zwierząt to atut czy balast?** Dwieście bez zdjęcia i sześć wypełnionych

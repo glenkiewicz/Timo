@@ -12,4 +12,22 @@
  * 'locked'), a w kolekcji widać wszystkie zwierzęta jako odkryte.
  * Ułatwia testowanie różnych wypraw i UI kart zwierząt bez grania od początku.
  */
-export const DEV_UNLOCK_ALL = __DEV__;
+export const DEV_UNLOCK_ALL = '__DEV__';
+
+/**
+ * Tabela wyników na ekranie głównym. Schowana na czas przebudowy wizualnej —
+ * po przejściu Home na ilustrowaną polanę biała karta z rankingiem nie trzyma
+ * się nowego języka i wymaga własnego projektu.
+ *
+ * UWAGA: wysyłka wyniku tygodnia NIE zależy od tej flagi. Siedziała kiedyś
+ * w `useEffect` wewnątrz `LeaderboardCard`; teraz jest w
+ * `features/leaderboard/useWeeklyScoreSync`, który Home woła niezależnie.
+ */
+export const SHOW_HOME_LEADERBOARD = false;
+
+/**
+ * Nakładka diagnostyczna silnika zgadywania na ekranie gry. Sam `DebugOverlay`
+ * jest już `__DEV__`-only, ale ta flaga pozwala ją zdjąć także w dev — zasłaniała
+ * ilustrowane tło i liska.
+ */
+export const SHOW_GAME_DEBUG = false;
