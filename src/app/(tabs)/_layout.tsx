@@ -1,6 +1,6 @@
 import * as Haptics from 'expo-haptics';
 import { Tabs } from 'expo-router';
-import type { BottomTabBarProps } from 'expo-router/react-navigation/bottom-tabs/types';
+import type { BottomTabBarProps } from 'expo-router/js-tabs';
 import { useEffect } from 'react';
 import { Platform } from 'react-native';
 import Animated, {
