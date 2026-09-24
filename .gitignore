@@ -36,3 +36,15 @@ yarn-error.*
 
 expo-env.d.ts
 # @end expo-cli
+
+# Pliki robocze generatora grafik — mastery i surowe wyjścia z modelu.
+# Do bundla trafiają tylko .webp / .png obok nich, więc te katalogi to setki MB
+# materiału, który da się odtworzyć skryptem.
+assets/animals/_raw/
+assets/animals/gen/
+assets/icons/_raw/
+assets/backgrounds/_raw/
+assets/ui/_raw/
+
+# Cache Pythona ze skryptów generujących assety
+scripts/__pycache__/

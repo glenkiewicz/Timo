@@ -55,7 +55,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     facts_pl: [
       'Lisy potrafią słyszeć mysz pod śniegiem z 10 metrów.',
       'Mają nawet 40 różnych odgłosów — szczekają, piszczą, popłakują.',
-      'Lis rudy mieszka na każdym kontynencie poza Antarktydą.',
+      'Lis rudy ma największy zasięg ze wszystkich dzikich drapieżników — żyje w Europie, Azji, Afryce Północnej i Ameryce Północnej.',
     ],
     size_pl: 'Długość 70–90 cm + ogon do 50 cm. Waga 5–10 kg.',
     lifespan_pl: '3–5 lat dziko, do 14 w niewoli',
@@ -94,7 +94,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     diet_pl: 'Orzechy, nasiona szyszek, owoce, czasem jaja ptaków.',
   },
   brown_bear: {
-    tagline_pl: 'władca Bieszczad',
+    tagline_pl: 'władca Bieszczadów',
     facts_pl: [
       'Niedźwiedzie przesypiają zimę w gawrze — tracą do 30% wagi.',
       'Biegają 50 km/h, mimo wagi ponad 200 kg.',
@@ -108,7 +108,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     facts_pl: [
       'Bobry budują tamy z gałęzi i błota — zmieniają cały krajobraz.',
       'Pływają używając płaskiego ogona jak ster.',
-      'Ich siekacze rosną przez całe życie — muszą gryźć drewno, żeby ich nie zatkały.',
+      'Ich siekacze rosną przez całe życie — muszą gryźć drewno, żeby nie urosły za długie.',
     ],
     size_pl: 'Długość 80–100 cm + ogon. Waga 15–30 kg.',
     lifespan_pl: '10–20 lat',
@@ -149,12 +149,12 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   cat: {
     facts_pl: [
       'Kot śpi nawet 16 godzin dziennie.',
-      'Mruczenie kota ma częstotliwość 25–150 Hz — leczy kości i mięśnie.',
+      'Kot mruczy z częstotliwością 25–150 Hz — naukowcy badają, czy pomaga mu to w gojeniu ran.',
       'Każdy kot ma unikalny wzór na nosie — jak ludzki odcisk palca.',
     ],
     size_pl: 'Długość 45 cm + ogon 25 cm. Waga 3–5 kg.',
     lifespan_pl: '12–18 lat',
-    diet_pl: 'Mięso — ścisły mięsożerca, nie strawi roślin.',
+    diet_pl: 'Mięso — ścisły mięsożerca, bez mięsa nie byłby zdrowy.',
   },
 
   // === Sawanna ===
@@ -163,7 +163,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     facts_pl: [
       'Ryk lwa słychać z 8 kilometrów.',
       'Samice robią 90% polowań — samce bronią terytorium.',
-      'Watahy mają 5–15 lwów: kilka samic z młodymi i 1–3 samce.',
+      'Stado lwów liczy 5–15 zwierząt: kilka samic z młodymi i 1–3 samce.',
     ],
     size_pl: 'Długość 1,7–2,5 m. Waga 120–250 kg.',
     lifespan_pl: '10–14 lat dziko',
@@ -174,7 +174,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     facts_pl: [
       'Słoń poznaje swoje odbicie w lustrze — to znak inteligencji.',
       'Trąba ma ponad 40 000 mięśni — może podnieść drzewo i zerwać trawkę.',
-      'Słonie żałują zmarłych — wracają do kości stadników po latach.',
+      'Słonie opłakują zmarłych — wracają do kości członków stada nawet po latach.',
     ],
     size_pl: 'Wysokość 3–4 m, waga 4–7 ton.',
     lifespan_pl: '60–70 lat',
@@ -191,7 +191,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     diet_pl: 'Liście akacji — głównie z koron drzew.',
   },
   cheetah: {
-    tagline_pl: 'najszybszy spryntera świata',
+    tagline_pl: 'najszybszy sprinter świata',
     facts_pl: [
       'Gepard biega 110 km/h — najszybsze zwierzę lądowe.',
       'Od 0 do 100 km/h rozpędza się w 3 sekundy — szybciej niż Ferrari.',
@@ -266,7 +266,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     ],
     size_pl: 'Długość do 30 m. Waga 150–180 ton.',
     lifespan_pl: '80–90 lat',
-    diet_pl: 'Kryl — 4 tony dziennie, choć jest mikroskopijny.',
+    diet_pl: 'Kryl — nawet 4 tony dziennie, choć jeden kryl ma tylko kilka centymetrów.',
   },
   dolphin: {
     facts_pl: [
@@ -281,7 +281,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   shark: {
     facts_pl: [
       'Rekin ma kilka rzędów zębów — nowe ciągle wyrastają.',
-      'Wyczuwa kroplę krwi z 5 km — i pole elektryczne ofiary.',
+      'Wyczuwa krew w wodzie z daleka — i słabe pole elektryczne ofiary.',
       'Istnieją od 400 milionów lat — dłużej niż drzewa.',
     ],
     size_pl: 'Zależy od gatunku — od 20 cm po 12 m.',
@@ -305,7 +305,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     facts_pl: [
       'Poroże jelenia odrasta co roku — to najszybciej rosnąca tkanka u ssaków.',
       'Samce ryczą jesienią, żeby zaimponować łaniom — słychać je z kilometrów.',
-      'Jelenie biegają 70 km/h i skaczą 3 metry w górę.',
+      'Jelenie biegają nawet 60 km/h i skaczą ponad 2 metry w górę.',
     ],
     size_pl: 'Wysokość 1,2–1,5 m. Waga 100–250 kg.',
     lifespan_pl: '10–15 lat dziko',
@@ -313,8 +313,8 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   },
   roe_deer: {
     facts_pl: [
-      'Sarny mówią piskiem podobnym do szczekania psa — to znak ostrzegawczy.',
-      'Są mniejsze niż jelenie i nie tworzą stad — żyją w parach.',
+      'Wystraszona sarna "szczeka" — jej głos brzmi jak szczekanie psa i ostrzega inne sarny.',
+      'Są mniejsze niż jelenie — latem żyją samotnie, a zimą łączą się w małe stada.',
       'Samce zrzucają poroże w listopadzie, nowe odrasta do wiosny.',
     ],
     size_pl: 'Wysokość 65–80 cm. Waga 15–35 kg.',
@@ -354,9 +354,9 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     diet_pl: 'Dżdżownice (do 200 dziennie), owady, gryzonie, owoce.',
   },
   elk: {
-    tagline_pl: 'największy ssak Polski',
+    tagline_pl: 'olbrzym bagien',
     facts_pl: [
-      'Łoś to największy ssak Polski — samiec waży nawet pół tony.',
+      'Łoś to największy jeleń świata — samiec waży nawet pół tony.',
       'Świetnie pływa — przepływa jeziora, nurkuje za roślinami.',
       'Poroże samca jest "łopatowate" — rozkłada się na boki, nie do góry.',
     ],
@@ -369,7 +369,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     facts_pl: [
       'Żubr to symbol Puszczy Białowieskiej — i największy ssak lądowy Europy.',
       'W latach 20. XX wieku wyginął na wolności — odtworzono populację z 50 osobników.',
-      'Mimo wagi 800 kg potrafi przeskoczyć płot 2 m wysokości.',
+      'Mimo wagi 800 kg potrafi biegać nawet 50 km/h.',
     ],
     size_pl: 'Wysokość 1,8–2 m. Waga 500–900 kg.',
     lifespan_pl: '20–25 lat',
@@ -377,8 +377,8 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   },
   otter: {
     facts_pl: [
-      'Wydry trzymają się za łapki, kiedy śpią na wodzie — żeby nie odpłynęły.',
-      'Mają najgęstsze futro świata — milion włosków na cm².',
+      'Wydra zamyka nos i uszy, gdy nurkuje za rybami.',
+      'Mają bardzo gęste futro — pod wodą między włoskami zostaje warstwa powietrza, która je grzeje.',
       'Polują też w nocy — wąsy wyczuwają ruch ryb pod wodą.',
     ],
     size_pl: 'Długość 60–90 cm + ogon. Waga 5–14 kg.',
@@ -411,7 +411,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   woodpecker: {
     facts_pl: [
       'Dzięcioł stuka w drzewo 20 razy na sekundę — nie boli go głowa dzięki "poduszce" w czaszce.',
-      'Jego język jest tak długi, że owija się wokół mózgu — stabilizuje wstrząsy.',
+      'Jego język jest tak długi, że w głowie owija się wokół czaszki.',
       'Stukaniem oznacza terytorium i szuka larw pod korą.',
     ],
     size_pl: 'Długość 20–45 cm.',
@@ -420,8 +420,8 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   },
   swallow: {
     facts_pl: [
-      'Jaskółka łapie owady w locie — z dokładnością 95%.',
-      'Lata 200 km dziennie i robi 600 km/h w pikowaniu.',
+      'Jaskółka łapie owady w locie — nawet pije w locie, muskając wodę dziobem.',
+      'W poszukiwaniu owadów potrafi przelecieć nawet 200 km dziennie.',
       'Zimą migruje do Afryki — 9000 km w jedną stronę.',
     ],
     size_pl: 'Długość 17–19 cm.',
@@ -441,8 +441,8 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   swan: {
     facts_pl: [
       'Łabędzie są monogamiczne — łączą się w pary na całe życie.',
-      'Skrzydłem łabędzia można złamać człowiekowi nogę.',
-      'Małe są szare — bieleją dopiero po 1 roku.',
+      'Łabędź broniący gniazda potrafi mocno uderzyć skrzydłem — lepiej trzymać się z daleka.',
+      'Małe są szarobrązowe — bieleją dopiero w drugim roku życia.',
     ],
     size_pl: 'Długość 1,4–1,6 m, rozpiętość 2,5 m. Waga 10–15 kg.',
     lifespan_pl: '20–30 lat',
@@ -452,7 +452,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   // === Polski las — płazy / gady ===
   frog: {
     facts_pl: [
-      'Żaba pije wodę przez skórę — nigdy nie sika!',
+      'Żaba nie pije ustami — wodę wchłania przez skórę.',
       'Skacze 20 razy długość własnego ciała.',
       'Najpierw jest kijanką w wodzie, dopiero potem żabą na lądzie.',
     ],
@@ -485,7 +485,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   },
   horse: {
     facts_pl: [
-      'Konie śpią na stojąco — mają specjalny układ ścięgien blokujący nogi.',
+      'Konie drzemią na stojąco — specjalny układ ścięgien blokuje im nogi, żeby się nie przewróciły.',
       'Rozpoznają emocje człowieka z mimiki twarzy.',
       'Galopują 70 km/h, a najszybsze rasy ponad 80.',
     ],
@@ -495,7 +495,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   },
   pig: {
     facts_pl: [
-      'Świnia uczy się szybciej niż 3-letnie dziecko — zna swoje imię.',
+      'Świnie są bardzo mądre — szybko uczą się swojego imienia i prostych sztuczek.',
       'Nie poci się — kąpie w błocie, żeby się ochłodzić.',
       'Ma świetny węch — używana do tropienia trufli.',
     ],
@@ -507,7 +507,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     facts_pl: [
       'Kura rozróżnia ponad 100 twarzy — ludzi i innych kur.',
       'Składa średnio 250 jaj rocznie, niektóre rasy nawet 300.',
-      'Dziadkiem kury był… T-Rex. To najbliższy żyjący krewny dinozaurów.',
+      'Kury, jak wszystkie ptaki, pochodzą od dinozaurów — to daleka rodzina T-Rexa!',
     ],
     size_pl: 'Wysokość 30–40 cm. Waga 1,5–4 kg.',
     lifespan_pl: '5–10 lat',
@@ -516,8 +516,8 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   sheep: {
     facts_pl: [
       'Owca rozpoznaje twarze przyjaciół po nawet 2 latach.',
-      'Wełnę trzeba strzyc raz w roku — bez tego puchnie i traci skórę.',
-      'Pole widzenia owcy to prawie 360°.',
+      'Owce hodowlane trzeba strzyc raz w roku — ich wełna sama nie przestaje rosnąć.',
+      'Owca widzi prawie wszystko dookoła — nawet to, co dzieje się za nią.',
     ],
     size_pl: 'Wysokość 80–120 cm. Waga 45–160 kg.',
     lifespan_pl: '10–12 lat',
@@ -536,7 +536,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   rabbit: {
     facts_pl: [
       'Królik widzi prawie 360° dookoła siebie — tylko nos w martwej strefie.',
-      'Skacze 2 metry w wysokość, a jego ucho ma własny mięsień obrotowy.',
+      'Skacze nawet metr w górę, a każde ucho może obracać osobno.',
       'Zęby królika rosną przez całe życie — musi je ścierać gryzieniem.',
     ],
     size_pl: 'Długość 30–50 cm. Waga 1,5–6 kg.',
@@ -558,9 +558,9 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   hippo: {
     tagline_pl: 'najgroźniejszy ssak Afryki',
     facts_pl: [
-      'Hipopotam ma różowy "sunscreen" we własnej skórze — chroni przed słońcem.',
+      'Skóra hipopotama wydziela czerwonawą wydzielinę, która chroni go przed słońcem jak krem z filtrem.',
       'Mimo wagi 3 ton biega 30 km/h.',
-      'Zabija więcej ludzi w Afryce niż lwy i krokodyle razem.',
+      'Broni swojej rzeki tak zaciekle, że jest jednym z najgroźniejszych zwierząt Afryki.',
     ],
     size_pl: 'Długość 3,5–5 m. Waga 1,5–4 ton.',
     lifespan_pl: '40–50 lat',
@@ -578,7 +578,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   },
   gorilla: {
     facts_pl: [
-      'Goryl uderza w pierś, kiedy chce zaimponować — to nie atak, to taniec.',
+      'Goryl uderza w pierś, kiedy chce zaimponować — to pokaz siły, a nie atak.',
       'Dzieli z człowiekiem 98% genów.',
       'Samiec "srebrnogrzbiety" prowadzi rodzinę 5–30 goryli.',
     ],
@@ -590,7 +590,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     facts_pl: [
       'Szympansy używają patyków do "łowienia" termitów z gniazda.',
       'Nasi najbliżsi krewni — dzielimy z nimi 98,7% genów.',
-      'Mają imiona dla siebie nawzajem — różne dla każdego osobnika.',
+      'Porozumiewają się dziesiątkami gestów, min i odgłosów.',
     ],
     size_pl: 'Wysokość 1–1,7 m. Waga 30–70 kg.',
     lifespan_pl: '40–50 lat',
@@ -598,8 +598,8 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   },
   hyena: {
     facts_pl: [
-      'Śmiech hieny to sygnał o jedzeniu w stadzie.',
-      'Mają najsilniejszy zgryz wśród ssaków — kruszą kości słoni.',
+      'Hieny "chichoczą" — tak porozumiewają się ze stadem, np. przy jedzeniu.',
+      'Mają bardzo silne szczęki — kruszą nawet grube kości.',
       'Klanami rządzą samice — większe i silniejsze od samców.',
     ],
     size_pl: 'Długość 95–165 cm. Waga 40–85 kg.',
@@ -611,7 +611,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     facts_pl: [
       'Surykatki wystawiają jednego "wartownika" na słupku — ostrzega 10 sygnałami.',
       'Klan to 20–30 osobników — wszyscy pomagają wychowywać młode.',
-      'Odporne na jad skorpionów — uczą tego młode.',
+      'Są częściowo odporne na jad skorpionów, a dorosłe uczą młode, jak je bezpiecznie łapać.',
     ],
     size_pl: 'Długość 25–35 cm. Waga 700–950 g.',
     lifespan_pl: '7–10 lat',
@@ -629,8 +629,8 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   },
   crocodile: {
     facts_pl: [
-      'Krokodyl płacze "łzy" — naprawdę produkuje je, gdy je.',
-      'Nie zmienił się od 200 mln lat — żył już z dinozaurami.',
+      'Krokodyl naprawdę "płacze" podczas jedzenia — łzy nawilżają mu oczy.',
+      'Przodkowie krokodyli żyli już w czasach dinozaurów.',
       'Jego zgryz jest najsilniejszy ze wszystkich zwierząt — 2 tony nacisku.',
     ],
     size_pl: 'Długość 3–6 m. Waga 200–1000 kg.',
@@ -663,7 +663,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     tagline_pl: 'najcięższy wąż świata',
     facts_pl: [
       'Anakonda to najcięższy wąż świata — waży do 200 kg.',
-      'Owija się wokół zdobyczy i ją dusi — nie zjada za pomocą jadu.',
+      'Owija się wokół zdobyczy i ją dusi — nie ma jadu.',
       'Pływa lepiej, niż czołga się po lądzie — często wisi w wodzie.',
     ],
     size_pl: 'Długość 4–7 m. Waga 50–200 kg.',
@@ -673,7 +673,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   toucan: {
     facts_pl: [
       'Wielki dziób tukana waży zaskakująco mało — jest pusty w środku.',
-      'Dziób regulując temperaturę — działa jak chłodnica.',
+      'Dziób pomaga regulować temperaturę ciała — działa jak chłodnica.',
       'Mimo długiego dzioba potrafi delikatnie zerwać jagodę bez uszkodzenia.',
     ],
     size_pl: 'Długość 55–65 cm.',
@@ -684,7 +684,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   // === Arktyka / morze ekstra ===
   walrus: {
     facts_pl: [
-      'Mors używa kłów do wychodzenia z lodu na ląd.',
+      'Mors wbija długie kły w lód i podciąga się na nich, wychodząc z wody.',
       'Wąsy wyczuwają małże pod piaskiem — zjada 6000 dziennie.',
       'Skóra ma 4 cm grubości — pod nią 15 cm tłuszczu.',
     ],
@@ -696,7 +696,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     facts_pl: [
       'Lis polarny zmienia kolor futra zimą na śnieżnobiały, latem na brązowy.',
       'Słyszy lemingi pod 1 m śniegu — i skacze, żeby je złapać.',
-      'Wytrzymuje –70°C — najgrubsze futro spośród wszystkich ssaków.',
+      'Wytrzymuje mróz nawet –50°C — ma jedno z najcieplejszych futer wśród ssaków.',
     ],
     size_pl: 'Długość 45–70 cm. Waga 3–8 kg.',
     lifespan_pl: '3–6 lat dziko',
@@ -716,7 +716,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     tagline_pl: 'czarno-biały wilk mórz',
     facts_pl: [
       'Orki uczą się polowania w rodzinie przez lata — każda rodzina ma swój "język".',
-      'Mózg orki waży 5 razy więcej niż ludzki.',
+      'Mózg orki waży około 4 razy więcej niż ludzki.',
       'Niektóre rodziny polują na rekiny, inne tylko na łososie — kulturowo.',
     ],
     size_pl: 'Długość 6–10 m. Waga 3–6 ton.',
@@ -749,7 +749,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     facts_pl: [
       'Kangur skacze nawet 9 metrów w jednym susie — to ich jedyny sposób biegania.',
       'Mama nosi małego 8 miesięcy w torbie — może go "pauzować" w gorsze lata.',
-      'W stadzie ("mob") prowadzi największy samiec, ale rządzą starsze samice.',
+      'Kangury żyją w grupach, które po angielsku nazywa się "mob".',
     ],
     size_pl: 'Wysokość 1–2 m. Waga 25–90 kg.',
     lifespan_pl: '15–20 lat',
@@ -757,13 +757,13 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   },
   koala: {
     facts_pl: [
-      'Koala śpi 20 godzin na dobę — bo liście eukaliptusa są bardzo trujące i trudne do strawienia.',
+      'Koala śpi 20 godzin na dobę — bo liście eukaliptusa są mało pożywne i trudne do strawienia.',
       'Małe rodzi się wielkości fasolki i wczołguje do torby mamy.',
       'Mimo wyglądu — nie jest niedźwiedziem, tylko torbaczem.',
     ],
     size_pl: 'Długość 60–85 cm. Waga 4–15 kg.',
     lifespan_pl: '13–18 lat',
-    diet_pl: 'Wyłącznie liście eukaliptusa — 200 z 600 gatunków.',
+    diet_pl: 'Prawie wyłącznie liście eukaliptusa — tylko kilkudziesięciu gatunków.',
   },
   platypus: {
     tagline_pl: 'puzzle natury',
@@ -779,10 +779,10 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
 
   // === Owady ===
   bee: {
-    tagline_pl: 'krzyżyk rolnika',
+    tagline_pl: 'przyjaciółka rolnika',
     facts_pl: [
-      'Pszczoła robi miód z nektaru — żeby wyprodukować 1 łyżkę, muszą odwiedzić 200 kwiatów.',
-      'Bez pszczół wyginęłaby 1/3 upraw świata.',
+      'Pszczoła robi miód z nektaru — na jedną łyżeczkę miodu pszczoły odwiedzają tysiące kwiatów.',
+      'Pszczoły zapylają rośliny, od których zależy około jednej trzeciej naszego jedzenia.',
       'Tańczą, żeby pokazać innym, gdzie są kwiaty — "ósemką" wskazują kierunek.',
     ],
     size_pl: 'Długość 12–15 mm.',
@@ -791,8 +791,8 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   },
   ant: {
     facts_pl: [
-      'Mrówka uniesie 50x więcej niż waży sama — proporcjonalnie najsilniejsze zwierzę.',
-      'Wszystkie mrówki świata razem ważą tyle co wszyscy ludzie.',
+      'Mrówka uniesie nawet 50 razy więcej, niż sama waży.',
+      'Na Ziemi żyje około 20 biliardów mrówek — to ok. 2,5 miliona na każdego człowieka!',
       'Komunikują się zapachem — feromonami wskazują drogę do jedzenia.',
     ],
     size_pl: 'Długość 2–25 mm.',
@@ -830,7 +830,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     ],
     size_pl: 'Długość 12 m, wysokość 4 m, waga 8 ton.',
     lifespan_pl: '~30 lat',
-    diet_pl: 'Inne dinozaury — głównie zauropody i hadrozaury.',
+    diet_pl: 'Inne dinozaury — głównie hadrozaury i triceratopsy.',
   },
   dragon: {
     tagline_pl: 'stworzenie z legend',
@@ -850,9 +850,9 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     habitat_pl: 'w bajkach i legendach',
   },
   mammoth: {
-    tagline_pl: 'kosmaty olbrzym z lodowca',
+    tagline_pl: 'kosmaty olbrzym epoki lodowcowej',
     facts_pl: [
-      'Mamut miał warstwę tłuszczu 9 cm — żył w lodowcach.',
+      'Mamut miał gęste futro i warstwę tłuszczu grubą na 9 cm — żył w mroźnej tundrze.',
       'Wymarł 4000 lat temu — ostatnie żyły na Wyspie Wrangla równolegle z piramidami w Egipcie.',
       'Naukowcy chcą go "wskrzesić" z DNA znalezionym w wiecznej zmarzlinie.',
     ],
@@ -888,7 +888,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   },
   mermaid: {
     facts_pl: [
-      'Syreny z legend wabiły żeglarzy pieśnią — opisał je już Homer.',
+      'Już starożytni Grecy opowiadali o syrenach, które śpiewem wabiły żeglarzy.',
       'Słynna polska syrena z herbu Warszawy.',
       'Marynarze przez wieki mylili je z manatami i diugoniami.',
     ],
@@ -912,13 +912,13 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     ],
     size_pl: 'Długość 40–55 cm + ogon. Waga 1–2 kg.',
     lifespan_pl: '8–10 lat',
-    diet_pl: 'Wiewiórki, ptaki, jaja, owoce, czasem koty domowe.',
+    diet_pl: 'Wiewiórki, ptaki, jaja, owoce.',
   },
   mouse: {
     facts_pl: [
       'Mysz przejdzie przez szczelinę grubości ołówka.',
       'Skacze 30 cm w pionie — proporcjonalnie jak człowiek na 2 piętro.',
-      'Wąchamy ludzkie skarpetki przez nos, mysz przez 1000 razy więcej receptorów.',
+      'Mysz ma świetny węch — rozpoznaje inne myszy po zapachu.',
     ],
     size_pl: 'Długość 7–10 cm + ogon. Waga 15–30 g.',
     lifespan_pl: '1–2 lata',
@@ -926,8 +926,8 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   },
   hamster: {
     facts_pl: [
-      'Chomik chowa jedzenie w policzkach — mieszczą się 2 razy większe niż jego głowa.',
-      'Biega 8 km na nocy w kołowrotku — szuka jedzenia jak na wolności.',
+      'Chomik chowa jedzenie w policzkach — gdy są pełne, jego głowa robi się dwa razy szersza.',
+      'W nocy potrafi przebiec w kołowrotku nawet kilka kilometrów — tak jak na wolności szukałby jedzenia.',
       'Najczęstszy chomik domowy pochodzi z Syrii — odkryty dopiero w 1930.',
     ],
     size_pl: 'Długość 8–15 cm. Waga 100–200 g.',
@@ -959,7 +959,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   buffalo: {
     facts_pl: [
       'Stado bawołów potrafi przegonić nawet lwa.',
-      'Pamiętają osoby, które ich skrzywdziły — i atakują je po latach.',
+      'Ranny bawół potrafi zawrócić i zaatakować — dlatego uważa się go za bardzo groźnego.',
       'Razem chronią młode, otaczając je kręgiem.',
     ],
     size_pl: 'Wysokość 1,4–1,7 m. Waga 500–900 kg.',
@@ -980,8 +980,8 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   },
   duck: {
     facts_pl: [
-      'Kacze pióra są wodoodporne dzięki oliwce z gruczołu pod ogonem.',
-      'Kaczka kwacze, ale słynne kwaknie krzyżówki nie odbija echa — to mit.',
+      'Kaczka smaruje pióra tłuszczem z gruczołu przy ogonie — dlatego nie przemakają.',
+      'Mówi się, że kwakanie kaczki nie ma echa — to mit, echo jest, tylko trudno je usłyszeć.',
       'Małe kaczki idą za pierwszą rzeczą, którą zobaczą po wykluciu — nawet człowiekiem.',
     ],
     size_pl: 'Długość 50–65 cm. Waga 0,7–1,5 kg.',
@@ -990,7 +990,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   },
   goose: {
     facts_pl: [
-      'Gęsi lecą w "V", żeby oszczędzać siły — każda następna leci w "cieniu" poprzedniej.',
+      'Dzikie gęsi lecą kluczem w kształcie litery V — każda następna korzysta z pędu powietrza za poprzednią.',
       'Są lepszymi stróżami niż psy — głośno krzyczą na każdy hałas.',
       'Pamiętają twarze i niosą urazy latami.',
     ],
@@ -1005,7 +1005,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 50–70 cm. Waga 3–6 kg.', lifespan_pl: '5–8 lat', diet_pl: 'Trawa, młode pędy, kora.',
   },
   weasel: {
-    facts_pl: ['Łasica to najmniejszy drapieżnik świata.', 'Zimą jej futro robi się prawie białe.'],
+    facts_pl: ['Łasica to najmniejszy drapieżny ssak świata.', 'Zimą jej futro robi się prawie białe.'],
     size_pl: 'Długość 17–25 cm. Waga 30–250 g.', lifespan_pl: '2–3 lata', diet_pl: 'Myszy, norniki, ptaki.',
   },
   stoat: {
@@ -1021,11 +1021,11 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 12–16 cm. Waga 70–130 g.', lifespan_pl: '3–5 lat', diet_pl: 'Dżdżownice, larwy, owady.',
   },
   mole_eu: {
-    facts_pl: ['Kret widzi tylko jasność — światło dnia mu nie pomaga.', 'Jego kopce zdradzają, gdzie pod ziemią są tunele.'],
-    size_pl: 'Długość 12–16 cm.', lifespan_pl: '3–5 lat', diet_pl: 'Dżdżownice — zjada więcej niż waży dziennie.',
+    facts_pl: ['Orzesznica przesypia zimę zwinięta w kulkę — śpi nawet 7 miesięcy w roku.', 'Nocą wspina się po leszczynach i objada orzechami.'],
+    size_pl: 'Długość 6–9 cm + ogon. Waga 15–40 g.', lifespan_pl: '3–5 lat', diet_pl: 'Orzechy laskowe, owoce, kwiaty, owady.',
   },
   shrew: {
-    facts_pl: ['Ryjówka zjada więcej niż waży — codziennie. Bez jedzenia padnie po kilku godzinach.', 'To najmniejszy ssak Polski.'],
+    facts_pl: ['Ryjówka codziennie zjada prawie tyle, ile sama waży — bez jedzenia nie przeżyje nawet doby.', 'Jej kuzynka, ryjówka malutka, to najmniejszy ssak Polski.'],
     size_pl: 'Długość 5–8 cm.', lifespan_pl: '1–1,5 roku', diet_pl: 'Owady, dżdżownice, drobne kręgowce.',
   },
   dormouse: {
@@ -1033,7 +1033,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 13–18 cm + ogon.', lifespan_pl: '6–9 lat', diet_pl: 'Orzechy, żołędzie, owoce, pąki.',
   },
   dormouse_garden: {
-    facts_pl: ['Żołędnica śpi przez 7 miesięcy w roku — najdłużej z polskich gryzoni.', 'Ma czarną "maskę" wokół oczu jak mała pandka.'],
+    facts_pl: ['Żołędnica przesypia zimę nawet przez pół roku.', 'Ma czarną "maskę" wokół oczu jak mały bandyta.'],
     size_pl: 'Długość 10–17 cm.', lifespan_pl: '4–6 lat', diet_pl: 'Owoce, nasiona, owady, jaja ptaków.',
   },
   vole: {
@@ -1041,7 +1041,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 9–11 cm.', lifespan_pl: '1–2 lata', diet_pl: 'Trawa, korzenie, kora, nasiona.',
   },
   water_shrew: {
-    facts_pl: ['Rzęsorek to jedyny ssak Polski z lekko jadowitą śliną.', 'Świetnie nurkuje — łapie ryby w strumieniach.'],
+    facts_pl: ['Rzęsorek to jeden z niewielu ssaków z lekko jadowitą śliną.', 'Świetnie nurkuje — łapie ryby w strumieniach.'],
     size_pl: 'Długość 7–10 cm.', lifespan_pl: '1–1,5 roku', diet_pl: 'Owady wodne, kijanki, drobne ryby.',
   },
   polecat: {
@@ -1053,15 +1053,15 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 35–55 cm.', lifespan_pl: '8–15 lat', diet_pl: 'Gryzonie, ptaki, czasem ryby i jagody.',
   },
   european_mink: {
-    facts_pl: ['Norka świetnie pływa i nurkuje za rybami.', 'Jest na liście zagrożonych — wypiera ją norka amerykańska.'],
+    facts_pl: ['Norka świetnie pływa i nurkuje za rybami.', 'W Polsce już wyginęła — wyparła ją norka amerykańska.'],
     size_pl: 'Długość 30–45 cm.', lifespan_pl: '5–10 lat', diet_pl: 'Ryby, raki, żaby, drobne ssaki.',
   },
   musk_rat: {
-    facts_pl: ['Piżmak buduje w mokradłach pływające chatki z trzciny.', 'Sprowadzono go do Polski z Ameryki w 1905 roku.'],
+    facts_pl: ['Piżmak buduje w mokradłach pływające chatki z trzciny.', 'Pochodzi z Ameryki — w 1905 roku wypuszczono go w Czechach, skąd dotarł do Polski.'],
     size_pl: 'Długość 25–35 cm + ogon.', lifespan_pl: '3–4 lata', diet_pl: 'Rośliny wodne, małże, raki.',
   },
   european_hamster: {
-    facts_pl: ['Chomik europejski jest większy od domowego — i mieszka dziko na polach.', 'W policzkach mieści 1 kg jedzenia.'],
+    facts_pl: ['Chomik europejski jest większy od domowego — i mieszka dziko na polach.', 'W norze gromadzi na zimę nawet kilka kilogramów ziaren.'],
     size_pl: 'Długość 20–35 cm.', lifespan_pl: '4–8 lat', diet_pl: 'Ziarna, korzenie, owady, czasem małe ptaki.',
   },
   wildcat: {
@@ -1069,15 +1069,15 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 60–90 cm. Waga 3–8 kg.', lifespan_pl: '7–10 lat', diet_pl: 'Gryzonie, ptaki, zające.',
   },
   flying_squirrel: {
-    facts_pl: ['Polatucha szybuje 50 metrów między drzewami na "skrzydłach" ze skóry.', 'Aktywna tylko nocą — w dzień śpi w dziupli.'],
+    facts_pl: ['Polatucha szybuje 50 metrów między drzewami na "skrzydłach" ze skóry — żyje w lasach Finlandii, krajów bałtyckich i Syberii.', 'Aktywna tylko nocą — w dzień śpi w dziupli.'],
     size_pl: 'Długość 13–20 cm + ogon.', lifespan_pl: '5–10 lat', diet_pl: 'Orzechy, nasiona, jagody.',
   },
   chipmunk: {
-    facts_pl: ['Burunduk nosi nasiona w policzkach — może załadować 165 ziaren naraz.', 'Mieszka pod ziemią w długich tunelach.'],
+    facts_pl: ['Burunduk pochodzi z Syberii i Azji — w policzkach przenosi naraz mnóstwo nasion.', 'Mieszka pod ziemią w długich tunelach.'],
     size_pl: 'Długość 13–17 cm + ogon.', lifespan_pl: '3–5 lat', diet_pl: 'Nasiona, orzechy, jagody, grzyby.',
   },
   chamois: {
-    facts_pl: ['Kozice skaczą po skałach lepiej niż jakikolwiek inny ssak.', 'W Tatrach żyją na wysokości 1500–2500 m.'],
+    facts_pl: ['Kozice pewnie skaczą po stromych skałach — mają kopyta jak antypoślizgowe buty.', 'W Tatrach żyją na wysokości 1500–2500 m.'],
     size_pl: 'Wysokość 70–85 cm. Waga 25–50 kg.', lifespan_pl: '15–20 lat', diet_pl: 'Trawa wysokogórska, mchy, porosty.',
   },
   ibex: {
@@ -1089,13 +1089,13 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 40–60 cm. Waga 3–8 kg.', lifespan_pl: '14–18 lat', diet_pl: 'Trawa, kwiaty, korzenie.',
   },
   mountain_hare: {
-    facts_pl: ['Zając bielak zimą staje się śnieżnobiały.', 'W Polsce żyje tylko w Tatrach.'],
+    facts_pl: ['Zając bielak zimą staje się śnieżnobiały.', 'W Polsce jest bardzo rzadki — żyje tylko na północnym wschodzie kraju.'],
     size_pl: 'Długość 45–65 cm.', lifespan_pl: '4–6 lat', diet_pl: 'Trawa, gałązki, kora.',
   },
 
   // Polski las — ptaki
   finch: {
-    facts_pl: ['Zięba ma 5 różnych dialektów śpiewu w Polsce.', 'To jeden z najczęstszych ptaków polskich lasów.'],
+    facts_pl: ['Samce zięby śpiewają w każdej okolicy trochę inaczej — jak w gwarze.', 'To jeden z najczęstszych ptaków polskich lasów.'],
     size_pl: 'Długość 14–16 cm.', lifespan_pl: '3–5 lat', diet_pl: 'Nasiona, owady (latem).',
   },
   bullfinch: {
@@ -1148,12 +1148,12 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 36–58 cm.', lifespan_pl: '12–17 lat', diet_pl: 'Inne ptaki łapane w locie.',
   },
   eagle: {
-    facts_pl: ['Orzeł widzi mysz z wysokości kilometra.', 'Może unosić zdobycz 5 razy cięższą od siebie.'],
+    facts_pl: ['Orzeł widzi mysz z wysokości kilometra.', 'Potrafi unieść w szponach zdobycz ważącą kilka kilogramów.'],
     size_pl: 'Długość 70–90 cm. Rozpiętość 2 m.', lifespan_pl: '15–25 lat', diet_pl: 'Króliki, ryby, ptaki, padlina.',
   },
   white_eagle: {
-    tagline_pl: 'symbol Polski',
-    facts_pl: ['Bielik to symbol Polski — z białym ogonem i żółtym dziobem.', 'Jego rozpostarte skrzydła mają 2,5 metra.'],
+    tagline_pl: 'największy ptak drapieżny Polski',
+    facts_pl: ['Bielik to największy ptak drapieżny Polski — ma biały ogon i żółty dziób.', 'Jego rozpostarte skrzydła mają 2,5 metra.'],
     size_pl: 'Długość 70–90 cm. Rozpiętość do 2,5 m.', lifespan_pl: '25 lat dziko', diet_pl: 'Ryby, ptaki wodne, padlina.',
   },
   buzzard: {
@@ -1186,7 +1186,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 70–100 cm.', lifespan_pl: '20–30 lat', diet_pl: 'Głównie ryby — łapie je z wody.',
   },
   vulture: {
-    facts_pl: ['Sępy znajdują jedzenie po samym zapachu — z 4 km.', 'Ich żołądki niszczą wszystkie bakterie padliny.'],
+    facts_pl: ['Sępy mają tak bystry wzrok, że z wysoka wypatrują padlinę na ziemi.', 'Ich żołądki niszczą wszystkie bakterie padliny.'],
     size_pl: 'Długość 95–115 cm. Rozpiętość 2,5 m.', lifespan_pl: '25–40 lat', diet_pl: 'Padlina — szczyt sanitariusza natury.',
   },
   condor: {
@@ -1195,7 +1195,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 1–1,3 m. Waga 8–15 kg.', lifespan_pl: '50–70 lat', diet_pl: 'Padlina — głównie martwe guanaki i wikunie.',
   },
   hoopoe: {
-    facts_pl: ['Dudek ma piękny czubek z piór — rozkłada go w stresie lub zalotach.', 'Stawia gniazda w dziuplach i gnoi je — chroni jaja przed pasożytami.'],
+    facts_pl: ['Dudek ma piękny czubek z piór — rozkłada go w stresie lub zalotach.', 'Samica dudka smaruje gniazdo cuchnącą wydzieliną — odstrasza nią drapieżniki.'],
     size_pl: 'Długość 25–32 cm.', lifespan_pl: '5–10 lat', diet_pl: 'Owady, larwy spod ziemi.',
   },
   cuckoo: {
@@ -1220,7 +1220,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 32–35 cm.', lifespan_pl: '4–18 lat', diet_pl: 'Żołędzie, orzechy, owady, jaja innych ptaków.',
   },
   magpie: {
-    facts_pl: ['Sroki rozpoznają siebie w lustrze — niewiele zwierząt to potrafi.', 'Lubią błyszczące przedmioty — chowają je w gniazdach.'],
+    facts_pl: ['Sroki rozpoznają siebie w lustrze — niewiele zwierząt to potrafi.', 'Mówi się, że sroki kradną błyszczące rzeczy — naukowcy sprawdzili, że to raczej mit!'],
     size_pl: 'Długość 44–46 cm.', lifespan_pl: '3–5 lat dziko', diet_pl: 'Wszystkożerca — owady, jaja, padlina, śmieci.',
   },
   crow: {
@@ -1232,7 +1232,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 30–34 cm.', lifespan_pl: '5–15 lat', diet_pl: 'Owady, ziarna, padlina, śmieci.',
   },
   mazurek: {
-    facts_pl: ['Mazurek to wróblowaty kuzyn znany w całej Polsce.', 'Ma brązową czapeczkę i czarną kropkę na policzku.'],
+    facts_pl: ['Mazurek to bliski kuzyn wróbla, spotykany w całej Polsce.', 'Ma brązową czapeczkę i czarną kropkę na policzku.'],
     size_pl: 'Długość 12–14 cm.', lifespan_pl: '2–3 lata', diet_pl: 'Nasiona, owady (latem).',
   },
   sparrow: {
@@ -1244,7 +1244,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 19–22 cm.', lifespan_pl: '2–5 lat', diet_pl: 'Owady, dżdżownice, owoce.',
   },
   lark: {
-    facts_pl: ['Skowronek śpiewa wisząc nieruchomo w powietrzu — wysoko nad polem.', 'Symbol polskiego pola w wiosny.'],
+    facts_pl: ['Skowronek śpiewa wisząc nieruchomo w powietrzu — wysoko nad polem.', 'Jego śpiew to symbol polskiego pola wiosną.'],
     size_pl: 'Długość 16–18 cm.', lifespan_pl: '2–5 lat', diet_pl: 'Owady, nasiona, młode pędy.',
   },
   tit: {
@@ -1272,7 +1272,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 23–29 cm.', lifespan_pl: '5–13 lat', diet_pl: 'Drobne ryby, owady wodne.',
   },
   grebe_great: {
-    facts_pl: ['Perkozy dwuczube tańczą razem z trawą w dziobie — to ich randka.', 'Nurkują głębiej niż większość ptaków wodnych — do 30 m.'],
+    facts_pl: ['Perkozy dwuczube tańczą w parze na wodzie, trzymając w dziobach roślinki — to ich randka.', 'Świetnie nurkują za rybami — potrafią zostać pod wodą prawie minutę.'],
     size_pl: 'Długość 46–51 cm.', lifespan_pl: '10–19 lat', diet_pl: 'Ryby — głównie płocie, okonie.',
   },
   heron: {
@@ -1280,11 +1280,11 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Wysokość 90–98 cm.', lifespan_pl: '5–15 lat', diet_pl: 'Ryby, żaby, myszy.',
   },
   pigeon: {
-    facts_pl: ['Gołąb pocztowy trafi do domu z setek kilometrów — nawigując po polu magnetycznym Ziemi.', 'Pamięta 250 ludzkich twarzy.'],
+    facts_pl: ['Gołąb pocztowy trafi do domu z setek kilometrów — nawigując po polu magnetycznym Ziemi.', 'Gołębie rozpoznają ludzkie twarze.'],
     size_pl: 'Długość 32–37 cm.', lifespan_pl: '3–6 lat', diet_pl: 'Nasiona, okruszki, owoce.',
   },
   serin: {
-    facts_pl: ['Kulczyk to najmniejszy europejski kanarek — śpiewa z latarni.', 'Sprowadził się do Polski w XX wieku z południa.'],
+    facts_pl: ['Kulczyk to mały, żółty kuzyn kanarka — lubi śpiewać z czubków drzew i anten.', 'Sprowadził się do Polski w XX wieku z południa.'],
     size_pl: 'Długość 11–12 cm.', lifespan_pl: '2–8 lat', diet_pl: 'Nasiona, pąki.',
   },
 
@@ -1319,7 +1319,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   },
   axolotl: {
     tagline_pl: 'wiecznie młody',
-    facts_pl: ['Aksolotl nigdy nie "dorasta" — pozostaje całe życie larwą.', 'Odrasta utracone nogi, oczy, a nawet kawałki mózgu.'],
+    facts_pl: ['Aksolotl nigdy nie "dorasta" — całe życie zostaje wodną larwą.', 'Dziko żyje tylko w kanałach jeziora Xochimilco w Meksyku — i jest tam krytycznie zagrożony.', 'Odrasta utracone nogi, oczy, a nawet kawałki mózgu.'],
     size_pl: 'Długość 15–30 cm.', lifespan_pl: '10–15 lat', diet_pl: 'Larwy owadów, drobne ryby, dżdżownice.',
   },
 
@@ -1329,7 +1329,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 30–80 cm. Waga 1–15 kg.', lifespan_pl: '20–50 lat', diet_pl: 'Rośliny wodne, larwy, drobne skorupiaki.',
   },
   pike: {
-    facts_pl: ['Szczupak czeka w bezruchu i atakuje błyskawicznie — z prędkością 60 km/h.', 'Drapieżnik nr 1 polskich wód słodkich.'],
+    facts_pl: ['Szczupak czeka w bezruchu w zaroślach i atakuje błyskawicznie.', 'Drapieżnik nr 1 polskich wód słodkich.'],
     size_pl: 'Długość 50–130 cm. Waga 2–20 kg.', lifespan_pl: '15–25 lat', diet_pl: 'Inne ryby, żaby, kaczęta.',
   },
   catfish: {
@@ -1377,7 +1377,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 30–60 cm.', lifespan_pl: '10–20 lat', diet_pl: 'Wszystkożerca — od owadów po owoce.',
   },
   crucian: {
-    facts_pl: ['Karaś przeżyje nawet zimę w błocie — może zwolnić metabolizm o 90%.', 'Przeżyje wody bez tlenu.'],
+    facts_pl: ['Karaś przeżyje zimę w małym, zamarzającym stawie — potrafi bardzo zwolnić swoje życie.', 'Wytrzyma nawet wiele tygodni w wodzie prawie bez tlenu.'],
     size_pl: 'Długość 15–40 cm.', lifespan_pl: '7–14 lat', diet_pl: 'Rośliny, larwy, plankton.',
   },
   burbot: {
@@ -1399,15 +1399,15 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Wysokość 90–150 cm.', lifespan_pl: '30–50 lat', diet_pl: 'Trawa, słoma, siano.',
   },
   rooster: {
-    facts_pl: ['Kogut pieje z dokładnością do minuty zegarka biologicznego.', 'Ma cierpki podziemny "harem" — pilnuje kilkunastu kur.'],
+    facts_pl: ['Kogut ma wewnętrzny zegar — pieje o świcie, nawet gdy jeszcze jest ciemno.', 'Pilnuje swojego stadka kur i ostrzega je przed niebezpieczeństwem.'],
     size_pl: 'Wysokość 40–50 cm.', lifespan_pl: '5–8 lat', diet_pl: 'Ziarno, owady, robaki.',
   },
   alpaca: {
-    facts_pl: ['Alpaki "humming" — śpiewają cicho do siebie.', 'Ich wełna jest cieplejsza i lżejsza od owczej.'],
+    facts_pl: ['Alpaki cicho nucą — tak porozumiewają się ze stadem.', 'Ich wełna jest cieplejsza i lżejsza od owczej.'],
     size_pl: 'Wysokość 80–100 cm.', lifespan_pl: '15–20 lat', diet_pl: 'Trawa, siano.',
   },
   llama: {
-    facts_pl: ['Lamy pluć potrafią z 3 metrów — głównie na inne lamy.', 'Inkowie używali ich jako jucznych zwierząt 4000 lat temu.'],
+    facts_pl: ['Zdenerwowana lama potrafi splunąć nawet na 3 metry — najczęściej na inne lamy.', 'Mieszkańcy Andów od tysięcy lat używają lam do noszenia ładunków.'],
     size_pl: 'Wysokość 1,7–1,8 m.', lifespan_pl: '15–25 lat', diet_pl: 'Trawa, krzewy.',
   },
   mule: {
@@ -1415,11 +1415,11 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Wysokość 1,2–1,7 m.', lifespan_pl: '30–40 lat', diet_pl: 'Trawa, siano, owies.',
   },
   turkey: {
-    facts_pl: ['Indyk dotyka wszystkiego co bystre — jest bardzo ciekawski.', 'Samce stroszą się w ogromny wachlarz piór, gdy chcą zaimponować.'],
+    facts_pl: ['Indyk zmienia kolor skóry na głowie — gdy jest podekscytowany, robi się czerwona lub niebieska.', 'Samce stroszą się w ogromny wachlarz piór, gdy chcą zaimponować.'],
     size_pl: 'Długość 100–125 cm.', lifespan_pl: '10 lat dziko', diet_pl: 'Ziarno, owady, jagody.',
   },
   guinea_fowl: {
-    facts_pl: ['Perliczki krzyczą jak alarm, gdy widzą obcego — lepsze niż pies.', 'Mają czerwoną głowę i biało-czarne pióra w kropki.'],
+    facts_pl: ['Perliczki krzyczą jak alarm, gdy widzą obcego — lepsze niż pies.', 'Mają nagą, niebiesko-czerwoną głowę i szare pióra w białe kropki.'],
     size_pl: 'Długość 50–60 cm.', lifespan_pl: '10–15 lat', diet_pl: 'Owady, nasiona, korzenie.',
   },
   yak: {
@@ -1429,11 +1429,11 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
 
   // Domowe — pozostałe
   guinea_pig: {
-    facts_pl: ['Świnka morska potrafi z radości skakać w miejscu — to "popcorning"!', 'Pochodzi z Andów — Inkowie hodowali ją 5000 lat temu.'],
+    facts_pl: ['Świnka morska potrafi z radości skakać w miejscu — to "popcorning"!', 'Pochodzi z Andów — ludzie hodują świnki morskie od ponad 5000 lat.'],
     size_pl: 'Długość 20–40 cm.', lifespan_pl: '5–8 lat', diet_pl: 'Trawa, warzywa, owoce, siano.',
   },
   rat: {
-    facts_pl: ['Szczury rozpoznają swoje imiona — i się śmieją gdy je łaskotać.', 'Bardzo społeczne — chorują z samotności.'],
+    facts_pl: ['Szczury rozpoznają swoje imiona — i "śmieją się" cichutko, gdy się je łaskocze.', 'Bardzo społeczne — chorują z samotności.'],
     size_pl: 'Długość 22–30 cm + ogon.', lifespan_pl: '2–4 lata', diet_pl: 'Wszystkożerca — owoce, warzywa, mięso.',
   },
   ferret: {
@@ -1445,7 +1445,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 11–13 cm.', lifespan_pl: '10–15 lat', diet_pl: 'Nasiona, jajko na twardo, warzywa.',
   },
   budgerigar: {
-    facts_pl: ['Papużki faliste rozmawiają w stadzie cały dzień.', 'Niektóre uczą się 1000 słów — papuga Puck nauczyła się rekordowo dużo.'],
+    facts_pl: ['Papużki faliste rozmawiają w stadzie cały dzień.', 'Papużka Puck znała ponad 1700 słów — to rekord świata!'],
     size_pl: 'Długość 17–20 cm.', lifespan_pl: '7–15 lat', diet_pl: 'Nasiona, warzywa, owoce.',
   },
   cockatoo: {
@@ -1457,7 +1457,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 30–33 cm.', lifespan_pl: '15–25 lat', diet_pl: 'Nasiona, warzywa, owoce.',
   },
   gecko: {
-    facts_pl: ['Gekon chodzi po szybach dzięki magicznym łapom — miliony mikrowłosków.', 'Zlizuje wodę z oczu, bo nie ma powiek.'],
+    facts_pl: ['Gekon chodzi po szybach dzięki milionom maleńkich włosków na łapkach.', 'Zlizuje wodę z oczu, bo nie ma powiek.'],
     size_pl: 'Długość 5–30 cm.', lifespan_pl: '10–20 lat', diet_pl: 'Owady, drobne pajęczaki.',
   },
   gerbil: {
@@ -1465,16 +1465,16 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 11–18 cm + ogon.', lifespan_pl: '3–4 lata', diet_pl: 'Nasiona, ziarna, suszone warzywa.',
   },
   chinchilla: {
-    facts_pl: ['Szynszyla ma najgęstsze futro świata — 50 włosów na jednej dziurze.', 'Kąpie się w pyle, nie w wodzie — woda zniszczyłaby jej futro.'],
+    facts_pl: ['Szynszyla ma niezwykle gęste futro — z jednego miejsca na skórze wyrasta nawet 50 włosków.', 'Kąpie się w pyle, nie w wodzie — woda zniszczyłaby jej futro.'],
     size_pl: 'Długość 22–38 cm.', lifespan_pl: '15–20 lat', diet_pl: 'Siano, ziarna, trawa.',
   },
   koi: {
-    tagline_pl: 'najdłużej żyjąca ryba',
-    facts_pl: ['Karp koi może żyć ponad 200 lat — najstarszy znany dożył 226.', 'W Japonii uznawany za symbol odwagi i wytrwałości.'],
-    size_pl: 'Długość 30–90 cm.', lifespan_pl: '50–200+ lat', diet_pl: 'Rośliny wodne, ziarna, owady.',
+    tagline_pl: 'japoński karp ozdobny',
+    facts_pl: ['Karpie koi mogą żyć kilkadziesiąt lat — dłużej niż większość psów i kotów.', 'W Japonii uznawany za symbol odwagi i wytrwałości.'],
+    size_pl: 'Długość 30–90 cm.', lifespan_pl: '25–50 lat', diet_pl: 'Rośliny wodne, ziarna, owady.',
   },
   cricket_house: {
-    facts_pl: ['Świerszcz domowy lubi cieple piwnice.', 'Śpiewa pocierając skrzydłami — częstotliwość rośnie z temperaturą.'],
+    facts_pl: ['Świerszcz domowy lubi ciepłe piwnice i kuchnie.', 'Śpiewa pocierając skrzydłami — częstotliwość rośnie z temperaturą.'],
     size_pl: 'Długość 1,5–2 cm.', lifespan_pl: '2–3 miesiące', diet_pl: 'Resztki, rośliny, czasem inne owady.',
   },
 
@@ -1488,11 +1488,11 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Wysokość 1,2–1,4 m. Waga 120–270 kg.', lifespan_pl: '20 lat', diet_pl: 'Trawa.',
   },
   gazelle: {
-    facts_pl: ['Gazela skacze "stiff-legged" — wszystkie 4 nogi w powietrzu naraz, jako popis przed drapieżnikiem.', 'Pędzi 80 km/h, by uciec gepardowi.'],
+    facts_pl: ['Uciekająca gazela skacze wysoko na sztywnych nogach — pokazuje drapieżnikowi, że jest silna.', 'Pędzi 80 km/h, by uciec gepardowi.'],
     size_pl: 'Wysokość 60–110 cm.', lifespan_pl: '10–12 lat', diet_pl: 'Trawa, liście.',
   },
   warthog: {
-    facts_pl: ['Guziec biega na klęczkach kiedy je trawę.', 'Sypia w cudzych norach — zostawionych przez mrówniki.'],
+    facts_pl: ['Guziec je trawę, klęcząc na przednich nogach.', 'Sypia w cudzych norach — zostawionych przez mrówniki.'],
     size_pl: 'Wysokość 60–85 cm. Waga 50–150 kg.', lifespan_pl: '10–17 lat', diet_pl: 'Trawa, korzenie, owoce, padlina.',
   },
   fennec: {
@@ -1501,11 +1501,11 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 24–41 cm.', lifespan_pl: '10–12 lat', diet_pl: 'Owady, jaszczurki, gryzonie, jaja.',
   },
   mongoose: {
-    facts_pl: ['Mangusta walczy z kobrami — i wygrywa, bo jej nerwy nie reagują na jad.', 'Polska indyjska wprowadzona do Hawajów — wytępiła rodzime ptaki.'],
+    facts_pl: ['Mangusta potrafi pokonać kobrę — jest bardzo zwinna i częściowo odporna na jad.', 'Mangusty sprowadzone na Hawaje wytępiły tam wiele rodzimych ptaków.'],
     size_pl: 'Długość 30–60 cm.', lifespan_pl: '10–20 lat', diet_pl: 'Węże, gryzonie, owady, jaja.',
   },
   dik_dik: {
-    facts_pl: ['Dik-dik ma 35 cm wysokości — najmniejsza antylopa Afryki.', 'Jego nos jest długi i rurkowaty — pomaga w chłodzeniu.'],
+    facts_pl: ['Dik-dik ma tylko około 35 cm wysokości — to jedna z najmniejszych antylop Afryki.', 'Jego nos jest długi i rurkowaty — pomaga w chłodzeniu.'],
     size_pl: 'Wysokość 30–43 cm.', lifespan_pl: '10 lat dziko', diet_pl: 'Liście, pąki, owoce.',
   },
   impala: {
@@ -1521,11 +1521,11 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Wysokość 1,3–1,8 m. Waga 300–940 kg.', lifespan_pl: '15–20 lat', diet_pl: 'Liście, trawa, owoce.',
   },
   oryx: {
-    facts_pl: ['Oryks przeżywa miesiące bez wody — używa rosy.', 'Ma proste, równoległe rogi — w bokach do 1,5 m długie.'],
+    facts_pl: ['Oryks przeżywa miesiące bez wody — używa rosy.', 'Ma proste, długie rogi — nawet do 1,2 m.'],
     size_pl: 'Wysokość 1,2 m.', lifespan_pl: '15–20 lat', diet_pl: 'Trawa, liście, sukulenty.',
   },
   springbok: {
-    facts_pl: ['Springboki "tańczą" wysoko w powietrzu z radości — "pronking".', 'Symbol RPA i jej reprezentacji rugby.'],
+    facts_pl: ['Springboki podskakują wysoko w miejscu ("pronking") — pokazują drapieżnikom, że są silne i szybkie.', 'Symbol RPA i jej reprezentacji rugby.'],
     size_pl: 'Wysokość 70–90 cm.', lifespan_pl: '7–10 lat', diet_pl: 'Trawa, liście.',
   },
   african_wild_dog: {
@@ -1537,7 +1537,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 1–1,3 m. Waga 40–65 kg.', lifespan_pl: '18–23 lat', diet_pl: 'Termity i mrówki.',
   },
   rock_hyrax: {
-    facts_pl: ['Góralek to najbliższy żyjący kuzyn… słonia!', 'Wygląda jak gryzoń, ale genetycznie blisko mu do trąbowców.'],
+    facts_pl: ['Góralek wygląda jak świnka morska, a jest dalekim kuzynem słonia!', 'Wygląda jak gryzoń, ale genetycznie blisko mu do trąbowców.'],
     size_pl: 'Długość 30–55 cm.', lifespan_pl: '10–12 lat', diet_pl: 'Trawa, liście, owoce.',
   },
   serval: {
@@ -1545,23 +1545,24 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 60–100 cm. Waga 9–18 kg.', lifespan_pl: '10–19 lat', diet_pl: 'Gryzonie, ptaki, jaszczurki.',
   },
   aardwolf: {
-    facts_pl: ['Protel zjada termity — odróżnia się od hieny.', 'Wygląda jak mała hiena, ale nie poluje na duże zwierzęta.'],
+    facts_pl: ['Protel to krewny hien, ale zamiast mięsa je termity.', 'Wygląda jak mała hiena, ale nie poluje na duże zwierzęta.'],
     size_pl: 'Długość 55–80 cm.', lifespan_pl: '8–10 lat', diet_pl: 'Termity — 200 000 w jedną noc.',
   },
   aardwolf_kenya: {
-    facts_pl: ['Hieniak je tylko termity — może zjeść 300 000 w jednym posiłku.', 'Ma długą grzywę na grzbiecie, którą stroszy w stresie.'],
-    size_pl: 'Długość 55–80 cm.', lifespan_pl: '8–10 lat', diet_pl: 'Wyłącznie termity.',
+    facts_pl: ['Hiena pręgowana stroszy długą grzywę na grzbiecie, żeby wyglądać na większą.', 'Żyje w Afryce i Azji — jest spokojniejsza i bardziej samotna niż hiena cętkowana.'],
+    size_pl: 'Długość 85–130 cm. Waga 25–55 kg.', lifespan_pl: '12 lat dziko', diet_pl: 'Padlina, kości, owady, owoce.',
+    map_regions: ['africa-sub', 'africa-north', 'asia-cent'],
   },
   caracal: {
     facts_pl: ['Karakal skacze 3 metry w pionie i łapie ptaki w locie.', 'Czarne pędzelki na uszach — stąd nazwa (z tureckiego "karakulak" = czarne ucho).'],
     size_pl: 'Długość 60–90 cm. Waga 8–18 kg.', lifespan_pl: '12 lat', diet_pl: 'Ptaki, gryzonie, drobne antylopy.',
   },
   addax: {
-    facts_pl: ['Adaks ma kopyta szerokie jak rakiety śnieżne — chodzi po piasku.', 'Niemal wyginął — żyje go tylko ok. 100 dziko na Saharze.'],
+    facts_pl: ['Adaks ma szerokie kopyta — dzięki nim nie zapada się w piasek pustyni.', 'Niemal wyginął — żyje go tylko ok. 100 dziko na Saharze.'],
     size_pl: 'Wysokość 95–115 cm.', lifespan_pl: '19–25 lat', diet_pl: 'Trawa pustynna, sukulenty.',
   },
   marabou: {
-    facts_pl: ['Marabut to ogromny brzydki bocian afrykański — rozpiętość 3 m.', 'Łysa głowa — żeby się nie brudzić, gdy je padlinę.'],
+    facts_pl: ['Marabut to ogromny afrykański bocian — rozpiętość jego skrzydeł to aż 3 m.', 'Łysa głowa — żeby się nie brudzić, gdy je padlinę.'],
     size_pl: 'Wysokość 150 cm. Rozpiętość 3 m.', lifespan_pl: '25 lat', diet_pl: 'Padlina, śmieci, drobne zwierzęta.',
   },
   ibis: {
@@ -1590,15 +1591,16 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 30–100 cm.', lifespan_pl: '15–20 lat', diet_pl: 'Mrówki i termity.',
   },
   ratel: {
-    facts_pl: ['Miodożer jest tak nieustraszony, że atakuje nawet lwy.', 'Jego skóra jest tak gruba, że strzała się od niej odbija.'],
+    facts_pl: ['Miodożer jest tak nieustraszony, że atakuje nawet lwy.', 'Ma grubą i luźną skórę — trudno go ugryźć i przytrzymać.'],
     size_pl: 'Długość 55–77 cm.', lifespan_pl: '24 lata', diet_pl: 'Wszystko — owady, gady, miód, padlina.',
   },
   honey_badger: {
-    facts_pl: ['Borsuk miodożerny atakuje gniazda pszczół niczym Indiana Jones.', 'Odporny na jad kobr — śpi po ukąszeniu i wstaje zdrów.'],
-    size_pl: 'Długość 55–77 cm.', lifespan_pl: '20 lat', diet_pl: 'Wszystkożerca — od miodu po młode krokodyle.',
+    facts_pl: ['Zorilla to afrykański kuzyn tchórza — w obronie wydziela bardzo brzydki zapach.', 'Ma czarno-białe paski jak skunks, choć skunksem nie jest.'],
+    size_pl: 'Długość 30–40 cm + ogon. Waga 0,5–1,5 kg.', lifespan_pl: '5–8 lat', diet_pl: 'Gryzonie, owady, jaja, jaszczurki.',
+    map_regions: ['africa-sub'],
   },
   sitatunga: {
-    facts_pl: ['Sitatunga ma długie kopyta — chodzi po bagnach jak po lodzie.', 'Świetnie pływa — chowa się pod wodą tylko z nosem na powierzchni.'],
+    facts_pl: ['Sitatunga ma długie, rozstawione kopyta — dzięki nim nie grzęźnie w bagnie.', 'Świetnie pływa — chowa się pod wodą tylko z nosem na powierzchni.'],
     size_pl: 'Wysokość 75–125 cm.', lifespan_pl: '19 lat', diet_pl: 'Rośliny wodne, trawa, młode pędy.',
   },
   bongo: {
@@ -1610,7 +1612,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 36–43 cm.', lifespan_pl: '20 lat', diet_pl: 'Larwy owadów, owoce, kwiaty.',
   },
   genet: {
-    facts_pl: ['Żeneta wygląda jak skrzyżowanie kota i lisa.', 'Ma najdłuższe ciało wśród łasicowatych — do 100 cm.'],
+    facts_pl: ['Żeneta wygląda jak kot w cętki z bardzo długim, pręgowanym ogonem.', 'Nie jest kotem — należy do wiwerowatych, krewnych mangust.'],
     size_pl: 'Długość 40–55 cm + ogon.', lifespan_pl: '13 lat', diet_pl: 'Gryzonie, ptaki, owady.',
   },
   zebra_grevyi: {
@@ -1619,7 +1621,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   },
   mamba: {
     tagline_pl: 'najszybszy wąż świata',
-    facts_pl: ['Mamba czarna jest najszybszym wężem świata — 19 km/h.', 'Jeden ukąs zabija 10 ludzi — bez surowicy śmierć w 7 godzin.'],
+    facts_pl: ['Mamba czarna jest najszybszym wężem świata — 19 km/h.', 'Ma bardzo silny jad — na szczęście istnieje na niego surowica.'],
     size_pl: 'Długość 2–4,5 m.', lifespan_pl: '11 lat', diet_pl: 'Drobne ssaki, ptaki.',
   },
   cobra: {
@@ -1644,7 +1646,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 5–7 m. Waga 500–1500 kg.', lifespan_pl: '70 lat', diet_pl: 'Wszystko — ryby, ptaki, krowy, ludzi.',
   },
   gharial: {
-    facts_pl: ['Gawial ma najwęższy, najdłuższy pysk wśród krokodyli — same zęby do łapania ryb.', 'W Indiach niemal wymarł — żyje ich tylko ok. 250.'],
+    facts_pl: ['Gawial ma najwęższy, najdłuższy pysk wśród krokodyli — same zęby do łapania ryb.', 'Jest krytycznie zagrożony — na wolności żyje ich tylko kilkaset.'],
     size_pl: 'Długość 4–6 m.', lifespan_pl: '50–60 lat', diet_pl: 'Wyłącznie ryby.',
   },
   alligator: {
@@ -1652,7 +1654,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 3–4,5 m.', lifespan_pl: '30–50 lat', diet_pl: 'Ryby, ptaki, ssaki, padlina.',
   },
   peacock: {
-    facts_pl: ['Paw rozkłada ogon w wachlarz, żeby zaimponować — pawica wybiera najkrasszych.', 'Pochodzi z Indii i Sri Lanki.'],
+    facts_pl: ['Paw rozkłada ogon w wachlarz, żeby zaimponować — pawica wybiera najpiękniejszych.', 'Pochodzi z Indii i Sri Lanki.'],
     size_pl: 'Długość 100–230 cm (z ogonem).', lifespan_pl: '20 lat', diet_pl: 'Nasiona, owady, jagody, drobne gady.',
   },
 
@@ -1672,7 +1674,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 45–65 cm.', lifespan_pl: '30–40 lat', diet_pl: 'Owoce, liście, owady.',
   },
   macaque: {
-    facts_pl: ['Makaki nauczyły się myć słodkie ziemniaki w morzu — i przekazują tę umiejętność młodym.', 'Najszerszy zasięg po człowieku wśród naczelnych.'],
+    facts_pl: ['Makaki japońskie z wyspy Kōshima nauczyły się myć słodkie ziemniaki w morzu — i przekazały to młodym.', 'Najszerszy zasięg po człowieku wśród naczelnych.'],
     size_pl: 'Długość 40–60 cm.', lifespan_pl: '20–30 lat', diet_pl: 'Owoce, liście, owady, czasem ryby.',
   },
   japanese_macaque: {
@@ -1692,11 +1694,12 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 60–96 cm + ogon.', lifespan_pl: '20–25 lat', diet_pl: 'Owoce, liście, ptaki, owady.',
   },
   binturong_indo: {
-    facts_pl: ['Niedźwiedź pszczelarz ma najdłuższy język wśród niedźwiedzi.', 'Pierwotnie polował na pszczoły dla miodu.'],
-    size_pl: 'Długość 1–1,4 m.', lifespan_pl: '25 lat', diet_pl: 'Miód, owoce, mrówki, padlina.',
+    facts_pl: ['Łaskun zjada owoce kawy — z nasion, które przeszły przez jego brzuch, robi się bardzo drogą kawę.', 'Jest aktywny nocą i świetnie wspina się po drzewach.'],
+    size_pl: 'Długość 45–60 cm + ogon. Waga 2–5 kg.', lifespan_pl: '15–20 lat', diet_pl: 'Owoce, owady, drobne zwierzęta.',
+    map_regions: ['asia-se'],
   },
   asian_elephant: {
-    facts_pl: ['Słoń indyjski jest mniejszy niż afrykański — i ma jedno "palce" trąby.', 'W Indiach od tysięcy lat pomaga ludziom — w pracy, wojsku i ceremoniach.'],
+    facts_pl: ['Słoń indyjski jest mniejszy niż afrykański, a jego trąba kończy się jednym "palcem".', 'W Indiach od tysięcy lat pomaga ludziom — w pracy, wojsku i ceremoniach.'],
     size_pl: 'Wysokość 2–3 m. Waga 3–5 ton.', lifespan_pl: '60–70 lat', diet_pl: 'Trawa, liście, kora — 150 kg dziennie.',
   },
   sun_bear: {
@@ -1709,7 +1712,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 1,2–1,9 m.', lifespan_pl: '25 lat', diet_pl: 'Owoce, orzechy, owady, miód, gryzonie.',
   },
   sloth_bear: {
-    facts_pl: ['Wargacz wciąga termity jak odkurzaczem — przez szparę między zębami.', 'Słynie z agresywności — atakuje, nawet jak nie musi.'],
+    facts_pl: ['Wargacz wciąga termity jak odkurzaczem — przez szparę między zębami.', 'Bywa bardzo nerwowy — gdy się wystraszy, potrafi zaatakować.'],
     size_pl: 'Długość 1,4–1,9 m.', lifespan_pl: '20 lat', diet_pl: 'Termity, mrówki, owoce, miód.',
   },
   proboscis_monkey: {
@@ -1717,7 +1720,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 53–76 cm.', lifespan_pl: '20 lat', diet_pl: 'Liście, niedojrzałe owoce.',
   },
   clouded_leopard: {
-    facts_pl: ['Pantera mglista ma najdłuższe kły wśród współczesnych kotów.', 'Schodzi z drzewa głową w dół — jedyny taki kot.'],
+    facts_pl: ['Pantera mglista ma najdłuższe kły w stosunku do wielkości ciała spośród żyjących kotów.', 'Potrafi schodzić z drzewa głową w dół i wisieć na gałęzi na tylnych łapach.'],
     size_pl: 'Długość 60–110 cm.', lifespan_pl: '11–17 lat', diet_pl: 'Małpy, gryzonie, ptaki.',
   },
   serow: {
@@ -1733,22 +1736,22 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 88–113 cm.', lifespan_pl: '10–13 lat', diet_pl: 'Jelenie, dziki, gryzonie.',
   },
   musk_deer: {
-    facts_pl: ['Piżmowiec ma kły jak małe wąsy — używa ich w walce.', 'Nie ma poroża — to jego cecha rozpoznawcza.'],
+    facts_pl: ['Samce piżmowca mają długie kły wystające z pyska — używają ich w walce.', 'Nie ma poroża — to jego cecha rozpoznawcza.'],
     size_pl: 'Długość 80–100 cm.', lifespan_pl: '10–14 lat', diet_pl: 'Trawa, mchy, porosty.',
   },
   saola: {
     tagline_pl: 'azjatycki jednorożec',
-    facts_pl: ['Saola odkryta dopiero w 1992 — to "azjatycki jednorożec".', 'Tak rzadka, że nigdy nie sfotografowano jej dziko.'],
+    facts_pl: ['Saola odkryta dopiero w 1992 — to "azjatycki jednorożec".', 'Jest tak rzadka i skryta, że naukowcy widzieli ją na wolności tylko kilka razy.'],
     size_pl: 'Wysokość 80–90 cm.', lifespan_pl: '8–11 lat', diet_pl: 'Liście, młode pędy.',
   },
   snub_nosed_monkey: {
-    facts_pl: ['Sichuanka ma jasnoniebieską twarz — mieszka w mroźnych górach Chin.', 'Jedyna małpa, która przeżyje śnieg na wysokości 4000 m.'],
+    facts_pl: ['Sichuanka ma jasnoniebieską twarz — mieszka w mroźnych górach Chin.', 'Żyje wyżej w górach niż prawie wszystkie inne małpy — nawet ponad 4000 m.'],
     size_pl: 'Długość 56–76 cm.', lifespan_pl: '20 lat', diet_pl: 'Porosty, liście, kora.',
   },
   snow_leopard: {
     tagline_pl: 'duch Himalajów',
     facts_pl: ['Pantera śnieżna żyje wysoko w Himalajach — do 5500 m.', 'Ma 1-metrowy ogon, którym owija się jak szalikiem.'],
-    size_pl: 'Długość 75–150 cm.', lifespan_pl: '15–18 lat', diet_pl: 'Kozy himalajskie, sarny, drobne gryzonie.',
+    size_pl: 'Długość 75–150 cm.', lifespan_pl: '15–18 lat', diet_pl: 'Dzikie kozy i owce górskie, świstaki, zające.',
   },
   anteater: {
     facts_pl: ['Mrówkojad zjada 35 000 mrówek dziennie.', 'Język ma 60 cm długi — i pokryty lepką śliną.'],
@@ -1756,7 +1759,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   },
   capybara: {
     tagline_pl: 'największy gryzoń świata',
-    facts_pl: ['Kapibara to największy gryzoń świata — waży 65 kg.', 'Pozwala każdemu na nim siedzieć — papugom, małpom, kotom.'],
+    facts_pl: ['Kapibara to największy gryzoń świata — waży 65 kg.', 'Jest tak spokojna, że pozwala innym zwierzętom siadać na sobie — nawet ptakom i małpom.'],
     size_pl: 'Długość 1,1–1,3 m. Waga 35–65 kg.', lifespan_pl: '8–12 lat', diet_pl: 'Trawa, rośliny wodne, owoce.',
   },
   ocelot: {
@@ -1764,7 +1767,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 70–90 cm. Waga 8–16 kg.', lifespan_pl: '8–12 lat', diet_pl: 'Gryzonie, ptaki, jaszczurki, ryby.',
   },
   tapir: {
-    facts_pl: ['Tapir ma długi, ruchomy nos jak miniaturową trąbę.', 'Najbliższy żyjący krewny konia i nosorożca.'],
+    facts_pl: ['Tapir ma długi, ruchomy nos jak miniaturową trąbę.', 'Jest dalekim krewnym konia i nosorożca.'],
     size_pl: 'Długość 1,8–2,5 m. Waga 150–320 kg.', lifespan_pl: '25–30 lat', diet_pl: 'Liście, owoce, gałązki.',
   },
   toucan_keel: {
@@ -1772,11 +1775,12 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 42–55 cm.', lifespan_pl: '20 lat', diet_pl: 'Owoce, jaja, owady, jaszczurki.',
   },
   green_anaconda: {
-    facts_pl: ['Anakonda zielona to najgrubszy wąż świata — owinie krowę.', 'Waży nawet 220 kg, długa do 9 metrów.'],
-    size_pl: 'Długość 5–9 m. Waga 100–220 kg.', lifespan_pl: '10–30 lat', diet_pl: 'Kapibary, kajmany, ptaki, jelenie.',
+    facts_pl: ['Boa szmaragdowy odpoczywa na gałęzi zwinięty w pętle — zielony jak liście.', 'Młode rodzą się pomarańczowe lub czerwone i zielenieją dopiero z wiekiem.'],
+    size_pl: 'Długość 1,5–2 m.', lifespan_pl: '15–20 lat', diet_pl: 'Gryzonie, ptaki, jaszczurki.',
+    map_regions: ['america-s'],
   },
   piranha: {
-    facts_pl: ['Piranie żyją w słodkich wodach Amazonki.', 'Ławica potrafi obrać krowę do kości w 5 minut — ale to rzadkość.'],
+    facts_pl: ['Piranie żyją w słodkich wodach Amazonki.', 'Mają ostre zęby, ale ataki na ludzi zdarzają się bardzo rzadko — to raczej płochliwe ryby.'],
     size_pl: 'Długość 15–30 cm.', lifespan_pl: '10–20 lat', diet_pl: 'Ryby, padlina, owoce.',
   },
   eel_electric: {
@@ -1789,7 +1793,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 60–90 cm.', lifespan_pl: '7–10 lat', diet_pl: 'Owady, drobne gady, owoce.',
   },
   boa: {
-    facts_pl: ['Boa dusiciel poluje w nocy — wyczuwa ciepło ofiar.', 'Może bez jedzenia żyć całe miesiące po dużym posiłku.'],
+    facts_pl: ['Boa dusiciel poluje nocą — zapach zdobyczy wyczuwa językiem.', 'Może bez jedzenia żyć całe miesiące po dużym posiłku.'],
     size_pl: 'Długość 2–4 m.', lifespan_pl: '20–30 lat', diet_pl: 'Drobne ssaki, ptaki, jaszczurki.',
   },
   poison_frog: {
@@ -1797,27 +1801,28 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 1,5–6 cm.', lifespan_pl: '4–8 lat', diet_pl: 'Mrówki, termity, drobne owady (skąd ich jad).',
   },
   tree_frog: {
-    facts_pl: ['Rzekotka przykleja się palcami do liści — ma "przyssawki".', 'Jaja składa na liściach nad wodą — kijanki wpadają, gdy się wykluwają.'],
-    size_pl: 'Długość 3–5 cm.', lifespan_pl: '4–15 lat', diet_pl: 'Owady, pajęczaki.',
+    facts_pl: ['Rzekotka czerwonooka przykleja się palcami do liści — ma na nich lepkie poduszeczki.', 'Jaja składa na liściach nad wodą — kijanki wpadają do niej, gdy się wyklują.'],
+    size_pl: 'Długość 4–7 cm.', lifespan_pl: '5 lat', diet_pl: 'Owady, pajęczaki.',
+    map_regions: ['america-s'],
   },
   glass_frog: {
-    facts_pl: ['Żaba szklana ma przezroczysty brzuch — widać jej serce.', 'Świetna kamuflaż na zielonych liściach.'],
+    facts_pl: ['Żaba szklana ma przezroczysty brzuch — widać jej serce.', 'Na zielonym liściu jest prawie niewidoczna.'],
     size_pl: 'Długość 2–8 cm.', lifespan_pl: '10–14 lat', diet_pl: 'Owady — głównie pajączki.',
   },
   mantella: {
-    facts_pl: ['Mantela złota jest tak jadowita, że tubylcy używali jej do strzał.', 'Mieszka tylko na Madagaskarze.'],
+    facts_pl: ['Jaskrawy kolor manteli złotej ostrzega drapieżniki, że jest trująca.', 'Mieszka tylko na Madagaskarze.'],
     size_pl: 'Długość 2–3 cm.', lifespan_pl: '5–8 lat', diet_pl: 'Mrówki, termity (źródło jadu).',
   },
   iguana: {
-    facts_pl: ['Legwany mają "trzecie oko" na szczycie głowy — wyczuwa cienie z góry.', 'Świetnie pływają — i biegają na 2 nogach.'],
+    facts_pl: ['Legwany mają "trzecie oko" na szczycie głowy — wyczuwa cienie z góry.', 'Świetnie pływają i potrafią skoczyć z drzewa prosto do wody.'],
     size_pl: 'Długość 1,2–1,7 m.', lifespan_pl: '15–20 lat', diet_pl: 'Roślinożerca — liście, kwiaty, owoce.',
   },
   caecilian: {
-    facts_pl: ['Robaczyce to płazy bez nóg — wyglądają jak węże.', 'Mama karmi swoje młode własną skórą — odzdziera się z niej.'],
+    facts_pl: ['Robaczyce to płazy bez nóg — wyglądają jak węże.', 'Młode niektórych robaczyc zjadają zewnętrzną warstwę skóry mamy — to ich pierwszy pokarm.'],
     size_pl: 'Długość 10–150 cm.', lifespan_pl: '5–13 lat', diet_pl: 'Dżdżownice, larwy, drobne kręgowce.',
   },
   matamata: {
-    facts_pl: ['Matamata wygląda jak kupa liści w wodzie — to żółw kameleon.', 'Pyski ma jak szuflada — wsysa rybę razem z wodą.'],
+    facts_pl: ['Matamata wygląda jak kupka opadłych liści w wodzie — ryby podpływają bardzo blisko.', 'Błyskawicznie otwiera pysk i wsysa rybę razem z wodą.'],
     size_pl: 'Długość 40–45 cm.', lifespan_pl: '15 lat', diet_pl: 'Ryby — łapane przez wsysanie.',
   },
   hercules_beetle: {
@@ -1829,11 +1834,12 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Rozpiętość 12–20 cm.', lifespan_pl: '2–4 tygodnie', diet_pl: 'Sok z gnijących owoców.',
   },
   atlas_butterfly: {
-    facts_pl: ['Atlas to jeden z największych motyli świata — skrzydła jak dłoń.', 'Dorosły żyje 2 tygodnie i nic nie je — bo ssawkę ma niefunkcjonalną.'],
-    size_pl: 'Rozpiętość 24 cm.', lifespan_pl: '1–2 tygodnie', diet_pl: 'Nic — żywi się zapasami z gąsienicy.',
+    facts_pl: ['Ornitoptera królowej Aleksandry to największy motyl dzienny świata — jego skrzydła mają ponad 25 cm.', 'Żyje tylko w lasach deszczowych Papui-Nowej Gwinei i jest pod ścisłą ochroną.'],
+    size_pl: 'Rozpiętość 25–28 cm.', lifespan_pl: '3 miesiące (dorosły)', diet_pl: 'Nektar kwiatów.',
+    map_regions: ['australia'],
   },
   atlas_moth: {
-    facts_pl: ['Pawica atlas to największa ćma świata — skrzydła jak dłoń.', 'Ma "okna" na skrzydłach — fragmenty bez łusek.'],
+    facts_pl: ['Pawica atlas to jedna z największych ciem świata — skrzydła ma większe niż dłoń dorosłego.', 'Ma "okna" na skrzydłach — fragmenty bez łusek.'],
     size_pl: 'Rozpiętość 24 cm.', lifespan_pl: '1–2 tygodnie', diet_pl: 'Nic — gąsienica gromadzi zapasy.',
   },
   silk_moth: {
@@ -1845,7 +1851,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 30–60 cm.', lifespan_pl: '1–2 lata', diet_pl: 'Liście drzew.',
   },
   treehopper: {
-    facts_pl: ['Pieniugnik ma na grzbiecie dziwne hełmy — wyglądają jak liście, kolce, mrówki.', 'Wydziela "rosę miodną" — mrówki ją zjadają i bronią pieniugnika.'],
+    facts_pl: ['Garbik ma na grzbiecie dziwny "hełm" — wygląda jak kolec, liść albo mrówka.', 'Wydziela słodką "rosę miodną" — mrówki ją zjadają i bronią garbika.'],
     size_pl: 'Długość 2–10 mm.', lifespan_pl: 'Kilka miesięcy', diet_pl: 'Sok z roślin.',
   },
   cicada: {
@@ -1857,11 +1863,11 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 12–17 cm.', lifespan_pl: '6 miesięcy', diet_pl: 'Inne owady, czasem żaby i kolibry.',
   },
   goliath_beetle: {
-    facts_pl: ['Chrząszcz Goliath waży 100 g — najcięższy owad świata.', 'Larwa jest zbierana i smażona — przysmak w Afryce.'],
+    facts_pl: ['Chrząszcz goliat to jeden z najcięższych owadów świata — waży tyle co mała mysz.', 'Larwa jest zbierana i smażona — przysmak w Afryce.'],
     size_pl: 'Długość 6–11 cm.', lifespan_pl: '12 miesięcy', diet_pl: 'Sok drzew, owoce, padlina (larwa).',
   },
   jewel_beetle: {
-    facts_pl: ['Bogatek lśni jak klejnot — używany w biżuterii w Indiach.', 'Larwy spędzają w drewnie nawet 40 lat — w dębach robi tunele.'],
+    facts_pl: ['Bogatek lśni jak klejnot — używany w biżuterii w Indiach.', 'Larwy niektórych bogatków żyją w drewnie wiele lat, drążąc w nim korytarze.'],
     size_pl: 'Długość 0,3–8 cm.', lifespan_pl: '5–40 lat (z larwą)', diet_pl: 'Drewno, liście.',
   },
   whip_scorpion: {
@@ -1893,7 +1899,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 1,5–1,8 m.', lifespan_pl: '8–13 lat', diet_pl: 'Ryby, kajmany, anakondy.',
   },
   hoatzin: {
-    facts_pl: ['Hoacyn ma w żołądku trawę jak krowa — śmierdzi jak obornik.', 'Pisklęta mają pazury na skrzydłach — jak mini-archeopteryksy.'],
+    facts_pl: ['Hoacyn trawi liście w wolu jak krowa — dlatego pachnie jak obornik.', 'Pisklęta mają pazury na skrzydłach — jak mini-archeopteryksy.'],
     size_pl: 'Długość 65 cm.', lifespan_pl: '15 lat', diet_pl: 'Liście — fermentowane jak u krowy.',
   },
   bird_eater: {
@@ -1924,17 +1930,18 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   },
   reticulated_python: {
     tagline_pl: 'najdłuższy wąż świata',
-    facts_pl: ['Pyton siatkowy to najdłuższy wąż świata — 7-9 metrów.', 'Owinie pełnego mężczyznę i go udusi w 2 minuty.'],
-    size_pl: 'Długość 6–9 m.', lifespan_pl: '15–30 lat', diet_pl: 'Antylopy, dziki, czasem człowieka.',
+    facts_pl: ['Pyton siatkowy to najdłuższy wąż świata — może mieć ponad 6 metrów.', 'Jest bardzo silny — potrafi upolować nawet dzika.'],
+    size_pl: 'Długość 6–9 m.', lifespan_pl: '15–30 lat', diet_pl: 'Dziki, jelenie, małpy, ptaki.',
   },
   komodo: {
     tagline_pl: 'największa jaszczurka świata',
-    facts_pl: ['Waran z Komodo to największa jaszczurka świata.', 'Ma jad i bakterie w ślinie — ofiara umiera z gangreny w 24 h.'],
+    facts_pl: ['Waran z Komodo to największa jaszczurka świata.', 'Ma jad, przez który ranna ofiara szybko słabnie.'],
     size_pl: 'Długość 2–3 m. Waga 70–90 kg.', lifespan_pl: '30 lat', diet_pl: 'Bawoły, jelenie, ptaki, padlina.',
   },
   komodo_juvenile: {
-    facts_pl: ['Smok z Komodo ma jad i może powalić bawoła.', 'Młode żyją na drzewach — żeby dorosłe ich nie zjadły.'],
-    size_pl: 'Długość 2–3 m.', lifespan_pl: '30 lat', diet_pl: 'Bawoły, jelenie, padlina.',
+    facts_pl: ['Waran paskowany świetnie pływa — to druga co do wielkości jaszczurka świata.', 'Potrafi długo zostać pod wodą i często mieszka blisko ludzi.'],
+    size_pl: 'Długość 1,5–2,5 m. Waga do 25 kg.', lifespan_pl: '10–15 lat', diet_pl: 'Ryby, żaby, ptaki, jaja, padlina.',
+    map_regions: ['asia-se'],
   },
   rattlesnake: {
     facts_pl: ['Grzechotnik strzela ostrzeżenie ogonem przed atakiem.', 'Jego "grzechotka" to złuszczone resztki skóry.'],
@@ -1949,11 +1956,11 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 60–90 cm.', lifespan_pl: '10 lat', diet_pl: 'Owady, drobne gryzonie, jaszczurki.',
   },
   alligator_snapping: {
-    facts_pl: ['Żółw aligatorzy ma "wabik" w pysku — wygląda jak robak.', 'Otwiera paszczę, wystawia "robaka" — i czeka na rybę.'],
+    facts_pl: ['Żółw sępi ma w pysku "wabik" — wygląda jak robak.', 'Otwiera paszczę, wystawia "robaka" — i czeka na rybę.'],
     size_pl: 'Długość 60–80 cm. Waga do 100 kg.', lifespan_pl: '50–80 lat', diet_pl: 'Ryby, węże, drobne ssaki.',
   },
   softshell_turtle: {
-    facts_pl: ['Żółw skorupiasty ma miękki, gumowy pancerz.', 'Świetnie pływa — szybszy niż większość żółwi.'],
+    facts_pl: ['Trionyks ma miękki, gumowy pancerz i nos jak mała rurka.', 'Świetnie pływa — szybszy niż większość żółwi.'],
     size_pl: 'Długość 30–90 cm.', lifespan_pl: '25 lat', diet_pl: 'Ryby, raki, owady, padlina.',
   },
   bullfrog: {
@@ -1965,8 +1972,8 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 30–75 cm.', lifespan_pl: '30 lat', diet_pl: 'Raki, drobne ryby.',
   },
   axolotl_pink: {
-    facts_pl: ['Aksolotl odrasta utracone nogi, oczy, a nawet kawałki mózgu.', 'Mexykańska legenda — wcielenie boga Xolotla, który ukrył się jako salamandra.'],
-    size_pl: 'Długość 15–30 cm.', lifespan_pl: '10–15 lat', diet_pl: 'Larwy, dżdżownice, drobne ryby.',
+    facts_pl: ['Wiosną samce żaby moczarowej na kilka dni robią się niebieskie!', 'Żyje na podmokłych łąkach i torfowiskach w Polsce.'],
+    size_pl: 'Długość 5–8 cm.', lifespan_pl: '10–12 lat', diet_pl: 'Owady, pająki, ślimaki.',
   },
   arowana: {
     facts_pl: ['Arowana wyskakuje z wody, żeby złapać owada z gałęzi — do 2 m w górę.', 'W Azji uważana za rybę szczęścia — kosztuje setki tysięcy dolarów.'],
@@ -1977,7 +1984,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 15–20 cm.', lifespan_pl: '10–15 lat', diet_pl: 'Owady, larwy, plankton.',
   },
   scorpion: {
-    facts_pl: ['Skorpion świeci w ultrafiolecie — jego pancerz fluoryzuje.', 'Może żyć rok bez jedzenia i pół roku pod wodą.'],
+    facts_pl: ['Skorpion świeci w ultrafiolecie — jego pancerz fluoryzuje.', 'Potrafi przeżyć nawet rok bez jedzenia.'],
     size_pl: 'Długość 5–20 cm.', lifespan_pl: '3–25 lat', diet_pl: 'Owady, pajęczaki, drobne kręgowce.',
   },
   tarantula: {
@@ -1989,7 +1996,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 8–13 mm.', lifespan_pl: '1–3 lata', diet_pl: 'Owady — łapane w sieć.',
   },
   camel_spider: {
-    facts_pl: ['Solfuga biega 25 km/h — szybsza niż większość pająków.', 'Mimo nazwy nie jest pająkiem — to oddzielny rząd pajęczaków.'],
+    facts_pl: ['Solfuga biega po pustyni nawet 15 km/h.', 'Mimo nazwy nie jest pająkiem — to oddzielny rząd pajęczaków.'],
     size_pl: 'Długość 5–15 cm.', lifespan_pl: '1 rok', diet_pl: 'Owady, gryzonie, jaszczurki.',
   },
 
@@ -2003,7 +2010,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 2–3 m. Waga 200–450 kg.', lifespan_pl: '20–30 lat', diet_pl: 'Wszystkożerca — ryby, jagody, padlina, łosie.',
   },
   coyote: {
-    facts_pl: ['Kojot pohukuje na księżyc jak mały wilk.', 'Najbardziej rozpowszechniony drapieżnik Ameryki — od Alaski po Panamę.'],
+    facts_pl: ['Kojot wyje, szczeka i skomli — potrafi wydać kilkanaście różnych odgłosów.', 'Najbardziej rozpowszechniony drapieżnik Ameryki — od Alaski po Panamę.'],
     size_pl: 'Długość 80–100 cm.', lifespan_pl: '10–14 lat', diet_pl: 'Gryzonie, króliki, padlina, owoce.',
   },
   puma: {
@@ -2032,8 +2039,9 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 40–55 cm.', lifespan_pl: '5 lat', diet_pl: 'Trawa, gałązki, kora.',
   },
   aardvark_pig: {
-    facts_pl: ['Pekari to "świnie Ameryki" — żyją w stadach do 100 sztuk.', 'Nie są spokrewnione ze świniami europejskimi — to osobna rodzina.'],
-    size_pl: 'Długość 75–100 cm. Waga 15–40 kg.', lifespan_pl: '10–24 lat', diet_pl: 'Korzenie, owoce, owady, czasem padlina.',
+    facts_pl: ['Babirusa ma kły, które wyrastają przez górną wargę i zawijają się jak rogi.', 'Żyje tylko na kilku wyspach Indonezji — nazwa znaczy "świnia-jeleń".'],
+    size_pl: 'Długość 85–110 cm. Waga 60–100 kg.', lifespan_pl: '10–24 lat', diet_pl: 'Owoce, liście, grzyby, owady.',
+    map_regions: ['asia-se'],
   },
   horned_lizard: {
     facts_pl: ['Frynozom strzela krwią z oczu, gdy się broni — celuje w paszczę drapieżnika.', 'Jego krew zawiera substancje cuchnące dla psów i kojotów.'],
@@ -2058,15 +2066,15 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Wysokość 1,5 m.', lifespan_pl: '10–15 lat', diet_pl: 'Trawa, nasiona, owady, jaszczurki.',
   },
   maned_wolf: {
-    facts_pl: ['Wilk grzywiasty ma długie nogi jak chodaki — wygląda jak lis na szczudłach.', 'Nie jest blisko spokrewniony z wilkiem — to osobny rodzaj.'],
+    facts_pl: ['Wilk grzywiasty ma bardzo długie nogi — wygląda jak lis na szczudłach.', 'Nie jest blisko spokrewniony z wilkiem — to osobny rodzaj.'],
     size_pl: 'Wysokość 90 cm. Waga 20–30 kg.', lifespan_pl: '6–16 lat', diet_pl: 'Wszystkożerca — gryzonie, owoce, ptaki.',
   },
   armadillo: {
-    facts_pl: ['Pancernik zwija się w pancerną kulkę przed niebezpieczeństwem.', 'Wszystkie pancerniki rodzą identyczne czworaczki — z jednego jaja.'],
+    facts_pl: ['Tylko pancernik trójpasy potrafi zwinąć się w pancerną kulę — inne uciekają i zakopują się.', 'Pancernik dziewięciopaskowy rodzi zawsze identyczne czworaczki.'],
     size_pl: 'Długość 15–150 cm.', lifespan_pl: '12–15 lat', diet_pl: 'Owady, drobne kręgowce, korzenie.',
   },
   pichi: {
-    facts_pl: ['Pancernik karłowaty kopie w pustyni i zwija się w kulę.', 'Najmniejszy pancernik na świecie.'],
+    facts_pl: ['Pancernik karłowaty kopie w pustyni i zwija się w kulę.', 'Jeden z najmniejszych pancerników — zimą zapada w sen.'],
     size_pl: 'Długość 25–35 cm.', lifespan_pl: '10 lat', diet_pl: 'Owady, korzenie, padlina.',
   },
 
@@ -2092,11 +2100,12 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 1–1,8 m.', lifespan_pl: '7–10 lat', diet_pl: 'Piżmowoły, zające, lemingi.',
   },
   snow_fox: {
-    facts_pl: ['Lis śnieżny zmienia futro z brązowego latem na śnieżnobiałe zimą.', 'Słyszy mysz pod 1 m śniegu.'],
-    size_pl: 'Długość 50–75 cm.', lifespan_pl: '7 lat', diet_pl: 'Gryzonie, ptaki, jaja, padlina.',
+    facts_pl: ['Zając polarny potrafi skakać na samych tylnych łapach jak kangur.', 'Zimą ma śnieżnobiałe futro — tylko końcówki uszu zostają czarne.'],
+    size_pl: 'Długość 50–70 cm. Waga 3–5 kg.', lifespan_pl: '3–5 lat', diet_pl: 'Wierzba karłowata, mchy, porosty, trawa.',
+    map_regions: ['arctic', 'america-n'],
   },
   wolverine: {
-    facts_pl: ['Rosomak jest mały, ale tak agresywny, że odpędza wilki.', 'Może zjeść padlinę zamarzniętą na kamień — łamie ją zębami.'],
+    facts_pl: ['Rosomak jest wielkości średniego psa, ale tak odważny, że odpędza wilki od zdobyczy.', 'Może zjeść padlinę zamarzniętą na kamień — łamie ją zębami.'],
     size_pl: 'Długość 65–113 cm.', lifespan_pl: '7–12 lat', diet_pl: 'Padlina, lemingi, ptaki, zające.',
   },
   reindeer_svalbard: {
@@ -2109,7 +2118,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 3,5–5,5 m. Waga 1500 kg.', lifespan_pl: '35–50 lat', diet_pl: 'Ryby, kalmary, krewetki.',
   },
   bowhead: {
-    tagline_pl: 'najstarszy ssak',
+    tagline_pl: 'najdłużej żyjący ssak',
     facts_pl: ['Wieloryb grenlandzki dożywa nawet 200 lat!', 'Najgrubsza skóra wśród zwierząt — 50 cm tłuszczu.'],
     size_pl: 'Długość 14–18 m.', lifespan_pl: '100–200 lat', diet_pl: 'Plankton — filtruje wodę.',
   },
@@ -2119,7 +2128,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   },
   narwhal: {
     tagline_pl: 'jednorożec mórz',
-    facts_pl: ['Narwale są nazywane "jednorożcami morza" — to ich długi, spiralny kieł.', 'Kieł to przebity ząb przedni — nerwy biegną w nim do końca.'],
+    facts_pl: ['Narwale są nazywane "jednorożcami morza" — to ich długi, spiralny kieł.', 'Kieł to wydłużony ząb, który przebija wargę — biegną w nim nerwy aż do końca.'],
     size_pl: 'Długość 4–5 m + kieł 2–3 m.', lifespan_pl: '50 lat', diet_pl: 'Halibut, dorsz, kalmary.',
   },
   puffin: {
@@ -2127,8 +2136,9 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 26–29 cm.', lifespan_pl: '20 lat', diet_pl: 'Ryby — niesie po 10 w dziobie.',
   },
   atlantic_puffin: {
-    facts_pl: ['Maskonur potrafi nieść 10 ryb w dziobie jednocześnie.', 'Spędza zimę na otwartym oceanie — bez powrotu na ląd.'],
-    size_pl: 'Długość 26–29 cm.', lifespan_pl: '20 lat', diet_pl: 'Śledzie, sardele, węgorze.',
+    facts_pl: ['Alka krzywonosa świetnie nurkuje — pod wodą "leci", machając skrzydłami.', 'Gniazduje na skalnych półkach nad morzem, w wielkich koloniach.'],
+    size_pl: 'Długość 37–39 cm.', lifespan_pl: '20–30 lat', diet_pl: 'Drobne ryby — śledzie, dobijaki.',
+    map_regions: ['arctic', 'europa', 'oceans'],
   },
   arctic_tern: {
     tagline_pl: 'mistrz dystansu',
@@ -2152,20 +2162,20 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 3–3,8 m.', lifespan_pl: '12–15 lat', diet_pl: 'Pingwiny, foki, ryby, kryl.',
   },
   elephant_seal: {
-    facts_pl: ['Samce słoni morskich mają nos jak miniaturową trąbę.', 'Najgłębiej nurkujący ssak — do 2300 m.'],
+    facts_pl: ['Samce słoni morskich mają nos jak małą trąbę.', 'Nurkują nawet na 2000 metrów i wstrzymują oddech prawie 2 godziny.'],
     size_pl: 'Długość 5–6 m. Waga 3700 kg (samiec).', lifespan_pl: '20 lat', diet_pl: 'Ryby, kalmary.',
   },
   sea_lion: {
-    facts_pl: ['Lew morski potrafi balansować piłką jak w cyrku — z natury!', 'W odróżnieniu od foki — może chodzić na płetwach.'],
+    facts_pl: ['Lew morski ma małe uszy na zewnątrz głowy — foki ich nie mają.', 'W odróżnieniu od foki — może chodzić na płetwach.'],
     size_pl: 'Długość 2–3 m.', lifespan_pl: '15–25 lat', diet_pl: 'Ryby, kalmary, kraby.',
   },
   seal: {
-    facts_pl: ['Fokom rosną wąsy do wykrywania wibracji ryb.', 'Wstrzymują oddech 2 godziny pod wodą.'],
+    facts_pl: ['Foki wyczuwają wąsami drgania wody i tak tropią ryby.', 'Niektóre foki potrafią wstrzymać oddech ponad godzinę.'],
     size_pl: 'Długość 1,5–2 m.', lifespan_pl: '15–35 lat', diet_pl: 'Ryby, kalmary, skorupiaki.',
   },
   manatee: {
     tagline_pl: 'morska krowa',
-    facts_pl: ['Manaty nazywane są "morskimi krowami" — jedzą trawę morską.', 'Wybiły się z tego samego przodka co słonie — najbliższy żyjący krewny.'],
+    facts_pl: ['Manaty nazywane są "morskimi krowami" — jedzą trawę morską.', 'Ich najbliższymi żyjącymi krewnymi są… słonie!'],
     size_pl: 'Długość 2,7–4 m.', lifespan_pl: '50–60 lat', diet_pl: 'Trawa morska, glony.',
   },
   dugong: {
@@ -2174,7 +2184,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   },
   sperm_whale: {
     tagline_pl: 'największy mózg na Ziemi',
-    facts_pl: ['Kaszalot ma największy mózg ze wszystkich zwierząt — 8 kg.', 'Nurkuje na 2 km — głębiej niż jakikolwiek inny wieloryb.'],
+    facts_pl: ['Kaszalot ma największy mózg ze wszystkich zwierząt — 8 kg.', 'Nurkuje nawet na 2 km w poszukiwaniu kalmarów.'],
     size_pl: 'Długość 11–20 m.', lifespan_pl: '60–70 lat', diet_pl: 'Kalmary olbrzymie, ryby, ośmiornice.',
   },
   porpoise: {
@@ -2183,7 +2193,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   },
   humpback: {
     tagline_pl: 'wieloryb-pieśniarz',
-    facts_pl: ['Humbak śpiewa pieśni, które słychać na setki kilometrów.', 'Wyskakuje całym ciałem z wody — 40-tonowy salto.'],
+    facts_pl: ['Humbak śpiewa pieśni, które słychać na setki kilometrów.', 'Wyskakuje całym ciałem z wody — to 30-tonowe salto!'],
     size_pl: 'Długość 12–16 m.', lifespan_pl: '45–50 lat', diet_pl: 'Kryl, drobne ryby.',
   },
   blue_whale_pygmy: {
@@ -2195,12 +2205,12 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 15–18 m.', lifespan_pl: '70 lat', diet_pl: 'Plankton.',
   },
   gray_whale: {
-    facts_pl: ['Wal szary nurkuje na dno i zjada błoto pełne skorupiaków.', 'Migruje 20 000 km rocznie — najdłużej spośród wielorybów.'],
+    facts_pl: ['Wal szary nurkuje na dno i zjada błoto pełne skorupiaków.', 'Migruje nawet 20 000 km rocznie — to jedna z najdłuższych wędrówek wśród ssaków.'],
     size_pl: 'Długość 13–15 m.', lifespan_pl: '50–70 lat', diet_pl: 'Skorupiaki denne.',
   },
   orca_killer: {
-    facts_pl: ['Beluga ma giętki kark — może odwracać głowę.', '"Beluga" pochodzi z rosyjskiego "biały".'],
-    size_pl: 'Długość 3,5–5,5 m.', lifespan_pl: '35–50 lat', diet_pl: 'Ryby, kalmary.',
+    facts_pl: ['Płetwal zwyczajny to drugie co do wielkości zwierzę świata — po płetwalu błękitnym.', 'Jest tak szybki, że nazywa się go "chartem mórz".'],
+    size_pl: 'Długość 18–25 m. Waga 40–80 ton.', lifespan_pl: '80–90 lat', diet_pl: 'Kryl, drobne ryby — filtruje wodę fiszbinami.',
   },
 
   // === BATCH 4 — Australia / NZ ===
@@ -2222,7 +2232,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 40–50 cm.', lifespan_pl: '10 lat', diet_pl: 'Trawa, liście, kora.',
   },
   cassowary: {
-    facts_pl: ['Kazuar potrafi być groźniejszy od strusia — mocne kopnięcia szpony 12 cm.', 'Jeden z najniebezpieczniejszych ptaków świata.'],
+    facts_pl: ['Kazuar ma na nogach pazur długi na 12 cm — potrafi bardzo mocno kopnąć.', 'Jeden z najniebezpieczniejszych ptaków świata.'],
     size_pl: 'Wysokość 1,5–1,8 m. Waga 36–58 kg.', lifespan_pl: '40–50 lat', diet_pl: 'Owoce, owady, grzyby.',
   },
   cassowary_dwarf: {
@@ -2230,12 +2240,12 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Wysokość 1–1,4 m.', lifespan_pl: '20 lat', diet_pl: 'Owoce, owady.',
   },
   emu: {
-    facts_pl: ['Emu ma dwie powieki — jedną do mrugania, drugą do otarcia kurzu.', 'Drugi największy ptak świata, po strusiu.'],
+    facts_pl: ['Emu ma dwie pary powiek — jedna służy do mrugania, druga chroni oczy przed kurzem.', 'Drugi największy ptak świata, po strusiu.'],
     size_pl: 'Wysokość 1,5–1,9 m.', lifespan_pl: '10–20 lat', diet_pl: 'Trawa, owoce, owady.',
   },
   kakapo: {
     tagline_pl: 'nielatająca papuga',
-    facts_pl: ['Kakapo to nielatająca papuga, która śpiewa z dziur w ziemi.', 'Najgrubsza papuga świata — i jedna z najrzadszych.'],
+    facts_pl: ['Samce kakapo "dudnią" z wykopanych w ziemi dołków — słychać je z kilku kilometrów.', 'Najgrubsza papuga świata — i jedna z najrzadszych.'],
     size_pl: 'Długość 58–64 cm. Waga 3–4 kg.', lifespan_pl: '60–100 lat', diet_pl: 'Owoce, nasiona, kora.',
   },
   kiwi: {
@@ -2252,7 +2262,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 10 cm. Waga do 70 g.', lifespan_pl: '2 lata', diet_pl: 'Liście, owoce, drobne owady.',
   },
   octopus_blue_ring: {
-    facts_pl: ['Ośmiornica niebieskopierścieniowa ma jad zabijający w minuty — bez antidotum.', 'Małe ciało, ale jad mieści 26 dorosłych ludzi.'],
+    facts_pl: ['Ośmiornica niebieskopierścieniowa ma jad zabijający w minuty — bez antidotum.', 'Jest malutka, ale bardzo groźna — nigdy nie wolno jej dotykać.'],
     size_pl: 'Długość 12–20 cm.', lifespan_pl: '2 lata', diet_pl: 'Kraby, krewetki, drobne ryby.',
   },
 
@@ -2271,7 +2281,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 3–5 m. Waga 200–820 kg.', lifespan_pl: '13 lat', diet_pl: 'Tuńczyki, makrele, sardynki.',
   },
   swordfish: {
-    facts_pl: ['Miecznik ma długi "miecz" do oszołamiania ryb.', 'Pływa 100 km/h — szybciej od marlina.'],
+    facts_pl: ['Miecznik ma długi "miecz" do oszołamiania ryb.', 'To jedna z najszybszych ryb oceanu.'],
     size_pl: 'Długość 3 m. Waga 650 kg.', lifespan_pl: '9 lat', diet_pl: 'Ryby, kalmary.',
   },
   tuna: {
@@ -2295,7 +2305,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 1,5–35 cm.', lifespan_pl: '3–5 lat', diet_pl: 'Plankton, drobne skorupiaki.',
   },
   seahorse_dwarf: {
-    facts_pl: ['Karłowaty konik morski jest mniejszy od paznokcia.', 'Najmniejszy kręgowiec świata.'],
+    facts_pl: ['Karłowaty konik morski jest mniejszy od paznokcia.', 'Jest tak mały, że łatwo go pomylić z kawałkiem korala.'],
     size_pl: 'Długość 1,5–2 cm.', lifespan_pl: '2 lata', diet_pl: 'Plankton.',
   },
   seahorse_pygmy: {
@@ -2320,7 +2330,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 30–95 cm.', lifespan_pl: '15–20 lat', diet_pl: 'Drobne ryby, skorupiaki.',
   },
   anchovy: {
-    facts_pl: ['Sardela pływa w ogromnych ławicach.', 'Hodowana od starożytności — przepyszna na pizzy.'],
+    facts_pl: ['Sardela pływa w ogromnych ławicach.', 'Łowiona od starożytności — Rzymianie robili z niej słony sos.'],
     size_pl: 'Długość 8–15 cm.', lifespan_pl: '3–4 lata', diet_pl: 'Plankton.',
   },
   sardine: {
@@ -2336,11 +2346,11 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 2–3 m. Waga 1000–2300 kg.', lifespan_pl: '10 lat', diet_pl: 'Meduzy.',
   },
   moonfish: {
-    facts_pl: ['Mola mola to najcięższa kostna ryba świata.', 'Spędza dni leżąc na boku na powierzchni — łapie słońce.'],
-    size_pl: 'Długość 1,8–3 m.', lifespan_pl: '10 lat', diet_pl: 'Meduzy, plankton.',
+    facts_pl: ['Strojnik to jedyna znana ryba, która ogrzewa całe swoje ciało — jest stałocieplny!', 'Ma okrągłe, srebrno-czerwone ciało i szkarłatne płetwy.'],
+    size_pl: 'Długość 1–2 m. Waga do 270 kg.', lifespan_pl: 'nieznany', diet_pl: 'Kalmary, drobne ryby.',
   },
   angler_fish: {
-    facts_pl: ['Żabnica ma świecącą wędkę nad głową — przyciąga zdobycz w ciemności.', 'Samiec jest 10x mniejszy i przyrasta do samicy jak pasożyt.'],
+    facts_pl: ['Żabnica leży na dnie i macha "wędką" na głowie, żeby zwabić rybki.', 'Ma ogromny pysk — potrafi połknąć rybę prawie tak dużą jak ona sama.'],
     size_pl: 'Długość 30–120 cm.', lifespan_pl: '20–25 lat', diet_pl: 'Mniejsze ryby, skorupiaki.',
   },
   parrotfish: {
@@ -2416,11 +2426,11 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Pojedynczy polip 1–10 mm.', lifespan_pl: 'Setki lat (kolonia)', diet_pl: 'Plankton + cukier z glonów żyjących w nich.',
   },
   clam: {
-    facts_pl: ['Niektóre małże żyją ponad 500 lat — najstarsza Ming miała 507 lat.', 'Otwierają muszle wieczorem, zamykają rano.'],
+    facts_pl: ['Niektóre małże żyją ponad 500 lat — najstarsza, Ming, miała 507 lat.', 'Małże jedzą i oddychają, przepuszczając wodę przez skrzela.'],
     size_pl: 'Długość 1–130 cm.', lifespan_pl: '50–500 lat', diet_pl: 'Plankton — filtruje wodę.',
   },
   oyster: {
-    facts_pl: ['Ostryga tworzy perłę dookoła ziarnka piasku.', 'Filtruje 200 litrów wody dziennie — czyści morze.'],
+    facts_pl: ['Ostryga tworzy perłę wokół drobinki, która dostała się do jej muszli.', 'Filtruje 200 litrów wody dziennie — czyści morze.'],
     size_pl: 'Długość 7–25 cm.', lifespan_pl: '20 lat', diet_pl: 'Plankton.',
   },
   sea_urchin: {
@@ -2433,7 +2443,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   },
   nautilus: {
     tagline_pl: 'żywa skamielina',
-    facts_pl: ['Łodzik to "żywa skamielina" — pływa wokół Filipin od 500 mln lat.', 'Reguluje gaz w komorach muszli, żeby się unosić — jak łódź podwodna.'],
+    facts_pl: ['Łodziki pływają w morzach od setek milionów lat — to "żywe skamieniałości".', 'Reguluje gaz w komorach muszli, żeby się unosić — jak łódź podwodna.'],
     size_pl: 'Średnica muszli 16–25 cm.', lifespan_pl: '20 lat', diet_pl: 'Padlina, kraby, drobne ryby.',
   },
   cone_snail: {
@@ -2441,7 +2451,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 1–22 cm.', lifespan_pl: '8–9 lat', diet_pl: 'Ryby, mięczaki, robaki.',
   },
   sea_cucumber: {
-    facts_pl: ['Strzykwa wyrzuca swoje wnętrzności na wroga — potem je odrasta.', 'W Azji to przysmak — wart fortunę.'],
+    facts_pl: ['Strzykwa w obronie wyrzuca wnętrzności na wroga — potem odrastają jej nowe.', 'W Azji to przysmak — wart fortunę.'],
     size_pl: 'Długość 10–30 cm (do 3 m).', lifespan_pl: '5–10 lat', diet_pl: 'Detrytus z dna oceanu.',
   },
   sea_slug: {
@@ -2453,7 +2463,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 1 mm – 60 cm.', lifespan_pl: 'Miesiące do lat', diet_pl: 'Drobne kraby, padlina.',
   },
   crab: {
-    facts_pl: ['Krab chodzi bokiem — to szybsze!', 'Niektóre ozdabiają pancerz — przyklejają na siebie glony i ukwiały.'],
+    facts_pl: ['Krab chodzi bokiem, bo jego nogi najłatwiej zginają się na boki.', 'Niektóre ozdabiają pancerz — przyklejają na siebie glony i ukwiały.'],
     size_pl: 'Długość 1–30 cm.', lifespan_pl: '3–10 lat', diet_pl: 'Wszystkożerca — padlina, glony, drobne zwierzęta.',
   },
   crab_japanese_spider: {
@@ -2462,11 +2472,11 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Rozpiętość 3,8 m. Waga 19 kg.', lifespan_pl: '50–100 lat', diet_pl: 'Padlina, małże, rośliny.',
   },
   shrimp: {
-    facts_pl: ['Krewetka pistoletowa strzela bańką głośniej niż wystrzał — 218 dB.', 'Temperatura bańki dorównuje powierzchni Słońca przez ułamek sekundy.'],
+    facts_pl: ['Krewetki mają dziesięć odnóży, a uciekając, pływają do tyłu, machając ogonem.', 'Niektóre, jak krewetka pistoletowa, strzelają bańką powietrza głośniej niż wystrzał.'],
     size_pl: 'Długość 1,5–30 cm.', lifespan_pl: '1–6 lat', diet_pl: 'Plankton, glony, padlina.',
   },
   lobster: {
-    facts_pl: ['Homar żyje nawet 100 lat.', 'Nigdy się nie starzeje — odrasta mu nawet ucięta klepa.'],
+    facts_pl: ['Homar żyje nawet 100 lat.', 'Rośnie przez całe życie, a utracone odnóże potrafi mu odrosnąć.'],
     size_pl: 'Długość 25–64 cm. Waga do 9 kg.', lifespan_pl: '50–100 lat', diet_pl: 'Ryby, małże, padlina.',
   },
   langouste: {
@@ -2482,15 +2492,15 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Rozpiętość nóg 1 m.', lifespan_pl: '60 lat', diet_pl: 'Kokosy, owoce, padlina.',
   },
   krill: {
-    facts_pl: ['Kryl to mikroowoc morza, na którym żyją wieloryby.', 'Cała biomasa kryla = 400 milionów ton — najwięcej spośród wielokomórkowych.'],
+    facts_pl: ['Kryl to malutkie skorupiaki, którymi żywią się wieloryby, foki i pingwiny.', 'Kryl antarktyczny to jeden z najliczniejszych gatunków zwierząt na Ziemi.'],
     size_pl: 'Długość 1–6 cm.', lifespan_pl: '6 lat', diet_pl: 'Plankton.',
   },
   barnacle: {
-    facts_pl: ['Pąkle przyklejają się do statków i wielorybów.', 'Mają najdłuższy penis w stosunku do ciała w królestwie zwierząt — 8x dłuższy.'],
+    facts_pl: ['Pąkle przyklejają się do statków i wielorybów.', 'Dorosła pąkla przykleja się głową do podłoża i łapie jedzenie… nogami!'],
     size_pl: 'Średnica 1–7 cm.', lifespan_pl: '5–20 lat', diet_pl: 'Plankton.',
   },
   mantis_shrimp: {
-    facts_pl: ['Krewetka modliszkowa uderza tak szybko, że tworzy bańki gorące jak słońce.', 'Widzi 16 kolorów — my tylko 3.'],
+    facts_pl: ['Krewetka modliszkowa uderza tak szybko, że woda wokół jej szczypiec na chwilę się zagotowuje.', 'Widzi 16 kolorów — my tylko 3.'],
     size_pl: 'Długość 10–40 cm.', lifespan_pl: '20 lat', diet_pl: 'Kraby, ślimaki, małże.',
   },
   mantis_shrimp_peacock: {
@@ -2504,11 +2514,12 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   },
   tortoise_giant: {
     tagline_pl: 'rekordzista długowieczności',
-    facts_pl: ['Żółw słoniowy dożywa 180 lat.', 'Charles Darwin obserwował te żółwie w 1835 — niektóre żyły jeszcze 100 lat później.'],
-    size_pl: 'Długość 1,2–1,5 m. Waga 200–400 kg.', lifespan_pl: '100–180 lat', diet_pl: 'Trawa, kaktusy, owoce.',
+    facts_pl: ['Żółw olbrzymi z wysp Aldabra na Oceanie Indyjskim może żyć ponad 150 lat.', 'Najstarszy znany żółw, Jonathan z Wyspy Świętej Heleny, ma już prawie 200 lat!'],
+    size_pl: 'Długość 1–1,2 m. Waga do 250 kg.', lifespan_pl: '100–150+ lat', diet_pl: 'Trawa, liście, owoce.',
+    map_regions: ['africa-sub'],
   },
   turtle: {
-    facts_pl: ['Żółwie lądowe dożywają nawet 150 lat.', 'Skorupa to ich własny szkielet — żebra zrośnięte z płytkami.'],
+    facts_pl: ['Niektóre żółwie lądowe dożywają ponad 100 lat.', 'Skorupa to ich własny szkielet — żebra zrośnięte z płytkami.'],
     size_pl: 'Długość 15–80 cm.', lifespan_pl: '50–150 lat', diet_pl: 'Trawa, liście, owoce.',
   },
   snake: {
@@ -2521,11 +2532,11 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 1–1,8 m. Waga 30–60 kg.', lifespan_pl: '50–80 lat', diet_pl: 'Ryby, raki, drobne ssaki.',
   },
   saiga: {
-    facts_pl: ['Suhak ma dziwny, opuchnięty nos — filtruje pył stepowy.', 'Niegdyś miliony — dziś krytycznie zagrożona, żyje go tylko 200 000.'],
+    facts_pl: ['Suhak ma dziwny, opuchnięty nos — filtruje pył stepowy.', 'Kiedyś było ich bardzo mało, ale dzięki ochronie stada znów liczą ponad milion zwierząt.'],
     size_pl: 'Wysokość 60–80 cm.', lifespan_pl: '6–10 lat', diet_pl: 'Trawa stepowa.',
   },
   lemur: {
-    facts_pl: ['Lemur śpiewa rano jak żywy budzik dżungli.', 'Mieszka tylko na Madagaskarze — wszystkie 100 gatunków.'],
+    facts_pl: ['Lemury rano wygrzewają się w słońcu z rozłożonymi łapkami.', 'Mieszka tylko na Madagaskarze — wszystkie 100 gatunków.'],
     size_pl: 'Długość 30–60 cm + ogon.', lifespan_pl: '16–19 lat', diet_pl: 'Owoce, liście, owady.',
   },
   mandrill: {
@@ -2533,13 +2544,13 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 60–95 cm.', lifespan_pl: '20–30 lat', diet_pl: 'Owoce, nasiona, jaja, owady.',
   },
   porcupine: {
-    facts_pl: ['Jeżozwierz strzela kolcami w obronie — nie do końca, ale słabo trzymane łatwo wbijają się w atakującego.', 'Kolce to przekształcone włosy — odrastają.'],
+    facts_pl: ['Jeżozwierz nie strzela kolcami — ale kolce łatwo się odczepiają i wbijają w napastnika.', 'Kolce to przekształcone włosy — odrastają.'],
     size_pl: 'Długość 60–90 cm.', lifespan_pl: '15–27 lat', diet_pl: 'Liście, kora, owoce.',
   },
 
   // === BATCH 4 — Owady / pajęczaki / inne pozostałe ===
   beetle: {
-    facts_pl: ['Żuki to najliczniejsza grupa zwierząt świata — 400 000 gatunków.', '1 na 4 zwierzęta świata to chrząszcz.'],
+    facts_pl: ['Chrząszcze to najliczniejsza grupa zwierząt świata — znamy ponad 350 000 gatunków.', 'Co czwarty znany gatunek zwierzęcia to chrząszcz.'],
     size_pl: 'Długość 0,5–17 cm.', lifespan_pl: 'kilka miesięcy do kilku lat', diet_pl: 'Zależnie od gatunku — wszystko.',
   },
   stag_beetle: {
@@ -2547,11 +2558,11 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 5–9 cm.', lifespan_pl: '4 lata (głównie jako larwa)', diet_pl: 'Sok drzew (dorosły), butwiejące drewno (larwa).',
   },
   rhinoceros_beetle: {
-    facts_pl: ['Rohatyniec uniesie 850 razy więcej niż waży — proporcjonalnie najsilniejsze zwierzę.', 'Samce mają róg jak nosorożec.'],
+    facts_pl: ['Rohatyniec uniesie 850 razy więcej, niż sam waży — to jeden z najsilniejszych owadów.', 'Samce mają róg jak nosorożec.'],
     size_pl: 'Długość 2–6 cm.', lifespan_pl: '1–2 lata', diet_pl: 'Owoce, sok drzew.',
   },
   caterpillar: {
-    facts_pl: ['Gąsienica zamieni się w motyla po długim śnie w poczwarce.', 'Może zjeść 30 000 razy więcej niż waży w ciągu życia.'],
+    facts_pl: ['Gąsienica po przepoczwarczeniu zamieni się w motyla.', 'Może zjeść 30 000 razy więcej niż waży w ciągu życia.'],
     size_pl: 'Długość 1–10 cm.', lifespan_pl: '2–6 tygodni', diet_pl: 'Liście — często jeden gatunek rośliny.',
   },
   bumblebee: {
@@ -2567,11 +2578,11 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 1–2 cm.', lifespan_pl: 'kilka miesięcy', diet_pl: 'Owady, owoce, mięso.',
   },
   mosquito: {
-    facts_pl: ['Komary atakują samice — samce piją nektar.', 'Najgroźniejsze zwierzę dla ludzi — przenoszą choroby.'],
+    facts_pl: ['Gryzą tylko samice komarów — samce piją nektar z kwiatów.', 'Najgroźniejsze zwierzę dla ludzi — przenoszą choroby.'],
     size_pl: 'Długość 3–6 mm.', lifespan_pl: '1–2 tygodnie', diet_pl: 'Krew (samica), nektar (samiec).',
   },
   fly: {
-    facts_pl: ['Mucha widzi obraz 6x szybciej niż my — dla niej nasze ruchy są jak w slow-motion.', 'Smakuje stopkami — receptory są na łapkach.'],
+    facts_pl: ['Mucha widzi ruch kilka razy szybciej niż my — dla niej nasze ruchy są jak w zwolnionym tempie.', 'Smakuje stopkami — receptory są na łapkach.'],
     size_pl: 'Długość 4–8 mm.', lifespan_pl: '15–25 dni', diet_pl: 'Wszystko — od owoców po padlinę.',
   },
   dragonfly: {
@@ -2579,23 +2590,23 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Rozpiętość 5–15 cm.', lifespan_pl: '6 miesięcy (głównie jako larwa)', diet_pl: 'Owady — komary, muchy, mole.',
   },
   mayfly: {
-    facts_pl: ['Jętka żyje jako dorosła zaledwie 1 dzień.', 'Wszystkie wykluwają się tego samego dnia — milionami.'],
-    size_pl: 'Długość 1–3 cm.', lifespan_pl: '1 dzień (dorosły)', diet_pl: 'Nic — dorosła nie ma żuchwy.',
+    facts_pl: ['Jętka żyje jako dorosła zaledwie 1 dzień.', 'Często wylatują masowo tego samego wieczoru — milionami.'],
+    size_pl: 'Długość 1–3 cm.', lifespan_pl: '1 dzień (dorosły)', diet_pl: 'Nic — dorosła nie ma działającego pyszczka.',
   },
   firefly: {
-    facts_pl: ['Świetlik świeci ogonkiem, żeby przyciągnąć partnera.', 'Każdy gatunek miga w innym rytmie — to ich "język".'],
+    facts_pl: ['Świetlik świeci odwłokiem, żeby przyciągnąć partnera.', 'Każdy gatunek miga w innym rytmie — to ich "język".'],
     size_pl: 'Długość 5–25 mm.', lifespan_pl: '2 miesiące', diet_pl: 'Ślimaki, drobne owady.',
   },
   moth: {
-    facts_pl: ['Ćmy nawigują po księżycu — dlatego kręcą się wokół lampy.', 'Niektóre nie jedzą całego życia — tylko żyją z zapasów gąsienicy.'],
+    facts_pl: ['Ćmy krążą wokół lamp, bo sztuczne światło myli ich zmysł orientacji.', 'Niektóre nie jedzą całego życia — tylko żyją z zapasów gąsienicy.'],
     size_pl: 'Rozpiętość 0,5–25 cm.', lifespan_pl: 'kilka tygodni', diet_pl: 'Nektar — lub nic.',
   },
   cockroach: {
-    facts_pl: ['Karaluch przeżyje nawet wybuch atomowy — prawie.', 'Żyje 100 mln lat — istniał już przed dinozaurami.'],
+    facts_pl: ['Karaluch jest bardzo odporny — potrafi przeżyć nawet tydzień bez głowy.', 'Karaluchy chodziły po Ziemi już ponad 300 milionów lat temu — przed dinozaurami.'],
     size_pl: 'Długość 1,5–4 cm.', lifespan_pl: '1 rok', diet_pl: 'Wszystkożerca — łącznie z papierem i mydłem.',
   },
   cockroach_asian: {
-    facts_pl: ['Karaczany latają i przeżyją tygodnie bez głowy.', 'Wstrzymują oddech 40 minut.'],
+    facts_pl: ['Karaczany potrafią latać i przeżyć nawet tydzień bez głowy.', 'Wstrzymują oddech 40 minut.'],
     size_pl: 'Długość 2–4 cm.', lifespan_pl: '1 rok', diet_pl: 'Wszystkożerca.',
   },
   cricket: {
@@ -2627,11 +2638,11 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Rozpiętość 5–6 cm.', lifespan_pl: '11 miesięcy', diet_pl: 'Nektar, sok z owoców.',
   },
   centipede: {
-    facts_pl: ['Stonoga ma dużo nóg, ale nigdy dokładnie sto.', 'Jest drapieżnikiem — para nóg przed pyskiem to kleszcze jadowe.'],
+    facts_pl: ['Parecznik ma dużo nóg, ale nigdy dokładnie sto — zawsze nieparzystą liczbę par.', 'Jest drapieżnikiem — para nóg przed pyskiem to kleszcze jadowe.'],
     size_pl: 'Długość 2–30 cm.', lifespan_pl: '2–6 lat', diet_pl: 'Owady, dżdżownice.',
   },
   millipede: {
-    facts_pl: ['Krocionóg ma do 750 nóg — nigdy nie 1000, mimo nazwy.', 'Roślinożerca — w odróżnieniu od stonogi.'],
+    facts_pl: ['Krocionogi mają zwykle kilkaset nóg — rekordzista z Australii ma ich aż 1306!', 'Roślinożerca — w odróżnieniu od parecznika.'],
     size_pl: 'Długość 1–30 cm.', lifespan_pl: '7–10 lat', diet_pl: 'Butwiejące liście.',
   },
   earthworm: {
@@ -2643,7 +2654,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 5–17 mm.', lifespan_pl: '1 rok', diet_pl: 'Owady — łapane w sieć.',
   },
   harvestman: {
-    facts_pl: ['Kosarz ma bardzo długie nogi, ale nie tka sieci.', 'Nie produkuje jadu — jako jedyny pajęczak.'],
+    facts_pl: ['Kosarz ma bardzo długie nogi, ale nie tka sieci.', 'Nie ma jadu ani gruczołów przędnych — dlatego nie tka sieci.'],
     size_pl: 'Ciało 5–10 mm, nogi do 12 cm.', lifespan_pl: '1 rok', diet_pl: 'Drobne owady, padlina.',
   },
   tick: {
@@ -2651,7 +2662,7 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 1–5 mm (do 1 cm po posiłku).', lifespan_pl: '2 lata', diet_pl: 'Krew — ssaków, ptaków.',
   },
   mite: {
-    facts_pl: ['Roztocze widzimy tylko pod mikroskopem — żyją w łóżkach po milionach.', 'Niektóre powodują alergie i astmę.'],
+    facts_pl: ['Roztocza są tak małe, że widać je dopiero pod mikroskopem — w jednym łóżku żyją ich miliony.', 'Niektóre powodują alergie i astmę.'],
     size_pl: 'Długość 0,2–2 mm.', lifespan_pl: '2 miesiące', diet_pl: 'Złuszczony naskórek, pleśń.',
   },
   flea: {
@@ -2659,22 +2670,22 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 1,5–3,3 mm.', lifespan_pl: '2–3 miesiące', diet_pl: 'Krew ssaków.',
   },
   louse: {
-    facts_pl: ['Wesz nie skacze — chodzi po włosach.', 'Tylko ona "trzyma się" włosa specjalnymi pazurkami.'],
-    size_pl: 'Długość 2–4 mm.', lifespan_pl: '1 miesiąc', diet_pl: 'Krew — głowy człowieka.',
+    facts_pl: ['Wesz nie skacze — chodzi po włosach.', 'Mocno trzyma się włosa specjalnymi pazurkami.'],
+    size_pl: 'Długość 2–4 mm.', lifespan_pl: '1 miesiąc', diet_pl: 'Krew człowieka (wesz głowowa żyje na głowie).',
   },
   snail: {
     facts_pl: ['Ślimak ma 14 000 ząbków na języku — "radula".', 'W chwili niebezpieczeństwa chowa się w muszli i zatyka ją śluzem.'],
     size_pl: 'Długość 4–10 cm.', lifespan_pl: '3–7 lat (do 30)', diet_pl: 'Rośliny, glony.',
   },
   slug: {
-    facts_pl: ['Ślimak nagi nie ma muszli — chowa się w wilgoci.', 'Większy od winniczka — bo nie musi nosić muszli.'],
+    facts_pl: ['Ślimak nagi nie ma muszli — chowa się w wilgoci.', 'Zostawia za sobą śluzowy ślad, który pomaga mu się ślizgać.'],
     size_pl: 'Długość 3–15 cm.', lifespan_pl: '1–6 lat', diet_pl: 'Rośliny, grzyby, padlina.',
   },
 
   // === BATCH 4 — Owady / inne dodatkowe ===
   hummingbird: {
     tagline_pl: 'jedyny ptak latający w tył',
-    facts_pl: ['Koliber to jedyny ptak, który lata w tył.', 'Bije skrzydłami 80 razy na sekundę — i waży 2 gramy.'],
+    facts_pl: ['Koliber to jedyny ptak, który lata w tył.', 'Bije skrzydłami nawet 80 razy na sekundę — najmniejszy koliber waży tylko 2 gramy.'],
     size_pl: 'Długość 6–13 cm.', lifespan_pl: '3–5 lat', diet_pl: 'Nektar — 2x swojej wagi dziennie.',
   },
   booby: {
@@ -2692,11 +2703,11 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     size_pl: 'Długość 2 m, wysokość 50 cm.', lifespan_pl: '15–20 lat', diet_pl: 'Mniejsze dinozaury, jaszczurki.',
   },
   triceratops: {
-    facts_pl: ['Triceratops miał trzy rogi i pancerz jak czołg.', 'Jego kryza chroniła kark — i imponowała samicom.'],
+    facts_pl: ['Triceratops miał trzy rogi i wielką kostną kryzę na karku.', 'Jego kryza chroniła kark — i imponowała samicom.'],
     size_pl: 'Długość 9 m. Waga 6–12 ton.', lifespan_pl: '40 lat', diet_pl: 'Rośliny — głównie paprocie.',
   },
   stegosaurus: {
-    facts_pl: ['Stegozaur miał mózg wielkości włoskiego orzecha — mimo 9 metrów ciała.', 'Płytki na grzbiecie służyły do regulacji temperatury.'],
+    facts_pl: ['Stegozaur miał 9 metrów długości, a mózg wielkości orzecha włoskiego.', 'Płytki na grzbiecie służyły do regulacji temperatury.'],
     size_pl: 'Długość 9 m.', lifespan_pl: '30 lat', diet_pl: 'Niskie rośliny, paprocie.',
   },
   bigfoot: {
@@ -2715,6 +2726,52 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     facts_pl: ['Gryf ma głowę orła i ciało lwa — strażnik skarbów.', 'W herbach symbolizuje siłę i czujność.'],
     habitat_pl: 'w mitach Persji, Grecji i średniowiecznej Europy',
   },
+  // === Poprawki — nowe/zmienione gatunki bez wcześniejszego opisu ===
+  morpho_blue: {
+    facts_pl: ['Gąsienica modraszka ariona mieszka w mrowisku — mrówki karmią ją jak własne dziecko!', 'W Polsce jest rzadki i objęty ochroną.'],
+    size_pl: 'Rozpiętość 3–4 cm.', lifespan_pl: 'kilka tygodni (dorosły)', diet_pl: 'Nektar (dorosły), larwy mrówek (gąsienica).',
+    habitat_pl: 'nasłonecznione łąki Polski i Europy', map_regions: ['europa', 'polska'],
+  },
+  monarch_butterfly: {
+    facts_pl: ['Cytrynek to jeden z pierwszych motyli wiosny — przezimowuje ukryty wśród liści.', 'Dorosły cytrynek żyje nawet rok — dłużej niż większość motyli.'],
+    size_pl: 'Rozpiętość 5–6 cm.', lifespan_pl: 'do 1 roku', diet_pl: 'Nektar kwiatów.',
+    habitat_pl: 'lasy, ogrody i łąki Polski', map_regions: ['europa', 'polska'],
+  },
+  orb_weaver: {
+    facts_pl: ['Tygrzyk paskowany ma żółto-czarne paski jak osa i tka sieć z zygzakiem.', 'Kiedyś żył tylko na południu Europy — dziś spotkasz go na łąkach w całej Polsce.'],
+    size_pl: 'Długość 1–2 cm (samica).', lifespan_pl: '1 rok', diet_pl: 'Koniki polne, muchy i inne owady.',
+    habitat_pl: 'łąki i nieużytki Polski', map_regions: ['europa', 'polska'],
+  },
+  sun_spider: {
+    facts_pl: ['Topik to pająk, który mieszka pod wodą w bańce powietrza jak w dzwonie nurkowym.', 'Powietrze przynosi z powierzchni na włoskach odwłoka.'],
+    size_pl: 'Długość 8–15 mm.', lifespan_pl: '1–2 lata', diet_pl: 'Drobne zwierzęta wodne.',
+    habitat_pl: 'zarośnięte stawy i jeziora Polski', map_regions: ['europa', 'polska'],
+  },
+  isopod_giant: {
+    facts_pl: ['Stonoga to skorupiak, który żyje na lądzie — oddycha czymś w rodzaju skrzeli, dlatego lubi wilgoć.', 'Mama nosi jaja i młode w specjalnej torbie pod brzuchem.'],
+    size_pl: 'Długość 1–2 cm.', lifespan_pl: '2–3 lata', diet_pl: 'Butwiejące liście i drewno.',
+    habitat_pl: 'wilgotne miejsca pod kamieniami i korą — także w piwnicach', map_regions: ['europa', 'polska'],
+  },
+  brook_trout: {
+    facts_pl: ['Głowacica to największa ryba łososiowata Europy — może mieć ponad metr długości.', 'W Polsce żyje w górskich rzekach, np. w Dunajcu.'],
+    size_pl: 'Długość 70–150 cm.', lifespan_pl: '15–20 lat', diet_pl: 'Ryby, żaby, czasem małe ssaki.',
+    habitat_pl: 'górskie rzeki dorzecza Dunaju', map_regions: ['europa', 'polska'],
+  },
+  giant_anteater: {
+    facts_pl: ['Tamandua trzyma się gałęzi chwytnym ogonem, a gdy się boi, brzydko pachnie jak skunks.', 'Długim językiem wyjada mrówki i termity z gniazd na drzewach.'],
+    size_pl: 'Długość 50–90 cm + ogon.', lifespan_pl: '9–15 lat', diet_pl: 'Mrówki, termity, pszczoły.',
+    habitat_pl: 'lasy tropikalne Ameryki Środkowej i Południowej', map_regions: ['america-s'],
+  },
+  vampire_squid_giant: {
+    facts_pl: ['Kalmar Humboldta poluje w stadach i błyska na czerwono i biało — rybacy nazywają go "czerwonym diabłem".', 'Może mieć prawie 2 metry długości i jest bardzo szybki.'],
+    size_pl: 'Długość do 1,5–2 m. Waga do 50 kg.', lifespan_pl: '1–2 lata', diet_pl: 'Ryby, kryl, inne kalmary.',
+    habitat_pl: 'wschodni Pacyfik', map_regions: ['oceans'],
+  },
+  mantis_shrimp_punching: {
+    facts_pl: ['Krab bokser trzyma w szczypcach małe ukwiały i macha nimi jak pomponami, żeby odstraszyć wrogów.', 'Ukwiały przy okazji pomagają mu łapać drobinki jedzenia.'],
+    size_pl: 'Szerokość 1–2 cm.', lifespan_pl: 'kilka lat', diet_pl: 'Drobinki jedzenia zebrane przez ukwiały.',
+    habitat_pl: 'rafy koralowe Oceanu Indyjskiego i Pacyfiku', map_regions: ['oceans'],
+  },
 };
 
 // === Mapowanie expedition_tags → regions ===
@@ -2730,7 +2787,7 @@ const TAG_TO_REGIONS: Record<string, MapRegion[]> = {
   ocean: ['oceans'],
   night_forest: [],
   mountain: [],
-  freshwater: ['europa'],
+  freshwater: ['europa', 'polska'],
   mythical: ['mythical'],
 };
 
@@ -2740,12 +2797,11 @@ const HABITAT_LABELS: Record<string, string> = {
   home_pets: 'domy ludzi',
   savanna: 'afrykańska sawanna',
   jungle: 'tropikalne dżungle',
-  arctic: 'lodowa Arktyka',
+  arctic: 'lodowe krainy Arktyki i Antarktydy',
   australia: 'australijski busz',
   ocean: 'głębiny oceanu',
   mountain: 'wysokie góry',
-  night_forest: 'nocne lasy',
-  freshwater: 'rzeki i jeziora',
+  freshwater: 'polskie rzeki i jeziora',
   mythical: 'tylko w legendach i mitach',
 };
 
@@ -2800,7 +2856,7 @@ const MAP_REGION_OVERRIDES: Partial<Record<string, MapRegion[]>> = {
   snow_monkey: ['asia-east'],
   langur: ['asia-se'],
   binturong: ['asia-se'],
-  binturong_indo: ['asia-se'],
+
   asian_elephant: ['asia-se'],
   sun_bear: ['asia-se'],
   moon_bear: ['asia-east'],
@@ -2818,10 +2874,10 @@ const MAP_REGION_OVERRIDES: Partial<Record<string, MapRegion[]>> = {
   reticulated_python: ['asia-se'],
   python: ['asia-se', 'africa-sub'],
   komodo: ['asia-se'],
-  komodo_juvenile: ['asia-se'],
+
   cobra: ['asia-se', 'africa-sub'],
   atlas_moth: ['asia-se'],
-  atlas_butterfly: ['asia-se'],
+
   silk_moth: ['asia-east'],
   gharial: ['asia-se'],
   koi: ['asia-east'],
@@ -2841,7 +2897,7 @@ const MAP_REGION_OVERRIDES: Partial<Record<string, MapRegion[]>> = {
   toucan_keel: ['america-s'],
   macaw: ['america-s'],
   anaconda: ['america-s'],
-  green_anaconda: ['america-s'],
+
   piranha: ['america-s'],
   eel_electric: ['america-s'],
   boa: ['america-s'],
@@ -2891,13 +2947,15 @@ const MAP_REGION_OVERRIDES: Partial<Record<string, MapRegion[]>> = {
   alligator: ['america-n'],
   rattlesnake: ['america-n'],
   monarch: ['america-n'],
-  chipmunk: ['america-n'],
+  chipmunk: ['asia-east'],
   snowshoe_hare: ['america-n'],
   alligator_snapping: ['america-n'],
   hellbender: ['america-n'],
+  axolotl: ['america-n'],
   bullfrog: ['america-n'],
-  aardvark_pig: ['america-n', 'america-s'],
-  flying_squirrel: ['america-n', 'europa'],
+  aardvark_pig: ['asia-se'],
+  peccary: ['america-n', 'america-s'],
+  flying_squirrel: ['europa', 'asia-east'],
   horned_lizard: ['america-n'],
 
   // === AFRYKA ===
@@ -2910,10 +2968,10 @@ const MAP_REGION_OVERRIDES: Partial<Record<string, MapRegion[]>> = {
   bongo: ['africa-sub'],
   goliath_beetle: ['africa-sub'],
   ratel: ['africa-sub'],
-  honey_badger: ['africa-sub'],
+
   secretary_bird: ['africa-sub'],
   aardwolf: ['africa-sub'],
-  aardwolf_kenya: ['africa-sub'],
+
   caracal: ['africa-sub', 'asia-cent'],
   mongoose: ['africa-sub', 'asia-se'],
   meerkat: ['africa-sub'],
@@ -2997,12 +3055,14 @@ const MAP_REGION_OVERRIDES: Partial<Record<string, MapRegion[]>> = {
   frilled_lizard: ['australia'],
   kakapo: ['australia'],
   kiwi: ['australia'],
+  kea: ['australia'],
+  tuatara: ['australia'],
   lyrebird: ['australia'],
 
   // === Egzotyczne ptaki ===
   eagle: ['europa', 'asia-cent', 'america-n'],
   vulture: ['africa-sub', 'asia-se'],
-  tortoise_giant: ['america-s'],
+  galapagos_tortoise: ['america-s'],
   parrot: ['america-s', 'africa-sub', 'asia-se'],
   flamingo: ['africa-sub', 'america-s'],
   hummingbird: ['america-s', 'america-n'],

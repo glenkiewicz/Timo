@@ -120,6 +120,10 @@ for (const a of ANIMALS) {
   if (at.has_feathers === true && at.has_fur === true) {
     err(`'${a.id}': ma jednocześnie has_feathers=true i has_fur=true`);
   }
+  // Owad zawsze ma 6 nóg
+  if (at.is_insect === true && at.has_legs === false) {
+    err(`'${a.id}': is_insect=true ale has_legs=false — owady mają nogi`);
+  }
   // Owad nie może mieć szkieletu kręgowca
   if (
     at.is_insect === true &&

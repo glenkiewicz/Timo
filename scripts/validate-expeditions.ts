@@ -96,6 +96,40 @@ for (const exp of EXPEDITIONS) {
       check: (_) => false, // wszystko dozwolone
       label: '',
     },
+    // Regionalne — zwierzę nie może mieć jawnie wykluczonego regionu
+    // (false = "na pewno nie"; null = "czasem" jest OK).
+    freshwater: {
+      check: (a) => a.attributes.lives_in_poland === false,
+      label: 'lives_in_poland=false w "Słodkich wodach Polski"',
+    },
+    polish_forest: {
+      check: (a) => a.attributes.lives_in_poland === false,
+      label: 'lives_in_poland=false w "Polskim lesie"',
+    },
+    savanna: {
+      check: (a) => a.attributes.lives_in_africa === false,
+      label: 'lives_in_africa=false w "Afrykańskiej sawannie"',
+    },
+    arctic: {
+      check: (a) => a.attributes.lives_in_arctic === false,
+      label: 'lives_in_arctic=false w "Lodowych krainach"',
+    },
+    home_pets: {
+      check: (a) => a.attributes.lives_at_home === false,
+      label: 'lives_at_home=false w "Domowych przyjaciołach"',
+    },
+    night_forest: {
+      check: (a) => a.attributes.is_nocturnal === false,
+      label: 'is_nocturnal=false w "Zwierzętach nocy"',
+    },
+    night_animals: {
+      check: (a) => a.attributes.is_nocturnal === false,
+      label: 'is_nocturnal=false w "Nocnych Zwierzakach"',
+    },
+    monkey_friends: {
+      check: (a) => a.attributes.is_primate !== true,
+      label: 'nie jest is_primate=true',
+    },
   };
 
   const rule = SUSPECT_RULES[exp.id];
