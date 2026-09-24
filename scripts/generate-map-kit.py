@@ -100,12 +100,12 @@ PIECES = {
            "map: a row of evenly spaced soft brown oval dashes running left to right across "
            "the frame, faded sepia ink." + ALPHA, "16:9"),
 
- "frame-found": (STYLE + "An empty circular photo frame: a thick creamy white ring with a "
-                 "soft drop shadow, the inside completely empty and pure white." + ALPHA, "1:1"),
-
- "frame-locked": (STYLE + "An empty circular slot for a missing sticker: a circle of sandy "
-                  "beige paper slightly darker than parchment, outlined with a dashed brown "
-                  "line, the inside empty and flat." + ALPHA, "1:1"),
+ # Jedna tarcza pod KAŻDE zwierzę — odkryte i nie. Odkryte miało wcześniej
+ # kremowy pierścień, ale czytał się jak osobna grafika doklejona do rysunku;
+ # wspólne tło spina siatkę w całość, a stan niesie sama zawartość krążka.
+ "slot": (STYLE + "An empty circular slot for a sticker: a circle of sandy beige paper "
+          "slightly darker than parchment, outlined with a dashed brown line, the inside "
+          "empty and flat." + ALPHA, "1:1"),
 }
 
 

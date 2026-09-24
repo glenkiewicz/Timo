@@ -1,6 +1,6 @@
 import * as Haptics from 'expo-haptics';
-import { Link, useRouter } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { Link } from 'expo-router';
+import { useEffect, useMemo, useState } from 'react';
 import { FlatList, Platform, ScrollView, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -13,14 +13,12 @@ import {
   PaperEdge,
   RegionIsland,
 } from '@/components/collection/map';
-import { ExpeditionIcon } from '@/components/expeditions/ExpeditionIcon';
-import { FilterChip } from '@/components/ui/FilterChip';
 import { Icon } from '@/components/ui/Icon';
 import { DEV_UNLOCK_ALL } from '@/config/features';
 import { ILLUSTRATED_ANIMALS } from '@/data/animal-images';
 import { ANIMAL_REGIONS, BY_REGION, regionById } from '@/data/animal-regions';
 import { ANIMALS } from '@/data/animals';
-import { EXPEDITIONS, EXPEDITIONS_BY_ID } from '@/data/expeditions';
+import { useDockStore } from '@/lib/stores/dock-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { UI } from '@/theme/ui';
 import type { Animal } from '@/types/game';
@@ -42,7 +40,6 @@ const COLUMNS = 3;
  * wypchnięcie trasy poza `(tabs)` zabrałoby dolny dok, który ma zostać.
  */
 export default function CollectionScreen() {
-  const router = useRouter();
   const collection = useProfileStore((s) => s.collection);
   const discovered = useMemo(
     () => (DEV_UNLOCK_ALL ? new Set(ANIMALS.map((a) => a.id)) : new Set(collection)),
@@ -50,28 +47,16 @@ export default function CollectionScreen() {
   );
 
   const [openRegion, setOpenRegion] = useState<string | null>(null);
-  const [activeExpId, setActiveExpId] = useState<string | null>(null);
 
   if (!openRegion) {
-    return (
-      <CollectionMap
-        discovered={discovered}
-        onOpen={(id) => {
-          setOpenRegion(id);
-          setActiveExpId(null);
-        }}
-      />
-    );
+    return <CollectionMap discovered={discovered} onOpen={setOpenRegion} />;
   }
 
   return (
     <RegionShelf
       regionId={openRegion}
       discovered={discovered}
-      activeExpId={activeExpId}
-      onFilter={setActiveExpId}
       onBack={() => setOpenRegion(null)}
-      onAnimal={(id) => router.push(`/animal/${id}`)}
     />
   );
 }
@@ -218,36 +203,34 @@ function Island({
 function RegionShelf({
   regionId,
   discovered,
-  activeExpId,
-  onFilter,
   onBack,
-  onAnimal,
 }: {
   regionId: string;
   discovered: Set<string>;
-  activeExpId: string | null;
-  onFilter: (id: string | null) => void;
   onBack: () => void;
-  onAnimal: (animalId: string) => void;
 }) {
   const insets = useSafeAreaInsets();
   const { width: screenW } = useWindowDimensions();
   const region = regionById(regionId);
 
+  // Dok przejmuje kolor dołu tej planszy i oddaje go przy wyjściu. Sprzątanie
+  // w `return` jest tu istotne: bez niego zielona mapa dostałaby kolor ostatnio
+  // oglądanego regionu.
+  const setTint = useDockStore((st) => st.setTint);
+  useEffect(() => {
+    setTint(region?.dock ?? null);
+    return () => setTint(null);
+  }, [region, setTint]);
+
   const sorted = useMemo<Animal[]>(() => {
-    let base = BY_REGION[regionId] ?? [];
-    if (activeExpId) {
-      const exp = EXPEDITIONS_BY_ID[activeExpId];
-      const roster = new Set(exp?.roster ?? exp?.inspirationRoster ?? []);
-      base = base.filter((a) => roster.has(a.id));
-    }
+    const base = BY_REGION[regionId] ?? [];
     return [...base].sort((a, b) => {
       const da = discovered.has(a.id);
       const db = discovered.has(b.id);
       if (da !== db) return da ? -1 : 1;
       return a.name_pl.localeCompare(b.name_pl, 'pl');
     });
-  }, [regionId, activeExpId, discovered]);
+  }, [regionId, discovered]);
 
   const found = sorted.filter((a) => discovered.has(a.id)).length;
   const cell = (screenW - 14 * 2) / COLUMNS;
@@ -292,28 +275,6 @@ function RegionShelf({
             </Text>
           </View>
         </View>
-
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ gap: 8, paddingVertical: 4 }}
-          style={{ marginHorizontal: -14, paddingHorizontal: 14, marginTop: 8 }}>
-          <FilterChip
-            label="Wszystkie"
-            emoji="🐾"
-            active={activeExpId === null}
-            onPress={() => onFilter(null)}
-          />
-          {EXPEDITIONS.map((e) => (
-            <FilterChip
-              key={e.id}
-              label={e.childTitle ?? e.title}
-              icon={<ExpeditionIcon expeditionId={e.id} fallbackEmoji={e.hero_emoji} size={18} />}
-              active={activeExpId === e.id}
-              onPress={() => onFilter(e.id)}
-            />
-          ))}
-        </ScrollView>
       </View>
 
       <FlatList
@@ -325,18 +286,6 @@ function RegionShelf({
           paddingTop: 14,
           paddingBottom: insets.bottom + 24,
         }}
-        ListEmptyComponent={
-          <Text
-            className="text-center"
-            style={{
-              color: UI.onLawn,
-              fontFamily: 'Lexend-Bold',
-              fontSize: 14,
-              paddingVertical: 28,
-            }}>
-            Ta wyprawa nie ma zwierząt z tego regionu.
-          </Text>
-        }
         renderItem={({ item: row }) => (
           <View className="flex-row" style={{ marginBottom: 14 }}>
             {row.map((a) => {

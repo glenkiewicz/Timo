@@ -108,8 +108,6 @@ def main():
         # biały prostokąt, a przezroczystość bywa wręcz szachownicą w pikselach.
         # Alfę liczymy więc zawsze sami.
         rgba, t = cutout_raw(src)
-        if name in RINGS:
-            rgba = punch_centre(rgba)
         if name in EDGE_TOP:
             rgba = clear_above_paper(rgba)
         rgba = trim(rgba)

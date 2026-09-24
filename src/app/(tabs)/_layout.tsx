@@ -13,6 +13,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { StreakCelebration } from '@/components/gamification/StreakCelebration';
 import { useDailyCheckIn } from '@/features/gamification/useDailyCheckIn';
+import { useDockStore } from '@/lib/stores/dock-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { SHADOW, UI, type Accent } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
@@ -108,13 +109,16 @@ function TabItem({
 }
 
 function AppTabBar({ state, navigation }: BottomTabBarProps) {
+  const tint = useDockStore((s) => s.tint);
   const insets = useSafeAreaInsets();
 
   return (
     <View
       className="flex-row px-2 pt-2"
       style={{
-        backgroundColor: UI.panel,
+        // Ekran, który wypełnia sobą tło, podaje własny kolor doku — jedna
+        // zieleń odcinała się od jasnych plansz jak doklejony pasek.
+        backgroundColor: tint ?? UI.panel,
         paddingBottom: insets.bottom > 0 ? insets.bottom : 10,
         // Dok unosi się cieniem `e3`, tak jak chce docs/design-3.0.md —
         // wcześniej była tu ramka 2 px z UI 2.0.

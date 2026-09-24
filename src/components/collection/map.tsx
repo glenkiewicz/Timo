@@ -20,8 +20,7 @@ const ART = {
   signpost: require('../../../assets/map/signpost.webp'),
   banner: require('../../../assets/map/banner.webp'),
   compass: require('../../../assets/map/compass.webp'),
-  frameFound: require('../../../assets/map/frame-found.webp'),
-  frameLocked: require('../../../assets/map/frame-locked.webp'),
+  slot: require('../../../assets/map/slot.webp'),
 } as const;
 
 /** Wyspy regionów — `require` musi dostać literał, więc mapujemy je ręcznie. */
@@ -166,12 +165,13 @@ export function Compass({ size }: { size: number }) {
 }
 
 /**
- * Kółko ze zwierzęciem.
+ * Kółko ze zwierzęciem — TA SAMA tarcza pod odkrytym i nieodkrytym.
  *
- * Kolejność warstw różni się dla dwóch stanów i to nie przypadek: ramka
- * odkrytego jest PIERŚCIENIEM z przezroczystym środkiem, więc leży na wierzchu
- * i przycina portret. Ramka nieodkrytego ma kryjące beżowe wypełnienie, więc
- * musi iść POD obrys — inaczej zasłoniłaby go w całości.
+ * Odkryte miało wcześniej kremowy pierścień i czytało się jak osobna grafika
+ * doklejona do rysunku, zamiast jak miejsce w kolekcji. Wspólny beżowy krążek
+ * z kreskowanym obrysem spina siatkę w całość, a stan niesie sama zawartość:
+ * kolorowy rysunek albo jego obrys. Przy okazji znika różnica w kolejności
+ * warstw — tarcza zawsze leży pod spodem.
  */
 export function AnimalCircle({
   animalId,
@@ -182,32 +182,27 @@ export function AnimalCircle({
   discovered: boolean;
   size: number;
 }) {
-  const frame = (
-    <Image
-      source={discovered ? ART.frameFound : ART.frameLocked}
-      style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
-      contentFit="fill"
-      transition={0}
-      accessible={false}
-    />
-  );
-
   return (
     <View style={{ width: size, height: size }}>
-      {discovered ? null : frame}
+      <Image
+        source={ART.slot}
+        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+        contentFit="fill"
+        transition={0}
+        accessible={false}
+      />
       <View
         style={{
           position: 'absolute',
-          top: size * 0.16,
-          left: size * 0.16,
-          right: size * 0.16,
-          bottom: size * 0.16,
+          top: size * 0.14,
+          left: size * 0.14,
+          right: size * 0.14,
+          bottom: size * 0.14,
           overflow: 'hidden',
           borderRadius: size / 2,
         }}>
         <AnimalImage animalId={animalId} fill silhouette={!discovered} />
       </View>
-      {discovered ? frame : null}
     </View>
   );
 }

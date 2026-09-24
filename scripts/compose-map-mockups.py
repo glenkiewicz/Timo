@@ -60,16 +60,14 @@ def centred(draw, xy, text, f, fill=INK):
 
 def animal_circle(canvas, cx, cy, d, animal_id=None, found=True):
     """Kółko ze zwierzęciem — ramka z assetu, portret z assets/animals."""
-    frame = load("frame-found" if found else "frame-locked")
+    # TA SAMA tarcza pod odkrytym i nieodkrytym — stan niesie zawartość krążka,
+    # nie jego obwódka. Kremowy pierścień pod odkrytym czytał się jak osobna
+    # grafika doklejona do rysunku.
+    frame = load("slot")
     if frame is None:
         return
     frame = fit(frame, d, d)
-
-    # Ramka nieodkrytego ma KRYJĄCE beżowe wypełnienie, więc idzie POD obrys.
-    # Ramka odkrytego jest pierścieniem z przezroczystym środkiem i ma leżeć na
-    # wierzchu, żeby przycinała portret.
-    if not found:
-        canvas.alpha_composite(frame, (cx - d // 2, cy - d // 2))
+    canvas.alpha_composite(frame, (cx - d // 2, cy - d // 2))
 
     if found and animal_id:
         p = ANIM / f"{animal_id}.webp"
@@ -93,15 +91,12 @@ def animal_circle(canvas, cx, cy, d, animal_id=None, found=True):
                                            Image.new("L", (d, d), 0), clip))
             canvas.alpha_composite(layer, (cx - d // 2, cy - d // 2))
 
-    if found:
-        canvas.alpha_composite(frame, (cx - d // 2, cy - d // 2))
 
-
-def dock(canvas):
+def dock(canvas, tint=None):
     """Dolny dok — tylko po to, żeby makieta miała prawdziwe proporcje ekranu."""
     d = ImageDraw.Draw(canvas)
     top = H - 150
-    d.rectangle([0, top, W, H], fill=DOCK)
+    d.rectangle([0, top, W, H], fill=tint or DOCK)
     labels = ["Menu", "Wyprawy", "Kolekcja", "Odznaki"]
     icons = ["tab-home", "tab-expeditions", "tab-collection", "tab-badges"]
     for i, (lab, ic) in enumerate(zip(labels, icons)):
@@ -224,7 +219,7 @@ def view_region():
         centred(d, (cx, cy + dia // 2 + 22),
                 "?????" if i >= 7 else NAMES.get(aid, aid), font(19), (255, 255, 255))
 
-    dock(canvas)
+    dock(canvas, "#5f7e3c")
     return canvas
 
 
