@@ -12,7 +12,11 @@
  * 'locked'), a w kolekcji widać wszystkie zwierzęta jako odkryte.
  * Ułatwia testowanie różnych wypraw i UI kart zwierząt bez grania od początku.
  */
-export const DEV_UNLOCK_ALL = '__DEV__';
+// UWAGA: to musi być GOŁY `__DEV__`, nie napis. Do tej pory stało tu
+// `'__DEV__'` w cudzysłowie — niepusty napis jest zawsze prawdziwy, więc
+// odblokowanie działało również w buildzie produkcyjnym: wszystkie wyprawy
+// otwarte i cała kolekcja pokazana jako odkryta.
+export const DEV_UNLOCK_ALL = __DEV__;
 
 /**
  * Tabela wyników na ekranie głównym. Schowana na czas przebudowy wizualnej —
