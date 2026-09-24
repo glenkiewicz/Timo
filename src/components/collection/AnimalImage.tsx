@@ -2,27 +2,38 @@ import { Image } from "expo-image";
 import { useState } from "react";
 
 import { animalImageFor } from "@/data/animal-images";
+import { UI } from "@/theme/ui";
 import { Text, View } from "@/tw";
 
 type Props = {
 	/** ID zwierzęcia (zgodne z `Animal.id`). */
 	animalId: string;
-	/** Emoji do fallbacku, gdy zdjęcia brak lub nie udało się załadować. */
-	fallbackEmoji?: string;
 	/** Rozmiar boku (kwadrat). Wymagany, gdy `fill` nie jest ustawione. */
 	size?: number;
 	/** Wypełnij kontener rodzica (absolute fill) zamiast użycia `size`. */
 	fill?: boolean;
+	/**
+	 * Rysuj jednolitą sylwetkę zamiast portretu — nieodkryte zwierzę w kolekcji.
+	 *
+	 * Działa WYŁĄCZNIE dla rysunków z kanałem alfa (`ILLUSTRATED_ANIMALS`).
+	 * Fotografia bez alfy zamieniłaby się po przyciemnieniu w pełny kwadrat,
+	 * więc dla niej wywołujący powinien pokazać zwykły znak zapytania.
+	 */
+	silhouette?: boolean;
 };
 
 /**
- * Wyświetla zdjęcie zwierzęcia z `assets/animals/<id>.jpg`. Fallback na emoji.
+ * Portret zwierzęcia z `assets/animals/<id>.webp`.
+ *
+ * Trzy stany i ŻADNEGO emoji: rysunek, obrys (zwierzę nieodkryte) albo pusto,
+ * gdy grafiki jeszcze nie wygenerowaliśmy. Emoji było tu zaszłością po
+ * fotografiach — mieszało systemowy krój z ilustracją i wyglądało jak usterka.
  */
 export function AnimalImage({
 	animalId,
-	fallbackEmoji,
 	size,
 	fill,
+	silhouette,
 }: Props) {
 	const [errored, setErrored] = useState(false);
 	const src = animalImageFor(animalId);
@@ -37,10 +48,7 @@ export function AnimalImage({
 						justifyContent: "center",
 					}}
 				>
-					<Text style={{ fontSize: 48 }}>
-						{fallbackEmoji ?? "🐾"}
-					</Text>
-				</View>
+					</View>
 			);
 		}
 		return (
@@ -51,7 +59,8 @@ export function AnimalImage({
 					width: "100%",
 					height: "100%",
 				}}
-				contentFit="cover"
+				contentFit="contain"
+				tintColor={silhouette ? UI.pageFaint : undefined}
 				onError={() => setErrored(true)}
 			/>
 		);
@@ -69,9 +78,6 @@ export function AnimalImage({
 					justifyContent: "center",
 				}}
 			>
-				<Text style={{ fontSize: Math.round(boxSize * 0.7) }}>
-					{fallbackEmoji ?? "🐾"}
-				</Text>
 			</View>
 		);
 	}
