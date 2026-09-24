@@ -66,6 +66,17 @@ def punch_centre(rgba: Image.Image) -> Image.Image:
     return Image.fromarray(arr, "RGBA")
 
 
+def trim(img: Image.Image) -> Image.Image:
+    """Przytnij do widocznej zawartości.
+
+    Model rysuje każdy element w ramce 16:9 z szerokim pustym marginesem. Bez
+    przycięcia proporcje pliku (1,78) nie mają nic wspólnego z proporcjami
+    rysunku, więc komponent musiałby zgadywać, gdzie w kadrze leży deska.
+    """
+    box = img.getbbox()
+    return img.crop(box) if box else img
+
+
 def save(img: Image.Image, name: str):
     OUT.mkdir(parents=True, exist_ok=True)
     p = OUT / f"{name}.webp"
@@ -101,6 +112,7 @@ def main():
             rgba = punch_centre(rgba)
         if name in EDGE_TOP:
             rgba = clear_above_paper(rgba)
+        rgba = trim(rgba)
         p = save(rgba, name)
         print(f"  {name:16} {alpha_ratio(rgba)*100:5.1f}% krycia  prog {t:<3} {p.stat().st_size//1024} KB")
 
