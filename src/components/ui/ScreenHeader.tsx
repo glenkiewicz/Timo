@@ -4,12 +4,14 @@ import { Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Icon } from '@/components/ui/Icon';
-import { ACCENT, UI, type Accent } from '@/theme/ui';
+import { ACCENT, SHADOW, UI, type Accent } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
 
 type ScreenHeaderProps = {
   eyebrow?: string;
   title: string;
+  /** Ikona przed tytułem — np. rysowana ikona wyprawy zamiast emoji w tekście. */
+  icon?: ReactNode;
   /** Licznik po prawej, np. 12 / 45. */
   counter?: { value: number; total: number; accent?: Accent };
   onBack?: () => void;
@@ -23,6 +25,7 @@ type ScreenHeaderProps = {
 export function ScreenHeader({
   eyebrow,
   title,
+  icon,
   counter,
   onBack,
   children,
@@ -37,8 +40,9 @@ export function ScreenHeader({
         paddingHorizontal: 16,
         paddingBottom: 10,
         backgroundColor: UI.surface,
-        borderBottomWidth: 2,
-        borderBottomColor: UI.line,
+        // UI 3.0: nagłówek odcina się cieniem, nie ramką 2 px (patrz Card).
+        boxShadow: SHADOW.e1,
+        zIndex: 1,
       }}>
       <View className="flex-row items-center justify-between">
         {onBack ? (
@@ -69,11 +73,14 @@ export function ScreenHeader({
               {eyebrow}
             </Text>
           ) : null}
-          <Text
-            numberOfLines={1}
-            style={{ color: UI.text, fontFamily: 'Gabarito-Bold', fontSize: 19 }}>
-            {title}
-          </Text>
+          <View className="flex-row items-center" style={{ gap: 6 }}>
+            {icon}
+            <Text
+              numberOfLines={1}
+              style={{ color: UI.text, fontFamily: 'Gabarito-Bold', fontSize: 19 }}>
+              {title}
+            </Text>
+          </View>
         </View>
 
         {counter ? (

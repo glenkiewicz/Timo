@@ -14,7 +14,7 @@ import { FloatingDelta } from '@/components/gamification/FloatingDelta';
 import { InfoModal } from '@/components/gamification/InfoModal';
 import { Icon, type IconName } from '@/components/ui/Icon';
 import { TOOLTIPS, type TooltipKey } from '@/data/info-tooltips';
-import { ACCENT, UI, type Accent } from '@/theme/ui';
+import { ACCENT, SHADOW, UI, type Accent } from '@/theme/ui';
 import { Pressable, View } from '@/tw';
 
 type StatBadgeProps = {
@@ -30,7 +30,13 @@ type StatBadgeProps = {
 };
 
 /**
- * Statystyka w górnym pasku — sama ikona i liczba, bez tła.
+ * Statystyka w górnym pasku — ikona i liczba w białym chipie.
+ *
+ * Chip nie jest ozdobą: pasek leży teraz na ilustracji polany, a sama ikona
+ * w kolorze akcentu ginęła na niebie i koronach drzew. Biała pigułka z cieniem
+ * `e0` daje jej stałe, spokojne podłoże — tak samo jak Finch trzyma górne
+ * sterowanie w białym chipie nad sceną.
+ *
  * Puknięcie otwiera wyjaśnienie, a zmiana wartości podbija licznik.
  */
 export function StatBadge({
@@ -72,13 +78,22 @@ export function StatBadge({
   const textColor = muted ? UI.textFaint : ACCENT[accent].deep;
 
   return (
-    <View style={{ alignItems: 'center' }}>
+    <View style={{ alignItems: 'center', marginHorizontal: 2 }}>
       <Animated.View style={style}>
         <Pressable
           onPress={handlePress}
           accessibilityRole="button"
           accessibilityLabel={TOOLTIPS[tooltipKey].title}
-          className="flex-row items-center gap-1.5 px-1.5 py-1">
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 6,
+            paddingHorizontal: 10,
+            paddingVertical: 6,
+            backgroundColor: UI.surface,
+            borderRadius: 999,
+            boxShadow: SHADOW.e0,
+          }}>
           <Icon name={icon} size={22} color={iconColor} strokeWidth={2.4} />
           <AnimatedCounter
             from={from}

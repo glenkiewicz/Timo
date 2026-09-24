@@ -105,7 +105,6 @@ export function AnimalTradingCard({
               }}>
               <AnimalImage
                 animalId={animal.id}
-                fallbackEmoji={animal.emoji}
                 size={220}
               />
             </View>

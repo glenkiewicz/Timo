@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { ExpeditionIcon } from '@/components/expeditions/ExpeditionIcon';
 import { InfoModal } from '@/components/gamification/InfoModal';
 import { Card } from '@/components/ui/Card';
 import { Icon } from '@/components/ui/Icon';
@@ -225,7 +226,7 @@ function ExpeditionCard({
           {isLocked ? (
             <Icon name="lock" size={26} color={UI.textFaint} strokeWidth={2.4} />
           ) : (
-            <Text style={{ fontSize: 32 }}>{e.hero_emoji}</Text>
+            <ExpeditionIcon expeditionId={e.id} fallbackEmoji={e.hero_emoji} size={46} />
           )}
         </View>
 

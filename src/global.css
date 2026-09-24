@@ -22,56 +22,87 @@
     --font-body: 'Lexend', system-ui, sans-serif;
 
     /* ============================================================
-     * Paleta UI 3.0 „Polana" — ciepłe światło dnia.
+     * Paleta UI 3.1 „Polana" — światło dnia, w połowie drogi
+     * między stonowaną wersją 3.0 a pełnym nasyceniem.
+     * Wartości wyprowadzone z ilustracji `assets/backgrounds/home-forest.webp`,
+     * żeby interfejs i tło grały tym samym akordem.
      * Hex-owe lustro tych wartości: src/theme/ui.ts
      * Specyfikacja światła i głębi: docs/design-3.0.md
      * ============================================================ */
 
     /* powierzchnie
-     * canvas to kość, nie biel — biel zostaje dla kart, żeby miały
+     * canvas to jasna limonka, nie biel — biel zostaje dla kart, żeby miały
      * z czego się podnieść cieniem. */
-    --color-canvas: #fbf9f6;
+    --color-canvas: #f6f8ed;
     --color-surface: #ffffff;
-    --color-sunken: #f1efe9;
-    --color-line: #ede9e3;
-    --color-line-deep: #ded9d0;
+    --color-sunken: #eaefda;
+    --color-line: #e6ead4;
+    --color-line-deep: #d2dbba;
+
+    /* trawa polany — dół ekranu Home; ciągnie ilustrację poniżej jej krawędzi */
+    --color-lawn: #8abe4e;
+    --color-lawn-deep: #7bad42;
+    /* chłodniejszy wariant podłogi — ekran gry (docs/design-3.0.md: „chłód skupienia") */
+    --color-lawn-cool: #8aae43;
+    /* cieplejszy wariant podłogi — ekran wyniku („słońce") */
+    --color-lawn-warm: #a1b650;
+
+    /* panel — powierzchnia drugoplanowa NA trawie (jak zielone bloki w Finchu).
+     * To trawa przyciemniona atramentem na tyle, żeby biały tekst miał 4.7:1,
+     * czyli AA także dla drobnego druku. Biel zostaje dla kart z danymi. */
+    --color-panel: #5d803d;
+    --color-panel-line: #6d9149;
+    /* tekst i ikony na panelu oraz wprost na trawie */
+    --color-on-lawn: #ffffff;
+    --color-on-lawn-soft: #e4f1d2;
+
+    /* dziennik — ekran odznak. Metafora kartki w segregatorze potrzebuje
+     * papieru i brązu, a tych w palecie Polany nie było. Osobny, wąski
+     * zestaw wyłącznie na ten ekran; `docs/design-3.0.md` rozważał kierunek
+     * „Atlas — dziennik przyrodnika", więc papier nie jest tu obcy. */
+    --color-sand: #e7dcc4;
+    --color-page: #fdf5ec;
+    --color-page-slot: #f0e6d9;
+    --color-page-faint: #6f6049;
+    --color-binder: #a9784a;
+    --color-binder-deep: #8c6039;
 
     /* atmosfera — poświata nieba i pasmo horyzontu */
-    --color-sky-wash: #e4f0ee;
-    --color-meadow: #e7f1e5;
-    --color-meadow-soft: #eff4ec;
+    --color-sky-wash: #d9f0fe;
+    --color-meadow: #c8e28c;
+    --color-meadow-soft: #dcedbc;
 
     /* tekst */
     --color-text: #1e2a26;
-    --color-text-soft: #7c8a82;
-    --color-text-faint: #9aa8a0;
+    --color-text-soft: #6e7e6c;
+    --color-text-faint: #92a08f;
 
     /* akcenty — każdy z wariantem deep (tekst/ikona na pale) i pale (tło) */
-    --color-primary: #2e8079;
-    --color-primary-deep: #246a64;
-    --color-primary-pale: #e3f0ec;
+    --color-primary: #1e9082;
+    --color-primary-deep: #17756a;
+    --color-primary-pale: #daf1eb;
 
-    --color-fox: #e38a35;
-    --color-fox-deep: #c77329;
-    --color-fox-pale: #fbefdf;
+    --color-fox: #ec8e30;
+    --color-fox-deep: #ce7422;
+    --color-fox-pale: #fdecd5;
     /* jaśniejszy przystanek gradientu CTA i awatara poziomu */
-    --color-fox-lift: #ee9b47;
+    --color-fox-lift: #f6a246;
 
-    --color-sky: #3e8fa8;
-    --color-sky-deep: #2f7389;
-    --color-sky-pale: #e1eff4;
+    --color-sky: #30a3d2;
+    --color-sky-deep: #1e82ae;
+    --color-sky-pale: #dbf0fa;
 
-    --color-gold: #dda53e;
-    --color-gold-deep: #b8842b;
-    --color-gold-pale: #faf0dc;
+    --color-gold: #e9b42e;
+    --color-gold-deep: #c28f1b;
+    --color-gold-pale: #fcf1d2;
 
-    --color-danger: #c0653f;
-    --color-danger-deep: #a24f2e;
-    --color-danger-pale: #f7e7e0;
+    --color-danger: #d25e3e;
+    --color-danger-deep: #b24528;
+    --color-danger-pale: #fbe4dc;
 
-    --color-violet: #b183c0;
-    --color-violet-deep: #8e5fa0;
-    --color-violet-pale: #f2eaf6;
+    --color-violet: #b275cb;
+    --color-violet-deep: #8e51a8;
+    --color-violet-pale: #f2e6f8;
 
     /* radii UI 3.0 */
     --radius-btn: 999px;

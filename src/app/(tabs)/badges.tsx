@@ -1,147 +1,87 @@
 import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
-import { FlatList } from 'react-native';
+import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { BadgePage, type BadgeItem } from '@/components/badges/BadgePage';
 import { InfoModal } from '@/components/gamification/InfoModal';
-import { Card } from '@/components/ui/Card';
-import { Icon } from '@/components/ui/Icon';
 import { ScreenHeader } from '@/components/ui/ScreenHeader';
-import { BADGES, type BadgeDef } from '@/data/badges';
+import { BADGES, BADGE_GROUPS } from '@/data/badges';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { UI } from '@/theme/ui';
-import { Text, View } from '@/tw';
+import { View } from '@/tw';
 
-type BadgeCard = BadgeDef & { unlocked: boolean };
+type Tip = { emoji: string; title: string; description: string };
 
-const NUM_COLUMNS = 3;
-const CARD_GAP = 10;
-
-const GROUP_ORDER: BadgeDef['group'][] = [
-  'firsts',
-  'streak',
-  'daily',
-  'collection',
-  'speed',
-  'expeditions',
-  'special',
-];
-
+/**
+ * Odznaki jako dziennik: każda grupa to osobna kartka w segregatorze.
+ *
+ * Wcześniej był to jeden płaski `FlatList` ze wszystkimi 21 odznakami wrzuconymi
+ * razem i posortowanymi „odblokowane najpierw" — grupy z `BadgeDef.group`
+ * istniały w danych, ale ekran ich nie pokazywał, więc nie było widać, za CO
+ * właściwie zdobywa się kolejne odznaki. Podział na kartki przywraca tę
+ * informację, a licznik w stopce mówi, ile zostało w danej grupie.
+ */
 export default function BadgesScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const badges = useProfileStore((s) => s.badges);
   const unlockedSet = useMemo(() => new Set(badges), [badges]);
 
-  const [selected, setSelected] = useState<BadgeCard | null>(null);
+  const [tip, setTip] = useState<Tip | null>(null);
 
-  const data: BadgeCard[] = useMemo(() => {
-    return [...BADGES]
-      .map((b) => ({ ...b, unlocked: unlockedSet.has(b.id) }))
-      .sort((a, b) => {
-        if (a.unlocked !== b.unlocked) return a.unlocked ? -1 : 1;
-        return GROUP_ORDER.indexOf(a.group) - GROUP_ORDER.indexOf(b.group);
-      });
-  }, [unlockedSet]);
-
-  const unlockedCount = badges.length;
+  const pages = useMemo(
+    () =>
+      BADGE_GROUPS.map((group) => ({
+        ...group,
+        items: BADGES.filter((b) => b.group === group.id).map<BadgeItem>((b) => ({
+          ...b,
+          unlocked: unlockedSet.has(b.id),
+        })),
+      })).filter((p) => p.items.length > 0),
+    [unlockedSet]
+  );
 
   return (
-    <View className="flex-1 bg-canvas">
+    <View className="flex-1" style={{ backgroundColor: UI.sand }}>
       <ScreenHeader
         eyebrow="GALERIA TIMO"
         title="Odznaki"
-        counter={{ value: unlockedCount, total: BADGES.length, accent: 'gold' }}
+        counter={{ value: badges.length, total: BADGES.length, accent: 'gold' }}
         onBack={() => router.navigate('/(tabs)')}
       />
 
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item.id}
-        numColumns={NUM_COLUMNS}
+      <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          paddingHorizontal: 12,
-          paddingTop: 12,
+          paddingHorizontal: 16,
+          paddingTop: 20,
           paddingBottom: insets.bottom + 24,
-          gap: CARD_GAP,
-        }}
-        columnWrapperStyle={{ gap: CARD_GAP }}
-        renderItem={({ item }) => (
-          <BadgeTile item={item} onPress={() => item.unlocked && setSelected(item)} />
-        )}
-      />
+        }}>
+        {pages.map((page) => (
+          <BadgePage
+            key={page.id}
+            label={page.label}
+            items={page.items}
+            onSelect={(item) =>
+              setTip({
+                emoji: item.emoji,
+                title: item.label_pl,
+                description: item.description_pl,
+              })
+            }
+            onHint={() =>
+              setTip({ emoji: '📔', title: page.label, description: page.hint })
+            }
+          />
+        ))}
+      </ScrollView>
 
       <InfoModal
-        visible={!!selected}
-        tooltip={
-          selected
-            ? {
-                emoji: selected.emoji,
-                title: selected.label_pl,
-                description: selected.description_pl,
-              }
-            : { emoji: '', title: '', description: '' }
-        }
-        onClose={() => setSelected(null)}
+        visible={!!tip}
+        tooltip={tip ?? { emoji: '', title: '', description: '' }}
+        onClose={() => setTip(null)}
       />
-    </View>
-  );
-}
-
-function BadgeTile({ item, onPress }: { item: BadgeCard; onPress: () => void }) {
-  if (!item.unlocked) {
-    return (
-      <View
-        className="flex-1 items-center justify-center"
-        style={{
-          aspectRatio: 1,
-          backgroundColor: UI.sunken,
-          borderRadius: 20,
-          borderWidth: 2,
-          borderColor: UI.line,
-          borderStyle: 'dashed',
-          paddingHorizontal: 6,
-        }}>
-        <Icon name="lock" size={26} color={UI.textFaint} strokeWidth={2.4} />
-        <Text
-          className="text-center"
-          numberOfLines={2}
-          style={{
-            color: UI.textFaint,
-            fontFamily: 'Gabarito-Bold',
-            fontSize: 10,
-            marginTop: 6,
-          }}>
-          ?????
-        </Text>
-      </View>
-    );
-  }
-
-  return (
-    <View className="flex-1">
-      <Card
-        onPress={onPress}
-        accessibilityLabel={item.label_pl}
-        borderColor={UI.gold}
-        background={UI.goldPale}
-        padding={6}
-        style={{ aspectRatio: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text style={{ fontSize: 36 }}>{item.emoji}</Text>
-        <Text
-          className="text-center"
-          numberOfLines={2}
-          style={{
-            color: UI.text,
-            fontFamily: 'Gabarito-Bold',
-            fontSize: 10,
-            lineHeight: 12,
-            marginTop: 4,
-          }}>
-          {item.label_pl}
-        </Text>
-      </Card>
     </View>
   );
 }

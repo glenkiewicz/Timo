@@ -2,15 +2,23 @@ import * as Haptics from 'expo-haptics';
 import type { ReactNode } from 'react';
 import { Platform, type ViewStyle } from 'react-native';
 
-import { UI } from '@/theme/ui';
+import { SHADOW, UI } from '@/theme/ui';
 import { Pressable, View } from '@/tw';
+
+/**
+ * `surface` — biel dla kart z danymi, które trzeba przeczytać.
+ * `panel`   — zieleń drugoplanowa NA trawie, jak zielone bloki w Finchu.
+ *             Tekst na niej ma być biały (`UI.onLawn` / `UI.onLawnSoft`).
+ */
+export type CardTone = 'surface' | 'panel';
 
 type CardProps = {
   children: ReactNode;
   onPress?: () => void;
-  /** Kolor obramowania — domyślnie neutralna linia. */
+  tone?: CardTone;
+  /** Opcjonalna włoskowata obwódka w akcencie — np. karta wyprawy ukończonej. */
   borderColor?: string;
-  /** Tło karty — domyślnie biel. */
+  /** Nadpisanie tła; zwykle wystarczy `tone`. */
   background?: string;
   padding?: number;
   radius?: number;
@@ -20,16 +28,21 @@ type CardProps = {
 };
 
 /**
- * Płaska karta UI 2.0 — biała powierzchnia, 2px obramowania i grubsza dolna
- * krawędź, która daje delikatną głębię bez cienia.
+ * Karta UI 3.0 — powierzchnia podniesiona CIENIEM, nie ramką.
+ *
+ * Wcześniej była to karta UI 2.0: obwódka 2 px plus pogrubiona dolna krawędź
+ * 4 px. `docs/design-3.0.md` przewiduje w kroku „Chrome", że ta półka znika na
+ * rzecz drabiny cieni z `theme/ui.ts` — i to jest właśnie ta zmiana. Na
+ * ilustrowanym tle ramka czytała się jak naklejka; cień kładzie kartę na trawie.
  */
 export function Card({
   children,
   onPress,
-  borderColor = UI.line,
-  background = UI.surface,
+  tone = 'surface',
+  borderColor,
+  background,
   padding = 16,
-  radius = 20,
+  radius = 24,
   style,
   disabled = false,
   accessibilityLabel,
@@ -37,12 +50,12 @@ export function Card({
   const body = (
     <View
       style={{
-        backgroundColor: background,
+        backgroundColor: background ?? (tone === 'panel' ? UI.panel : UI.surface),
         borderRadius: radius,
-        borderWidth: 2,
-        borderBottomWidth: 4,
-        borderColor,
+        // Obwódka wyłącznie na życzenie i włoskowata — nie jako sposób na głębię.
+        ...(borderColor ? { borderWidth: 1.5, borderColor } : null),
         padding,
+        boxShadow: SHADOW.e1,
         opacity: disabled ? 0.5 : 1,
         ...style,
       }}>

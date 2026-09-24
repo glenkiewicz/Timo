@@ -14,8 +14,8 @@ import { AnimatedCounter } from '@/components/gamification/AnimatedCounter';
 import { LeaderboardCard } from '@/components/leaderboard/LeaderboardCard';
 import { FloatingDelta } from '@/components/gamification/FloatingDelta';
 import { InfoModal } from '@/components/gamification/InfoModal';
-import { TimoCharacter } from '@/components/timo/TimoCharacter';
-import { Bubble } from '@/components/ui/Bubble';
+import { ExpeditionIcon } from '@/components/expeditions/ExpeditionIcon';
+import { SceneBackdrop, TimoStage, sceneBaseColor } from '@/components/timo/TimoStage';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Icon } from '@/components/ui/Icon';
@@ -25,11 +25,13 @@ import { EXPEDITIONS_BY_ID } from '@/data/expeditions';
 import { TOOLTIPS } from '@/data/info-tooltips';
 import { pickGreeting } from '@/data/timo-lines';
 import { levelFromXp, xpProgress } from '@/features/gamification/award';
+import { useWeeklyScoreSync } from '@/features/leaderboard/useWeeklyScoreSync';
 import { titleFor } from '@/features/gamification/titles';
+import { SHOW_HOME_LEADERBOARD } from '@/config/features';
 import { timoVoice } from '@/lib/audio/timo-voice';
 import { useGameStore } from '@/lib/stores/game-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
-import { UI } from '@/theme/ui';
+import { SHADOW, UI } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
 
 export default function HomeScreen() {
@@ -41,12 +43,14 @@ export default function HomeScreen() {
   const streak = useProfileStore((s) => s.streak);
   const dailyStreak = useProfileStore((s) => s.dailyStreak);
   const xp = useProfileStore((s) => s.xp);
-  const collection = useProfileStore((s) => s.collection);
   const lastReward = useProfileStore((s) => s.lastReward);
   const clearLastReward = useProfileStore((s) => s.clearLastReward);
   const ensureDailyChoice = useProfileStore((s) => s.ensureDailyChoice);
   const audioMuted = useProfileStore((s) => s.audioMuted);
   const setAudioMuted = useProfileStore((s) => s.setAudioMuted);
+
+  // Wysyłka wyniku tygodnia — niezależna od tego, czy tabela jest widoczna.
+  useWeeklyScoreSync();
 
   const level = levelFromXp(xp);
   const title = titleFor(level);
@@ -68,17 +72,20 @@ export default function HomeScreen() {
   // Greeting Timo — gra raz na sesję aplikacji (nie przy każdym powrocie na home).
   // Cleanup ucina powitanie, gdy ekran znika (np. wylogowanie albo zmiana
   // profilu) — inaczej Timo mówiłby do ekranu logowania.
+  const streakCelebration = useProfileStore((s) => s.streakCelebration);
   const greetedThisSession = useRef(false);
   useEffect(() => {
-    if (!greetedThisSession.current) {
-      greetedThisSession.current = true;
-      const g = pickGreeting();
-      timoVoice.playLine(g.voiceKey);
-    }
-    return () => {
-      timoVoice.stop();
-    };
-  }, []);
+    // Ekran serii mówi własne powitanie. Gdyby Home odezwał się równolegle,
+    // `playLine` uciąłby jedną z kwestii — czekamy, aż dziecko go zamknie.
+    if (streakCelebration) return;
+    if (greetedThisSession.current) return;
+    greetedThisSession.current = true;
+    void timoVoice.playLine(pickGreeting().voiceKey);
+  }, [streakCelebration]);
+
+  // Osobny efekt z pustą listą zależności: głos ma milknąć przy zejściu
+  // z ekranu, a nie przy każdej zmianie `streakCelebration`.
+  useEffect(() => () => timoVoice.stop(), []);
 
   // clear lastReward after the entrance animation has played out
   useEffect(() => {
@@ -88,6 +95,10 @@ export default function HomeScreen() {
   }, [lastReward, clearLastReward]);
 
   const [levelInfoOpen, setLevelInfoOpen] = useState(false);
+
+  // Linia gruntu polany: mierzona z pozycji Timo, bo zależy od wysokości paska
+  // statystyk (insets.top), paska XP i liczby linijek dymka. Patrz TimoStage.
+  const [groundY, setGroundY] = useState<number | null>(null);
 
   const avatarPulse = useSharedValue(1);
   useEffect(() => {
@@ -111,7 +122,10 @@ export default function HomeScreen() {
   };
 
   return (
-    <View className="flex-1 bg-canvas">
+    <View className="flex-1" style={{ backgroundColor: sceneBaseColor('home') }}>
+      {/* ---------- polana: pełnoekranowe tło pod całą zawartością ---------- */}
+      <SceneBackdrop groundY={groundY} scene="home" />
+
       {/* ---------- górny pasek statystyk ---------- */}
       <View
         className="flex-row items-center justify-between px-4"
@@ -150,7 +164,9 @@ export default function HomeScreen() {
           accessibilityRole="button"
           accessibilityLabel={audioMuted ? 'Włącz głos Timo' : 'Wycisz głos Timo'}
           className="w-11 h-11 items-center justify-center rounded-pill"
-          style={{ backgroundColor: UI.sunken }}>
+          // Biały chip z cieniem, jak przy StatBadge — przycisk leży na
+          // ilustracji, a dotychczasowe `sunken` się z nią zlewało.
+          style={{ backgroundColor: UI.surface, boxShadow: SHADOW.e0 }}>
           <Icon
             name={audioMuted ? 'sound-off' : 'sound-on'}
             size={21}
@@ -217,7 +233,7 @@ export default function HomeScreen() {
               </Text>
               <Text
                 style={{
-                  color: UI.textFaint,
+                  color: UI.text,
                   fontFamily: 'Lexend-Bold',
                   fontSize: 12,
                 }}>
@@ -239,51 +255,56 @@ export default function HomeScreen() {
           onClose={() => setLevelInfoOpen(false)}
         />
 
-        {/* ---------- Timo ---------- */}
-        <View className="flex-1 items-center justify-center" style={{ marginTop: 16 }}>
-          <View style={{ alignSelf: 'stretch', paddingRight: 24 }}>
-            <Bubble eyebrow="TIMO MÓWI" tail="bottom-left">
-              {collection.length === 0
-                ? 'Cześć! Pomyśl o zwierzęciu — spróbuję zgadnąć!'
-                : `Mamy razem ${collection.length} ${plural(collection.length)}. Gramy dalej?`}
-            </Bubble>
-          </View>
-          <TimoCharacter state="greeting" size={190} />
-        </View>
-
-        {/* ---------- wyprawa dnia ---------- */}
-        <ExpeditionDailyCard />
-
-        {/* ---------- ranking tygodnia ---------- */}
-        <LeaderboardCard />
+        {/* ---------- ranking tygodnia ----------
+            Schowany na czas przebudowy wizualnej (SHOW_HOME_LEADERBOARD).
+            Sama synchronizacja wyniku leci wyżej, przez useWeeklyScoreSync. */}
+        {SHOW_HOME_LEADERBOARD ? <LeaderboardCard /> : null}
       </ScrollView>
 
-      {/* ---------- CTA ---------- */}
+      {/* ---------- Timo ----------
+          Warstwa nad treścią, wyśrodkowana na CAŁYM ekranie. Wcześniej lisek
+          siedział w ScrollView z `flex: 1`, ale to środkowało go w obszarze
+          przewijania — a dok na dole (~216 pt) ściągał środek tego obszaru
+          o ~74 pt w górę. Jako warstwa nie zależy od wysokości doku ani paska
+          statystyk, więc trzyma środek niezależnie od stanu wyprawy.
+          `pointerEvents: none`, żeby nie przechwytywał dotknięć doku. */}
       <View
-        className="px-5 bg-canvas"
-        style={{ paddingTop: 10, paddingBottom: 12 }}>
-        <Button label="ZAGRAJ Z TIMO" icon="bolt" onPress={handlePlay} />
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          alignItems: 'center',
+          justifyContent: 'center',
+          pointerEvents: 'none',
+        }}>
+        <TimoStage onGroundY={setGroundY} />
+      </View>
+
+      {/* ---------- dok: wyprawa dnia + CTA ----------
+          Wyprawa siedziała w ScrollView zaraz pod Timo. Tutaj jest zadokowana
+          nad przyciskiem: dół ekranu niesie akcje, środek zostaje dla liska. */}
+      <View className="px-5" style={{ paddingTop: 10, paddingBottom: 12 }}>
+        <ExpeditionDailyCard />
+        <View style={{ marginTop: 12 }}>
+          <Button label="ZAGRAJ Z TIMO" icon="bolt" onPress={handlePlay} />
+        </View>
       </View>
     </View>
   );
 }
 
-/** Polska odmiana rzeczownika „zwierzę" po liczebniku. */
-function plural(n: number): string {
-  if (n === 1) return 'zwierzę';
-  const rest10 = n % 10;
-  const rest100 = n % 100;
-  const few = rest10 >= 2 && rest10 <= 4 && !(rest100 >= 12 && rest100 <= 14);
-  return few ? 'zwierzęta' : 'zwierząt';
-}
 
 /* ---------------- Wyprawa Dnia ---------------- */
 
+/** Etykieta sekcji leży wprost na trawie, więc jest atramentowa, nie biała:
+ *  atrament ma na `lawn` kontrast 7.0:1, biel tylko 2.2:1. */
 function SectionLabel({ children }: { children: string }) {
   return (
     <Text
       style={{
-        color: UI.textFaint,
+        color: UI.text,
         fontFamily: 'Gabarito-Bold',
         fontSize: 11,
         letterSpacing: 1.2,
@@ -330,15 +351,15 @@ function ExpeditionDailyCard() {
   // Stan C — ukończona
   if (chosen && completed) {
     return (
-      <View className="mt-4">
+      <View>
         <SectionLabel>WYPRAWA DNIA</SectionLabel>
-        <Card borderColor={UI.primary} background={UI.primaryPale}>
+        <Card tone="panel" borderColor={UI.primaryPale}>
           <View className="flex-row items-center gap-3">
-            <Text style={{ fontSize: 30 }}>{chosen.hero_emoji}</Text>
+            <ExpeditionIcon expeditionId={chosen.id} fallbackEmoji={chosen.hero_emoji} size={38} />
             <View className="flex-1">
               <Text
                 style={{
-                  color: UI.text,
+                  color: UI.onLawn,
                   fontFamily: 'Gabarito-Bold',
                   fontSize: 16,
                 }}>
@@ -346,14 +367,14 @@ function ExpeditionDailyCard() {
               </Text>
               <Text
                 style={{
-                  color: UI.primaryDeep,
+                  color: UI.onLawnSoft,
                   fontFamily: 'Lexend-Bold',
                   fontSize: 13,
                 }}>
                 Ukończona! Jutro czeka nowa przygoda.
               </Text>
             </View>
-            <Icon name="check" size={26} color={UI.primaryDeep} strokeWidth={3} />
+            <Icon name="check" size={26} color={UI.onLawn} strokeWidth={3} />
           </View>
         </Card>
       </View>
@@ -363,15 +384,15 @@ function ExpeditionDailyCard() {
   // Stan B — wybrana, w toku
   if (chosen) {
     return (
-      <View className="mt-4">
+      <View className="mt-40">
         <SectionLabel>WYPRAWA DNIA</SectionLabel>
-        <Card>
+        <Card tone="panel">
           <View className="flex-row items-center gap-3 mb-3">
-            <Text style={{ fontSize: 30 }}>{chosen.hero_emoji}</Text>
+            <ExpeditionIcon expeditionId={chosen.id} fallbackEmoji={chosen.hero_emoji} size={38} />
             <View className="flex-1">
               <Text
                 style={{
-                  color: UI.text,
+                  color: UI.onLawn,
                   fontFamily: 'Gabarito-Bold',
                   fontSize: 16,
                 }}>
@@ -379,7 +400,7 @@ function ExpeditionDailyCard() {
               </Text>
               <Text
                 style={{
-                  color: UI.textSoft,
+                  color: UI.onLawnSoft,
                   fontFamily: 'Lexend-Bold',
                   fontSize: 12,
                 }}>
@@ -411,7 +432,7 @@ function ExpeditionDailyCard() {
     .filter(Boolean);
 
   return (
-    <View className="mt-4">
+    <View>
       <SectionLabel>WYPRAWA DNIA — WYBIERZ JEDNĄ</SectionLabel>
       <View className="flex-row gap-2">
         {options.map((e) => {
@@ -420,17 +441,18 @@ function ExpeditionDailyCard() {
           return (
             <View key={e.id} className="flex-1">
               <Card
+                tone="panel"
                 onPress={() => launch(e.id)}
                 disabled={done}
                 accessibilityLabel={e.childTitle ?? e.title}
                 padding={10}
                 radius={16}
                 style={{ alignItems: 'center', minHeight: 104 }}>
-                <Text style={{ fontSize: 30 }}>{e.hero_emoji}</Text>
+                <ExpeditionIcon expeditionId={e.id} fallbackEmoji={e.hero_emoji} size={38} />
                 <Text
                   numberOfLines={2}
                   style={{
-                    color: UI.text,
+                    color: UI.onLawn,
                     fontFamily: 'Gabarito-Bold',
                     fontSize: 12,
                     textAlign: 'center',
@@ -443,7 +465,7 @@ function ExpeditionDailyCard() {
                     <Icon
                       name="check"
                       size={16}
-                      color={UI.primaryDeep}
+                      color={UI.onLawn}
                       strokeWidth={3}
                     />
                   </View>

@@ -4,6 +4,7 @@ import { FlatList } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AnimalImage } from '@/components/collection/AnimalImage';
+import { ExpeditionIcon } from '@/components/expeditions/ExpeditionIcon';
 import { TimoCharacter } from '@/components/timo/TimoCharacter';
 import { Bubble } from '@/components/ui/Bubble';
 import { Button } from '@/components/ui/Button';
@@ -85,7 +86,10 @@ export default function ExpeditionIntroScreen() {
     <View className="flex-1 bg-canvas">
       <ScreenHeader
         eyebrow="WYPRAWA Z TIMO"
-        title={`${exp.hero_emoji}  ${exp.childTitle ?? exp.title}`}
+        title={exp.childTitle ?? exp.title}
+        icon={
+          <ExpeditionIcon expeditionId={exp.id} fallbackEmoji={exp.hero_emoji} size={26} />
+        }
         onBack={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)'))}
       />
 
@@ -163,7 +167,7 @@ function InspirationCard({ animal }: { animal: Animal }) {
         borderBottomWidth: 4,
         borderColor: UI.line,
       }}>
-      <AnimalImage animalId={animal.id} fallbackEmoji={animal.emoji} size={60} />
+      <AnimalImage animalId={animal.id} size={60} />
       <Text
         className="text-center"
         numberOfLines={1}

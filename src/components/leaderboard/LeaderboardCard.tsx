@@ -1,12 +1,11 @@
 import { useRouter } from 'expo-router';
-import { useEffect } from 'react';
 
 import { BoardRow } from '@/components/leaderboard/BoardRow';
 import { Card } from '@/components/ui/Card';
 import { Icon } from '@/components/ui/Icon';
+import { useWeeklyScoreSync } from '@/features/leaderboard/useWeeklyScoreSync';
 import { timeLeftLabel } from '@/features/leaderboard/week';
 import { useLeaderboardStore } from '@/lib/stores/leaderboard-store';
-import { useProfileStore } from '@/lib/stores/profile-store';
 import { UI } from '@/theme/ui';
 import { Text, View } from '@/tw';
 
@@ -21,22 +20,10 @@ export function LeaderboardCard() {
   const player = useLeaderboardStore((s) => s.player);
   const status = useLeaderboardStore((s) => s.status);
   const lastSyncAt = useLeaderboardStore((s) => s.lastSyncAt);
-  const flushPending = useLeaderboardStore((s) => s.flushPending);
 
-  const weeklyXp = useProfileStore((s) => s.weeklyXp);
-  const submitScore = useLeaderboardStore((s) => s.submitScore);
-
-  // Wejście na Home = moment synchronizacji: wysyłamy wynik tygodnia, jeśli
-  // urósł, a poza tym po prostu odświeżamy tabelę (i domykamy zaległą wysyłkę).
-  useEffect(() => {
-    if (weeklyXp > 0 && weeklyXp !== player?.score) {
-      void submitScore(weeklyXp);
-    } else {
-      void flushPending();
-    }
-    // Celowo raz na wejście — nie chcemy pingować API przy każdym renderze.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // Synchronizacja mieszkała tutaj, ale musi działać także wtedy, gdy tabela
+  // jest schowana z Home — dlatego siedzi w hooku, który Home woła osobno.
+  useWeeklyScoreSync();
 
   const top = entries.slice(0, 3);
   const playerOutsideTop = player && player.rank > 3;
@@ -45,9 +32,11 @@ export function LeaderboardCard() {
   return (
     <View className="mt-4">
       <View className="flex-row items-center justify-between mb-2">
+        {/* Nagłówek leży wprost na trawie ekranu Home — stąd atrament
+            (7.0:1) zamiast dotychczasowego `textFaint`, który na zieleni ginął. */}
         <Text
           style={{
-            color: UI.textFaint,
+            color: UI.text,
             fontFamily: 'Gabarito-Bold',
             fontSize: 11,
             letterSpacing: 1.2,
@@ -55,7 +44,7 @@ export function LeaderboardCard() {
           TABELA WYNIKÓW
         </Text>
         <Text
-          style={{ color: UI.textFaint, fontFamily: 'Lexend-Bold', fontSize: 11 }}>
+          style={{ color: UI.text, fontFamily: 'Lexend-Bold', fontSize: 11 }}>
           zostało {timeLeftLabel()}
         </Text>
       </View>

@@ -1,12 +1,15 @@
 import * as Haptics from 'expo-haptics';
+import type { ReactNode } from 'react';
 import { Platform } from 'react-native';
 
-import { ACCENT, UI, type Accent } from '@/theme/ui';
+import { ACCENT, SHADOW, UI, type Accent } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
 
 type FilterChipProps = {
   label: string;
   emoji?: string;
+  /** Rysowana ikona zamiast emoji — ma pierwszeństwo, gdy podana. */
+  icon?: ReactNode;
   active: boolean;
   onPress: () => void;
   accent?: Accent;
@@ -18,6 +21,7 @@ type FilterChipProps = {
 export function FilterChip({
   label,
   emoji,
+  icon,
   active,
   onPress,
   accent = 'violet',
@@ -39,11 +43,10 @@ export function FilterChip({
           paddingHorizontal: 14,
           paddingVertical: 8,
           backgroundColor: active ? a.base : UI.surface,
-          borderWidth: 2,
-          borderBottomWidth: 3,
-          borderColor: active ? a.deep : UI.line,
+          // UI 3.0: pigułka odcina się cieniem, nie ramką 2/3 px (patrz Card).
+          boxShadow: SHADOW.e0,
         }}>
-        {emoji ? <Text style={{ fontSize: 13 }}>{emoji}</Text> : null}
+        {icon ?? (emoji ? <Text style={{ fontSize: 13 }}>{emoji}</Text> : null)}
         <Text
           style={{
             color: active ? UI.surface : UI.textSoft,
