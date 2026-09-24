@@ -69,6 +69,7 @@ def main(ids):
             print(f"  BLAD     {i:20} {e}")
     print(f"\nzadan w kolejce: {len(tasks)}\n")
     done, t0 = 0, time.time()
+    usage_total = 0.0
     while tasks and time.time() - t0 < 1200:
         time.sleep(8)
         for i, tid in list(tasks.items()):
@@ -80,11 +81,17 @@ def main(ids):
             if st == "completed":
                 fetch_file(r["result"]["data"][0]["url"], OUT / f"{i}.png")
                 tasks.pop(i); done += 1
+                u = r.get("usage") or r.get("result", {}).get("usage") or {}
+                cost = u.get("total_usage") or u.get("total_cost") or u.get("cost")
+                if cost is not None:
+                    usage_total += float(cost)
                 print(f"  gotowe   {i:20} ({int(time.time()-t0)}s)")
             elif st in ("failed", "cancelled"):
                 print(f"  PADLO    {i:20} {r}"); tasks.pop(i)
     if tasks: print("\nnie zdazyly:", ", ".join(tasks))
     print(f"\npobrano {done}/{len(ids)}")
+    if usage_total:
+        print(f"total_usage (partia): {usage_total} centow")
 
 if __name__ == "__main__":
     main(sys.argv[1:] or list(ANIMALS))
