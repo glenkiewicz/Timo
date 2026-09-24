@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
-  <title>Podpowiedź (sparkle chip)</title>
-  
-  <circle cx="18" cy="18" r="14" fill="#fff" stroke="#fff" stroke-width="2"></circle>
-  <circle cx="18" cy="20" r="14" fill="#FFF1DF" opacity="0.3"></circle>
-  <path transform="translate(6 6)" d="M12 2l1.6 6.4L20 10l-6.4 1.6L12 18l-1.6-6.4L4 10l6.4-1.6z" fill="#A24D17"></path>
-
-</svg>
