@@ -223,9 +223,101 @@ def view_region():
     return canvas
 
 
+def island(canvas, region_i, x, y, w, faded=False):
+    """Jedna wyspa: teren, cztery kółka, tabliczka. `x` to LEWA krawędź."""
+    patch_name, label, _pos, _size, ids = REGIONS[region_i % len(REGIONS)]
+    patch = load(patch_name)
+    if patch is None:
+        return
+    art = fit(patch, w)
+    layer = Image.new("RGBA", (w, art.height))
+    layer.alpha_composite(art)
+
+    dia = round(w * 0.29)
+    for i, (fx, fy) in enumerate([(0.24, 0.20), (0.76, 0.20), (0.24, 0.78), (0.76, 0.78)]):
+        animal_circle(layer, round(w * fx), round(art.height * fy), dia,
+                      ids[i] if i < len(ids) else None, found=i < 2)
+
+    sign = fit(load("signpost"), round(w * 0.72))
+    sx, sy = (w - sign.width) // 2, art.height // 2 - sign.height // 2
+    layer.alpha_composite(sign, (sx, sy))
+    d = ImageDraw.Draw(layer)
+    centred(d, (w // 2, sy + sign.height // 2), label, font(round(w * 0.075)))
+
+    if faded:
+        layer.putalpha(layer.getchannel("A").point(lambda v: int(v * 0.55)))
+    canvas.alpha_composite(layer, (x, y))
+    return art.height
+
+
+def view_map_swipe():
+    """Wariant karuzeli: jedna duża wyspa, sąsiedzi wystają przy krawędziach."""
+    paper = load("paper")
+    canvas = Image.new("RGBA", (W, H), (226, 205, 168, 255))
+    if paper:
+        canvas.alpha_composite(tile(fit(paper, 360), W, H))
+    top = load("paper-top")
+    if top:
+        canvas.alpha_composite(fit(top, W), (0, 0))
+
+    d = ImageDraw.Draw(canvas)
+
+    # Te same liczby, co w komponencie: krok 0,84 szerokości, wyspa o 24 px węższa.
+    step = round(W * 0.84)
+    island_w = step - 24
+    side = (W - step) // 2
+    y = 250
+
+    # Sąsiedzi najpierw i przygaszeni — to ONI mówią, że mapa jedzie w bok.
+    island(canvas, 1, side + step, y, island_w, faded=True)
+    island(canvas, len(REGIONS) - 1, side - step, y, island_w, faded=True)
+    h = island(canvas, 0, side, y, island_w) or island_w
+
+    banner = load("banner")
+    if banner:
+        b = fit(banner, 250)
+        canvas.alpha_composite(b, (W - 275, 72))
+        centred(d, (W - 275 + 125, 72 + b.height // 2), "209 / 715", font(30))
+    centred(d, (200, 150), "Kolekcja zwierząt", font(38))
+
+    # Kropki: ile jeszcze świata zostało.
+    dots_y = y + h + 46
+    total = 11
+    cx0 = W // 2 - (total * 16) // 2
+    for i in range(total):
+        r = 9 if i == 0 else 6
+        d.ellipse([cx0 + i * 16 - r // 2, dots_y - r // 2,
+                   cx0 + i * 16 + r // 2, dots_y + r // 2],
+                  fill=(107, 81, 51) if i == 0 else (107, 81, 51, 90))
+    centred(d, (W // 2, dots_y + 34), "region 1 z 11", font(22), (107, 81, 51))
+
+    comp = load("compass")
+    if comp:
+        canvas.alpha_composite(fit(comp, 120), (34, H - 400))
+
+    bottom = load("paper-bottom")
+    if bottom:
+        b = fit(bottom, W)
+        strip = b.crop((0, round(b.height * 0.42), b.width, b.height))
+        sy = H - 150 - strip.height + round(strip.height * 0.34)
+        canvas.alpha_composite(strip, (0, sy))
+        import numpy as _np
+        alpha = _np.asarray(strip.getchannel("A")) > 8
+        arr = _np.asarray(canvas).copy()
+        for x in range(W):
+            col = _np.flatnonzero(alpha[:, x])
+            arr[sy + (col[-1] if col.size else 0):, x, 3] = 0
+        canvas = Image.fromarray(arr, "RGBA")
+
+    dock(canvas)
+    return canvas
+
+
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
-    for name, fn in [("collection-map", view_map), ("collection-region", view_region)]:
+    for name, fn in [("collection-map", view_map),
+                     ("collection-map-swipe", view_map_swipe),
+                     ("collection-region", view_region)]:
         page = Image.new("RGBA", (W, H), DOCK + (255,))
         page.alpha_composite(fn())
         img = page.convert("RGB")

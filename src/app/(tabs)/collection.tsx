@@ -1,7 +1,7 @@
 import * as Haptics from 'expo-haptics';
 import { Link } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
-import { FlatList, Platform, ScrollView, useWindowDimensions } from 'react-native';
+import { FlatList, Platform, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
@@ -72,66 +72,97 @@ function CollectionMap({
 }) {
   const insets = useSafeAreaInsets();
   const { width: screenW } = useWindowDimensions();
+  const [page, setPage] = useState(0);
 
-  // Dwie wyspy w rzędzie, 14 pt marginesu z każdej strony i 10 pt przerwy.
-  const islandW = (screenW - 14 * 2 - 10) / 2;
+  // Karuzela, nie siatka. Dwie wyspy w rzędzie wychodziły na ok. 170 pt i były
+  // nieczytelne — rysunek terenu, tabliczka i cztery kółka nie mieszczą się
+  // w takim kwadracie. Jedna wyspa na ekran daje im prawie dwa razy więcej.
+  //
+  // Krok przesuwania jest WĘŻSZY niż ekran, więc sąsiednie wyspy wystają przy
+  // krawędziach. Bez tego podglądu nic nie mówiłoby dziecku, że mapa jedzie
+  // w bok — `pagingEnabled` na pełną szerokość ukrywa sąsiadów całkowicie.
+  const step = screenW * 0.84;
+  const islandW = step - 24;
+  const side = (screenW - step) / 2;
+
   const found = discovered.size;
-
-  const rows = useMemo(() => {
-    const out: (typeof ANIMAL_REGIONS)[] = [];
-    for (let i = 0; i < ANIMAL_REGIONS.length; i += 2) {
-      out.push(ANIMAL_REGIONS.slice(i, i + 2));
-    }
-    return out;
-  }, []);
+  const region = ANIMAL_REGIONS[page];
 
   return (
     <MapPaper>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 28 }}>
-        {/* Krawędź arkusza zamiast białego nagłówka — mapa zaczyna się od razu. */}
-        <View style={{ marginTop: -insets.top }}>
-          <PaperEdge width={screenW} />
-        </View>
+      {/* Krawędź arkusza zamiast białego nagłówka — mapa zaczyna się od razu. */}
+      <View style={{ marginTop: -insets.top+40 }}>
+        <PaperEdge width={screenW} />
+      </View>
 
-        <View
-          className="flex-row items-center justify-between"
-          style={{ paddingHorizontal: 16, marginTop: -screenW / 8 }}>
-          <Text
-            style={{ color: '#4a3726', fontFamily: 'Gabarito-Bold', fontSize: 26 }}>
-            Kolekcja zwierząt
-          </Text>
-          <Banner text={`${found} / ${ANIMALS.length}`} width={screenW * 0.34} />
-        </View>
+      <View
+        className="flex-row items-center justify-between"
+        style={{ paddingHorizontal: 16, marginTop: -screenW / 8 }}>
+        <Text style={{ color: '#4a3726', fontFamily: 'Gabarito-Bold', fontSize: 26 }}>
+          Kolekcja zwierząt
+        </Text>
+        <Banner text={`${found} / ${ANIMALS.length}`} width={screenW * 0.34} />
+      </View>
 
-        <View style={{ paddingHorizontal: 14, paddingTop: 10 }}>
-          {rows.map((row, ri) => (
-            <View key={ri} className="flex-row" style={{ gap: 10 }}>
-              {row.map((region, ci) => (
-                <Island
-                  key={region.id}
-                  region={region}
-                  discovered={discovered}
-                  width={islandW}
-                  // Drugą wyspę w rzędzie zsuwamy w dół — mapa ma wyglądać
-                  // jak rysowany świat, a nie jak tabela.
-                  offset={ci === 1 ? islandW * 0.22 : 0}
-                  onPress={() => onOpen(region.id)}
-                />
-              ))}
-              {row.length === 1 ? <View style={{ width: islandW }} /> : null}
-            </View>
-          ))}
-        </View>
+      <FlatList
+        data={ANIMAL_REGIONS}
+        keyExtractor={(r) => r.id}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        snapToInterval={step}
+        snapToAlignment="start"
+        decelerationRate="fast"
+        contentContainerStyle={{ paddingHorizontal: side }}
+         
+        style={{ flexGrow: 0, marginTop: 66 }}
+        onMomentumScrollEnd={(e) =>
+          setPage(Math.round(e.nativeEvent.contentOffset.x / step))
+        }
+        renderItem={({ item }) => (
+          <View style={{ width: step, alignItems: 'center' }}>
+            <Island
+              region={item}
+              discovered={discovered}
+              width={islandW}
+              onPress={() => onOpen(item.id)}
+            />
+          </View>
+        )}
+      />
 
-        <View style={{ alignItems: 'flex-start', paddingLeft: 26, paddingTop: 8 }}>
+      {/* Kropki mówią, ile jeszcze świata zostało — licznik regionów sam tego
+          nie pokazuje, bo widać tylko jeden. */}
+      <View className="flex-row justify-center items-center" style={{ gap: 6, marginTop: 10 }}>
+        {ANIMAL_REGIONS.map((r, i) => (
+          <View
+            key={r.id}
+            style={{
+              width: i === page ? 9 : 6,
+              height: i === page ? 9 : 6,
+              borderRadius: 5,
+              backgroundColor: i === page ? '#6b5133' : 'rgba(107, 81, 51, 0.32)',
+            }}
+          />
+        ))}
+      </View>
+
+      <Text
+        className="text-center"
+        style={{
+          color: '#6b5133',
+          fontFamily: 'Lexend-Bold',
+          fontSize: 13,
+          marginTop: 8,
+        }}>
+        {region ? `region ${page + 1} z ${ANIMAL_REGIONS.length}` : ''}
+      </Text>
+
+      <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+        <View style={{ alignItems: 'flex-start', paddingLeft: 26 }}>
           <Compass size={screenW * 0.17} />
         </View>
-
-        {/* Dolna krawędź kończy arkusz dopiero na końcu przewijania. */}
         <PaperEdge width={screenW} bottom />
-      </ScrollView>
+      </View>
     </MapPaper>
   );
 }
@@ -140,13 +171,11 @@ function Island({
   region,
   discovered,
   width,
-  offset,
   onPress,
 }: {
   region: (typeof ANIMAL_REGIONS)[number];
   discovered: Set<string>;
   width: number;
-  offset: number;
   onPress: () => void;
 }) {
   const all = BY_REGION[region.id] ?? [];
@@ -174,10 +203,7 @@ function Island({
       }}
       accessibilityRole="button"
       accessibilityLabel={`${region.label}: ${mine} z ${all.length}`}
-      style={({ pressed }) => ({
-        marginTop: offset,
-        transform: [{ scale: pressed ? 0.97 : 1 }],
-      })}>
+      style={({ pressed }) => ({ transform: [{ scale: pressed ? 0.97 : 1 }] })}>
       <RegionIsland
         patch={region.patch}
         label={region.label}
@@ -189,8 +215,8 @@ function Island({
         style={{
           color: '#6b5133',
           fontFamily: 'Gabarito-Bold',
-          fontSize: 13,
-          marginTop: -width * 0.04,
+          fontSize: 15,
+          marginTop: -width * 0.03,
         }}>
         {mine} / {all.length}
       </Text>
