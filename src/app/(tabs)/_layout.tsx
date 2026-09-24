@@ -49,11 +49,14 @@ function TabItem({
   spec,
   focused,
   onPress,
+  fg,
 }: {
   spec: TabSpec;
   focused: boolean;
   onPress: () => void;
+  fg: string;
 }) {
+  const dark = fg !== UI.onLawn;
   const pop = useSharedValue(1);
 
   useEffect(() => {
@@ -83,7 +86,13 @@ function TabItem({
             borderRadius: 16,
             // Jasna płytka zamiast przebarwiania ikony — ikony są kolorowe
             // same z siebie, więc stan aktywny niesie podkład, nie kolor.
-            backgroundColor: focused ? 'rgba(255, 255, 255, 0.24)' : 'transparent',
+            // Płytka aktywnej zakładki musi iść za kolorem podpisów: biała
+            // rozjaśnia ciemne tło, ciemna przygasza jasne. Odwrotnie znika.
+            backgroundColor: focused
+              ? dark
+                ? 'rgba(0, 0, 0, 0.10)'
+                : 'rgba(255, 255, 255, 0.24)'
+              : 'transparent',
           }}>
           <Image
             source={TAB_ICONS[spec.name as keyof typeof TAB_ICONS]}
@@ -96,7 +105,8 @@ function TabItem({
       </Animated.View>
       <Text
         style={{
-          color: focused ? UI.onLawn : UI.onLawnSoft,
+          color: fg,
+          opacity: focused ? 1 : 0.72,
           fontFamily: 'Gabarito-Bold',
           fontSize: 11,
           letterSpacing: 0.3,
@@ -118,7 +128,7 @@ function AppTabBar({ state, navigation }: BottomTabBarProps) {
       style={{
         // Ekran, który wypełnia sobą tło, podaje własny kolor doku — jedna
         // zieleń odcinała się od jasnych plansz jak doklejony pasek.
-        backgroundColor: tint ?? UI.panel,
+        backgroundColor: tint?.bg ?? UI.panel,
         paddingBottom: insets.bottom > 0 ? insets.bottom : 10,
         // Dok unosi się cieniem `e3`, tak jak chce docs/design-3.0.md —
         // wcześniej była tu ramka 2 px z UI 2.0.
@@ -147,6 +157,7 @@ function AppTabBar({ state, navigation }: BottomTabBarProps) {
             spec={spec}
             focused={focused}
             onPress={onPress}
+            fg={tint?.fg ?? UI.onLawn}
           />
         );
       })}

@@ -4,15 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { FlatList, Platform, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import {
-  AnimalCircle,
-  Banner,
-  Compass,
-  MapPaper,
-  PAPER,
-  PaperEdge,
-  RegionIsland,
-} from '@/components/collection/map';
+import { AnimalCircle, RegionIsland, Signpost } from '@/components/collection/map';
 import { Icon } from '@/components/ui/Icon';
 import { DEV_UNLOCK_ALL } from '@/config/features';
 import { ILLUSTRATED_ANIMALS } from '@/data/animal-images';
@@ -74,96 +66,117 @@ function CollectionMap({
   const { width: screenW } = useWindowDimensions();
   const [page, setPage] = useState(0);
 
-  // Karuzela, nie siatka. Dwie wyspy w rzędzie wychodziły na ok. 170 pt i były
-  // nieczytelne — rysunek terenu, tabliczka i cztery kółka nie mieszczą się
-  // w takim kwadracie. Jedna wyspa na ekran daje im prawie dwa razy więcej.
-  //
-  // Krok przesuwania jest WĘŻSZY niż ekran, więc sąsiednie wyspy wystają przy
-  // krawędziach. Bez tego podglądu nic nie mówiłoby dziecku, że mapa jedzie
-  // w bok — `pagingEnabled` na pełną szerokość ukrywa sąsiadów całkowicie.
+  // Krok przesuwania jest WĘŻSZY niż ekran, więc sąsiednie krainy wystają przy
+  // krawędziach. Bez tego podglądu nic nie mówiłoby dziecku, że da się jechać
+  // w bok — `pagingEnabled` na pełną szerokość chowa sąsiadów całkowicie.
   const step = screenW * 0.84;
   const islandW = step - 24;
   const side = (screenW - step) / 2;
 
   const found = discovered.size;
-  const region = ANIMAL_REGIONS[page];
 
   return (
-    <MapPaper>
-      {/* Krawędź arkusza zamiast białego nagłówka — mapa zaczyna się od razu. */}
-      <View style={{ marginTop: -insets.top+40 }}>
-        <PaperEdge width={screenW} />
-      </View>
-
-      <View
-        className="flex-row items-center justify-between"
-        style={{ paddingHorizontal: 16, marginTop: -screenW / 8 }}>
-        <Text style={{ color: '#4a3726', fontFamily: 'Gabarito-Bold', fontSize: 26 }}>
-          Kolekcja zwierząt
-        </Text>
-        <Banner text={`${found} / ${ANIMALS.length}`} width={screenW * 0.34} />
-      </View>
-
-      <FlatList
-        data={ANIMAL_REGIONS}
-        keyExtractor={(r) => r.id}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        snapToInterval={step}
-        snapToAlignment="start"
-        decelerationRate="fast"
-        contentContainerStyle={{ paddingHorizontal: side }}
-         
-        style={{ flexGrow: 0, marginTop: 66 }}
-        onMomentumScrollEnd={(e) =>
-          setPage(Math.round(e.nativeEvent.contentOffset.x / step))
-        }
-        renderItem={({ item }) => (
-          <View style={{ width: step, alignItems: 'center' }}>
-            <Island
-              region={item}
-              discovered={discovered}
-              width={islandW}
-              onPress={() => onOpen(item.id)}
-            />
-          </View>
-        )}
+    <View className="flex-1" style={{ backgroundColor: UI.page }}>
+      {/* Tło jak w wyprawach, tylko wyprane: krainy są mocne kolorystycznie,
+          więc podkład ma ustąpić. Środek kadru jest celowo pusty — tamtędy
+          jedzie karuzela. */}
+      <Image
+        source={require('../../../assets/backgrounds/collection.webp')}
+        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+        contentFit="cover"
+        transition={0}
+        accessible={false}
       />
-
-      {/* Kropki mówią, ile jeszcze świata zostało — licznik regionów sam tego
-          nie pokazuje, bo widać tylko jeden. */}
-      <View className="flex-row justify-center items-center" style={{ gap: 6, marginTop: 10 }}>
-        {ANIMAL_REGIONS.map((r, i) => (
-          <View
-            key={r.id}
-            style={{
-              width: i === page ? 9 : 6,
-              height: i === page ? 9 : 6,
-              borderRadius: 5,
-              backgroundColor: i === page ? '#6b5133' : 'rgba(107, 81, 51, 0.32)',
-            }}
-          />
-        ))}
-      </View>
-
+      <View className="flex-1" style={{ paddingTop: insets.top + 8 }}>
+      {/* Sam tytuł, wyśrodkowany. Tytuł i licznik w jednej linii biły się
+          o uwagę i rozjeżdżały wizualnie — licznik zszedł pod kropki, gdzie
+          domyka nawigację zamiast walczyć z nagłówkiem. */}
       <Text
         className="text-center"
-        style={{
-          color: '#6b5133',
-          fontFamily: 'Lexend-Bold',
-          fontSize: 13,
-          marginTop: 8,
-        }}>
-        {region ? `region ${page + 1} z ${ANIMAL_REGIONS.length}` : ''}
+        style={{ color: UI.text, fontFamily: 'Gabarito-Bold', fontSize: 26 }}>
+        Kolekcja zwierząt
       </Text>
 
-      <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-        <View style={{ alignItems: 'flex-start', paddingLeft: 26 }}>
-          <Compass size={screenW * 0.17} />
+      {/* Krainy siedzą w pionie na środku wolnej przestrzeni — `flex: 1`
+          rozkłada ją równo nad i pod karuzelą, więc układ trzyma się na każdej
+          wysokości ekranu bez wpisywanych na sztywno odstępów. */}
+      <View style={{ flex: 1, justifyContent: 'center' }}>
+        <FlatList
+          data={ANIMAL_REGIONS}
+          keyExtractor={(r) => r.id}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          snapToInterval={step}
+          snapToAlignment="start"
+          decelerationRate="fast"
+          contentContainerStyle={{ paddingHorizontal: side }}
+          style={{ flexGrow: 0 }}
+          onMomentumScrollEnd={(e) =>
+            setPage(Math.round(e.nativeEvent.contentOffset.x / step))
+          }
+          renderItem={({ item }) => (
+            <View style={{ width: step, alignItems: 'center' }}>
+              <Island
+                region={item}
+                discovered={discovered}
+                width={islandW}
+                onPress={() => onOpen(item.id)}
+              />
+            </View>
+          )}
+        />
+
+        {/* Kropki mówią, ile jeszcze krain zostało — przy jednej widocznej
+            nic innego tego nie niesie. */}
+        <View
+          className="flex-row justify-center items-center"
+          style={{ gap: 6, marginTop: 18 }}>
+          {ANIMAL_REGIONS.map((r, i) => (
+            <View
+              key={r.id}
+              style={{
+                width: i === page ? 9 : 6,
+                height: i === page ? 9 : 6,
+                borderRadius: 5,
+                backgroundColor: i === page ? UI.textSoft : UI.line,
+              }}
+            />
+          ))}
         </View>
-        <PaperEdge width={screenW} bottom />
+
+        {/* Licznik całej kolekcji: pasek niesie postęp od razu, bez czytania
+            liczb — a dla pięciolatka to jedyna czytelna forma. */}
+        <View style={{ alignItems: 'center', marginTop: 18 }}>
+          <View
+            style={{
+              width: screenW * 0.52,
+              height: 10,
+              borderRadius: 5,
+              backgroundColor: UI.line,
+              overflow: 'hidden',
+            }}>
+            <View
+              style={{
+                width: `${(found / ANIMALS.length) * 100}%`,
+                height: '100%',
+                borderRadius: 5,
+                backgroundColor: UI.panel,
+              }}
+            />
+          </View>
+          <Text
+            style={{
+              color: UI.textSoft,
+              fontFamily: 'Gabarito-Bold',
+              fontSize: 14,
+              marginTop: 6,
+            }}>
+            {found} z {ANIMALS.length} zwierząt
+          </Text>
+        </View>
       </View>
-    </MapPaper>
+      </View>
+    </View>
   );
 }
 
@@ -204,22 +217,22 @@ function Island({
       accessibilityRole="button"
       accessibilityLabel={`${region.label}: ${mine} z ${all.length}`}
       style={({ pressed }) => ({ transform: [{ scale: pressed ? 0.97 : 1 }] })}>
-      <RegionIsland
-        patch={region.patch}
-        label={region.label}
-        width={width}
-        preview={preview}
-      />
-      <Text
-        className="text-center"
-        style={{
-          color: '#6b5133',
-          fontFamily: 'Gabarito-Bold',
-          fontSize: 15,
-          marginTop: -width * 0.03,
-        }}>
-        {mine} / {all.length}
-      </Text>
+      <RegionIsland patch={region.patch} width={width} preview={preview} />
+
+      {/* Tabliczka POD wyspą. W środku przecinała ją w poprzek i zasłaniała
+          dolną połowę górnych zwierząt. */}
+      <View style={{ alignItems: 'center', marginTop: -width * 0.06 }}>
+        <Signpost label={region.label} width={width * 0.78} />
+        <Text
+          style={{
+            color: UI.textSoft,
+            fontFamily: 'Gabarito-Bold',
+            fontSize: 14,
+            marginTop: 6,
+          }}>
+          {mine} / {all.length}
+        </Text>
+      </View>
     </Pressable>
   );
 }
@@ -377,7 +390,7 @@ function RegionBackdrop({
 }) {
   const source = background ? BACKGROUNDS[background] : undefined;
   return (
-    <View className="flex-1" style={{ backgroundColor: PAPER }}>
+    <View className="flex-1" style={{ backgroundColor: UI.page }}>
       {source ? (
         <Image
           source={source}

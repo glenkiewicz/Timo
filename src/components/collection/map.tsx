@@ -1,25 +1,22 @@
 import type { ReactNode } from 'react';
-import { ImageBackground } from 'react-native';
 
 import { AnimalImage } from '@/components/collection/AnimalImage';
 import { Text, View } from '@/tw';
 import { Image } from '@/tw/image';
 
 /**
- * Elementy papierowej mapy kolekcji — generowane grafiki, nie rysowane kształty.
+ * Elementy ekranu kolekcji — generowane grafiki, nie rysowane kształty.
  *
- * Mapa jest SKŁADANA z kawałków, a nie jednym obrazkiem: papier to kafel
- * powtarzany w pionie, a regiony to osobne wyspy z kanałem alfa kładzione na
- * nim. Jeden wielki rysunek nie dałby się przewijać ani przestawiać, a regionów
- * jest jedenaście.
+ * Każda kraina to osobna wyspa z kanałem alfa, a nie wycinek jednego dużego
+ * obrazka: tylko tak da się je przestawiać, dokładać i przewijać pojedynczo.
+ *
+ * Papierowa mapa w tle wypadła — kafel pergaminu, postrzępione krawędzie i róża
+ * wiatrów siedzą w 841dbf6, gdyby miały wrócić. Wyspy zostały, bo broniły się
+ * same.
  */
 const ART = {
-  paper: require('../../../assets/map/paper.webp'),
-  paperTop: require('../../../assets/map/paper-top.webp'),
-  paperBottom: require('../../../assets/map/paper-bottom.webp'),
   signpost: require('../../../assets/map/signpost.webp'),
   banner: require('../../../assets/map/banner.webp'),
-  compass: require('../../../assets/map/compass.webp'),
   slot: require('../../../assets/map/slot.webp'),
 } as const;
 
@@ -47,7 +44,6 @@ const PATCHES: Record<string, number> = {
 const RATIO = {
   signpost: 2.003,
   banner: 2.967,
-  edge: 2.7,
 } as const;
 
 /** Wyspy mają różne kształty — kwadrat by je zniekształcił. */
@@ -63,42 +59,6 @@ const PATCH_RATIO: Record<string, number> = {
   river: 1.098,
   savanna: 1.212,
 };
-
-/** Kolor papieru — tło pod kaflem, żeby przy przewijaniu nie błyskało pustką. */
-export const PAPER = '#e2cda8';
-
-/**
- * Tło z papieru, KAFLOWANE w pionie.
- *
- * `ImageBackground` z `resizeMode="repeat"` jest tu jedynym wyjściem: expo-image
- * nie umie powtarzać, a mapa jest dłuższa niż jakikolwiek pojedynczy obrazek.
- * Kafel domknęliśmy na bezszwowy rachunkiem (`scripts/seamless.py`), więc styk
- * przy przewijaniu się nie rzuca w oczy.
- */
-export function MapPaper({ children }: { children: ReactNode }) {
-  return (
-    <ImageBackground
-      source={ART.paper}
-      resizeMode="repeat"
-      style={{ flex: 1, backgroundColor: PAPER }}>
-      {children}
-    </ImageBackground>
-  );
-}
-
-/** Postrzępiona krawędź arkusza. `bottom` odwraca ją na dolną. */
-export function PaperEdge({ width, bottom }: { width: number; bottom?: boolean }) {
-  return (
-    <Image
-      source={bottom ? ART.paperBottom : ART.paperTop}
-      style={{ width, height: width / RATIO.edge }}
-      contentFit="fill"
-      pointerEvents="none"
-      transition={0}
-      accessible={false}
-    />
-  );
-}
 
 /** Drewniana tabliczka z nazwą regionu. */
 export function Signpost({ label, width }: { label: string; width: number }) {
@@ -151,19 +111,6 @@ export function Banner({ text, width }: { text: string; width: number }) {
   );
 }
 
-export function Compass({ size }: { size: number }) {
-  return (
-    <Image
-      source={ART.compass}
-      style={{ width: size, height: size }}
-      contentFit="contain"
-      pointerEvents="none"
-      transition={0}
-      accessible={false}
-    />
-  );
-}
-
 /**
  * Kółko ze zwierzęciem — TA SAMA tarcza pod odkrytym i nieodkrytym.
  *
@@ -207,23 +154,30 @@ export function AnimalCircle({
   );
 }
 
-/** Cztery rogi wyspy — tabliczka siedzi na środku, więc kółka omijają go. */
+/**
+ * Cztery rogi wyspy. Kółka mogą teraz siedzieć bliżej środka w pionie, bo
+ * tabliczka zeszła pod wyspę — wcześniej biegła przez środek i zasłaniała
+ * dolną połowę górnych zwierząt.
+ */
 const SPOTS = [
-  { x: 0.24, y: 0.20 },
-  { x: 0.76, y: 0.20 },
-  { x: 0.24, y: 0.78 },
-  { x: 0.76, y: 0.78 },
+  { x: 0.22, y: 0.22 },
+  { x: 0.78, y: 0.22 },
+  { x: 0.22, y: 0.76 },
+  { x: 0.78, y: 0.76 },
 ];
 
-/** Wyspa regionu: rysunek terenu, cztery kółka i tabliczka z nazwą. */
+/**
+ * Wyspa krainy: rysunek terenu i cztery kółka podglądu.
+ *
+ * Nazwy tu nie ma celowo — tabliczka biegła przez środek wyspy i zasłaniała
+ * zwierzęta. Rysuje ją wywołujący, POD wyspą.
+ */
 export function RegionIsland({
   patch,
-  label,
   width,
   preview,
 }: {
   patch: string;
-  label: string;
   width: number;
   /** Do czterech zwierząt na podgląd; krótsza lista zostawia wolne miejsca. */
   preview: { id: string; discovered: boolean }[];
@@ -253,9 +207,6 @@ export function RegionIsland({
         </View>
       ))}
 
-      <View style={{ position: 'absolute', left: width * 0.14, top: height * 0.5 - width * 0.18 }}>
-        <Signpost label={label} width={width * 0.72} />
-      </View>
     </View>
   );
 }

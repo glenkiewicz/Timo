@@ -2,10 +2,9 @@
 """
 Elementy papierowej mapy kolekcji — generowane przez ToAPIs.
 
-Ekran kolekcji to mapa, nie siatka kafelków. Składamy ją z POJEDYNCZYCH
-elementów, żeby dała się przewijać: papier jest kafelkiem powtarzanym w pionie,
-a regiony to osobne wyspy z kanałem alfa, które kładziemy na nim w dowolnym
-układzie. Jeden wielki obrazek nie dałby się ani przewijać, ani przestawiać.
+Ekran kolekcji składamy z POJEDYNCZYCH elementów: każda kraina to osobna wyspa
+z kanałem alfa, a nie wycinek jednego dużego obrazka. Tylko tak da się je
+przestawiać, dokładać i przewijać pojedynczo.
 
 Uruchom:  python3 scripts/generate-map-kit.py [<nazwa> ...]
 """
@@ -26,22 +25,8 @@ ALPHA = " The shape sits alone on a plain pure white background, no parchment be
 
 PIECES = {
  # ---- papier: kafel + dwie krawędzie ----
- "paper": (STYLE + "A flat sheet of old aged parchment paper filling the entire frame edge "
-           "to edge, warm sandy beige, subtle fibre grain, faint coffee-coloured blotches "
-           "and soft mottling. Completely EMPTY — no drawings, no map, no islands, no "
-           "compass, no text, no torn edges, no border. Pure even texture only.", "1:1"),
 
- "paper-top": (STYLE + "The TOP edge of a sheet of old parchment: a softly torn, slightly "
-               "uneven deckle edge running horizontally across the frame, aged sandy beige "
-               "paper filling the lower two thirds, and SOLID FLAT WHITE filling the upper "
-               "third above the edge. No checkerboard, no grey squares, no transparency "
-               "pattern, no drawings, no text.", "16:9"),
 
- "paper-bottom": (STYLE + "The BOTTOM edge of a sheet of old parchment: a softly torn, "
-                  "slightly uneven deckle edge running horizontally across the frame, aged "
-                  "sandy beige paper filling the upper two thirds, and SOLID FLAT WHITE "
-                  "filling the lower third below the edge. No checkerboard, no grey squares, "
-                  "no transparency pattern, no drawings, no text.", "16:9"),
 
  # ---- regiony: wyspy z alfą ----
  "patch-forest": (STYLE + "A rounded island-shaped patch of Polish pine forest seen from "
@@ -93,12 +78,7 @@ PIECES = {
             "aged cream paper, soft curl and shadow. The middle is completely BLANK — no "
             "writing, no numbers, no letters." + ALPHA, "16:9"),
 
- "compass": (STYLE + "A drawn compass rose with four points marked N, E, S, W, in faded "
-             "sepia-brown ink, like the decoration on an old treasure map." + ALPHA, "1:1"),
 
- "trail": (STYLE + "A short horizontal segment of a dashed trail marking from a treasure "
-           "map: a row of evenly spaced soft brown oval dashes running left to right across "
-           "the frame, faded sepia ink." + ALPHA, "16:9"),
 
  # Jedna tarcza pod KAŻDE zwierzę — odkryte i nie. Odkryte miało wcześniej
  # kremowy pierścień, ale czytał się jak osobna grafika doklejona do rysunku;

@@ -12,10 +12,17 @@ import { create } from 'zustand';
  * a czyta układ ZAKŁADEK, czyli jego rodzic — przez drzewo Reacta nie da się
  * tego przekazać w dół.
  */
+export type DockTint = {
+  /** Tło paska. */
+  bg: string;
+  /** Kolor podpisów — biały albo ciemny, zależnie od jasności tła. */
+  fg: string;
+};
+
 type DockState = {
-  /** null = domyślna zieleń z `UI.panel`. */
-  tint: string | null;
-  setTint: (color: string | null) => void;
+  /** null = domyślna zieleń z `UI.panel` i białe podpisy. */
+  tint: DockTint | null;
+  setTint: (tint: DockTint | null) => void;
 };
 
 export const useDockStore = create<DockState>((set) => ({
