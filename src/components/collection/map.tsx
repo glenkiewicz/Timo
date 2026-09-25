@@ -33,6 +33,12 @@ const PATCHES: Record<string, number> = {
   ocean: require('../../../assets/map/patch-ocean.webp'),
   river: require('../../../assets/map/patch-river.webp'),
   savanna: require('../../../assets/map/patch-savanna.webp'),
+  // TYMCZASOWO: nowe krainy pożyczają wyspy, dopóki nie powstaną własne
+  // (`python3 scripts/generate-map-kit.py patch-legend patch-americas patch-asia`,
+  // potem `matte-map-kit.py`). Po wygenerowaniu podmień require i PATCH_RATIO.
+  legend: require('../../../assets/map/patch-jungle.webp'),
+  americas: require('../../../assets/map/patch-savanna.webp'),
+  asia: require('../../../assets/map/patch-mountain.webp'),
 };
 
 /**
@@ -59,6 +65,9 @@ const PATCH_RATIO: Record<string, number> = {
   ocean: 1.292,
   river: 1.098,
   savanna: 1.212,
+  legend: 1.046,
+  americas: 1.212,
+  asia: 1.205,
 };
 
 /** Atrament napisów na drewnie i papierze — tabliczka, zwój, panele karty. */
@@ -70,15 +79,18 @@ export const INK = '#4a3726';
  */
 const BACKGROUNDS: Record<string, number> = {
   'bugs-and-worms': require('../../../assets/backgrounds/exp-bugs-and-worms.webp'),
+  'dinos-myths': require('../../../assets/backgrounds/exp-dinos-myths.webp'),
   'farm-timo': require('../../../assets/backgrounds/exp-farm-timo.webp'),
   'forest-kids': require('../../../assets/backgrounds/exp-forest-kids.webp'),
   'green-jungle': require('../../../assets/backgrounds/exp-green-jungle.webp'),
   'home-pets-friends': require('../../../assets/backgrounds/exp-home-pets-friends.webp'),
   'ice-land': require('../../../assets/backgrounds/exp-ice-land.webp'),
   jumpers: require('../../../assets/backgrounds/exp-jumpers.webp'),
+  'long-nose': require('../../../assets/backgrounds/exp-long-nose.webp'),
   ocean: require('../../../assets/backgrounds/ocean.webp'),
   'savanna-kids': require('../../../assets/backgrounds/exp-savanna-kids.webp'),
   'scary-animals': require('../../../assets/backgrounds/exp-scary-animals.webp'),
+  'striped-spotted': require('../../../assets/backgrounds/exp-striped-spotted.webp'),
   swimmers: require('../../../assets/backgrounds/exp-swimmers.webp'),
   'water-friends': require('../../../assets/backgrounds/exp-water-friends.webp'),
 };
@@ -120,6 +132,9 @@ export function Signpost({ label, width }: { label: string; width: number }) {
         transition={0}
         accessible={false}
       />
+      {/* Dłuższe nazwy zmniejszają czcionkę zamiast się ucinać. 0,55, a nie
+          0,7: tabliczka niesie też nazwy zwierząt na karcie, a „Ornitoptera
+          królowej Aleksandry" jest dłuższa od każdej krainy. */}
       <Text
         numberOfLines={1}
         adjustsFontSizeToFit

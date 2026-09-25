@@ -69,6 +69,19 @@ PIECES = {
                   "above: fresh green grass, clusters of small wildflowers, a few round "
                   "bushes and a flat stone." + ALPHA, "1:1"),
 
+ "patch-legend": (STYLE + "A rounded island-shaped patch of a prehistoric land of legends seen "
+                  "from slightly above: a small smoking volcano, giant ferns and cycads, a "
+                  "dinosaur footprint in the mud, one mossy standing stone with a carved "
+                  "swirl and a tiny ancient castle ruin." + ALPHA, "1:1"),
+
+ "patch-americas": (STYLE + "A rounded island-shaped patch of the American West seen from "
+                    "slightly above: red sandstone mesa and canyon, a tall saguaro cactus, "
+                    "golden prairie grass, a few sagebrush tufts and a small creek." + ALPHA, "1:1"),
+
+ "patch-asia": (STYLE + "A rounded island-shaped patch of Asian landscape seen from slightly "
+                "above: a bamboo grove, a stepped green rice-terrace hill, a small red "
+                "pagoda-style gate, a pink cherry-blossom tree and a lotus pond." + ALPHA, "1:1"),
+
  # ---- elementy powtarzalne i ozdobne ----
  "signpost": (STYLE + "A simple wooden signboard: one horizontal plank of warm brown timber "
               "with soft bevelled edges, nailed to two short posts, hanging slightly askew. "
