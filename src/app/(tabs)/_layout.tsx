@@ -1,6 +1,6 @@
 import * as Haptics from 'expo-haptics';
 import { Tabs } from 'expo-router';
-import type { BottomTabBarProps } from 'expo-router/react-navigation/bottom-tabs/types';
+import type { BottomTabBarProps } from 'expo-router/js-tabs';
 import { useEffect } from 'react';
 import { Platform } from 'react-native';
 import Animated, {
@@ -13,6 +13,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { StreakCelebration } from '@/components/gamification/StreakCelebration';
 import { useDailyCheckIn } from '@/features/gamification/useDailyCheckIn';
+import { useDockStore } from '@/lib/stores/dock-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { SHADOW, UI, type Accent } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
@@ -48,11 +49,14 @@ function TabItem({
   spec,
   focused,
   onPress,
+  fg,
 }: {
   spec: TabSpec;
   focused: boolean;
   onPress: () => void;
+  fg: string;
 }) {
+  const dark = fg !== UI.onLawn;
   const pop = useSharedValue(1);
 
   useEffect(() => {
@@ -82,7 +86,13 @@ function TabItem({
             borderRadius: 16,
             // Jasna płytka zamiast przebarwiania ikony — ikony są kolorowe
             // same z siebie, więc stan aktywny niesie podkład, nie kolor.
-            backgroundColor: focused ? 'rgba(255, 255, 255, 0.24)' : 'transparent',
+            // Płytka aktywnej zakładki musi iść za kolorem podpisów: biała
+            // rozjaśnia ciemne tło, ciemna przygasza jasne. Odwrotnie znika.
+            backgroundColor: focused
+              ? dark
+                ? 'rgba(0, 0, 0, 0.10)'
+                : 'rgba(255, 255, 255, 0.24)'
+              : 'transparent',
           }}>
           <Image
             source={TAB_ICONS[spec.name as keyof typeof TAB_ICONS]}
@@ -95,7 +105,8 @@ function TabItem({
       </Animated.View>
       <Text
         style={{
-          color: focused ? UI.onLawn : UI.onLawnSoft,
+          color: fg,
+          opacity: focused ? 1 : 0.72,
           fontFamily: 'Gabarito-Bold',
           fontSize: 11,
           letterSpacing: 0.3,
@@ -108,13 +119,16 @@ function TabItem({
 }
 
 function AppTabBar({ state, navigation }: BottomTabBarProps) {
+  const tint = useDockStore((s) => s.tint);
   const insets = useSafeAreaInsets();
 
   return (
     <View
       className="flex-row px-2 pt-2"
       style={{
-        backgroundColor: UI.panel,
+        // Ekran, który wypełnia sobą tło, podaje własny kolor doku — jedna
+        // zieleń odcinała się od jasnych plansz jak doklejony pasek.
+        backgroundColor: tint?.bg ?? UI.panel,
         paddingBottom: insets.bottom > 0 ? insets.bottom : 10,
         // Dok unosi się cieniem `e3`, tak jak chce docs/design-3.0.md —
         // wcześniej była tu ramka 2 px z UI 2.0.
@@ -143,6 +157,7 @@ function AppTabBar({ state, navigation }: BottomTabBarProps) {
             spec={spec}
             focused={focused}
             onPress={onPress}
+            fg={tint?.fg ?? UI.onLawn}
           />
         );
       })}
