@@ -50,6 +50,10 @@ SUBJECTS = {
  "dinos_myths":       "a friendly green dinosaur",
  "shelled":           "a smiling turtle",
  "colorful":          "a rainbow-coloured macaw parrot",
+ # ---- wiersze karty zwierzęcia (assets/icons/card/) ----
+ "card_size":         "a yellow wooden ruler with clear measuring marks, lying diagonally",
+ "card_lifespan":     "an hourglass with a wooden frame and golden sand flowing down",
+ "card_diet":         "a round wooden bowl holding a red apple, a green leaf and a small fish",
 }
 
 def key():

@@ -24,11 +24,7 @@ export type IconName =
   | 'lock'
   | 'check'
   | 'star'
-  | 'bolt'
-  | 'ruler'
-  | 'hourglass'
-  | 'bowl'
-  | 'bulb';
+  | 'bolt';
 
 type Ctx = { color: string; sw: number };
 
@@ -178,48 +174,6 @@ function shapes(name: IconName, { color, sw }: Ctx): ReactNode {
 
     case 'bolt':
       return <Path d="M13.4 2.4 4.6 13.4h6L10.6 21.6l8.8-11h-6Z" fill={color} />;
-
-    case 'ruler':
-      return (
-        <>
-          <Rect x={2.6} y={8.2} width={18.8} height={7.6} rx={1.8} {...stroke} />
-          <Path d="M6.6 8.2v3.2M10.2 8.2v2.2M13.8 8.2v3.2M17.4 8.2v2.2" {...stroke} />
-        </>
-      );
-
-    case 'hourglass':
-      return (
-        <>
-          <Path d="M6.4 3h11.2M6.4 21h11.2" {...stroke} />
-          <Path
-            d="M7.6 3v2.8a4.4 4.4 0 0 0 2 3.7L12 12l2.4-2.5a4.4 4.4 0 0 0 2-3.7V3"
-            {...stroke}
-          />
-          <Path
-            d="M7.6 21v-2.8a4.4 4.4 0 0 1 2-3.7L12 12l2.4 2.5a4.4 4.4 0 0 1 2 3.7V21"
-            {...stroke}
-          />
-        </>
-      );
-
-    case 'bowl':
-      return (
-        <>
-          <Path d="M3 11.2h18a9 9 0 0 1-18 0Z" {...stroke} />
-          <Path d="M9 7.6c0-1.4 1.2-1.6 1.2-3M13.6 7.6c0-1.4 1.2-1.6 1.2-3" {...stroke} />
-        </>
-      );
-
-    case 'bulb':
-      return (
-        <>
-          <Path
-            d="M9 17.4v-1.6a6.4 6.4 0 1 1 6 0v1.6Z"
-            {...stroke}
-          />
-          <Path d="M9.6 20.8h4.8" {...stroke} />
-        </>
-      );
   }
 }
 

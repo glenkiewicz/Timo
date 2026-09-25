@@ -2,11 +2,12 @@ import { Link } from 'expo-router';
 import type { ReactNode } from 'react';
 import { useWindowDimensions } from 'react-native';
 
-import { Icon, type IconName } from '@/components/ui/Icon';
+import { Icon } from '@/components/ui/Icon';
 import { getAnimalDetails } from '@/data/animal-details';
 import { ACCENT, type Accent, SHADOW, UI } from '@/theme/ui';
 import type { Animal } from '@/types/game';
 import { Text, View } from '@/tw';
+import { Image } from '@/tw/image';
 
 import { HabitatMap, regionsLabel } from './HabitatMap';
 import { AnimalCircle, INK, Signpost } from './map';
@@ -40,11 +41,11 @@ export function AnimalCard({ animal, cardNumber, cardTotal, discoveredOn }: Prop
   const mapW = screenW - GUTTER * 2 - 24;
 
   const stats = [
-    d.size_pl ? { icon: 'ruler' as const, tint: 'sky' as const, label: 'Rozmiar', value: d.size_pl } : null,
+    d.size_pl ? { art: ART.size, tint: 'sky' as const, label: 'Rozmiar', value: d.size_pl } : null,
     d.lifespan_pl
-      ? { icon: 'hourglass' as const, tint: 'violet' as const, label: 'Żyje', value: d.lifespan_pl }
+      ? { art: ART.lifespan, tint: 'violet' as const, label: 'Żyje', value: d.lifespan_pl }
       : null,
-    d.diet_pl ? { icon: 'bowl' as const, tint: 'fox' as const, label: 'Je', value: d.diet_pl } : null,
+    d.diet_pl ? { art: ART.diet, tint: 'fox' as const, label: 'Je', value: d.diet_pl } : null,
   ].filter((s) => s !== null);
 
   return (
@@ -140,7 +141,7 @@ export function AnimalCard({ animal, cardNumber, cardTotal, discoveredOn }: Prop
         <>
           <SectionHeader title="O zwierzęciu" />
           {stats.map((s) => (
-            <Row key={s.label} blob={<IconBlob icon={s.icon} tint={s.tint} />}>
+            <Row key={s.label} blob={<ArtBlob art={s.art} tint={s.tint} />}>
               <Text style={{ color: UI.pageFaint, fontFamily: 'Gabarito-Bold', fontSize: 13 }}>
                 {s.label}
               </Text>
@@ -247,10 +248,26 @@ function Blob({ background, children }: { background: string; children: ReactNod
   );
 }
 
-function IconBlob({ icon, tint }: { icon: IconName; tint: Accent }) {
+/**
+ * Ilustracje wierszy — ten sam generator i styl, co ikony doku i wypraw.
+ * Kreskowe ikony SVG wyglądały przy rysunkach zwierząt jak z innej aplikacji.
+ */
+const ART = {
+  size: require('../../../assets/icons/card/size.png'),
+  lifespan: require('../../../assets/icons/card/lifespan.png'),
+  diet: require('../../../assets/icons/card/diet.png'),
+} as const;
+
+function ArtBlob({ art, tint }: { art: number; tint: Accent }) {
   return (
     <Blob background={ACCENT[tint].pale}>
-      <Icon name={icon} size={30} color={ACCENT[tint].deep} strokeWidth={2.3} />
+      <Image
+        source={art}
+        style={{ width: BLOB * 0.8, height: BLOB * 0.8 }}
+        contentFit="contain"
+        transition={0}
+        accessible={false}
+      />
     </Blob>
   );
 }
