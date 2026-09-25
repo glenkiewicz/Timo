@@ -16,7 +16,7 @@ import { Image } from '@/tw/image';
 const STEPS = [
   { art: require('../../assets/icons/start/think.png'), label: 'Pomyśl o zwierzęciu' },
   { art: require('../../assets/icons/start/answer.png'), label: 'Odpowiadaj Tak albo Nie' },
-  { art: require('../../assets/icons/start/guess.png'), label: 'Timo zgaduje!' },
+  { art: require('../../assets/icons/start/guess.png'), label: 'Timo zgaduje, kto to!' },
 ] as const;
 
 /**
@@ -88,31 +88,40 @@ export default function StartScreen() {
           }}>
           {firstTime ? (
             <>
-              <Text
-                className="text-center"
-                style={{ color: INK, fontFamily: 'Gabarito-Bold', fontSize: 22 }}>
+              <Text style={{ color: INK, fontFamily: 'Gabarito-Bold', fontSize: 24 }}>
                 {nick ? `Cześć, ${nick}!` : 'Cześć!'}
               </Text>
-              <View className="flex-row" style={{ marginTop: 12 }}>
+              <Text
+                style={{ color: UI.pageFaint, fontFamily: 'Lexend', fontSize: 15, marginTop: 2 }}>
+                Tak gramy z Timo:
+              </Text>
+              {/* Kroki pionowo, jak wiersze na karcie zwierzęcia: obrazek
+                  i jedno zdanie w jednej linii. W trzech wąskich kolumnach
+                  podpisy łamały się w pół słowa i czytało się je na raty. */}
+              <View style={{ marginTop: 10, gap: 8 }}>
                 {STEPS.map((step) => (
-                  <View key={step.label} style={{ flex: 1, alignItems: 'center' }}>
-                    <Image
-                      source={step.art}
-                      style={{ width: 64, height: 64 }}
-                      contentFit="contain"
-                      transition={0}
-                      accessible={false}
-                    />
-                    <Text
-                      className="text-center"
+                  <View key={step.label} className="flex-row items-center" style={{ gap: 12 }}>
+                    <View
                       style={{
-                        color: INK,
-                        fontFamily: 'Gabarito-Bold',
-                        fontSize: 14,
-                        lineHeight: 18,
-                        marginTop: 6,
-                        paddingHorizontal: 4,
+                        width: 48,
+                        height: 48,
+                        borderRadius: 18,
+                        backgroundColor: UI.pageSlot,
+                        alignItems: 'center',
+                        justifyContent: 'center',
                       }}>
+                      <Image
+                        source={step.art}
+                        style={{ width: 38, height: 38 }}
+                        contentFit="contain"
+                        transition={0}
+                        accessible={false}
+                      />
+                    </View>
+                    <Text
+                      numberOfLines={1}
+                      adjustsFontSizeToFit
+                      style={{ flex: 1, color: INK, fontFamily: 'Gabarito-Bold', fontSize: 18 }}>
                       {step.label}
                     </Text>
                   </View>
