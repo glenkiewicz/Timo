@@ -15,11 +15,9 @@ import { LeaderboardCard } from '@/components/leaderboard/LeaderboardCard';
 import { FloatingDelta } from '@/components/gamification/FloatingDelta';
 import { INK, SlotDisc } from '@/components/collection/map';
 import { useInfoSheet } from '@/components/sheet/InfoSheet';
-import { ExpeditionIcon } from '@/components/expeditions/ExpeditionIcon';
+import { ExpeditionCard, ExpeditionTile } from '@/components/expeditions/ExpeditionCard';
 import { SceneBackdrop, TimoStage, sceneBaseColor } from '@/components/timo/TimoStage';
-import { Button } from '@/components/ui/Button';
-import { Card } from '@/components/ui/Card';
-import { Icon } from '@/components/ui/Icon';
+import { Plate } from '@/components/ui/Plate';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { StatBadge } from '@/components/ui/StatBadge';
 import { EXPEDITIONS_BY_ID } from '@/data/expeditions';
@@ -280,7 +278,9 @@ export default function HomeScreen() {
       <View className="px-5" style={{ paddingTop: 10, paddingBottom: 12 }}>
         <ExpeditionDailyCard />
         <View style={{ marginTop: 12 }}>
-          <Button label="ZAGRAJ Z TIMO" icon="bolt" onPress={handlePlay} />
+          {/* Lisi kolor, bo to gra z samym Timo — przycisk wyprawy wyżej
+              bierze kolor wyprawy, więc oba nie zlewają się w jedno. */}
+          <Plate label="Zagraj z Timo" accent="fox" onPress={handlePlay} />
         </View>
       </View>
     </View>
@@ -321,7 +321,6 @@ function ExpeditionDailyCard() {
   const progress = chosenId ? expeditionProgress[chosenId] : undefined;
   const completed = progress?.completed_at != null;
   const discoveredCount = progress?.discovered.length ?? 0;
-  const targetCount = chosen?.target_count ?? 3;
 
   const launch = (id: string) => {
     chooseExpedition(id);
@@ -340,81 +339,32 @@ function ExpeditionDailyCard() {
     router.push('/game');
   };
 
-  // Stan C — ukończona
+  // Stan C — ukończona. Wszystkie kropki pełne mówią to samo bez czytania.
   if (chosen && completed) {
     return (
-      <View>
-        <SectionLabel>WYPRAWA DNIA</SectionLabel>
-        <Card tone="panel" borderColor={UI.primaryPale}>
-          <View className="flex-row items-center gap-3">
-            <ExpeditionIcon expeditionId={chosen.id} fallbackEmoji={chosen.hero_emoji} size={38} />
-            <View className="flex-1">
-              <Text
-                style={{
-                  color: UI.onLawn,
-                  fontFamily: 'Gabarito-Bold',
-                  fontSize: 16,
-                }}>
-                {chosen.childTitle ?? chosen.title}
-              </Text>
-              <Text
-                style={{
-                  color: UI.onLawnSoft,
-                  fontFamily: 'Lexend-Bold',
-                  fontSize: 13,
-                }}>
-                Ukończona! Jutro czeka nowa przygoda.
-              </Text>
-            </View>
-            <Icon name="check" size={26} color={UI.onLawn} strokeWidth={3} />
-          </View>
-        </Card>
-      </View>
+      <ExpeditionCard
+        expedition={chosen}
+        eyebrow="WYPRAWA DNIA"
+        subtitle="Ukończona! Jutro czeka nowa przygoda."
+        discovered={chosen.target_count}
+        showProgress
+      />
     );
   }
 
   // Stan B — wybrana, w toku
   if (chosen) {
     return (
-      <View className="mt-40">
-        <SectionLabel>WYPRAWA DNIA</SectionLabel>
-        <Card tone="panel">
-          <View className="flex-row items-center gap-3 mb-3">
-            <ExpeditionIcon expeditionId={chosen.id} fallbackEmoji={chosen.hero_emoji} size={38} />
-            <View className="flex-1">
-              <Text
-                style={{
-                  color: UI.onLawn,
-                  fontFamily: 'Gabarito-Bold',
-                  fontSize: 16,
-                }}>
-                {chosen.childTitle ?? chosen.title}
-              </Text>
-              <Text
-                style={{
-                  color: UI.onLawnSoft,
-                  fontFamily: 'Lexend-Bold',
-                  fontSize: 12,
-                }}>
-                Odkryte {discoveredCount} z {targetCount}
-              </Text>
-            </View>
-          </View>
-          <View className="mb-3">
-            <ProgressBar
-              value={targetCount > 0 ? discoveredCount / targetCount : 0}
-              accent="sky"
-              height={12}
-            />
-          </View>
-          <Button
-            label={discoveredCount === 0 ? 'RUSZAMY!' : 'KONTYNUUJ'}
-            variant="sky"
-            size="md"
-            onPress={() => launch(chosen.id)}
-          />
-        </Card>
-      </View>
+      <ExpeditionCard
+        expedition={chosen}
+        eyebrow="WYPRAWA DNIA"
+        discovered={discoveredCount}
+        showProgress
+        action={{
+          label: discoveredCount === 0 ? 'Ruszamy!' : 'Kontynuuj',
+          onPress: () => launch(chosen.id),
+        }}
+      />
     );
   }
 
@@ -427,45 +377,14 @@ function ExpeditionDailyCard() {
     <View>
       <SectionLabel>WYPRAWA DNIA — WYBIERZ JEDNĄ</SectionLabel>
       <View className="flex-row gap-2">
-        {options.map((e) => {
-          const prog = expeditionProgress[e.id];
-          const done = prog?.completed_at != null;
-          return (
-            <View key={e.id} className="flex-1">
-              <Card
-                tone="panel"
-                onPress={() => launch(e.id)}
-                disabled={done}
-                accessibilityLabel={e.childTitle ?? e.title}
-                padding={10}
-                radius={16}
-                style={{ alignItems: 'center', minHeight: 104 }}>
-                <ExpeditionIcon expeditionId={e.id} fallbackEmoji={e.hero_emoji} size={38} />
-                <Text
-                  numberOfLines={2}
-                  style={{
-                    color: UI.onLawn,
-                    fontFamily: 'Gabarito-Bold',
-                    fontSize: 12,
-                    textAlign: 'center',
-                    marginTop: 4,
-                  }}>
-                  {e.childTitle ?? e.title}
-                </Text>
-                {done ? (
-                  <View style={{ marginTop: 2 }}>
-                    <Icon
-                      name="check"
-                      size={16}
-                      color={UI.onLawn}
-                      strokeWidth={3}
-                    />
-                  </View>
-                ) : null}
-              </Card>
-            </View>
-          );
-        })}
+        {options.map((e) => (
+          <ExpeditionTile
+            key={e.id}
+            expedition={e}
+            done={expeditionProgress[e.id]?.completed_at != null}
+            onPress={() => launch(e.id)}
+          />
+        ))}
       </View>
     </View>
   );

@@ -1,4 +1,5 @@
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
 
 import { AnimalImage } from '@/components/collection/AnimalImage';
 import { UI } from '@/theme/ui';
@@ -19,6 +20,7 @@ const ART = {
   signpost: require('../../../assets/map/signpost.webp'),
   banner: require('../../../assets/map/banner.webp'),
   slot: require('../../../assets/map/slot.webp'),
+  card: require('../../../assets/map/card.webp'),
 } as const;
 
 /** Wyspy regionów — `require` musi dostać literał, więc mapujemy je ręcznie. */
@@ -48,6 +50,7 @@ const PATCHES: Record<string, number> = {
 const RATIO = {
   signpost: 2.003,
   banner: 2.967,
+  card: 1.612,
 } as const;
 
 /** Wyspy mają różne kształty — kwadrat by je zniekształcił. */
@@ -287,3 +290,85 @@ export function RegionIsland({
   );
 }
 
+
+/**
+ * Najmniejsza szerokość, na jakiej rysujemy arkusz karty. Szeroka karta i tak
+ * rysuje go na swoją szerokość; dolna granica chroni wąski kafel, któremu
+ * arkusz skrojony do jego szerokości dałby rogi i ściegi jak na znaczku.
+ * Wyżej ustawiona robiła z kafla owal — rogi zjadały połowę szerokości.
+ */
+const CARD_ART_MIN_W = 210;
+
+/**
+ * Pergaminowa karta z kreskowanym obszyciem — ten sam papier co tarcze
+ * i pigułki (`generate-map-kit.py card`).
+ *
+ * Karta nie ma stałych proporcji (kafel wyboru jest wąski, karta wyprawy
+ * szeroka, a wysokość zależy od tekstu), a rozciągnięty obrazek wydłużał kreski
+ * obszycia i spłaszczał rogi. Składamy ją więc z czterech ćwiartek TEGO
+ * SAMEGO arkusza, każdą przyciętą do swojego rogu — środek arkusza po prostu
+ * wypada, jak przy skracaniu pigułki. Działa, dopóki karta nie jest większa
+ * od arkusza, a arkusz rośnie razem z nią, gdy trzeba.
+ */
+export function PaperCard({
+  children,
+  style,
+}: {
+  children: ReactNode;
+  style?: StyleProp<ViewStyle>;
+}) {
+  const [size, setSize] = useState<{ w: number; h: number } | null>(null);
+
+  return (
+    <View
+      style={style}
+      onLayout={(e) => {
+        const { width: w, height: h } = e.nativeEvent.layout;
+        setSize((prev) => (prev && prev.w === w && prev.h === h ? prev : { w, h }));
+      }}>
+      {size ? <PaperQuarters w={size.w} h={size.h} /> : null}
+      {children}
+    </View>
+  );
+}
+
+function PaperQuarters({ w, h }: { w: number; h: number }) {
+  const artW = Math.max(CARD_ART_MIN_W, w, h * RATIO.card);
+  const artH = artW / RATIO.card;
+  // Ćwiartki zachodzą na siebie o pół punktu — przy ułamkowych rozmiarach
+  // styk na krawędzi piksela zostawiał jasną nitkę przez środek karty.
+  const qw = w / 2 + 0.5;
+  const qh = h / 2 + 0.5;
+  const quarters = [
+    { left: 0, top: 0, imgLeft: 0, imgTop: 0 },
+    { left: w - qw, top: 0, imgLeft: qw - artW, imgTop: 0 },
+    { left: 0, top: h - qh, imgLeft: 0, imgTop: qh - artH },
+    { left: w - qw, top: h - qh, imgLeft: qw - artW, imgTop: qh - artH },
+  ];
+
+  return (
+    <View
+      style={{ position: 'absolute', top: 0, left: 0, width: w, height: h, pointerEvents: 'none' }}>
+      {quarters.map((q, i) => (
+        <View
+          key={i}
+          style={{
+            position: 'absolute',
+            left: q.left,
+            top: q.top,
+            width: qw,
+            height: qh,
+            overflow: 'hidden',
+          }}>
+          <Image
+            source={ART.card}
+            style={{ position: 'absolute', left: q.imgLeft, top: q.imgTop, width: artW, height: artH }}
+            contentFit="fill"
+            transition={0}
+            accessible={false}
+          />
+        </View>
+      ))}
+    </View>
+  );
+}

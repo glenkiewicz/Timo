@@ -106,6 +106,15 @@ PIECES = {
           "three times wider than tall) made of sandy beige paper slightly darker than "
           "parchment, outlined with a dashed brown line running evenly along the edge, the "
           "inside empty and flat." + ALPHA, "16:9"),
+
+ # Karta wyprawy (Home i zakładka Wyprawy) — ten sam papier i obszycie co
+ # `slot` i `pill`. Kształt prawie kwadratowy i duży, bo komponent składa kartę
+ # z czterech rogów: z jednego arkusza wychodzi i szeroka karta, i wąski kafel,
+ # a ściegi zostają niezniekształcone (rozciąganie wydłużało kreski).
+ "card": (STYLE + "An empty rounded-rectangle card, slightly wider than tall (about 4 by 3), "
+          "made of sandy beige paper slightly darker than parchment, with moderately "
+          "rounded corners, outlined with a dashed brown stitched line running evenly "
+          "along the edge, the inside empty and flat." + ALPHA, "4:3"),
 }
 
 

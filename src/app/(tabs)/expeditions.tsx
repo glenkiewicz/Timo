@@ -3,11 +3,8 @@ import { useMemo } from 'react';
 import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { ExpeditionIcon } from '@/components/expeditions/ExpeditionIcon';
+import { ExpeditionCard } from '@/components/expeditions/ExpeditionCard';
 import { useInfoSheet } from '@/components/sheet/InfoSheet';
-import { Card } from '@/components/ui/Card';
-import { Icon } from '@/components/ui/Icon';
-import { ProgressBar } from '@/components/ui/ProgressBar';
 import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { DEV_UNLOCK_ALL } from '@/config/features';
 import { EXPEDITION_ICONS } from '@/data/expedition-icons';
@@ -150,7 +147,7 @@ export default function ExpeditionsScreen() {
           paddingHorizontal: 16,
           paddingTop: 12,
           paddingBottom: insets.bottom + 24,
-          gap: 10,
+          gap: 14,
         }}>
         {[...visibleExpeditions]
           .map((e) => ({ e, status: statusFor(e) }))
@@ -158,7 +155,7 @@ export default function ExpeditionsScreen() {
           .map(({ e, status }) => {
             const prog = expeditionProgress[e.id];
             return (
-              <ExpeditionCard
+              <ListCard
                 key={e.id}
                 expedition={e}
                 status={status}
@@ -179,127 +176,37 @@ type CardProps = {
   onPress: () => void;
 };
 
-function ExpeditionCard({
-  expedition: e,
-  status,
-  discoveredCount,
-  onPress,
-}: CardProps) {
+/**
+ * Wyprawa na liście — ta sama pergaminowa karta, co Wyprawa Dnia na Home.
+ * Stan niesie etykieta nad tytułem (w kolorze stanu) i zawartość karty:
+ * kropki postępu w trakcie, nagrody przed startem, sylwetka z kłódką, gdy
+ * zamknięta. Przycisku nie ma — cała karta jest klikalna, jak wcześniej.
+ */
+function ListCard({ expedition: e, status, discoveredCount, onPress }: CardProps) {
   const isLocked = status === 'locked';
   const isCompleted = status === 'completed';
   const isInProgress = status === 'in_progress';
 
-  const accent = isLocked ? null : ACCENT[STATUS_ACCENT[status]];
-
   const statusLabel = isCompleted
     ? 'UKOŃCZONA'
     : isInProgress
-      ? `W TRAKCIE · ${discoveredCount}/${e.target_count}`
+      ? 'W TRAKCIE'
       : isLocked
         ? 'ZABLOKOWANA'
         : 'DOSTĘPNA DZIŚ';
 
   return (
-    <Card
+    <ExpeditionCard
+      expedition={e}
+      eyebrow={statusLabel}
+      eyebrowColor={isLocked ? UI.pageFaint : ACCENT[STATUS_ACCENT[status]].deep}
+      subtitle={isLocked ? 'Pojawi się kiedyś jako Wyprawa Dnia.' : e.description_pl}
+      discovered={isCompleted ? e.target_count : discoveredCount}
+      showProgress={isInProgress || isCompleted}
+      showRewards={!isCompleted && !isLocked}
+      locked={isLocked}
       onPress={onPress}
-      accessibilityLabel={e.childTitle ?? e.title}
-      // Ramkę koloruje tylko stan wyjątkowy — inaczej lista robi się krzykliwa.
-      borderColor={
-        isCompleted ? UI.primary : isInProgress ? UI.fox : UI.line
-      }
-      background={isLocked ? UI.sunken : UI.surface}
-      padding={14}>
-      <View className="flex-row items-center gap-3">
-        <View
-          className="items-center justify-center"
-          style={{
-            width: 60,
-            height: 60,
-            borderRadius: 16,
-            backgroundColor: accent ? accent.pale : UI.line,
-          }}>
-          {isLocked ? (
-            <Icon name="lock" size={26} color={UI.textFaint} strokeWidth={2.4} />
-          ) : (
-            <ExpeditionIcon expeditionId={e.id} fallbackEmoji={e.hero_emoji} size={46} />
-          )}
-        </View>
-
-        <View className="flex-1">
-          <Text
-            style={{
-              color: accent ? accent.deep : UI.textFaint,
-              fontFamily: 'Gabarito-Bold',
-              fontSize: 10,
-              letterSpacing: 1.1,
-            }}>
-            {statusLabel}
-          </Text>
-          <Text
-            style={{
-              color: isLocked ? UI.textSoft : UI.text,
-              fontFamily: 'Gabarito-Bold',
-              fontSize: 16,
-              marginTop: 2,
-            }}>
-            {e.childTitle ?? e.title}
-          </Text>
-          <Text
-            numberOfLines={2}
-            style={{
-              color: UI.textSoft,
-              fontFamily: 'Lexend',
-              fontSize: 12,
-              lineHeight: 16,
-              marginTop: 2,
-            }}>
-            {isLocked ? 'Pojawi się kiedyś jako Wyprawa Dnia.' : e.description_pl}
-          </Text>
-
-          {!isCompleted && !isLocked ? (
-            <View className="flex-row items-center gap-3 mt-2">
-              <View className="flex-row items-center gap-1">
-                <Icon name="paw" size={14} color={UI.sky} />
-                <Text
-                  style={{
-                    color: UI.skyDeep,
-                    fontFamily: 'Gabarito-Bold',
-                    fontSize: 11,
-                  }}>
-                  +{e.reward_paws}
-                </Text>
-              </View>
-              <View className="flex-row items-center gap-1">
-                <Icon name="bolt" size={14} color={UI.gold} />
-                <Text
-                  style={{
-                    color: UI.goldDeep,
-                    fontFamily: 'Gabarito-Bold',
-                    fontSize: 11,
-                  }}>
-                  +{e.reward_xp} XP
-                </Text>
-              </View>
-            </View>
-          ) : null}
-        </View>
-
-        {isCompleted ? (
-          <Icon name="check" size={22} color={UI.primaryDeep} strokeWidth={3} />
-        ) : isLocked ? null : (
-          <Icon name="chevron-right" size={20} color={UI.textFaint} strokeWidth={2.6} />
-        )}
-      </View>
-
-      {isInProgress ? (
-        <View className="mt-3">
-          <ProgressBar
-            value={e.target_count > 0 ? discoveredCount / e.target_count : 0}
-            accent="fox"
-            height={10}
-          />
-        </View>
-      ) : null}
-    </Card>
+      discSize={76}
+    />
   );
 }
