@@ -1,201 +1,74 @@
 /**
- * Biblioteka tekstów Liska Timo — Detektyw-Lis (Sherlock-junior).
+ * Biblioteka tekstów Liska Timo — wesołego, trochę gapowatego lisa-detektywa.
  *
- * Charakter: refleksyjny, ciekawski, lekka ironia. Zamiast "Lisi nos" wszędzie
- * — detektywskie metafory (lupa, notes, sprawa, podejrzany, trop). Crazy =
- * pseudo-naukowy "ekspert lis" (Według mojej analizy, Lisia ekspertyza wskazuje).
+ * Charakter pytań siedzi w samych pytaniach (`src/data/questions.ts`: setupy
+ * i reakcje związane z tematem). Tu są pule ogólne: wygłupy, „ciepło–zimno”,
+ * krótkie reakcje, strzały, pudła, powitania i zakończenia.
  *
- * Prefiksy są skategoryzowane po **fazie gry**:
- *   START  = Q1            (brak wiedzy o zwierzęciu — początek sprawy)
- *   EARLY  = Q2–Q3         (zaczynamy zawężać — pierwsze poszlaki)
- *   MID    = Q4–Q7         (mocno zawężamy — sprawa się zaciska)
- *   LATE   = Q8+           (gorące tropy — końcówka śledztwa)
+ * Zasady tekstów (pilnuje ich `scripts/validate-timo-lines.ts`):
+ *  - słowa, które zna przedszkolak, humor z obrazków, dźwięków i przesady,
+ *  - bez płci dziecka: żadnych „wygrałeś”, „mały odkrywco”, „tropicielu”,
+ *  - Timo mówi o sobie w rodzaju męskim („pomyliłem”, „znalazłem”).
  *
- * Proporcje docelowe: 70% normal, 20% funny, 10% crazy.
+ * Stałe gagi: dumny nos, gubiona lupa, jagody i kanapki z serem, strach
+ * przed wodą, rude futro i puszysty ogon.
  */
 
-/* ===================== START (Q1) — otwarcie sprawy ===================== */
-
-export const QUESTION_PREFIX_START_NORMAL: string[] = [
-  '', // czyste pytanie
-  '',
-  '',
-  '',
-  'Hmm, ',
-  'Sprawdźmy: ',
-  'Zaczynamy: ',
-  'Dobra, ',
-  'Mam pierwsze pytanie: ',
-];
-
-export const QUESTION_PREFIX_START_FUNNY: string[] = [
-  'Lupa w łapie, notes otwarty. ',
-  'Detektyw Timo na służbie. ',
-  'Otwieramy nową sprawę: ',
-  'Mam już pierwsze podejrzenie. ',
-  'Detal numer jeden: ',
-  'Zaczynam śledztwo. ',
-];
-
-export const QUESTION_PREFIX_START_CRAZY: string[] = [
-  'Według mojej wstępnej analizy: ',
-  'Lisia metodologia mówi tak: ',
-  'Profesor Timo rozpoczyna badanie. ',
-  'Naukowo rzecz biorąc: ',
-];
-
-/* ===================== EARLY (Q2–Q3) — pierwsze poszlaki ===================== */
-
-export const QUESTION_PREFIX_EARLY_NORMAL: string[] = [
-  '',
-  '',
-  '',
-  'Hmm, ',
-  'Aha, ',
-  'Dobra, ',
-  'Sprawdźmy: ',
-  'Idziemy dalej: ',
-  'Notuję sobie. ',
-];
-
-export const QUESTION_PREFIX_EARLY_FUNNY: string[] = [
-  'Zauważyłem coś podejrzanego. ',
-  'Mam pewną hipotezę. ',
-  'Detal ważny dla śledztwa. ',
-  'Hmm, ciekawy szczegół. ',
-  'Detektyw zadaje kolejne pytanie: ',
-  'Podejrzane, podejrzane. ',
-];
-
-export const QUESTION_PREFIX_EARLY_CRAZY: string[] = [
-  'Lisia hipoteza badawcza brzmi: ',
-  'Statystyka ogonów wskazuje: ',
-  'Według mojej ekspertyzy: ',
-  'Profesor Timo analizuje dane: ',
-];
-
-/* ===================== MID (Q4–Q7) — sprawa się zaciska ===================== */
-
-export const QUESTION_PREFIX_MID_NORMAL: string[] = [
-  '',
-  '',
-  '',
-  'Hmm, ',
-  'Aha, ',
-  'Sprawdźmy jeszcze: ',
-  'Idziemy dalej: ',
-  'Dobra. ',
-];
-
-export const QUESTION_PREFIX_MID_FUNNY: string[] = [
-  'Mam mocne podejrzenie. ',
-  'Coś tu nie pasuje — i to ciekawe. ',
-  'Lupa pokazuje wyraźniej. ',
-  'Detektywska intuicja podpowiada. ',
-  'Zwęszyłem coś na tropie. ',
-  'Aha! Kolejny element układanki. ',
-  'Coś mi się przypomina. ',
-];
-
-export const QUESTION_PREFIX_MID_CRAZY: string[] = [
-  'Lisia ekspertyza wskazuje: ',
-  'Statystycznie patrząc, ',
-  'Naukowe podejście do tropu: ',
-  'Według mojej analizy: ',
-  'Badania profesora Timo mówią: ',
-];
-
-/* ===================== LATE (Q8+) — końcówka śledztwa ===================== */
-
-export const QUESTION_PREFIX_LATE_NORMAL: string[] = [
-  '',
-  '',
-  'Aha! ',
-  'Już prawie. ',
-  'Jeszcze chwila. ',
-  'Trop bardzo gorący. ',
-  'Jeszcze jeden szczegół. ',
-];
-
-export const QUESTION_PREFIX_LATE_FUNNY: string[] = [
-  'Czuję, że już prawie go mam. ',
-  'Lupa mówi: bardzo blisko! ',
-  'Detektywska radość rośnie. ',
-  'O, jeszcze chwila i mam sprawcę. ',
-  'Słyszę szmer w krzakach. ',
-  'Niemal go widzę pod lupą. ',
-];
-
-export const QUESTION_PREFIX_LATE_CRAZY: string[] = [
-  'Lisia metodologia kończy badanie. ',
-  'Analiza statystyczna wskazuje: ',
-  'Końcowy raport ekspertyzy: ',
-];
-
-/* ===================== Interludes — tylko MID+ ===================== */
+/* ===================== Wygłupy — maks. 1 na grę ===================== */
 
 /**
- * Krótkie, nieinformacyjne wtręty PRZED pytaniem. Tylko od Q4+.
- * Wcześniej nie pasują (detektyw nie ma jeszcze z czego się cieszyć).
+ * Fałszywe pytanie zamknięte „Żartuję!”. Zaraz po nim pada prawdziwe pytanie,
+ * więc dziecko zdąży się zaśmiać i powiedzieć „nieee!”.
  */
-export const INTERLUDES_MID: string[] = [
-  'Robi się ciekawie. ',
-  'Mam dobrą poszlakę. ',
-  'Jesteśmy blisko, czuję to. ',
-  'Coś tu jest na rzeczy. ',
-  'Hmm, mam kilka podejrzeń. ',
+export const WYGLUPY: string[] = [
+  'Czy twoje zwierzę nosi skarpetki? Hi, hi, żartuję!',
+  'Czy twoje zwierzę jeździ na hulajnodze? Żartuję!',
+  'Czy twoje zwierzę je lody łyżeczką? No dobra, żartuję!',
+  'Czy twoje zwierzę umie grać na pianinie? Żartuję, żartuję!',
+  'Czy twoje zwierzę chodzi do przedszkola? Hi, hi, to był żart!',
+  'Czy twoje zwierzę myje zęby szczoteczką? Żartuję!',
 ];
 
-export const INTERLUDES_LATE: string[] = [
-  'Już prawie go mam. ',
-  'Końcówka, słyszę to. ',
-  'Bardzo blisko! ',
-  'Lada chwila wpadnie. ',
+/* ===================== Ciepło–zimno ===================== */
+
+/**
+ * Mówione tylko przy PRZEJŚCIU na wyższy poziom (liczony z silnika:
+ * `heatLevel` w guessing-engine), zamiast setupu przed pytaniem.
+ */
+export const HEAT_WARM_LINES: string[] = [
+  'Robi się ciepło!',
+  'Ciepło, ciepło… mój nos coś czuje.',
+  'Cieplej! Idziemy dobrym tropem.',
 ];
 
-/* ===================== Reakcje (Faza 2) ===================== */
-
-export const REACTION_YES: string[] = [
-  'Tak! Świetnie, mam ważną wskazówkę w notesie.',
-  'Doskonale, mam mocny ślad.',
-  'Aha, ciepło-ciepło. Idziemy dalej.',
-  'Bingo! To ważny szczegół.',
-  'Świetnie, sprawa się rozjaśnia.',
-  'O, to mi się przyda — notuję.',
-  'Tak — trop bardzo gorący!',
+export const HEAT_HOT_LINES: string[] = [
+  'Gorąco! Aż mi parzy nos!',
+  'Gorąco, gorąco! Już prawie go mam.',
+  'Parzy! Jesteśmy bardzo blisko.',
 ];
 
-export const REACTION_NO: string[] = [
-  'Aha, eliminujemy tego podejrzanego.',
-  'OK, ten trop odpada — szukamy gdzie indziej.',
-  'Hmm, nie ten kierunek. Detektyw notuje.',
-  'No to wykluczamy. Idziemy gdzie indziej.',
-  'Sprawca nie tym razem. Dobrze wiedzieć.',
-  'Wykreślamy z notesu. Świetnie.',
-  'OK, mamy mniej podejrzanych.',
-];
+/* ===================== Reakcje na odpowiedź ===================== */
+
+/** Krótkie reakcje na Tak/Nie — przeplatane z reakcjami z pytania, żeby nie spowalniać gry. */
+export const REACTION_SHORT: string[] = ['Aha!', 'Notuję!', 'Mhm!', 'Jasne!', 'Dobrze!'];
 
 export const REACTION_IDK: string[] = [
-  'Spokojnie — detektyw też nie musi wszystkiego wiedzieć. Sprawdzimy z innej strony.',
-  'Nic nie szkodzi, kombinuję dalej.',
-  'OK, ten szczegół ukryty. Pomijamy.',
-  'Detektyw musi czasem zgadywać — to też dane.',
-  'Bez problemu, mam inne pytanie w zanadrzu.',
-  'Spokojnie, ja też czasem się waham.',
+  'Nic nie szkodzi! Ja też nie wszystko wiem.',
+  'Spokojnie, zapytam o coś innego.',
+  'Hmm, zagadka w zagadce! Idziemy dalej.',
+  'Nie szkodzi. Mój nos coś wymyśli.',
 ];
 
 export const REACTION_HARD: string[] = [
-  'Słuszna uwaga — w naturze nic nie jest czarno-białe. Detektyw to też notuje.',
-  'Dobra obserwacja, to też dla mnie cenna wskazówka.',
-  'Świat jest skomplikowany, masz całkowitą rację.',
-  'Hmm, czasem tak, czasem nie. Notuję jako niejasne.',
-  'Mądre spostrzeżenie — sprawa nie jest oczywista.',
+  'Czasem tak, a czasem nie? Sprytne!',
+  'Aha, to zależy. Zapisuję ze znakiem zapytania.',
+  'Dobra uwaga! Zwierzęta bywają różne.',
 ];
 
 /* ===================== Powitania na start nowej rundy ===================== */
 
 export const GREETINGS: string[] = [
-  'Cześć, mały odkrywco! Detektyw Timo na służbie. O jakim zwierzaku dziś myślisz?',
+  'Cześć! Detektyw Timo na służbie. O jakim zwierzaku dziś myślisz?',
   'Lupa gotowa, notes otwarty. Pomyśl o zwierzęciu, a ja postaram się je znaleźć.',
   'Otwieramy dziś nową sprawę. Pomyśl w głowie o jednym zwierzaku, nie mów którym.',
   'Mam świeży nos i bystrą głowę. Lecimy z tropieniem?',
@@ -213,32 +86,31 @@ export const GREETINGS: string[] = [
  * nagrania na każdy dzień serii.
  */
 export const STREAK_LINES: string[] = [
-  'Przyszedłeś! Nasza seria rośnie — tak trzymaj.',
+  'Jesteś! Nasza seria rośnie — tak trzymaj.',
   'Kolejny dzień razem. Lubię, kiedy zaglądasz.',
-  'Jesteś! Zaznaczam nam dzisiejszy dzień w notesie.',
-  'Witaj znowu, tropicielu. Seria trwa dalej!',
+  'Hura! Zaznaczam nam dzisiejszy dzień w notesie.',
+  'Witaj znowu! Seria trwa dalej!',
 ];
 
 /** Kwestie na progu serii — 7, 14 i 30 dni. Rzadkie, więc mocniejsze. */
 export const STREAK_MILESTONE_LINES: string[] = [
   'To dopiero wyczyn! Masz u mnie dodatkowe tropy.',
-  'Cała kupka tropów dla ciebie — zasłużyłeś.',
+  'Cała kupka tropów dla ciebie. Należą ci się!',
 ];
 
 /* ===================== Po wygranej / przegranej ===================== */
 
 /**
  * Kwestie po trafieniu — mówią o WSPÓLNYM tropieniu, nie o sukcesie Timo.
- * Wcześniej brzmiały „Detektyw Timo trafił", co utrwalało, że to lis wygrywa,
- * choć punkty dostaje dziecko. Zasługa należy się opisowi dziecka.
+ * Zasługa należy się opisowi dziecka.
  */
 export const VICTORY_LINES: string[] = [
-  'Udało się! Tak dobrze go opisałeś, że go znalazłem.',
-  'Mam go — dzięki tobie. Bez twoich podpowiedzi błądziłbym do wieczora.',
-  'Brawo nam — udało się rozwikłać zagadkę!',
-  'Znalazłem! Prowadziłeś mnie prosto do celu.',
-  'Jest! Świetnie znasz swoje zwierzę.',
-  'Razem go wytropiliśmy. Dobra robota, tropicielu!',
+  'Jest! Twoje podpowiedzi były super.',
+  'Udało się! Jesteśmy świetną drużyną.',
+  'Mam go! Piątka w łapę!',
+  'Znalazłem! Bez ciebie błądziłbym do wieczora.',
+  'Hura! Świetnie znasz swoje zwierzę.',
+  'Razem go wytropiliśmy. Mój nos jest z nas dumny!',
 ];
 
 /**
@@ -247,24 +119,35 @@ export const VICTORY_LINES: string[] = [
  * dziecko wskazuje zwierzę (`AnimalReveal`).
  */
 export const GIVE_UP_LINES: string[] = [
-  'Przechytrzyłeś mnie! Pokaż, kogo wymyśliłeś?',
-  'Ale trudne zwierzę wybrałeś! Co to było za stworzenie?',
-  'Mój notes jest pusty — wygrałeś ze mną. Kto to?',
-  'Nie mam pojęcia, a ty wiedziałeś od początku. Zdradzisz mi?',
-  'Łapy w górę, poddaję się. Powiedz, jakie to zwierzę?',
+  'Ale zagadka! Kto to był?',
+  'Moja lupa się poddaje. Pokażesz mi?',
+  'Tym razem wygrywasz! Jakie to zwierzę?',
+  'Łapy w górę, poddaję się. Zdradzisz mi, kto to?',
+  'Mój notes jest pusty, a nos zdziwiony. Co to za zwierzę?',
 ];
 
-/* ===================== Strzały (guess intros) ===================== */
+/* ===================== Strzał i pudło ===================== */
 
+/**
+ * Wstęp do strzału. Po nim pada nazwa zwierzęcia w mianowniku i „?”, dlatego
+ * każdy wstęp kończy się na „to…” — „Stawiam na Krowa” byłoby błędem.
+ */
 export const GUESS_INTROS: string[] = [
-  'Mam podejrzanego — to chyba',
-  'Detektyw mówi:',
-  'Hmm, postawię na',
-  'Mam pewność, że to',
-  'Strzelam: to',
-  'Stawiam na',
-  'Już wiem! To',
-  'Mam mocną teorię — to',
+  'Mój nos mówi, że to…',
+  'Czy to przypadkiem…',
+  'Stawiam trzy jagody, że to…',
+  'Hmm, hmm… czy to…',
+  'Lupa pokazuje, że to…',
+  'Mam! Czy to…',
+];
+
+/** Reakcja na „Nie, pudło”. */
+export const MISS_LINES: string[] = [
+  'Pudło! Mój nos chyba ma katar.',
+  'Ups! Lupa mi zaparowała.',
+  'Nie? No to szukam dalej!',
+  'Ojej, pomyliłem tropy. Jeszcze raz!',
+  'Pudło! Ale mój nos się nie poddaje.',
 ];
 
 // ============================================================
@@ -274,7 +157,7 @@ export const GUESS_INTROS: string[] = [
 /** Intro Timo na ekranie /expedition-intro/[id]. Klucz = expedition.id. */
 export const EXPEDITION_INTROS: Record<string, string[]> = {
   water_friends: [
-    'Witaj na wodnej sprawie, mały odkrywco! Wybierz w głowie jednego mieszkańca morza lub jeziora, a detektyw Timo ruszy na poszukiwanie.',
+    'Witaj na wodnej sprawie! Wybierz w głowie jednego mieszkańca morza lub jeziora, a detektyw Timo ruszy na poszukiwanie.',
     'Plusk-plusk! Mam dla ciebie wodną zagadkę. Pomyśl w głowie o jednym pływaku, a ja zgadnę pytaniami — krok po kroku.',
   ],
   farm_timo: [
@@ -355,7 +238,7 @@ export const EXPEDITION_INTROS: Record<string, string[]> = {
   ],
   water_giants: [
     'Głębia oceanu — sprawa dla odważnego detektywa! Pomyśl o jednym wielkim mieszkańcu mórz, a Timo zgadnie.',
-    'Brawo, odkrywco! Wybierz w głowie jednego wodnego olbrzyma z kart, a ja wytropię go pytaniami.',
+    'Hej, hej! Wybierz w głowie jednego wodnego olbrzyma z kart, a ja wytropię go pytaniami.',
   ],
   dinos_myths: [
     'Stary świat i legendy, sprawa mityczna! Pomyśl o jednym stworzeniu z dawnych czasów lub bajek.',
@@ -376,32 +259,22 @@ export const GENERIC_EXPEDITION_INTRO = [
   'Otwieramy sprawę! Wybierz w głowie jedno zwierzę, nie mów mi które, a ja użyję pytań żeby je wytropić.',
 ];
 
-/** Po odpowiedzi "Nie wiem" — bez kary, ciepło, po detektywsku. */
-export const DONT_KNOW_RESPONSES = [
-  'Spokojnie — detektyw też nie musi wszystkiego wiedzieć. Zapytam inaczej.',
-  'Nic nie szkodzi, kombinuję dalej.',
-  'OK, ten szczegół ukryty — sprawdzimy z innej strony.',
-  'Hmm, trudne pytanie. Detektyw notuje jako niejasne.',
-  'Bez problemu, mam inne pomysły. Spróbujmy inaczej.',
-  'Spokojnie, ja też czasem się waham. Lecimy dalej.',
-];
-
 /**
  * Komunikat gdy guided pula została wyczerpana — dziecko wybrało zwierzę
- * spoza 18 kart. Wyświetlane raz, potem normalne pytania.
+ * spoza kart inspiracji. Mówiony raz, jako wstęp do następnego pytania.
  */
 export const OUTSIDE_CATEGORY_LINES = [
-  'Oho! Detektyw widzi, że twoje zwierzę nie pasuje całkiem do tej wyprawy. Spokojnie — ciekawe sprawy bywają niespodzianką. Tropię dalej!',
-  'Hmm... ten trop prowadzi nas trochę poza naszą wyprawę. Nic nie szkodzi, detektyw lubi nieoczekiwane zwroty akcji.',
-  'Ale ciekawy wybór! Sprawdźmy razem, co to za niespodzianka — detektyw Timo idzie nowym tropem.',
-  'O, to coś spoza naszej listy! Świetnie, dobra zagadka czasem wychodzi poza scenariusz. Tropię dalej.',
+  'Oho! Twoje zwierzę nie pasuje do tej wyprawy. Super, lubię niespodzianki!',
+  'Hmm, ten trop wychodzi poza naszą wyprawę. Tropię dalej!',
+  'Ale ciekawy wybór! To ktoś spoza naszych kart.',
+  'O, niespodzianka! Tego zwierzęcia nie ma na naszej liście.',
 ];
 
 /** Łagodniejszy give-up dla guided. */
 export const GUIDED_GIVE_UP_LINES = [
-  'Przechytrzyłeś mnie! Pokaż, kogo wybrałeś.',
-  'Zgubiłem trop, a ty wybrałeś świetnie! Powiedz, co to było?',
-  'Mój notes pusty — tym razem twoje. Zdradzisz mi rozwiązanie?',
+  'Ale zagadka! Pokażesz mi, kto to?',
+  'Zgubiłem trop! Powiesz mi, co to było?',
+  'Mój notes pusty — tym razem wygrywasz. Zdradzisz mi rozwiązanie?',
 ];
 
 // === HELPERY z anti-repeat (ostatnie 3 użyte nie wracają, jeśli pula > 3) ===
@@ -421,7 +294,7 @@ function pickAntiRepeat(key: string, pool: readonly string[]): string {
   return picked;
 }
 
-/** Wybiera tekst i zwraca jednocześnie `voiceKey` `prefix.{voiceKeyPrefix}.{indexInPool}`. */
+/** Wybiera tekst i zwraca jednocześnie `voiceKey` `{voiceKeyPrefix}.{indexInPool}`. */
 function pickWithKey(
   storeKey: string,
   pool: readonly string[],
@@ -432,16 +305,24 @@ function pickWithKey(
   return { text, voiceKey: `${voiceKeyPrefix}.${index}` };
 }
 
+/**
+ * Wybór z anti-repeat dla dowolnej listy kwestii z gotowymi voiceKey
+ * (np. setupy i reakcje z `questions.ts`).
+ */
+export function pickFromLines(storeKey: string, lines: readonly Pick[]): Pick {
+  const text = pickAntiRepeat(
+    storeKey,
+    lines.map((l) => l.text),
+  );
+  return lines.find((l) => l.text === text) ?? lines[0];
+}
+
 export function pickExpeditionIntro(expeditionId: string): Pick {
   const pool = EXPEDITION_INTROS[expeditionId];
   if (pool && pool.length > 0) {
     return pickWithKey(`intro:${expeditionId}`, pool, `intro.${expeditionId}`);
   }
   return pickWithKey('intro:generic', GENERIC_EXPEDITION_INTRO, 'intro.generic');
-}
-
-export function pickDontKnowResponse(): Pick {
-  return pickWithKey('dontknow', DONT_KNOW_RESPONSES, 'dont_know');
 }
 
 export function pickOutsideCategoryLine(): Pick {
@@ -474,56 +355,26 @@ export function pickGuessIntro(): Pick {
   return pickWithKey('guess_intro', GUESS_INTROS, 'guess_intro');
 }
 
-export function pickReaction(kind: 'yes' | 'no' | 'idk' | 'hard'): Pick {
-  const pool =
-    kind === 'yes'
-      ? REACTION_YES
-      : kind === 'no'
-        ? REACTION_NO
-        : kind === 'idk'
-          ? REACTION_IDK
-          : REACTION_HARD;
-  return pickWithKey(`reaction:${kind}`, pool, `reaction.${kind}`);
+export function pickMissLine(): Pick {
+  return pickWithKey('miss', MISS_LINES, 'miss');
 }
 
-type Phase = 'start' | 'early' | 'mid' | 'late';
-type Mood = 'normal' | 'funny' | 'crazy';
-
-const PREFIX_POOLS: Record<Phase, Record<Mood, readonly string[]>> = {
-  start: {
-    normal: QUESTION_PREFIX_START_NORMAL,
-    funny: QUESTION_PREFIX_START_FUNNY,
-    crazy: QUESTION_PREFIX_START_CRAZY,
-  },
-  early: {
-    normal: QUESTION_PREFIX_EARLY_NORMAL,
-    funny: QUESTION_PREFIX_EARLY_FUNNY,
-    crazy: QUESTION_PREFIX_EARLY_CRAZY,
-  },
-  mid: {
-    normal: QUESTION_PREFIX_MID_NORMAL,
-    funny: QUESTION_PREFIX_MID_FUNNY,
-    crazy: QUESTION_PREFIX_MID_CRAZY,
-  },
-  late: {
-    normal: QUESTION_PREFIX_LATE_NORMAL,
-    funny: QUESTION_PREFIX_LATE_FUNNY,
-    crazy: QUESTION_PREFIX_LATE_CRAZY,
-  },
-};
-
-/**
- * Wybiera prefiks dla danej fazy + nastroju. Może zwrócić Pick z pustym tekstem
- * (te prefiksy też istnieją w pulach jako "" — wtedy `voiceKey` jest pomijany).
- */
-export function pickPrefix(phase: Phase, mood: Mood): Pick {
-  const pool = PREFIX_POOLS[phase][mood];
-  const text = pickAntiRepeat(`prefix:${phase}:${mood}`, pool);
-  const index = pool.indexOf(text);
-  return { text, voiceKey: `prefix.${phase}.${mood}.${index}` };
+export function pickWyglup(): Pick {
+  return pickWithKey('wyglup', WYGLUPY, 'wyglup');
 }
 
-export function pickInterlude(phase: 'mid' | 'late'): Pick {
-  const pool = phase === 'mid' ? INTERLUDES_MID : INTERLUDES_LATE;
-  return pickWithKey(`interlude:${phase}`, pool, `interlude.${phase}`);
+export function pickHeatLine(level: 'warm' | 'hot'): Pick {
+  return level === 'warm'
+    ? pickWithKey('heat:warm', HEAT_WARM_LINES, 'heat.warm')
+    : pickWithKey('heat:hot', HEAT_HOT_LINES, 'heat.hot');
+}
+
+export function pickShortReaction(): Pick {
+  return pickWithKey('reaction:short', REACTION_SHORT, 'reaction.short');
+}
+
+export function pickReaction(kind: 'idk' | 'hard'): Pick {
+  return kind === 'idk'
+    ? pickWithKey('reaction:idk', REACTION_IDK, 'reaction.idk')
+    : pickWithKey('reaction:hard', REACTION_HARD, 'reaction.hard');
 }

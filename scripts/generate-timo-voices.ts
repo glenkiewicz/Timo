@@ -3,8 +3,10 @@
  * Generator głosu Timo przez ElevenLabs.
  *
  * ETAP 1 (rozgrywka) — generujemy tylko to co Timo mówi w grze:
- *   - static    : kwestie z src/data/timo-lines.ts (prefiksy, reakcje, intra, victory etc.)
- *   - questions : warianty pytań z src/data/questions.ts
+ *   - static    : kwestie z src/data/timo-lines.ts (wygłupy, ciepło–zimno, reakcje,
+ *                 strzały, pudła, intra, victory etc.)
+ *   - questions : pytania z src/data/questions.ts — rdzenie, setupy i reakcje
+ *                 (klucze q.{id}.core.{i}, q.{id}.setup.{i}, q.{id}.yes.{i}, q.{id}.no.{i})
  *   - animals   : nazwy zwierząt (name_pl) z src/data/animals.ts
  *   - all       : wszystkie 3 powyżej
  *
@@ -16,6 +18,11 @@
  *   --kind=KIND          : static | questions | animals | all  (domyślnie all)
  *   --dry-run            : tylko wypisz co byłoby wygenerowane, bez API calls
  *   --force              : regeneruj wszystko, mimo manifestu
+ *   --prune              : usuń z manifestu klucze, których nie ma już w tekstach,
+ *                          i skasuj MP3, do których nic już nie prowadzi
+ *
+ * `voice-manifest.ts` zawsze zawiera tylko klucze obecne w aktualnych tekstach —
+ * stare klipy (np. dawne prefiksy) nie trafiają do bundla nawet bez --prune.
  *
  * Uruchom:
  *   npx tsx scripts/generate-timo-voices.ts --kind=static    # pierwsze, najmniejsze
@@ -32,43 +39,33 @@ import {
 import {
 	existsSync,
 	mkdirSync,
+	readdirSync,
 	readFileSync,
+	unlinkSync,
 	writeFileSync,
 } from 'fs';
 import { dirname, resolve } from 'path';
 
 import { ANIMALS } from '../src/data/animals';
-import { QUESTIONS } from '../src/data/questions';
+import { QUESTIONS, questionLines } from '../src/data/questions';
 import {
-	DONT_KNOW_RESPONSES,
 	EXPEDITION_INTROS,
 	GENERIC_EXPEDITION_INTRO,
 	GIVE_UP_LINES,
 	GREETINGS,
-	STREAK_LINES,
-	STREAK_MILESTONE_LINES,
 	GUESS_INTROS,
 	GUIDED_GIVE_UP_LINES,
-	INTERLUDES_LATE,
-	INTERLUDES_MID,
+	HEAT_HOT_LINES,
+	HEAT_WARM_LINES,
+	MISS_LINES,
 	OUTSIDE_CATEGORY_LINES,
-	QUESTION_PREFIX_EARLY_CRAZY,
-	QUESTION_PREFIX_EARLY_FUNNY,
-	QUESTION_PREFIX_EARLY_NORMAL,
-	QUESTION_PREFIX_LATE_CRAZY,
-	QUESTION_PREFIX_LATE_FUNNY,
-	QUESTION_PREFIX_LATE_NORMAL,
-	QUESTION_PREFIX_MID_CRAZY,
-	QUESTION_PREFIX_MID_FUNNY,
-	QUESTION_PREFIX_MID_NORMAL,
-	QUESTION_PREFIX_START_CRAZY,
-	QUESTION_PREFIX_START_FUNNY,
-	QUESTION_PREFIX_START_NORMAL,
 	REACTION_HARD,
 	REACTION_IDK,
-	REACTION_NO,
-	REACTION_YES,
+	REACTION_SHORT,
+	STREAK_LINES,
+	STREAK_MILESTONE_LINES,
 	VICTORY_LINES,
+	WYGLUPY,
 } from '../src/data/timo-lines';
 
 // ------------------------------------------------------------
@@ -106,6 +103,7 @@ const args = process.argv.slice(2);
 const isSmoke = args.includes('--smoke');
 const isDryRun = args.includes('--dry-run');
 const isForce = args.includes('--force');
+const isPrune = args.includes('--prune');
 
 const kindArg = args.find((a) => a.startsWith('--kind='));
 type Kind = 'static' | 'questions' | 'animals' | 'all';
@@ -212,26 +210,26 @@ function sha12(text: string): string {
 type SmokeLine = { slug: string; text: string };
 
 const SMOKE_LINES: SmokeLine[] = [
-	{ slug: 'question_start_normal_ssak', text: 'Hmm, czy to ssak?' },
-	{ slug: 'question_mid_funny_water', text: 'Lisi instynkt mówi… czy żyje w wodzie?' },
-	{ slug: 'question_late_funny_size', text: 'Czuję to w wąsach. Czy jest większy od psa?' },
-	{ slug: 'prefix_start_normal_sprawdzmy', text: 'Sprawdźmy:' },
-	{ slug: 'interlude_late_ogon_mlynek', text: 'Mój ogon się kręci jak młynek.' },
-	{ slug: 'reaction_yes_trop_cieply', text: 'Tak — trop ciepły!' },
-	{ slug: 'reaction_no_nie_ten_kierunek', text: 'Hmm, nie ten kierunek.' },
-	{ slug: 'reaction_idk_spokojnie', text: 'Spokojnie, ja też czasem nie wiem.' },
+	{ slug: 'setup_water_kalosze', text: 'Ja do wody wchodzę tylko w kaloszach.' },
+	{ slug: 'core_water', text: 'Czy twoje zwierzę żyje w wodzie?' },
+	{ slug: 'core_mammal_przyklady', text: 'Czy twoje zwierzę jest ssakiem, jak pies, krowa albo słoń?' },
+	{ slug: 'wyglup_skarpetki', text: 'Czy twoje zwierzę nosi skarpetki? Hi, hi, żartuję!' },
+	{ slug: 'heat_hot', text: 'Gorąco! Aż mi parzy nos!' },
+	{ slug: 'yes_water_pletwy', text: 'Plusk! Zakładam płetwy.' },
+	{ slug: 'no_fly_tup_tup', text: 'Chodzi po ziemi, tak jak ja. Tup, tup!' },
+	{ slug: 'miss_katar', text: 'Pudło! Mój nos chyba ma katar.' },
 	{ slug: 'intro_water_friends', text: 'Witaj w Wodnych Zwierzakach! Pomyśl o jednym z nich, a ja spróbuję zgadnąć.' },
 	{ slug: 'intro_forest_kids', text: 'Idziemy do lasu! Pomyśl o jednym z leśnych zwierzaków — to nasza tajemnica.' },
 	{ slug: 'greeting_pakuj_lornetke', text: 'Pakuj lornetkę — tropimy!' },
-	{ slug: 'guess_intro_lisi_nos', text: 'Hmm, mój lisi nos zwęszył:' },
+	{ slug: 'guess_intro_nos', text: 'Mój nos mówi, że to…' },
 	{ slug: 'animal_dog_pies', text: 'Pies' },
 	{ slug: 'animal_brown_bear_niedzwiedz_brunatny', text: 'Niedźwiedź brunatny' },
-	{ slug: 'victory_brawo_nam', text: 'Brawo nam — udało się!' },
-	{ slug: 'giveup_lis_zly_dzien', text: 'Nawet lis ma czasem zły dzień.' },
+	{ slug: 'victory_druzyna', text: 'Udało się! Jesteśmy świetną drużyną.' },
+	{ slug: 'giveup_zagadka', text: 'Ale zagadka! Kto to był?' },
 	{ slug: 'fact_dog', text: 'Pies potrafi nauczyć się ponad 150 słów!' },
 	{ slug: 'fact_hedgehog', text: 'Jeż ma do 7000 kolców na grzbiecie.' },
-	{ slug: 'dont_know_zapytam_inaczej', text: 'Spokojnie, zapytam inaczej.' },
-	{ slug: 'outside_category', text: 'Oho! To chyba nie typowy zwierzak z naszej wyprawy, ale dobry odkrywca może spotkać niespodziankę wszędzie. Spróbuję dalej!' },
+	{ slug: 'reaction_idk_nos', text: 'Nie szkodzi. Mój nos coś wymyśli.' },
+	{ slug: 'outside_category', text: 'Oho! Twoje zwierzę nie pasuje do tej wyprawy. Super, lubię niespodzianki!' },
 ];
 
 async function runSmoke(): Promise<void> {
@@ -279,58 +277,39 @@ type Line = { voiceKey: string; text: string };
 
 function buildStaticLines(): Line[] {
 	const lines: Line[] = [];
-	const phaseMoodMap: Array<[string, string, readonly string[]]> = [
-		['start', 'normal', QUESTION_PREFIX_START_NORMAL],
-		['start', 'funny', QUESTION_PREFIX_START_FUNNY],
-		['start', 'crazy', QUESTION_PREFIX_START_CRAZY],
-		['early', 'normal', QUESTION_PREFIX_EARLY_NORMAL],
-		['early', 'funny', QUESTION_PREFIX_EARLY_FUNNY],
-		['early', 'crazy', QUESTION_PREFIX_EARLY_CRAZY],
-		['mid', 'normal', QUESTION_PREFIX_MID_NORMAL],
-		['mid', 'funny', QUESTION_PREFIX_MID_FUNNY],
-		['mid', 'crazy', QUESTION_PREFIX_MID_CRAZY],
-		['late', 'normal', QUESTION_PREFIX_LATE_NORMAL],
-		['late', 'funny', QUESTION_PREFIX_LATE_FUNNY],
-		['late', 'crazy', QUESTION_PREFIX_LATE_CRAZY],
+	const pools: Array<[string, readonly string[]]> = [
+		['wyglup', WYGLUPY],
+		['heat.warm', HEAT_WARM_LINES],
+		['heat.hot', HEAT_HOT_LINES],
+		['reaction.short', REACTION_SHORT],
+		['reaction.idk', REACTION_IDK],
+		['reaction.hard', REACTION_HARD],
+		['greeting', GREETINGS],
+		['streak', STREAK_LINES],
+		['streak_milestone', STREAK_MILESTONE_LINES],
+		['victory', VICTORY_LINES],
+		['giveup', GIVE_UP_LINES],
+		['guided_giveup', GUIDED_GIVE_UP_LINES],
+		['guess_intro', GUESS_INTROS],
+		['miss', MISS_LINES],
+		['outside', OUTSIDE_CATEGORY_LINES],
+		['intro.generic', GENERIC_EXPEDITION_INTRO],
+		...Object.entries(EXPEDITION_INTROS).map(
+			([expId, pool]) => [`intro.${expId}`, pool] as [string, readonly string[]],
+		),
 	];
-	for (const [phase, mood, pool] of phaseMoodMap) {
-		pool.forEach((text, i) => {
-			// pomijamy puste prefiksy (są w pulach jako "")
-			if (text.trim().length === 0) return;
-			lines.push({ voiceKey: `prefix.${phase}.${mood}.${i}`, text });
-		});
+	for (const [prefix, pool] of pools) {
+		pool.forEach((text, i) => lines.push({ voiceKey: `${prefix}.${i}`, text }));
 	}
-	INTERLUDES_MID.forEach((t, i) => lines.push({ voiceKey: `interlude.mid.${i}`, text: t }));
-	INTERLUDES_LATE.forEach((t, i) => lines.push({ voiceKey: `interlude.late.${i}`, text: t }));
-	REACTION_YES.forEach((t, i) => lines.push({ voiceKey: `reaction.yes.${i}`, text: t }));
-	REACTION_NO.forEach((t, i) => lines.push({ voiceKey: `reaction.no.${i}`, text: t }));
-	REACTION_IDK.forEach((t, i) => lines.push({ voiceKey: `reaction.idk.${i}`, text: t }));
-	REACTION_HARD.forEach((t, i) => lines.push({ voiceKey: `reaction.hard.${i}`, text: t }));
-	GREETINGS.forEach((t, i) => lines.push({ voiceKey: `greeting.${i}`, text: t }));
-	STREAK_LINES.forEach((t, i) => lines.push({ voiceKey: `streak.${i}`, text: t }));
-	STREAK_MILESTONE_LINES.forEach((t, i) =>
-		lines.push({ voiceKey: `streak_milestone.${i}`, text: t })
-	);
-	VICTORY_LINES.forEach((t, i) => lines.push({ voiceKey: `victory.${i}`, text: t }));
-	GIVE_UP_LINES.forEach((t, i) => lines.push({ voiceKey: `giveup.${i}`, text: t }));
-	GUIDED_GIVE_UP_LINES.forEach((t, i) => lines.push({ voiceKey: `guided_giveup.${i}`, text: t }));
-	GUESS_INTROS.forEach((t, i) => lines.push({ voiceKey: `guess_intro.${i}`, text: t }));
-	DONT_KNOW_RESPONSES.forEach((t, i) => lines.push({ voiceKey: `dont_know.${i}`, text: t }));
-	OUTSIDE_CATEGORY_LINES.forEach((t, i) => lines.push({ voiceKey: `outside.${i}`, text: t }));
-	for (const [expId, pool] of Object.entries(EXPEDITION_INTROS)) {
-		pool.forEach((t, i) => lines.push({ voiceKey: `intro.${expId}.${i}`, text: t }));
-	}
-	GENERIC_EXPEDITION_INTRO.forEach((t, i) => lines.push({ voiceKey: `intro.generic.${i}`, text: t }));
 	return lines;
 }
 
 function buildQuestionLines(): Line[] {
 	const lines: Line[] = [];
 	for (const q of QUESTIONS) {
-		const variants = q.variants && q.variants.length > 0 ? q.variants : [q.text_pl];
-		variants.forEach((text, i) => {
-			lines.push({ voiceKey: `question.${q.id}.${i}`, text });
-		});
+		for (const part of ['core', 'setup', 'yes', 'no'] as const) {
+			for (const l of questionLines(q, part)) lines.push({ voiceKey: l.voiceKey, text: l.text });
+		}
 	}
 	return lines;
 }
@@ -380,9 +359,41 @@ function writeManifest(m: Manifest): void {
 	writeFileSync(MANIFEST_PATH, JSON.stringify(m, null, 2));
 }
 
+/** Wszystkie voiceKey, które występują w aktualnych tekstach (niezależnie od --kind). */
+function currentVoiceKeys(): Set<string> {
+	return new Set(buildLines('all').map((l) => l.voiceKey));
+}
+
+/**
+ * Usuwa z manifestu klucze, których nie ma już w tekstach, i kasuje MP3,
+ * do których nie prowadzi żaden klucz. Pliki z `_smoke/` zostają.
+ */
+function pruneManifest(m: Manifest): Manifest {
+	const valid = currentVoiceKeys();
+	const pruned: Manifest = {};
+	let removedKeys = 0;
+	for (const [k, v] of Object.entries(m)) {
+		if (valid.has(k)) pruned[k] = v;
+		else removedKeys += 1;
+	}
+	const usedFiles = new Set(Object.values(pruned).map((e) => e.file));
+	let removedFiles = 0;
+	for (const f of readdirSync(VOICES_DIR)) {
+		if (!f.endsWith('.mp3') || usedFiles.has(f)) continue;
+		unlinkSync(resolve(VOICES_DIR, f));
+		removedFiles += 1;
+	}
+	console.log(`\n🧹 PRUNE — usunięte klucze: ${removedKeys}, usunięte MP3: ${removedFiles}`);
+	return pruned;
+}
+
 function emitTsManifest(m: Manifest): void {
+	// Tylko klucze obecne w aktualnych tekstach — stare klipy nie trafiają do bundla.
 	// Sortowanie po voiceKey dla stabilności diffów.
-	const keys = Object.keys(m).sort();
+	const valid = currentVoiceKeys();
+	const keys = Object.keys(m)
+		.filter((k) => valid.has(k))
+		.sort();
 	const hashes = new Set<string>();
 	for (const k of keys) hashes.add(m[k].hash);
 	const sortedHashes = Array.from(hashes).sort();
@@ -433,7 +444,7 @@ async function runFull(): Promise<void> {
 		}
 		if (filtered.length === 0) {
 			console.error(`[FATAL] Żaden voiceKey z --regen nie pasuje do aktualnego --kind=${kind}.`);
-			console.error(`Pamiętaj że pytania są w --kind=questions, prefixy/reakcje w --kind=static, nazwy w --kind=animals.`);
+			console.error(`Pamiętaj że pytania z setupami i reakcjami (q.*) są w --kind=questions, pozostałe kwestie w --kind=static, nazwy w --kind=animals.`);
 			process.exit(1);
 		}
 		lines = filtered;
@@ -517,6 +528,10 @@ async function runFull(): Promise<void> {
 		if (failed.length > 20) console.log(`  ... + ${failed.length - 20} dalszych błędów`);
 	}
 
+	if (isPrune) {
+		manifest = pruneManifest(manifest);
+		writeManifest(manifest);
+	}
 	emitTsManifest(manifest);
 	console.log(`\nManifest zapisany:    ${MANIFEST_PATH}`);
 	console.log(`TS lookup zapisany:   ${TS_MANIFEST_PATH}`);

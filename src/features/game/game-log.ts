@@ -51,7 +51,7 @@ export function logAnswer(
   const afterCount = after.candidates.filter((a) => !after.excludedAnimals.has(a.id)).length;
   const tag = answer.toUpperCase().padEnd(4);
   push(
-    `Q${after.questionsAsked.toString().padStart(2, ' ')} [${tag}] „${question.text_pl}"  (${beforeCount}→${afterCount})`
+    `Q${after.questionsAsked.toString().padStart(2, ' ')} [${tag}] „${question.core[0]}"  (${beforeCount}→${afterCount})`
   );
   push(`     TOP: ${top5(after, answers)}`);
 }
