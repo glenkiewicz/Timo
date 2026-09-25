@@ -46,6 +46,7 @@ assets/icons/_raw/
 assets/backgrounds/_raw/
 assets/ui/_raw/
 assets/map/_raw/
+assets/badges/_raw/
 
 # Cache Pythona ze skryptów generujących assety
 scripts/__pycache__/

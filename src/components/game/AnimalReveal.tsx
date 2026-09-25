@@ -184,7 +184,7 @@ function AnimalTile({ animal, onPress }: { animal: Animal; onPress: () => void }
   );
 }
 
-/** Wiersze po `COLUMNS` — równe kolumny robi `flex: 1`, jak w `BadgePage`. */
+/** Wiersze po `COLUMNS` — równe kolumny robi `flex: 1` w wierszu. */
 function rows(items: Animal[]): Animal[][] {
   const out: Animal[][] = [];
   for (let i = 0; i < items.length; i += COLUMNS) {

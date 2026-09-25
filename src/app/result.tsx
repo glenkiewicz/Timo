@@ -15,6 +15,7 @@ import { ProgressBar } from '@/components/ui/ProgressBar';
 import { RewardTile } from '@/components/ui/RewardTile';
 import { StatBadge } from '@/components/ui/StatBadge';
 import { ANIMALS_BY_ID } from '@/data/animals';
+import { BADGE_ART } from '@/data/badge-art';
 import { EXPEDITIONS_BY_ID } from '@/data/expeditions';
 import { pickGiveUpLine, pickGuidedGiveUp, pickVictoryLine } from '@/data/timo-lines';
 import { levelFromXp } from '@/features/gamification/award';
@@ -23,6 +24,7 @@ import { useGameStore } from '@/lib/stores/game-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { SHADOW, UI } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
+import { Image } from '@/tw/image';
 
 export default function ResultScreen() {
   const router = useRouter();
@@ -512,7 +514,13 @@ export default function ResultScreen() {
               </Text>
               {lastReward.newBadges.map((b) => (
                 <View key={b.id} className="flex-row items-center gap-2.5 mt-1">
-                  <Text style={{ fontSize: 28 }}>{b.emoji}</Text>
+                  <Image
+                    source={BADGE_ART[b.id]}
+                    style={{ width: 40, height: 40 }}
+                    contentFit="contain"
+                    transition={0}
+                    accessible={false}
+                  />
                   <View className="flex-1">
                     <Text
                       style={{

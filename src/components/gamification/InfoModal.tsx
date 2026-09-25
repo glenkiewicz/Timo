@@ -11,14 +11,17 @@ import { Button } from '@/components/ui/Button';
 import type { TooltipDef } from '@/data/info-tooltips';
 import { UI } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
+import { Image } from '@/tw/image';
 
 type InfoModalProps = {
   visible: boolean;
   tooltip: TooltipDef;
+  /** Ilustracja zamiast emoji — odznaki mają własne obrazki. */
+  art?: number;
   onClose: () => void;
 };
 
-export function InfoModal({ visible, tooltip, onClose }: InfoModalProps) {
+export function InfoModal({ visible, tooltip, art, onClose }: InfoModalProps) {
   const enter = useSharedValue(0);
 
   useEffect(() => {
@@ -72,9 +75,21 @@ export function InfoModal({ visible, tooltip, onClose }: InfoModalProps) {
             },
             cardStyle,
           ]}>
-          <View className="items-center mb-2">
-            <Text style={{ fontSize: 56, lineHeight: 64 }}>{tooltip.emoji}</Text>
-          </View>
+          {art ? (
+            <View className="items-center mb-2">
+              <Image
+                source={art}
+                style={{ width: 96, height: 96 }}
+                contentFit="contain"
+                transition={0}
+                accessible={false}
+              />
+            </View>
+          ) : tooltip.emoji ? (
+            <View className="items-center mb-2">
+              <Text style={{ fontSize: 56, lineHeight: 64 }}>{tooltip.emoji}</Text>
+            </View>
+          ) : null}
           <Text
             className="text-center"
             style={{

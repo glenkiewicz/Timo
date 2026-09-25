@@ -194,6 +194,20 @@ export function AnimalCircle({
   size: number;
 }) {
   return (
+    <SlotDisc size={size}>
+      <View style={{ flex: 1, overflow: 'hidden', borderRadius: size / 2 }}>
+        <AnimalImage animalId={animalId} fill silhouette={!discovered} />
+      </View>
+    </SlotDisc>
+  );
+}
+
+/**
+ * Beżowa tarcza z kreskowanym obrysem i miejsce na obrazek w środku —
+ * wspólna dla zwierząt i odznak, żeby obie kolekcje wyglądały jak jedna.
+ */
+export function SlotDisc({ size, children }: { size: number; children: ReactNode }) {
+  return (
     <View style={{ width: size, height: size }}>
       <Image
         source={ART.slot}
@@ -209,10 +223,8 @@ export function AnimalCircle({
           left: size * 0.14,
           right: size * 0.14,
           bottom: size * 0.14,
-          overflow: 'hidden',
-          borderRadius: size / 2,
         }}>
-        <AnimalImage animalId={animalId} fill silhouette={!discovered} />
+        {children}
       </View>
     </View>
   );

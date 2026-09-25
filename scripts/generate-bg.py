@@ -39,6 +39,19 @@ PROMPTS = {
   "ripples along the very bottom edge only. NO beach, NO sand dunes, NO shoreline, "
   "NO trees, NO horizon line. The middle of the frame is open water, uncluttered and "
   "low contrast."),
+
+ # Zakładka Odznaki — siostra tła kolekcji, ale cieplejsza: pora złotej
+ # godziny zamiast chłodnego poranka, żeby zakładki różniły się nastrojem,
+ # a nie stylem. Nad tłem przewija się lista grup, więc środek zostaje pusty.
+ "badges": (
+  "A soft, very light " + STYLE +
+  "A calm distant landscape at warm golden hour: a pale peach-and-cream sky filling most "
+  "of the frame with a low soft sun, a few small pale clouds near the top, a low band of "
+  "gentle rolling hills and soft rounded treetops along the very bottom, with a few tiny "
+  "colourful festival pennant flags strung between two trees at the far left and right "
+  "edges. VERY LOW CONTRAST and desaturated, washed out, like a faded watercolour wash — "
+  "this is only a backdrop. The entire MIDDLE of the image is empty open sky with nothing "
+  "in it."),
 }
 
 
