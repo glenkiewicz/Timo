@@ -369,14 +369,17 @@ function RegionShelf({
 /** Tła regionów to te same pliki, co tła wypraw — `require` chce literałów. */
 const BACKGROUNDS: Record<string, number> = {
   'bugs-and-worms': require('../../../assets/backgrounds/exp-bugs-and-worms.webp'),
+  'dinos-myths': require('../../../assets/backgrounds/exp-dinos-myths.webp'),
   'farm-timo': require('../../../assets/backgrounds/exp-farm-timo.webp'),
   'forest-kids': require('../../../assets/backgrounds/exp-forest-kids.webp'),
   'green-jungle': require('../../../assets/backgrounds/exp-green-jungle.webp'),
   'home-pets-friends': require('../../../assets/backgrounds/exp-home-pets-friends.webp'),
   'ice-land': require('../../../assets/backgrounds/exp-ice-land.webp'),
   jumpers: require('../../../assets/backgrounds/exp-jumpers.webp'),
+  'long-nose': require('../../../assets/backgrounds/exp-long-nose.webp'),
   'savanna-kids': require('../../../assets/backgrounds/exp-savanna-kids.webp'),
   'scary-animals': require('../../../assets/backgrounds/exp-scary-animals.webp'),
+  'striped-spotted': require('../../../assets/backgrounds/exp-striped-spotted.webp'),
   swimmers: require('../../../assets/backgrounds/exp-swimmers.webp'),
   'water-friends': require('../../../assets/backgrounds/exp-water-friends.webp'),
 };

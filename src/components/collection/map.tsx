@@ -32,6 +32,12 @@ const PATCHES: Record<string, number> = {
   ocean: require('../../../assets/map/patch-ocean.webp'),
   river: require('../../../assets/map/patch-river.webp'),
   savanna: require('../../../assets/map/patch-savanna.webp'),
+  // TYMCZASOWO: nowe krainy pożyczają wyspy, dopóki nie powstaną własne
+  // (`python3 scripts/generate-map-kit.py patch-legend patch-americas patch-asia`,
+  // potem `matte-map-kit.py`). Po wygenerowaniu podmień require i PATCH_RATIO.
+  legend: require('../../../assets/map/patch-jungle.webp'),
+  americas: require('../../../assets/map/patch-savanna.webp'),
+  asia: require('../../../assets/map/patch-mountain.webp'),
 };
 
 /**
@@ -58,6 +64,9 @@ const PATCH_RATIO: Record<string, number> = {
   ocean: 1.292,
   river: 1.098,
   savanna: 1.212,
+  legend: 1.046,
+  americas: 1.212,
+  asia: 1.205,
 };
 
 /** Drewniana tabliczka z nazwą regionu. */
@@ -72,8 +81,11 @@ export function Signpost({ label, width }: { label: string; width: number }) {
         transition={0}
         accessible={false}
       />
+      {/* Dłuższe nazwy („Legendy i dinozaury") zmniejszają czcionkę zamiast się ucinać. */}
       <Text
         numberOfLines={1}
+        adjustsFontSizeToFit
+        minimumFontScale={0.7}
         style={{
           color: '#4a3726',
           fontFamily: 'Gabarito-Bold',
