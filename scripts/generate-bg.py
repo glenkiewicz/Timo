@@ -52,6 +52,17 @@ PROMPTS = {
   "edges. VERY LOW CONTRAST and desaturated, washed out, like a faded watercolour wash — "
   "this is only a backdrop. The entire MIDDLE of the image is empty open sky with nothing "
   "in it."),
+
+ # Zakładka Wyprawy — trzecia siostra tła kolekcji i odznak: ten sam wyprany
+ # pejzaż, tylko chłodny błękit i droga w dal, bo to ekran podróży.
+ "expeditions": (
+  "A soft, very light " + STYLE +
+  "A calm distant landscape on a clear morning: a pale sky-blue and cream sky filling "
+  "most of the frame, a few small pale clouds near the top, and along the very bottom a "
+  "low band of soft rolling hills with a winding dotted footpath disappearing into the "
+  "distance towards far blue mountains, a tiny wooden signpost at the far left edge. "
+  "VERY LOW CONTRAST and desaturated, washed out, like a faded watercolour wash — this "
+  "is only a backdrop. The entire MIDDLE of the image is empty open sky with nothing in it."),
 }
 
 

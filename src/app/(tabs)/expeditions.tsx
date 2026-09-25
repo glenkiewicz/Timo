@@ -1,11 +1,10 @@
 import { useRouter } from 'expo-router';
 import { useMemo } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ExpeditionCard } from '@/components/expeditions/ExpeditionCard';
 import { useInfoSheet } from '@/components/sheet/InfoSheet';
-import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { DEV_UNLOCK_ALL } from '@/config/features';
 import { EXPEDITION_ICONS } from '@/data/expedition-icons';
 import { LOCK_ART } from '@/data/info-tooltips';
@@ -18,6 +17,7 @@ import { useGameStore } from '@/lib/stores/game-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { ACCENT, UI, type Accent } from '@/theme/ui';
 import { Text, View } from '@/tw';
+import { Image } from '@/tw/image';
 
 type CardStatus = 'completed' | 'in_progress' | 'available_today' | 'locked';
 
@@ -43,6 +43,7 @@ const STATUS_ACCENT: Record<Exclude<CardStatus, 'locked'>, Accent> = {
 export default function ExpeditionsScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const { width: screenW } = useWindowDimensions();
   const expeditionProgress = useProfileStore((s) => s.expeditionProgress);
   const dailyChoice = useProfileStore((s) => s.dailyChoice);
   const chooseExpedition = useProfileStore((s) => s.chooseExpedition);
@@ -120,35 +121,65 @@ export default function ExpeditionsScreen() {
   };
 
   return (
-    <View className="flex-1 bg-canvas">
-      <ScreenHeader
-        eyebrow="MAPA TIMO"
-        title="Wyprawy"
-        counter={{ value: completedCount, total: visibleExpeditions.length, accent: 'sky' }}
-        onBack={() => router.navigate('/(tabs)')}>
-        <Text
-          className="text-center"
-          style={{
-            color: UI.textSoft,
-            fontFamily: 'Lexend-Bold',
-            fontSize: 11,
-            lineHeight: 15,
-            paddingHorizontal: 8,
-            marginTop: 8,
-          }}>
-          Wyprawy odkrywasz przez codzienną Wyprawę Dnia. Każdy dzień to 3 nowe propozycje
-          — wybierz jedną i odkrywaj świat z Timo.
-        </Text>
-      </ScreenHeader>
+    <View className="flex-1" style={{ backgroundColor: UI.page }}>
+      {/* Trzecia siostra tła kolekcji i odznak — błękit i droga w dal. Biały
+          pasek nagłówka z UI 3.0 był ostatnim takim na zakładkach. */}
+      <Image
+        source={require('../../../assets/backgrounds/expeditions.webp')}
+        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+        contentFit="cover"
+        transition={0}
+        accessible={false}
+      />
 
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           paddingHorizontal: 16,
-          paddingTop: 12,
+          paddingTop: insets.top + 8,
           paddingBottom: insets.bottom + 24,
           gap: 14,
         }}>
+        <View style={{ alignItems: 'center', marginBottom: 6 }}>
+          <Text style={{ color: UI.text, fontFamily: 'Gabarito-Bold', fontSize: 26 }}>Wyprawy</Text>
+
+          {/* Ten sam licznik, co pod mapą kolekcji i na odznakach. */}
+          <View
+            style={{
+              width: screenW * 0.52,
+              height: 10,
+              borderRadius: 5,
+              backgroundColor: UI.line,
+              overflow: 'hidden',
+              marginTop: 12,
+            }}>
+            <View
+              style={{
+                width: `${(completedCount / Math.max(1, visibleExpeditions.length)) * 100}%`,
+                height: '100%',
+                borderRadius: 5,
+                backgroundColor: UI.sky,
+              }}
+            />
+          </View>
+          <Text
+            style={{ color: UI.textSoft, fontFamily: 'Gabarito-Bold', fontSize: 14, marginTop: 6 }}>
+            {completedCount} z {visibleExpeditions.length} ukończonych
+          </Text>
+          <Text
+            className="text-center"
+            style={{
+              color: UI.textSoft,
+              fontFamily: 'Lexend',
+              fontSize: 13,
+              lineHeight: 18,
+              marginTop: 8,
+              paddingHorizontal: 16,
+            }}>
+            Każdego dnia Timo proponuje 3 nowe wyprawy — wybierz jedną i odkrywaj świat!
+          </Text>
+        </View>
+
         {[...visibleExpeditions]
           .map((e) => ({ e, status: statusFor(e) }))
           .sort((a, b) => statusOrder(a.status) - statusOrder(b.status))
