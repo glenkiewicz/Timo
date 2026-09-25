@@ -12,7 +12,8 @@ import type { Animal } from '@/types/game';
  * Wcześniej liczyły ją same atrybuty, a co nie pasowało nigdzie, spadało do
  * worka „Łąka i zarośla" — trafiało tam 100 zwierząt: dinozaury, smok,
  * grzechotnik, tygrys syberyjski… Teraz każda kraina ma regułę, która mówi,
- * kto w niej mieszka, a worek łapie tylko zwierzęta żyjące po prostu wszędzie.
+ * kto w niej mieszka. Zwierzęta z całego świata stoją w krainie, gdzie jest ich
+ * najwięcej (lista PLACED), a worek „Cały świat" jest tylko siatką bezpieczeństwa.
  *
  * Wyprawy tematyczne zostają FILTREM wewnątrz krainy i to one wiążą kolekcję
  * z rozgrywką.
@@ -83,10 +84,15 @@ const PLACED: Record<string, string> = {
   flying_squirrel: 'asia',
   great_grey_owl: 'asia',
   koi: 'home',
-  // Żyją na wielu kontynentach, ale dla dziecka to zwierzęta pustyń i sawann —
-  // i najwięcej gatunków żółwi lądowych ma Afryka z Madagaskarem.
+  // Żyją (prawie) na całym świecie — stawiamy je tam, gdzie jest ich najwięcej
+  // albo gdzie dziecko najpewniej je spotka. Opis na karcie mówi „cały świat".
   scorpion: 'savanna',
   turtle: 'savanna',
+  dung_beetle: 'savanna',
+  gecko: 'jungle',
+  skink: 'australia',
+  cockroach: 'home',
+  louse: 'home',
   // Roster wyprawy „Góry" ma je dla klimatu, ale żyją na preriach i nad wodą.
   bison_american: 'americas',
   coyote: 'americas',
@@ -188,6 +194,15 @@ export const BY_REGION: Record<string, Animal[]> = (() => {
   }
   return out;
 })();
+
+/**
+ * Krainy do pokazania na mapie — bez pustych. „Cały świat" zostaje w
+ * `ANIMAL_REGIONS` jako siatka bezpieczeństwa dla nowych zwierząt, ale póki
+ * wszystko ma swoje miejsce, jego wyspy nie widać.
+ */
+export const VISIBLE_REGIONS: AnimalRegion[] = ANIMAL_REGIONS.filter(
+  (r) => BY_REGION[r.id].length > 0
+);
 
 export function regionById(id: string): AnimalRegion | undefined {
   return ANIMAL_REGIONS.find((r) => r.id === id);

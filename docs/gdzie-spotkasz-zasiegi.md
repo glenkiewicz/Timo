@@ -160,12 +160,12 @@ Kolumna „Mapa” to podpis pod mapą (markery), „Opis” to kursywny tekst p
 | 152 | ✏️ Anakonda | `anaconda` | Ameryka Pd. | tropikalne dżungle | **Ameryka Pd.** | bagna i rzeki Ameryki Pd. — Amazonia, Orinoko i Pantanal |
 | 153 | ✏️ Grzechotnik | `rattlesnake` | Ameryka Pn. | różne zakątki świata | **Ameryka Pn. · Meksyk i Ameryka Środk. · Ameryka Pd.** | od Kanady po Argentynę — najwięcej w pd.-zach. USA i Meksyku |
 | 154 | ✏️ Jaszczurka zwinka | `lizard` | różne zakątki świata | różne zakątki świata | **Europa, w tym Polska · Azja Pn. i Środk.** | nasłonecznione łąki i wrzosowiska Europy (w całej Polsce) i Azji Środk. |
-| 155 | ✏️ Gekon | `gecko` | cały świat | domy ludzi | **cały świat** | ciepłe kraje wszystkich kontynentów oprócz Antarktydy; w Europie tylko na południu |
+| 155 | ✏️ Gekon | `gecko` | cały świat | domy ludzi | **cały świat** | cały świat — ciepłe kraje wszystkich kontynentów oprócz Antarktydy; najwięcej gatunków w lasach tropikalnych, w Europie tylko na południu |
 | 156 | ✏️ Kameleon | `chameleon` | Afryka · Azja Pd-Wsch. | tropikalne dżungle | **Europa · Afryka · Madagaskar · Bliski Wschód · Indie i Azja Pd.** | Afryka i Madagaskar (tu żyje połowa gatunków), a także Bliski Wschód, Indie i Europa Pd. |
 | 157 | ✏️ Legwan | `iguana` | Ameryka Pn. · Ameryka Pd. | tropikalne dżungle | **Meksyk i Ameryka Środk. · Ameryka Pd.** | lasy tropikalne Ameryki Środk. i Pd.; zawleczony na Florydę |
 | 158 | ✏️ Waran z Komodo | `komodo` | Azja Pd-Wsch. | różne zakątki świata | **Azja Pd.-Wsch.** | kilka wysp Indonezji — Komodo, Rinca i Flores |
 | 159 | ✏️ Żółw morski | `sea_turtle` | wszystkie oceany | głębiny oceanu | **wszystkie oceany** | ciepłe morza wszystkich oceanów; na plażę wychodzą tylko złożyć jaja |
-| 160 | ✏️ Żółw lądowy | `turtle` | różne zakątki świata | różne zakątki świata | **Europa · Afryka · Bliski Wschód · Indie i Azja Pd. · Ameryka Pn. · Ameryka Pd.** | ciepłe kraje wszystkich kontynentów oprócz Australii i Antarktydy; w Europie np. żółw grecki na Bałkanach |
+| 160 | ✏️ Żółw lądowy | `turtle` | różne zakątki świata | różne zakątki świata | **Europa · Afryka · Madagaskar · Bliski Wschód · Indie i Azja Pd. · Ameryka Pn. · Ameryka Pd.** | prawie cały świat — ciepłe kraje wszystkich kontynentów oprócz Australii i Antarktydy; najwięcej gatunków w Afryce i na Madagaskarze, w Europie np. żółw grecki na Bałkanach |
 | 161 | ✏️ Krokodyl | `crocodile` | Afryka · Azja Pd-Wsch. · Ameryka Pd. | afrykańska sawanna, tropikalne dżungle | **Afryka · Indie i Azja Pd. · Azja Pd.-Wsch. · Meksyk i Ameryka Środk. · Ameryka Pd. · Australia** | tropikalne rzeki i bagna Afryki, Ameryk, Azji i Australii |
 | 162 | ✏️ Aligator | `alligator` | Ameryka Pn. | różne zakątki świata | **Azja Wsch. · Ameryka Pn.** | bagna i rzeki pd.-wsch. USA (Floryda, Luizjana); drugi gatunek, aligator chiński, żyje w Chinach |
 | 163 | ✏️ Boa dusiciel | `boa` | Ameryka Pd. | tropikalne dżungle | **Meksyk i Ameryka Środk. · Ameryka Pd.** | lasy i sawanny od Meksyku po Argentynę |
@@ -188,14 +188,14 @@ Kolumna „Mapa” to podpis pod mapą (markery), „Opis” to kursywny tekst p
 | 180 | ✏️ Jętka | `mayfly` | Polska | polskie lasy i pola | **cały świat, także Polska** | czyste rzeki i jeziora niemal całego świata; w Polsce ponad 100 gatunków jętek |
 | 181 | ✏️ Świetlik | `firefly` | różne zakątki świata | różne zakątki świata | **cały świat, także Polska** | ciepłe noce niemal na całym świecie — w Polsce np. świetlik świętojański w czerwcu |
 | 182 | ✏️ Ćma | `moth` | różne zakątki świata | różne zakątki świata | **cały świat, także Polska** | cały świat oprócz Antarktydy; w Polsce żyje ponad 3000 gatunków ciem |
-| 183 | ✏️ Karaluch | `cockroach` | cały świat | różne zakątki świata | **cały świat** | obok ludzi na całym świecie; większość gatunków żyje dziko w lasach tropikalnych |
+| 183 | ✏️ Karaluch | `cockroach` | cały świat | różne zakątki świata | **cały świat** | cały świat — obok ludzi w domach i piwnicach; większość gatunków żyje dziko w lasach tropikalnych |
 | 184 | ✏️ Modliszka | `mantis` | Polska | polskie lasy i pola | **Europa, w tym Polska · Afryka Pn. · Afryka · Bliski Wschód · Azja Pn. i Środk. · Azja Wsch.** | ciepłe łąki Europy Pd. i Środk. (w Polsce coraz częstsza), Afryki i Azji |
 | 185 | ✏️ Patyczak | `stick_insect` | Azja Pd-Wsch. · Ameryka Pd. | tropikalne dżungle | **Afryka · Madagaskar · Azja Pd.-Wsch. · Ameryka Pd. · Australia** | tropiki wszystkich kontynentów, najwięcej w Azji Pd.-Wsch.; w Europie tylko na południu |
 | 186 | ✏️ Żuk | `beetle` | cały świat | polskie lasy i pola | **cały świat, także Polska** | wszystkie kontynenty oprócz Antarktydy |
 | 187 | ✏️ Jelonek rogacz | `stag_beetle` | Polska | polskie lasy i pola | **Europa, w tym Polska · Bliski Wschód** | stare dęby Europy i Turcji — w Polsce rzadki i chroniony |
 | 188 | ✏️ Termit | `termite` | Afryka · Azja Pd-Wsch. · Ameryka Pd. · Australia | afrykańska sawanna, tropikalne dżungle | **Afryka · Indie i Azja Pd. · Azja Pd.-Wsch. · Meksyk i Ameryka Środk. · Ameryka Pd. · Australia** | ciepłe kraje — najwięcej w Afryce, Ameryce Pd. i Australii; w Europie tylko na południu |
 | 189 | ✏️ Pająk krzyżak | `spider` | cały świat | polskie lasy i pola | **Europa, w tym Polska · Ameryka Pn.** | ogrody, łąki i lasy Europy (w całej Polsce); zawleczony do Ameryki Pn. |
-| 190 | ✏️ Skorpion | `scorpion` | różne zakątki świata | różne zakątki świata | **cały świat** | ciepłe kraje wszystkich kontynentów oprócz Antarktydy — w Europie tylko na południu, w Polsce nie żyje |
+| 190 | ✏️ Skorpion | `scorpion` | różne zakątki świata | różne zakątki świata | **cały świat** | cały świat — ciepłe kraje wszystkich kontynentów oprócz Antarktydy; najwięcej na pustyniach Afryki, w Europie tylko na południu, w Polsce nie żyje |
 | 191 | ✏️ Tarantula | `tarantula` | Azja Pd-Wsch. · Ameryka Pd. | tropikalne dżungle | **Afryka · Indie i Azja Pd. · Azja Pd.-Wsch. · Ameryka Pn. · Meksyk i Ameryka Środk. · Ameryka Pd. · Australia** | ciepłe kraje Ameryk, Afryki, Azji i Australii — najwięcej gatunków w Ameryce Pd. |
 | 192 | ✏️ Kleszcz | `tick` | różne zakątki świata | różne zakątki świata | **cały świat, także Polska** | cały świat — w Polsce najczęściej kleszcz pospolity w trawach i lasach |
 | 193 | ✏️ Ptasznik | `bird_eater` | Ameryka Pd. | tropikalne dżungle | **Ameryka Pd.** | lasy deszczowe pn. Ameryki Pd. — Wenezuela, Gujana, Brazylia |
@@ -317,7 +317,7 @@ Kolumna „Mapa” to podpis pod mapą (markery), „Opis” to kursywny tekst p
 | 309 | ✏️ Świerszcz domowy | `cricket_house` | cały świat | domy ludzi | **cały świat, także Polska** | domy, piwnice i szklarnie na całym świecie — także w Polsce |
 | 310 | ✏️ Szerszeń | `hornet` | Polska | polskie lasy i pola | **Europa, w tym Polska · Bliski Wschód · Azja Pn. i Środk. · Azja Wsch. · Ameryka Pn.** | lasy i sady Europy (także Polski) i Azji; zawleczony do Ameryki Pn. |
 | 311 | ✏️ Pchła | `flea` | różne zakątki świata | różne zakątki świata | **cały świat, także Polska** | na ssakach i ptakach na całym świecie |
-| 312 | ✏️ Wesz | `louse` | różne zakątki świata | różne zakątki świata | **cały świat** | na głowach ludzi na całym świecie |
+| 312 | ✏️ Wesz | `louse` | różne zakątki świata | różne zakątki świata | **cały świat** | cały świat — wszędzie tam, gdzie mieszkają ludzie, bo żyje na ich głowach |
 | 313 | ✏️ Gąsienica | `caterpillar` | Polska | polskie lasy i pola | **cały świat, także Polska** | wszędzie tam, gdzie żyją motyle — na liściach roślin |
 | 314 | ✏️ Szarańcza | `locust` | Afryka | afrykańska sawanna | **Afryka Pn. · Afryka · Bliski Wschód · Indie i Azja Pd.** | suche tereny Afryki, Bliskiego Wschodu i Indii (szarańcza pustynna) |
 | 315 | ✏️ Jedwabnik | `silk_moth` | Azja Wsch. | różne zakątki świata | **Indie i Azja Pd. · Azja Wsch.** | hodowle w Chinach, Indiach i Japonii — dziko nie występuje |
@@ -623,7 +623,7 @@ Kolumna „Mapa” to podpis pod mapą (markery), „Opis” to kursywny tekst p
 | 615 | ✏️ Łątka | `damselfly` | Polska | polskie rzeki i jeziora | **cały świat, także Polska** | brzegi wód słodkich na wszystkich kontynentach oprócz Antarktydy; w Polsce kilkanaście gatunków |
 | 616 | ✏️ Jętka olbrzymka | `mayfly_giant` | różne zakątki świata | różne zakątki świata | **Europa** | duże nizinne rzeki — dziś głównie Cisa na Węgrzech i w Serbii; z większości Europy zniknęła |
 | 617 | ✏️ Nartnik | `water_strider` | Polska | polskie rzeki i jeziora | **cały świat, także Polska** | spokojne wody słodkie na całym świecie — w Polsce niemal na każdym stawie |
-| 618 | ✏️ Toczyciel | `dung_beetle` | różne zakątki świata | różne zakątki świata | **cały świat** | wszystkie kontynenty oprócz Antarktydy — najwięcej na afrykańskich sawannach |
+| 618 | ✏️ Toczyciel | `dung_beetle` | różne zakątki świata | różne zakątki świata | **cały świat** | cały świat — wszystkie kontynenty oprócz Antarktydy; najwięcej gatunków na afrykańskich sawannach |
 | 619 | ✏️ Chrząszcz klejnotowy | `jewel_beetle_emerald` | różne zakątki świata | różne zakątki świata | **Indie i Azja Pd. · Azja Pd.-Wsch.** | lasy tropikalne Indii i Azji Pd.-Wsch. |
 | 620 | ✏️ Bombardier | `bombardier_beetle` | różne zakątki świata | różne zakątki świata | **cały świat, także Polska** | wszystkie kontynenty oprócz Antarktydy — w Polsce żyją strzele |
 | 621 | ✏️ Ryjkowiec | `weevil` | różne zakątki świata | różne zakątki świata | **cały świat, także Polska** | cały świat — to jedna z największych rodzin zwierząt; w Polsce setki gatunków |
@@ -665,7 +665,7 @@ Kolumna „Mapa” to podpis pod mapą (markery), „Opis” to kursywny tekst p
 | 657 | ✏️ Helodermat | `gila_monster` | różne zakątki świata | różne zakątki świata | **Ameryka Pn. · Meksyk i Ameryka Środk.** | pustynie pd.-zach. USA (Arizona) i pn.-zach. Meksyku |
 | 658 | ✏️ Heloderma meksykańska | `beaded_lizard` | różne zakątki świata | różne zakątki świata | **Meksyk i Ameryka Środk.** | suche lasy Meksyku i Gwatemali |
 | 659 | ✏️ Anolis | `anole` | różne zakątki świata | różne zakątki świata | **Ameryka Pn. · Meksyk i Ameryka Środk. · Ameryka Pd.** | pd.-wsch. USA, Karaiby i tropiki Ameryk — żyje tam ok. 400 gatunków anolisów |
-| 660 | ✏️ Scynk | `skink` | różne zakątki świata | różne zakątki świata | **cały świat** | ciepłe kraje wszystkich kontynentów oprócz Antarktydy |
+| 660 | ✏️ Scynk | `skink` | różne zakątki świata | różne zakątki świata | **cały świat** | cały świat — ciepłe kraje wszystkich kontynentów oprócz Antarktydy; najwięcej gatunków w Australii |
 | 661 | ✏️ Tuatara | `tuatara` | Australia | różne zakątki świata | **Nowa Zelandia** | małe wysepki u wybrzeży Nowej Zelandii |
 | 662 | ✏️ Tokej | `tokay_gecko` | różne zakątki świata | różne zakątki świata | **Indie i Azja Pd. · Azja Wsch. · Azja Pd.-Wsch.** | lasy i domy Azji Pd.-Wsch., pn.-wsch. Indii i pd. Chin |
 | 663 | ✏️ Gekon orzęsiony | `crested_gecko` | różne zakątki świata | różne zakątki świata | **zach. Pacyfik** | lasy Nowej Kaledonii na Pacyfiku — tylko tam |
