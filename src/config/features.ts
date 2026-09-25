@@ -16,7 +16,7 @@
 // `'__DEV__'` w cudzysłowie — niepusty napis jest zawsze prawdziwy, więc
 // odblokowanie działało również w buildzie produkcyjnym: wszystkie wyprawy
 // otwarte i cała kolekcja pokazana jako odkryta.
-export const DEV_UNLOCK_ALL = __DEV__;
+export const DEV_UNLOCK_ALL = '';
 
 /**
  * Tabela wyników na ekranie głównym. Schowana na czas przebudowy wizualnej —
@@ -35,3 +35,32 @@ export const SHOW_HOME_LEADERBOARD = false;
  * ilustrowane tło i liska.
  */
 export const SHOW_GAME_DEBUG = false;
+
+/* ------------------------------------------------------------------------
+ * Wymuszanie stanów do podglądu UI — bez grania, bez grzebania w danych.
+ *
+ * Zmieniasz TYLKO wartość w nawiasie `devOnly(...)`. W buildzie produkcyjnym
+ * każdy przełącznik zwraca 'auto', więc zapomniana wartość nie wycieknie do
+ * dzieci — to samo zabezpieczenie, którego brakowało przy DEV_UNLOCK_ALL.
+ * `'auto'` = normalne zachowanie z danych profilu.
+ * --------------------------------------------------------------------- */
+
+function devOnly<T extends string>(value: T | 'auto'): T | 'auto' {
+  return __DEV__ ? value : 'auto';
+}
+
+/**
+ * Ekran startowy (src/app/start.tsx):
+ * - 'first-time' — wariant dla dziecka, które jeszcze nie grało (trzy kroki),
+ * - 'returning'  — powitanie ze stanem kolekcji,
+ * - 'skip'       — bez ekranu startowego, od razu Menu (wygodne przy pracy).
+ */
+export const DEV_START_SCREEN = devOnly<'first-time' | 'returning' | 'skip'>('skip');
+
+/**
+ * Wyprawa Dnia na Menu:
+ * - 'pick'      — „wybierz jedną z trzech”,
+ * - 'chosen'    — wybrana, w toku (pierwsza z dzisiejszych, jeśli nic nie wybrano),
+ * - 'completed' — ukończona („Jutro czeka nowa przygoda”).
+ */
+export const DEV_DAILY_EXPEDITION = devOnly<'pick' | 'chosen' | 'completed'>('pick');

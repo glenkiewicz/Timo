@@ -1,5 +1,7 @@
 import { create } from 'zustand';
 
+import { DEV_START_SCREEN } from '@/config/features';
+
 /**
  * Stan jednego uruchomienia aplikacji — celowo BEZ `persist`.
  *
@@ -24,5 +26,6 @@ export const useSessionStore = create<SessionState>((set) => ({
 
 /** Czy aktywne dziecko minęło już w tym uruchomieniu ekran startowy. */
 export function useStartSeen(activeProfileId: string | null): boolean {
-  return useSessionStore((s) => activeProfileId !== null && s.startSeenFor === activeProfileId);
+  const seen = useSessionStore((s) => activeProfileId !== null && s.startSeenFor === activeProfileId);
+  return seen || DEV_START_SCREEN === 'skip';
 }

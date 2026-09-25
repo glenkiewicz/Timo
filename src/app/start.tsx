@@ -6,6 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { INK } from '@/components/collection/map';
 import { SceneBackdrop, TimoStage, sceneBaseColor } from '@/components/timo/TimoStage';
+import { DEV_START_SCREEN } from '@/config/features';
 import { useAuthStore } from '@/lib/stores/auth-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { useSessionStore } from '@/lib/stores/session-store';
@@ -44,7 +45,8 @@ export default function StartScreen() {
   const found = useProfileStore((s) => s.collection.length);
   const markStartSeen = useSessionStore((s) => s.markStartSeen);
 
-  const firstTime = found === 0;
+  const firstTime =
+    DEV_START_SCREEN === 'first-time' ? true : DEV_START_SCREEN === 'returning' ? false : found === 0;
 
   const play = () => {
     if (!activeProfileId) return;

@@ -26,7 +26,7 @@ import { pickGreeting } from '@/data/timo-lines';
 import { levelFromXp, xpProgress } from '@/features/gamification/award';
 import { useWeeklyScoreSync } from '@/features/leaderboard/useWeeklyScoreSync';
 import { titleFor } from '@/features/gamification/titles';
-import { SHOW_HOME_LEADERBOARD } from '@/config/features';
+import { DEV_DAILY_EXPEDITION, SHOW_HOME_LEADERBOARD } from '@/config/features';
 import { timoVoice } from '@/lib/audio/timo-voice';
 import { useGameStore } from '@/lib/stores/game-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
@@ -316,10 +316,22 @@ function ExpeditionDailyCard() {
 
   if (!dailyChoice) return null;
 
-  const chosenId = dailyChoice.chosen_id;
+  // DEV_DAILY_EXPEDITION podmienia tylko to, CO pokazujemy — dane profilu
+  // zostają nietknięte.
+  const chosenId =
+    DEV_DAILY_EXPEDITION === 'pick'
+      ? null
+      : DEV_DAILY_EXPEDITION === 'auto'
+        ? dailyChoice.chosen_id
+        : (dailyChoice.chosen_id ?? dailyChoice.expedition_ids[0] ?? null);
   const chosen = chosenId ? EXPEDITIONS_BY_ID[chosenId] : null;
   const progress = chosenId ? expeditionProgress[chosenId] : undefined;
-  const completed = progress?.completed_at != null;
+  const completed =
+    DEV_DAILY_EXPEDITION === 'completed'
+      ? true
+      : DEV_DAILY_EXPEDITION === 'chosen'
+        ? false
+        : progress?.completed_at != null;
   const discoveredCount = progress?.discovered.length ?? 0;
 
   const launch = (id: string) => {
