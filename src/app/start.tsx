@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { INK } from '@/components/collection/map';
 import { SceneBackdrop, TimoStage, sceneBaseColor } from '@/components/timo/TimoStage';
 import { DEV_START_SCREEN } from '@/config/features';
+import { sfx } from '@/lib/audio/sfx';
 import { useAuthStore } from '@/lib/stores/auth-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { useSessionStore } from '@/lib/stores/session-store';
@@ -51,6 +52,7 @@ export default function StartScreen() {
   const play = () => {
     if (!activeProfileId) return;
     if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    sfx.play('tap');
     markStartSeen(activeProfileId);
     router.replace('/(tabs)');
   };

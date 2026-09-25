@@ -8,6 +8,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { Icon, type IconName } from '@/components/ui/Icon';
+import { sfx } from '@/lib/audio/sfx';
 import { ACCENT, UI, type Accent } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
 
@@ -77,6 +78,7 @@ export function Button({
     if (haptic && Platform.OS !== 'web') {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     }
+    sfx.play('tap');
     onPress?.();
   }, [haptic, onPress]);
 

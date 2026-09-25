@@ -2,6 +2,7 @@ import * as Haptics from 'expo-haptics';
 import { Platform } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
+import { sfx } from '@/lib/audio/sfx';
 import { ACCENT, type Accent } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
 
@@ -40,6 +41,7 @@ export function Plate({ label, onPress, accent, size = 'lg' }: PlateProps) {
       }}
       onPress={() => {
         if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        sfx.play('tap');
         onPress();
       }}
       accessibilityRole="button"

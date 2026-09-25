@@ -19,11 +19,12 @@ import { setAudioModeAsync } from 'expo-audio';
 import { useFonts } from 'expo-font';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { InfoSheetProvider } from '@/components/sheet/InfoSheet';
+import { sfx } from '@/lib/audio/sfx';
 import { useAuthStore } from '@/lib/stores/auth-store';
 import { useStartSeen } from '@/lib/stores/session-store';
 
@@ -53,6 +54,8 @@ export default function RootLayout() {
   const startSeen = useStartSeen(activeProfileId);
 
   useEffect(() => init(), [init]);
+  // Efekty ładujemy od razu — pierwsze stuknięcie nie może czekać na plik.
+  useEffect(() => sfx.preload(), []);
 
   const fontsReady = loaded || error;
   // Splash trzyma się do czasu, aż wiadomo, KTÓRY ekran pokazać. Bez tego
@@ -86,6 +89,7 @@ export default function RootLayout() {
   return (
     <>
       <EntryRedirect signedIn={signedIn} playing={playing} startSeen={startSeen} />
+      <TransitionSound />
     <SafeAreaProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
         {/* Wysuwane panele z opisem na ekranach bez doku (gra, wynik).
@@ -137,6 +141,28 @@ export default function RootLayout() {
  * własny adres `/sign-in`. Wcześniej oba wskazywały `/`, przez co „X" w grze
  * i „Wróć na Polanę" trafiały w zablokowany ekran logowania.
  */
+/**
+ * Szelest przy przejściu między ekranami stosu (gra, wynik, karta zwierzęcia,
+ * wyprawa). Przełączanie zakładek go nie gra — dok ma własne stuknięcie,
+ * a dwa dźwięki naraz to już hałas.
+ */
+function TransitionSound() {
+  const segments = useSegments();
+  const first = segments[0];
+  const prev = useRef<string | undefined>(undefined);
+  const path = segments.join('/');
+  const prevPath = useRef(path);
+  useEffect(() => {
+    const tabSwitch = first === '(tabs)' && prev.current === '(tabs)';
+    if (prevPath.current !== path && prev.current !== undefined && !tabSwitch) {
+      sfx.play('transition');
+    }
+    prev.current = first;
+    prevPath.current = path;
+  }, [first, path]);
+  return null;
+}
+
 function EntryRedirect({
   signedIn,
   playing,

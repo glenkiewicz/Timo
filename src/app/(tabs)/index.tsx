@@ -162,7 +162,7 @@ export default function HomeScreen() {
         <Pressable
           onPress={() => setAudioMuted(!audioMuted)}
           accessibilityRole="button"
-          accessibilityLabel={audioMuted ? 'Włącz głos Timo' : 'Wycisz głos Timo'}
+          accessibilityLabel={audioMuted ? 'Włącz dźwięki' : 'Wycisz dźwięki'}
           style={({ pressed }) => ({ transform: [{ scale: pressed ? 0.94 : 1 }] })}>
           {/* Ta sama tarcza, co zwierzęta i odznaki, pod tym samym papierem
               co pigułki obok — wcześniej był tu biały chip z kreskową ikoną. */}

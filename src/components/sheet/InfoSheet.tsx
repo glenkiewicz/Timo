@@ -12,6 +12,7 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { INK } from '@/components/collection/map';
+import { sfx, type SfxName } from '@/lib/audio/sfx';
 import { useDockStore, type DockTint } from '@/lib/stores/dock-store';
 import { ACCENT, UI, type Accent } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
@@ -30,6 +31,8 @@ export type SheetContent = {
   silhouette?: boolean;
   /** Napis na przycisku. „Super!” pasuje do zdobytych rzeczy, nie do zamkniętych. */
   button?: string;
+  /** Dźwięk otwarcia; zamknięte rzeczy mają stłumione „bum” zamiast „szuu”. */
+  sound?: SfxName;
   /** Kolor panelu — ma pasować do miejsca, z którego go otwarto. */
   accent: Accent;
 };
@@ -105,7 +108,10 @@ function InfoSheet({
   const closing = useRef(false);
 
   useEffect(() => {
+    sfx.play(content.sound ?? 'sheet-open');
     progress.value = withTiming(1, { duration: OPEN_MS, easing: Easing.out(Easing.cubic) });
+    // Dźwięk i wjazd tylko przy otwarciu — treść nie zmienia się w trakcie.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [progress]);
 
   // Dok przejmuje kolor panelu na czas jego życia i oddaje poprzedni — półka
@@ -124,6 +130,7 @@ function InfoSheet({
     if (closing.current) return;
     closing.current = true;
     if (Platform.OS !== 'web') Haptics.selectionAsync();
+    sfx.play('sheet-close');
     progress.value = withTiming(0, { duration: CLOSE_MS, easing: Easing.in(Easing.cubic) }, (done) => {
       if (done) runOnJS(onClosed)();
     });

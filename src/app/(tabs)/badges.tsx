@@ -127,6 +127,7 @@ export default function BadgesScreen() {
                             silhouette: true,
                             accent: 'gold',
                             button: 'Do dzieła!',
+        sound: 'locked',
                           }
                     )
                   }

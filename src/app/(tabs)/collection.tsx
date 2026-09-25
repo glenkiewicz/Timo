@@ -359,6 +359,7 @@ function RegionShelf({
                           silhouette: true,
                           accent: 'violet',
                           button: 'Do dzieła!',
+        sound: 'locked',
                         });
                       }}
                       accessibilityRole="button"

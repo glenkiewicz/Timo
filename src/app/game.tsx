@@ -15,6 +15,7 @@ import { pickGuessIntro, pickMissLine, type Pick } from '@/data/timo-lines';
 import { SHOW_GAME_DEBUG } from '@/config/features';
 import { DebugOverlay } from '@/features/game/DebugOverlay';
 import { pickAnswerReaction } from '@/features/game/timo-personality';
+import { sfx } from '@/lib/audio/sfx';
 import { timoVoice, useIsTimoSpeaking } from '@/lib/audio/timo-voice';
 import { useGameStore } from '@/lib/stores/game-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
@@ -82,6 +83,7 @@ export default function GameScreen() {
 
   const handleAnswer = async (a: AnswerType) => {
     if (!currentQuestion || reaction) return;
+    sfx.play(a === 'yes' ? 'answer-yes' : a === 'no' ? 'answer-no' : 'tap-small');
     // Reakcja związana z pytaniem („Plusk! Zakładam płetwy.”) — w dymku i głosem,
     // dopiero potem następne pytanie.
     const line = pickAnswerReaction(currentQuestion, a);

@@ -86,6 +86,7 @@ export default function ExpeditionsScreen() {
         art: LOCK_ART,
         accent: 'sky',
         button: 'Do dzieła!',
+        sound: 'locked',
         title: 'Wyprawa zablokowana',
         description:
           'Wyprawy odkrywasz przez Wyprawę Dnia. Codziennie Timo wybiera nowe propozycje. Może jutro trafisz właśnie na tę!',

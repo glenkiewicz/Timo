@@ -19,6 +19,7 @@ import { BADGE_ART } from '@/data/badge-art';
 import { EXPEDITIONS_BY_ID } from '@/data/expeditions';
 import { pickGiveUpLine, pickGuidedGiveUp, pickVictoryLine } from '@/data/timo-lines';
 import { levelFromXp } from '@/features/gamification/award';
+import { sfx } from '@/lib/audio/sfx';
 import { timoVoice } from '@/lib/audio/timo-voice';
 import { useGameStore } from '@/lib/stores/game-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
@@ -151,6 +152,22 @@ export default function ResultScreen() {
   ]);
 
   const levelUp = level > previousLevel;
+
+  // Dźwięki nagród zgrane z animacją kafelków: „Nowe!” pojawia się ok.
+  // 1190 ms, odznaki leżą niżej, więc idą po nim. Raz na ekran wyniku.
+  const rewardSoundsPlayed = useRef(false);
+  useEffect(() => {
+    if (rewardSoundsPlayed.current || !lastReward) return;
+    rewardSoundsPlayed.current = true;
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    if (lastReward.isFirstDiscovery) timers.push(setTimeout(() => sfx.play('new-animal'), 1200));
+    if (lastReward.newBadges.length > 0) timers.push(setTimeout(() => sfx.play('new-badge'), 2100));
+    return () => timers.forEach(clearTimeout);
+  }, [lastReward]);
+
+  useEffect(() => {
+    if (showLevelUp) sfx.play('level-up');
+  }, [showLevelUp]);
 
   useEffect(() => {
     if (levelUpShown.current) return;

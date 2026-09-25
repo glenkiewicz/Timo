@@ -14,6 +14,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StreakCelebration } from '@/components/gamification/StreakCelebration';
 import { InfoSheetProvider } from '@/components/sheet/InfoSheet';
 import { useDailyCheckIn } from '@/features/gamification/useDailyCheckIn';
+import { sfx } from '@/lib/audio/sfx';
 import { useDockStore } from '@/lib/stores/dock-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { SHADOW, UI, type Accent } from '@/theme/ui';
@@ -150,6 +151,7 @@ function AppTabBar({ state, navigation }: BottomTabBarProps) {
           });
           if (!focused && !event.defaultPrevented) {
             if (Platform.OS !== 'web') Haptics.selectionAsync();
+            sfx.play('tap-small');
             navigation.navigate(route.name, route.params);
           }
         };
