@@ -1,491 +1,577 @@
 import type { Question } from '@/types/game';
 
 /**
- * Pytania zadawane przez Timo. Każde ma 5 wariantów — w grze losowany jest
- * jeden. Warianty są **dłuższe i bardziej rozbudowane** ("Czy zwierzę, o którym
- * myślisz...") — wydłuża to wypowiedź Timo i daje dziecku 5-7 lat naturalny
- * czas na przemyślenie odpowiedzi.
+ * Pytania Timo — lisa-detektywa. Każde pytanie ma własny charakter:
  *
- * STRATEGIA WARIANTÓW (po reklamacji "za dużo Detektyw pyta —"):
- *  - idx 0: główna rozbudowana forma "Czy zwierzę, o którym myślisz, X?"
- *  - idx 1: krótka konkretna "Czy on/ono X?"
- *  - idx 2: opisowa z przykładem "Czy to stworzenie X, jak Y lub Z?"
- *  - idx 3: nieformalna "A może / Hmm, a czy X?"
- *  - idx 4: różne — kilka pytań ma "Detektyw pyta —" ale tylko ~5 z 38;
- *    większość: alternatywne formy ("Powiedz mi, czy...", "Wiesz, czy...").
+ *  - `core`   — 3 czyste, dokładne wersje. Nie zmieniają sensu atrybutu,
+ *               bo dziecko odpowiada zgodnie z prawdą, a silnik na tym liczy.
+ *               [0] = forma kanoniczna („Czy twoje zwierzę…?”), [1] = z przykładami,
+ *               [2] = krótka.
+ *  - `setups` — żart albo zdanie z charakterem PRZED pytaniem. Zamknięte zdanie
+ *               („.” lub „!”), więc pasuje do każdego rdzenia.
+ *  - `onYes` / `onNo` — reakcje związane z tematem pytania.
  *
- * "Mam pytanie —" / "Detektyw pyta —" są RZADKIE w tej puli, żeby nie nakładać
- * się z detektywskimi prefiksami z timo-lines.ts.
+ * Zasady tekstów (pilnuje ich `scripts/validate-timo-lines.ts`):
+ *  - słowa, które zna przedszkolak; trudne pojęcie zawsze z przykładem,
+ *  - zwierzę = „ono” (twoje zwierzę → je, jego, mu),
+ *  - bez płci dziecka: żadnych „chciałeś”, „mógłbyś”, „przechytrzyłeś”,
+ *  - bez „Wiesz, czy…”, „Powiedz mi, czy…” i „A czy…” na początku,
+ *  - żart nigdy nie wyśmiewa dziecka.
+ *
+ * Stałe gagi Timo: dumny nos, gubiona lupa, jagody i kanapki z serem,
+ * strach przed wodą, rude futro i puszysty ogon.
  */
 export const QUESTIONS: Question[] = [
   {
     id: 'q_water',
     attribute_key: 'lives_in_water',
-    text_pl: 'Czy zwierzę, o którym myślisz, żyje w wodzie?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, żyje w wodzie?',
-      'Czy ono mieszka w wodzie?',
-      'Czy to stworzenie spędza większość życia w wodzie, jak ryba lub delfin?',
-      'A czy gdybyś chciał go zobaczyć, musiałbyś szukać go w morzu lub jeziorze?',
-      'Powiedz mi, czy ten zwierzak ma swój dom w wodzie?',
+    core: [
+      'Czy twoje zwierzę żyje w wodzie?',
+      'Czy mieszka w wodzie, jak ryba albo delfin?',
+      'Czy spędza dużo czasu w wodzie?',
     ],
+    setups: [
+      'Ja do wody wchodzę tylko w kaloszach.',
+      'Plum! To będzie mokre pytanie.',
+      'Trzymaj kciuki, bo nie umiem pływać!',
+    ],
+    onYes: ['Plusk! Zakładam płetwy.', 'Wodny trop! Dobrze, że wziąłem ręcznik.'],
+    onNo: ['Suchy ląd! Moje łapki się cieszą.', 'Czyli bez moczenia ogona. Hurra!'],
   },
   {
     id: 'q_fly',
     attribute_key: 'can_fly',
-    text_pl: 'Czy zwierzę, o którym myślisz, potrafi latać?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, potrafi latać?',
-      'Czy on umie latać?',
-      'Czy ten zwierzak unosi się w powietrzu, jak ptak lub owad?',
-      'A czy mógłbyś go zobaczyć w locie nad głową?',
-      'Detektyw pyta — czy potrafi wzbić się do nieba?',
+    core: [
+      'Czy twoje zwierzę umie latać?',
+      'Czy potrafi latać, jak ptak albo motyl?',
+      'Czy lata w powietrzu?',
     ],
+    setups: [
+      'Ja raz próbowałem latać. Wylądowałem w krzakach.',
+      'Szu, szu! Teraz pytanie prosto z chmur.',
+      'Patrzę w niebo… i zaraz potknę się o własny ogon.',
+    ],
+    onYes: ['Fiu! Zadzieram głowę do góry.', 'Lata! A ja umiem tylko wysoko skakać.'],
+    onNo: ['Chodzi po ziemi, tak jak ja. Tup, tup!', 'Nie lata. Nie muszę patrzeć w chmury.'],
   },
   {
     id: 'q_fur',
     attribute_key: 'has_fur',
-    text_pl: 'Czy zwierzę, o którym myślisz, ma futro?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, ma futro?',
+    core: [
+      'Czy twoje zwierzę ma futro?',
+      'Czy ma futro albo sierść, jak pies czy kot?',
       'Czy ma futerko?',
-      'Czy ten zwierzak jest pokryty miękką sierścią, jak pies lub kot?',
-      'A czy gdybyś go pogłaskał, dotknąłbyś futra?',
-      'Powiedz mi, czy ma na sobie włochate futerko?',
     ],
+    setups: [
+      'Moje rude futro jest najpiękniejsze. Tak mówi moja mama.',
+      'A psik! Coś mnie łaskocze w nos.',
+      'Teraz pytanie puszyste.',
+    ],
+    onYes: ['Futrzak! Aż chce się go przytulić.', 'Mięciutko! Notuję.'],
+    onNo: ['Bez futra. Mam nadzieję, że nie marznie!', 'Nie futrzak. Mój grzebień do futra odpoczywa.'],
   },
   {
     id: 'q_feathers',
     attribute_key: 'has_feathers',
-    text_pl: 'Czy zwierzę, o którym myślisz, ma pióra?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, ma pióra?',
+    core: [
+      'Czy twoje zwierzę ma pióra?',
+      'Czy jest pokryte piórami, jak kura albo wróbel?',
       'Czy ma piórka?',
-      'Czy ten zwierzak jest pokryty piórami, takimi jak wróbel lub kura?',
-      'A czy gdybyś go dotknął, poczułbyś pióra?',
-      'Wiesz co, czy ma na sobie pióra zamiast futra?',
     ],
+    setups: [
+      'Kiedyś włożyłem sobie pióro za ucho. Wyglądałem bardzo elegancko!',
+      'Teraz pytanie lekkie jak piórko.',
+    ],
+    onYes: ['Pióra! Uważaj, zaraz kichnę.', 'Pierzasty trop! Notuję.'],
+    onNo: ['Bez piór. Nikt mnie nie połaskocze.', 'Żadnych piórek. Skreślam.'],
   },
   {
     id: 'q_scales',
     attribute_key: 'has_scales',
-    text_pl: 'Czy zwierzę, o którym myślisz, ma łuski?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, ma łuski?',
-      'Czy ma łuski?',
-      'Czy ten zwierzak jest pokryty błyszczącymi łuskami, jak ryba lub wąż?',
-      'A czy jego skóra jest łuskowata?',
-      'Powiedz mi, czy ma na sobie łuski zamiast futra czy piór?',
+    core: [
+      'Czy twoje zwierzę ma łuski?',
+      'Czy jego skóra jest pokryta łuskami, jak u ryby albo węża?',
+      'Czy ma na ciele łuski?',
     ],
+    setups: [
+      'Łuski wyglądają jak malutkie kafelki w łazience!',
+      'Wyciągam lupę. Będę liczyć łuski!',
+    ],
+    onYes: ['Łuski! Błyszczy jak skarb.', 'Łuskowy trop! Notuję.'],
+    onNo: ['Bez łusek. Chowam lupę do kieszeni.', 'Żadnych łusek. Skreślam.'],
   },
   {
     id: 'q_shell',
     attribute_key: 'has_shell',
-    text_pl: 'Czy zwierzę, o którym myślisz, ma twardą skorupę lub pancerz?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, ma twardą skorupę lub pancerz?',
-      'Czy ma skorupę?',
-      'Czy ten zwierzak nosi pancerz, jak żółw lub ślimak?',
-      'A czy w razie niebezpieczeństwa chowa się w swoją skorupę?',
-      'Wiesz, czy jego ciało okrywa twardy pancerz?',
+    core: [
+      'Czy twoje zwierzę ma twardą skorupę albo pancerz?',
+      'Czy nosi na sobie skorupę, jak żółw albo ślimak?',
+      'Czy ma twardą skorupę?',
     ],
+    setups: [
+      'Stuk, stuk! Pukam w pancerz.',
+      'Chciałbym mieć pancerz. Nic by nie bolało, jak się przewrócę!',
+    ],
+    onYes: ['Stuk, stuk! Twardziel!', 'Pancerz! Żaden deszcz mu nie straszny.'],
+    onNo: ['Bez skorupy. Skreślam żółwie.', 'Bez pancerza. Notuję.'],
   },
   {
     id: 'q_mammal',
     attribute_key: 'is_mammal',
-    text_pl: 'Czy zwierzę, o którym myślisz, jest ssakiem?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, jest ssakiem?',
-      'Czy to ssak?',
-      'Czy to stworzenie należy do ssaków, jak pies, kot lub słoń?',
-      'A czy on karmi swoje młode mlekiem?',
-      'Powiedz mi, czy mówimy o ciepłokrwistym ssaku?',
+    core: [
+      'Czy twoje zwierzę jest ssakiem, jak pies, krowa albo słoń?',
+      'Czy to ssak, tak jak kot albo ja?',
+      'Czy mama tego zwierzęcia karmi maluchy mlekiem?',
     ],
+    setups: ['Ja jestem ssakiem. I ty też!', 'Teraz pytanie z mlekiem w tle. Mniam!'],
+    onYes: ['Ssak jak ja! Przybij łapę.', 'Nasza ssacza rodzinka rośnie!'],
+    onNo: ['Nie ssak! Skreślam psy, koty… i siebie.', 'Oho, robi się ciekawie.'],
   },
   {
     id: 'q_bird',
     attribute_key: 'is_bird',
-    text_pl: 'Czy zwierzę, o którym myślisz, jest ptakiem?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, jest ptakiem?',
-      'Czy to ptak?',
-      'Czy to stworzenie należy do ptaków, takich jak wróbel, orzeł lub kura?',
-      'A czy ma dziób i pióra, jak prawdziwy ptak?',
-      'Powiedz mi, czy mówimy o skrzydlatym ptaku?',
+    core: [
+      'Czy twoje zwierzę jest ptakiem?',
+      'Czy to ptak, jak wróbel, orzeł albo kura?',
+      'Czy to jakiś ptak?',
     ],
+    setups: [
+      'Ćwir, ćwir! Ptaszki mówią, że to ważne pytanie.',
+      'Ptaki zawsze budzą mnie rano. Ziew!',
+    ],
+    onYes: ['Ptak! Rozsypuję okruszki.', 'Ćwir, ćwir! Notuję.'],
+    onNo: ['Nie ptak. Okruszki zjem sam.', 'Żadnych dziobów. Skreślam.'],
   },
   {
     id: 'q_fish',
     attribute_key: 'is_fish',
-    text_pl: 'Czy zwierzę, o którym myślisz, jest rybą?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, jest rybą?',
-      'Czy to ryba?',
-      'Czy to stworzenie należy do ryb, takich jak karp lub łosoś?',
-      'A czy ma płetwy i oddycha skrzelami?',
-      'Wiesz, czy mówimy o rybie pływającej w wodzie?',
+    core: [
+      'Czy twoje zwierzę jest rybą?',
+      'Czy to ryba, jak karp albo złota rybka?',
+      'Czy to jakaś ryba?',
     ],
+    setups: [
+      'Bul, bul, bul! Tak mówią ryby. Chyba.',
+      'Ryby nigdy nie odpowiadają na moje pytania. Dlatego pytam ciebie!',
+    ],
+    onYes: ['Ryba! Bul, bul, notuję.', 'Rybka! Dobrze, że nie muszę nurkować.'],
+    onNo: ['Nie ryba. Chowam wędkę.', 'Żadna rybka. Skreślam.'],
   },
   {
     id: 'q_reptile',
     attribute_key: 'is_reptile',
-    text_pl: 'Czy zwierzę, o którym myślisz, jest gadem?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, jest gadem?',
+    core: [
+      'Czy twoje zwierzę jest gadem, jak wąż, jaszczurka albo krokodyl?',
+      'Czy to gad, na przykład żółw albo jaszczurka?',
       'Czy to gad?',
-      'Czy to stworzenie należy do gadów, takich jak wąż, krokodyl lub jaszczurka?',
-      'A czy ma zimną krew i suchą, łuskowatą skórę?',
-      'Powiedz mi, czy mówimy o pełzającym gadzie?',
     ],
+    setups: ['Sss! Teraz pytanie, które syczy.', 'Gady lubią wygrzewać się na słońcu. Ja też!'],
+    onYes: ['Gad! Sss… notuję.', 'Gad! Wygrzewam się razem z nim.'],
+    onNo: ['Nie gad. Nic tu nie syczy.', 'Żadnych gadów. Skreślam.'],
   },
   {
     id: 'q_amphi',
     attribute_key: 'is_amphibian',
-    text_pl: 'Czy zwierzę, o którym myślisz, jest płazem?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, jest płazem?',
-      'Czy to płaz?',
-      'Czy to stworzenie należy do płazów, takich jak żaba lub salamandra?',
-      'A czy żyje i w wodzie, i na lądzie?',
-      'Detektyw pyta — czy mówimy o skocznej żabie lub podobnym płazie?',
+    core: [
+      'Czy twoje zwierzę jest płazem, jak żaba albo traszka?',
+      'Czy to płaz, czyli ktoś z rodziny żab?',
+      'Czy jako maluch było kijanką?',
     ],
+    setups: [
+      'Kum, kum! To pytanie przyskakuje prosto z bagna.',
+      'Kiedyś połknąłem muchę przez pomyłkę. Fuj!',
+    ],
+    onYes: ['Kum, kum! Wskakuję na liść.', 'Płaz! Mój nos czuje bagienko.'],
+    onNo: ['Żadna żabka. Skreślam bagno.', 'Nie płaz. Muchy mogą spać spokojnie.'],
   },
   {
     id: 'q_insect',
     attribute_key: 'is_insect',
-    text_pl: 'Czy zwierzę, o którym myślisz, jest owadem?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, jest owadem?',
+    core: [
+      'Czy twoje zwierzę jest owadem, jak mrówka, pszczoła albo motyl?',
+      'Czy ma sześć nóżek?',
       'Czy to owad?',
-      'Czy to stworzenie należy do owadów, takich jak mrówka, pszczoła lub motyl?',
-      'A czy ma sześć nóżek i czasem skrzydła?',
-      'Wiesz, czy mówimy o małym pełzającym lub latającym stworzeniu?',
     ],
+    setups: [
+      'Bzzz! Coś mi lata koło ucha.',
+      'Liczę nóżki: raz, dwa, trzy… Ojej, pogubiłem się!',
+    ],
+    onYes: ['Owad! Wyciągam największą lupę.', 'Bzyk! Maleńki trop.'],
+    onNo: ['Nie owad. Mogę przestać liczyć nóżki.', 'Bez bzyczenia. Notuję.'],
   },
   {
     id: 'q_bigger_than_dog',
     attribute_key: 'larger_than_dog',
-    text_pl: 'Czy zwierzę, o którym myślisz, jest większe od psa?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, jest większe od psa?',
-      'Czy jest większy od psa?',
-      'Czy ten zwierzak przerasta rozmiarem zwykłego psa domowego?',
-      'A czy gdybyś stanął obok niego, byłby od ciebie większy?',
-      'Wiesz, czy to spore zwierzę, większe niż owczarek?',
+    core: [
+      'Czy twoje zwierzę jest większe od psa?',
+      'Czy jest duże, większe od psa, jak krowa albo koń?',
+      'Czy jest większe niż pies?',
     ],
+    setups: [
+      'Mój kolega pies jest wysoki na trzy kanapki.',
+      'Stawiam psa obok i porównuję. Siad, piesku!',
+    ],
+    onYes: ['Duże! Muszę wejść na krzesło, żeby wszystko zobaczyć.', 'Olbrzym! Mój notes jest za mały.'],
+    onNo: ['Nie większe od psa. Mieści się w notesie!', 'Mniejsze od psa. Notuję.'],
   },
   {
     id: 'q_smaller_than_cat',
     attribute_key: 'smaller_than_cat',
-    text_pl: 'Czy zwierzę, o którym myślisz, jest mniejsze od kota?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, jest mniejsze od kota?',
-      'Czy jest mniejszy od kota?',
-      'Czy ten zwierzak zmieściłby się obok kota i byłby od niego mniejszy?',
-      'A czy to taki maluszek, mniejszy nawet od kotka?',
-      'Powiedz mi, czy on jest naprawdę drobny?',
+    core: [
+      'Czy twoje zwierzę jest mniejsze od kota?',
+      'Czy jest mniejsze od kota, jak mysz albo wróbel?',
+      'Czy to zwierzę jest mniejsze niż kot?',
     ],
+    setups: [
+      'Wyciągam miarkę… o nie, to moja skarpetka!',
+      'Wyobraź sobie kota. A teraz porównujemy!',
+      'Mierzymy! Kot będzie naszą linijką.',
+    ],
+    onYes: ['Maluszek! Przysuwam lupę bliżej.', 'Małe, ale na pewno sprytne.'],
+    onNo: ['Większe od kota! Robię miejsce w notesie.', 'O, ktoś słusznych rozmiarów.'],
   },
   {
     id: 'q_predator',
     attribute_key: 'is_predator',
-    text_pl: 'Czy zwierzę, o którym myślisz, jest drapieżnikiem?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, jest drapieżnikiem?',
-      'Czy to drapieżnik?',
-      'Czy ten zwierzak poluje na inne zwierzęta, żeby zdobyć jedzenie?',
-      'A czy on zjada mięso i tropi swoje ofiary?',
-      'Wiesz, czy on jest myśliwym, jak lew lub wilk?',
+    core: [
+      'Czy twoje zwierzę poluje na inne zwierzęta?',
+      'Czy łapie inne zwierzęta, żeby je zjeść?',
+      'Czy to drapieżnik, jak wilk albo lew?',
     ],
+    setups: [
+      'Ja poluję głównie na jagody i kanapki z serem.',
+      'Kłap, kłap! Teraz pytanie z pazurem.',
+      'Chowam ogon, bo to groźne pytanie.',
+    ],
+    onYes: ['Groźnie! Dobrze, że mnie nie goni.', 'Myśliwy! Chowam się za lupą.'],
+    onNo: ['Uff, łagodniak. Mogę odetchnąć.', 'Nie poluje? Pewnie woli sałatkę.'],
   },
   {
     id: 'q_plants',
     attribute_key: 'eats_plants',
-    text_pl: 'Czy zwierzę, o którym myślisz, je głównie rośliny?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, je głównie rośliny?',
-      'Czy je rośliny?',
-      'Czy ten zwierzak żywi się trawą, liśćmi lub owocami?',
-      'A czy on jest roślinożercą i nie poluje na mięso?',
-      'Powiedz mi, czy zjada przede wszystkim zieleninę, jak krowa lub królik?',
+    core: [
+      'Czy twoje zwierzę je głównie rośliny?',
+      'Czy je głównie trawę, liście albo owoce, jak krowa czy królik?',
+      'Czy to roślinożerca, który je głównie rośliny?',
     ],
+    setups: ['Ja nie lubię sałaty. Wolę jagody!', 'Chrup, chrup! Teraz pytanie o jedzenie.'],
+    onYes: ['Roślinożerca! Podaję marchewkę.', 'Chrup, chrup, sałatka! Notuję.'],
+    onNo: ['Nie je głównie roślin. Chowam marchewkę.', 'Sałata może odpocząć. Notuję.'],
   },
   {
     id: 'q_home',
     attribute_key: 'lives_at_home',
-    text_pl: 'Czy ludzie często trzymają to zwierzę w domu?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, ludzie często trzymają w domu?',
-      'Czy bywa zwierzakiem domowym?',
-      'Czy ten zwierzak może być czyimś pupilem, mieszkającym z rodziną?',
-      'A czy spotkasz go u kogoś w mieszkaniu lub ogrodzie?',
-      'Wiesz, czy on nadaje się do domu jak pies lub kot?',
+    core: [
+      'Czy ludzie trzymają takie zwierzę w domu?',
+      'Czy może mieszkać z ludźmi w domu, jak pies albo chomik?',
+      'Czy to zwierzę bywa czyimś pupilem w domu?',
     ],
+    setups: ['Ja mieszkam w norce. Kanapy tam nie mam.', 'Puk, puk! Zaglądam do domów.'],
+    onYes: ['Domowy przyjaciel! Szukam miski na podłodze.', 'Pupil! Ktoś go pewnie drapie za uchem.'],
+    onNo: ['Nie mieszka w domu. Kanapa wolna!', 'Dzikus! Notuję.'],
   },
   {
     id: 'q_africa',
     attribute_key: 'lives_in_africa',
-    text_pl: 'Czy zwierzę, o którym myślisz, żyje w Afryce?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, żyje w Afryce?',
-      'Czy mieszka w Afryce?',
-      'Czy ten zwierzak ma swój dom na sawannie lub w afrykańskiej dżungli?',
-      'A czy spotkasz go w gorącej, słonecznej Afryce?',
-      'Powiedz mi, czy biega wśród akacji i pod afrykańskim słońcem?',
+    core: [
+      'Czy twoje zwierzę żyje w Afryce?',
+      'Czy mieszka w Afryce, jak lew albo żyrafa?',
+      'Czy spotkasz je w Afryce?',
     ],
+    setups: [
+      'Pakuję kapelusz od słońca. Lecimy daleko!',
+      'W Afryce jest tak gorąco, że mój ogon by się opalił.',
+    ],
+    onYes: ['Afryka! Zakładam kapelusz.', 'Gorący trop! Dosłownie.'],
+    onNo: ['Nie Afryka. Kapelusz zostaje w szafie.', 'Nie z Afryki. Skreślam sawannę.'],
   },
   {
     id: 'q_poland',
     attribute_key: 'lives_in_poland',
-    text_pl: 'Czy zwierzę, o którym myślisz, żyje dziko w Polsce?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, żyje dziko w Polsce?',
-      'Czy mieszka dziko w Polsce?',
-      'Czy ten zwierzak żyje swobodnie w polskich lasach, na łąkach lub w rzekach?',
-      'A czy spotkasz go w polskiej naturze?',
-      'Detektyw pyta — czy jest naszym rodakiem z polskiej dziczy?',
+    core: [
+      'Czy twoje zwierzę żyje dziko w Polsce?',
+      'Czy można je spotkać na wolności w Polsce, w lesie, na łące albo w rzece?',
+      'Czy żyje na wolności w Polsce?',
     ],
+    setups: [
+      'Ja mieszkam w polskim lesie. Mam tu mnóstwo sąsiadów!',
+      'Teraz pytanie bardzo blisko domu.',
+    ],
+    onYes: ['Nasz sąsiad! Może nawet się znamy.', 'Polski trop! Macham łapą na powitanie.'],
+    onNo: ['Nie w Polsce. Szukamy dalej na mapie.', 'Mieszka daleko stąd. Notuję.'],
   },
   {
     id: 'q_jungle',
     attribute_key: 'lives_in_jungle',
-    text_pl: 'Czy zwierzę, o którym myślisz, żyje w dżungli?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, żyje w dżungli?',
-      'Czy mieszka w dżungli?',
-      'Czy ten zwierzak ma swój dom w gęstym, tropikalnym lesie?',
-      'A czy spotkasz go wśród lian, drzew i papug?',
-      'Wiesz, czy mieszka w gorącej, parnej dżungli?',
+    core: [
+      'Czy twoje zwierzę żyje w dżungli?',
+      'Czy mieszka w dżungli, wśród lian i papug?',
+      'Czy jego domem jest gorąca dżungla?',
     ],
+    setups: [
+      'Uuu-aaa! Tak woła dżungla.',
+      'W dżungli jest tak gęsto, że zgubiłem tam kiedyś lupę.',
+    ],
+    onYes: ['Dżungla! Huśtam się na lianie.', 'Tropikalny trop! Notuję.'],
+    onNo: ['Nie dżungla. Liany mogą odpocząć.', 'Bez dżungli. Skreślam.'],
   },
   {
     id: 'q_ocean',
     attribute_key: 'lives_in_ocean',
-    text_pl: 'Czy zwierzę, o którym myślisz, żyje w oceanie?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, żyje w oceanie?',
-      'Czy mieszka w oceanie?',
-      'Czy ten zwierzak ma swój dom w głębokim, słonym morzu?',
-      'A czy spotkasz go w morskiej głębinie, daleko od brzegu?',
-      'Powiedz mi, czy pływa po wielkim, otwartym oceanie?',
+    core: [
+      'Czy twoje zwierzę żyje w morzu albo w oceanie?',
+      'Czy mieszka w słonym morzu, jak rekin albo delfin?',
+      'Czy spotkasz je w morzu?',
     ],
+    setups: ['Szum, szum… to fale morskie.', 'Raz napiłem się morskiej wody. Bleee, słona!'],
+    onYes: ['Morze! Szum fal w moim notesie.', 'Morski trop! Ahoj!'],
+    onNo: ['Nie z morza. Muszelki zostają na plaży.', 'Bez morskich fal. Notuję.'],
   },
   {
     id: 'q_arctic',
     attribute_key: 'lives_in_arctic',
-    text_pl: 'Czy zwierzę, o którym myślisz, żyje w lodowych krainach?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, żyje w lodowych krainach?',
-      'Czy żyje na śniegu i lodzie?',
-      'Czy ten zwierzak mieszka tam, gdzie zawsze panuje mróz?',
-      'A czy chodzi po krze lodowej, jak niedźwiedź polarny?',
-      'Wiesz, czy kocha zimno i wieczny lód?',
+    core: [
+      'Czy twoje zwierzę żyje tam, gdzie jest śnieg i lód?',
+      'Czy mieszka w lodowej krainie, jak niedźwiedź polarny albo pingwin?',
+      'Czy żyje wśród śniegu i lodu?',
     ],
+    setups: ['Brrr! Już mi zimno w ogon.', 'Zakładam szalik, czapkę i trzy pary skarpetek.'],
+    onYes: ['Lodowa kraina! Brrr, dzwonią mi zęby.', 'Mroźny trop! Nos mi zamarzł.'],
+    onNo: ['Nie z lodu. Szalik mogę zdjąć.', 'Tam, gdzie cieplej. Notuję.'],
   },
   {
     id: 'q_farm',
     attribute_key: 'lives_on_farm',
-    text_pl: 'Czy zwierzę, o którym myślisz, żyje na farmie?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, żyje na farmie?',
-      'Czy żyje na farmie?',
-      'Czy ten zwierzak mieszka w gospodarstwie, w zagrodzie lub na podwórku?',
-      'A czy spotkasz go u rolnika, w stajni lub kurniku?',
-      'Powiedz mi, czy jest hodowany przez ludzi na wsi?',
+    core: [
+      'Czy twoje zwierzę żyje na farmie?',
+      'Czy mieszka u rolnika, w stajni, w chlewiku albo w kurniku?',
+      'Czy spotkasz je w gospodarstwie na wsi?',
     ],
+    setups: [
+      'Ko-ko-ko, mu-u, be-e! Ale tu głośno.',
+      'Kiedyś zakradłem się do kurnika. Kury okropnie na mnie nakrzyczały!',
+    ],
+    onYes: ['Farma! Kukuryku, notuję.', 'Wiejski trop! Pachnie sianem.'],
+    onNo: ['Nie z farmy. Kury odetchnęły.', 'Nie mieszka u rolnika. Skreślam.'],
   },
   {
     id: 'q_tail',
     attribute_key: 'has_tail',
-    text_pl: 'Czy zwierzę, o którym myślisz, ma ogon?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, ma ogon?',
-      'Czy ma ogon?',
-      'Czy ten zwierzak ma jakiś ogonek lub długi, dumny ogon?',
-      'A czy może machać ogonem, jak pies albo kot?',
-      'Wiesz, czy z tyłu wystaje mu wyraźny ogon?',
+    core: ['Czy twoje zwierzę ma ogon?', 'Czy ma ogon, krótki albo długi?', 'Czy ma ogonek?'],
+    setups: [
+      'Mój ogon jest najpuszystszy w całym lesie!',
+      'Czasem gonię własny ogon. Jeszcze go nie złapałem.',
     ],
+    onYes: ['Ogon! Mój macha z radości.', 'Z ogonkiem! Notuję.'],
+    onNo: ['Bez ogona? Mój ogon jest w szoku!', 'Żadnego ogona. Skreślam.'],
   },
   {
     id: 'q_legs',
     attribute_key: 'has_legs',
-    text_pl: 'Czy zwierzę, o którym myślisz, ma nogi?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, ma nogi?',
-      'Czy ma nogi?',
-      'Czy ten zwierzak chodzi, biega lub skacze na własnych nogach?',
-      'A czy porusza się na łapach lub kopytach?',
-      'Powiedz mi, czy ma chociaż dwie nogi do biegania?',
+    core: [
+      'Czy twoje zwierzę ma nogi?',
+      'Czy ma nogi albo łapy, na których chodzi?',
+      'Czy ma nóżki?',
     ],
+    setups: [
+      'Ja mam cztery łapy i wszystkie biegają naraz.',
+      'Tupu, tupu! Teraz pytanie o nogi.',
+    ],
+    onYes: ['Nóżki! Pewnie umie tupać.', 'Z nogami! Notuję.'],
+    onNo: ['Bez nóg! Ciekawe, jak się porusza.', 'Żadnych nóżek. Skreślam.'],
   },
   {
     id: 'q_dangerous',
     attribute_key: 'is_dangerous',
-    text_pl: 'Czy zwierzę, o którym myślisz, bywa groźne dla ludzi?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, bywa groźne dla ludzi?',
-      'Czy bywa groźne?',
-      'Czy ten zwierzak może być niebezpieczny i lepiej trzymać się od niego z daleka?',
-      'A czy potrafi ugryźć, ukłuć lub zaatakować człowieka?',
-      'Wiesz, czy lepiej go nie podchodzić, bo bywa agresywny?',
+    core: [
+      'Czy twoje zwierzę bywa groźne dla ludzi?',
+      'Czy może być niebezpieczne dla człowieka?',
+      'Czy lepiej trzymać się od niego z daleka?',
     ],
+    setups: ['Chowam się za drzewem. Tak na wszelki wypadek.', 'Ciii… teraz groźne pytanie.'],
+    onYes: [
+      'Groźne! Ogon zrobił mi się jak szczotka.',
+      'Uwaga! Detektyw trzyma się z daleka.',
+    ],
+    onNo: ['Uff, niegroźne. Wychodzę zza drzewa.', 'Łagodne! Notuję z ulgą.'],
   },
   {
     id: 'q_fast',
     attribute_key: 'is_fast',
-    text_pl: 'Czy zwierzę, o którym myślisz, jest naprawdę szybkie?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, jest naprawdę szybkie?',
-      'Czy jest szybki?',
-      'Czy ten zwierzak biega błyskawicznie, jak gepard lub koń?',
-      'A czy potrafi pędzić jak strzała?',
-      'Powiedz mi, czy w wyścigu zostawiłby cię daleko w tyle?',
+    core: [
+      'Czy twoje zwierzę jest bardzo szybkie?',
+      'Czy szybko biega, lata albo pływa?',
+      'Czy jest szybkie jak strzała?',
     ],
+    setups: [
+      'Ja jestem szybki tylko wtedy, gdy wołają na obiad.',
+      'Na start… gotowi… pytanie!',
+    ],
+    onYes: ['Wziuuum! Nie dogonię go nawet w trampkach.', 'Błyskawica! Aż mi wiatr rozczochrał futro.'],
+    onNo: ['Nie śpieszy się. Ja też lubię drzemki.', 'Powolutku… Notuję.'],
   },
   {
     id: 'q_horns',
     attribute_key: 'has_horns',
-    text_pl: 'Czy zwierzę, o którym myślisz, ma rogi lub poroże?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, ma rogi lub poroże?',
-      'Czy ma rogi?',
-      'Czy ten zwierzak ma na głowie sterczące rogi lub gałęziaste poroże?',
-      'A czy widać u niego rogi, jak u jelenia lub krowy?',
-      'Wiesz, czy nosi na głowie wystające ozdoby z kości?',
+    core: [
+      'Czy twoje zwierzę ma rogi albo poroże?',
+      'Czy na głowie rosną mu rogi, jak u krowy, albo poroże, jak u jelenia?',
+      'Czy ma na głowie rogi albo poroże?',
     ],
+    setups: [
+      'Założyłem kiedyś na głowę dwa patyki. Wszyscy myśleli, że jestem jeleniem!',
+      'Muu! Teraz pytanie z rogami.',
+    ],
+    onYes: ['Rogacz! Uważam na swój ogon.', 'Rogi! Można na nich wieszać czapki.'],
+    onNo: ['Gładka głowa. Notuję.', 'Bez rogów. Czapka się zmieści!'],
   },
   {
     id: 'q_nocturnal',
     attribute_key: 'is_nocturnal',
-    text_pl: 'Czy zwierzę, o którym myślisz, jest aktywne głównie w nocy?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, jest aktywne głównie w nocy?',
-      'Czy jest nocnym zwierzakiem?',
-      'Czy ten zwierzak poluje i biega po zmroku, kiedy inni już śpią?',
-      'A czy on śpi w dzień, a budzi się dopiero nocą?',
-      'Detektyw pyta — czy kocha noc bardziej niż dzień?',
+    core: [
+      'Czy twoje zwierzę budzi się w nocy, a w dzień śpi?',
+      'Czy szuka jedzenia nocą, jak sowa albo nietoperz?',
+      'Czy to nocne zwierzę?',
     ],
+    setups: ['Ziew! Ja w nocy śpię jak suseł.', 'Latarka w łapę! Teraz nocne pytanie.'],
+    onYes: ['Nocny marek! Włączam latarkę.', 'Nocny trop! Uhu, uhu.'],
+    onNo: ['Nie nocne. Mogę spokojnie iść spać.', 'Działa w dzień. Notuję.'],
   },
   {
     id: 'q_groups',
     attribute_key: 'lives_in_groups',
-    text_pl: 'Czy zwierzę, o którym myślisz, żyje w stadzie lub grupie?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, żyje w stadzie lub grupie?',
-      'Czy żyje w stadzie?',
-      'Czy ten zwierzak trzyma się razem z innymi, w stadzie lub kolonii?',
-      'A czy nie lubi być sam i zawsze chodzi z towarzyszami?',
-      'Powiedz mi, czy to zwierzę towarzyskie, lubiące dużą rodzinę?',
+    core: [
+      'Czy twoje zwierzę żyje w stadzie albo w grupie?',
+      'Czy żyje razem z innymi, w stadzie, w ławicy albo w roju?',
+      'Czy zwykle jest w grupie z innymi takimi samymi zwierzętami?',
     ],
+    setups: [
+      'Ja mam dużo kolegów, ale mieszkam sam w norce.',
+      'Raz, dwa, trzy… ale tu tłoczno!',
+    ],
+    onYes: ['Cała banda! Nie zdążę wszystkich policzyć.', 'Stado! Im więcej, tym weselej.'],
+    onNo: ['Samotnik, jak ja w norce. Notuję.', 'Lubi być samo. Skreślam stada.'],
   },
   {
     id: 'q_venomous',
     attribute_key: 'is_venomous',
-    text_pl: 'Czy zwierzę, o którym myślisz, jest jadowite?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, jest jadowite?',
-      'Czy jest jadowite?',
-      'Czy ten zwierzak ma jad, którym potrafi ukąsić lub użądlić?',
-      'A czy jego ugryzienie lub użądlenie może być groźne?',
-      'Wiesz, czy mówimy o jadowitym przeciwniku?',
+    core: [
+      'Czy twoje zwierzę jest jadowite?',
+      'Czy ma jad, którym może ukąsić albo użądlić?',
+      'Czy to jadowite zwierzę?',
     ],
+    setups: [
+      'Uwaga, teraz pytanie z żądłem!',
+      'Mama zawsze mówi: nie dotykaj nieznajomych zwierząt. I ma rację!',
+    ],
+    onYes: ['Jadowite! Trzymam łapy przy sobie.', 'Jad! Detektyw jest bardzo ostrożny.'],
+    onNo: ['Bez jadu. Uff!', 'Nie jadowite. Notuję.'],
   },
   {
     id: 'q_forest',
     attribute_key: 'lives_in_forest',
-    text_pl: 'Czy zwierzę, o którym myślisz, mieszka w lesie?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, mieszka w lesie?',
-      'Czy mieszka w lesie?',
-      'Czy ten zwierzak ma swój dom wśród drzew, krzewów i mchu?',
-      'A czy biega między pniami, jak sarna lub lis?',
-      'Powiedz mi, czy spotkasz go w głębi lasu, daleko od miasta?',
+    core: [
+      'Czy twoje zwierzę mieszka w lesie?',
+      'Czy żyje w lesie, wśród drzew i mchu?',
+      'Czy spotkasz je w lesie?',
     ],
+    setups: ['Las to mój dom. Znam tu każdą szyszkę!', 'Pachnie grzybami. Teraz pytanie leśne!'],
+    onYes: ['Leśny sąsiad! Pewnie mijamy się codziennie.', 'Las! Mój ulubiony trop.'],
+    onNo: ['Nie z lasu. Szyszki zostają.', 'Mieszka poza lasem. Notuję.'],
   },
   {
     id: 'q_barks',
     attribute_key: 'barks',
-    text_pl: 'Czy zwierzę, o którym myślisz, szczeka?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, szczeka?',
-      'Czy szczeka?',
-      'Czy ten zwierzak wydaje głośne hau-hau, jak pies na podwórku?',
-      'A czy słychać u niego szczekanie?',
-      'Wiesz, czy porozumiewa się szczekaniem?',
-    ],
+    core: ['Czy twoje zwierzę szczeka?', 'Czy robi hau, hau, jak pies?', 'Czy umie szczekać?'],
+    setups: ['Hau, hau! Ups, to ja. Ćwiczę psią mowę.', 'Nadstawiam ucha. Ciii…'],
+    onYes: ['Hau, hau! Notuję.', 'Szczekacz! Zatykam uszy.'],
+    onNo: ['Nie szczeka. Cisza jak w bibliotece.', 'Bez szczekania. Skreślam.'],
   },
   {
     id: 'q_meows',
     attribute_key: 'meows',
-    text_pl: 'Czy zwierzę, o którym myślisz, miauczy lub mruczy?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, miauczy lub mruczy?',
-      'Czy miauczy?',
-      'Czy ten zwierzak wydaje miau-miau lub przyjazne mruczenie?',
-      'A czy mruczy gdy jest zadowolony, jak kotek?',
-      'Powiedz mi, czy słychać u niego kocie odgłosy?',
+    core: [
+      'Czy twoje zwierzę miauczy albo mruczy?',
+      'Czy robi miau albo mruczy, jak kot?',
+      'Czy umie miauczeć albo mruczeć?',
     ],
+    setups: ['Miau! Ćwiczę kocią mowę, ale kiepsko mi idzie.', 'Mrrr… Teraz pytanie mruczące.'],
+    onYes: ['Mrrr! Aż chce się je pogłaskać.', 'Miau! Notuję.'],
+    onNo: ['Nie miauczy. Kot będzie zawiedziony.', 'Bez mruczenia. Skreślam koty.'],
   },
   {
     id: 'q_rodent',
     attribute_key: 'is_rodent',
-    text_pl: 'Czy zwierzę, o którym myślisz, jest gryzoniem?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, jest gryzoniem?',
+    core: [
+      'Czy twoje zwierzę jest gryzoniem, jak mysz, chomik albo bóbr?',
+      'Czy to gryzoń, czyli zwierzę z dużymi przednimi ząbkami do gryzienia?',
       'Czy to gryzoń?',
-      'Czy ten zwierzak należy do gryzoni, takich jak myszka, chomik lub szczur?',
-      'A czy ma duże, ostre siekacze i lubi gryźć?',
-      'Wiesz, czy on jest mały i zalicza się do gryzoni?',
     ],
+    setups: ['Chrup, chrup! Ktoś tu gryzie orzeszki.', 'Kiedyś chomik ukradł mi kanapkę z serem!'],
+    onYes: ['Gryzoń! Chowam swoje orzeszki.', 'Chrup, chrup! Notuję.'],
+    onNo: ['Nie gryzoń. Moje orzeszki są bezpieczne.', 'Żadnych gryzoni. Skreślam.'],
   },
   {
     id: 'q_primate',
     attribute_key: 'is_primate',
-    text_pl: 'Czy zwierzę, o którym myślisz, jest małpą?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, jest małpą?',
-      'Czy to małpa?',
-      'Czy to stworzenie należy do naczelnych, jak szympans lub goryl?',
-      'A czy huśta się na drzewach i ma zręczne łapy?',
-      'Powiedz mi, czy mówimy o małpce lub jej krewnym?',
+    core: [
+      'Czy twoje zwierzę jest małpą?',
+      'Czy to małpa, jak szympans albo goryl?',
+      'Czy to jakaś małpka?',
     ],
+    setups: [
+      'Uuu-aaa! Ćwiczę małpie okrzyki.',
+      'Raz próbowałem huśtać się na gałęzi. Spadłem na nos!',
+    ],
+    onYes: ['Małpka! Obieram banana.', 'Uuu-aaa! Notuję.'],
+    onNo: ['Nie małpa. Banana zjem sam.', 'Bez małpich figli. Skreślam.'],
   },
   {
     id: 'q_long_ears',
     attribute_key: 'has_long_ears',
-    text_pl: 'Czy zwierzę, o którym myślisz, ma długie uszy?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, ma długie uszy?',
-      'Czy ma długie uszy?',
-      'Czy ten zwierzak ma duże, sterczące uszy, jak królik lub osioł?',
-      'A czy widać u niego wyraźne, długie uszy?',
-      'Wiesz, czy wyróżnia się długimi uszami?',
+    core: [
+      'Czy twoje zwierzę ma długie uszy?',
+      'Czy ma długie uszy, jak królik albo osioł?',
+      'Czy ma bardzo długie uszy?',
     ],
+    setups: ['Nastawiam uszy. Moje są trochę spiczaste.', 'Słucham uważnie! Teraz pytanie o uszy.'],
+    onYes: ['Długie uszy! Pewnie słyszy, jak rośnie trawa.', 'Uszaty trop! Notuję.'],
+    onNo: ['Krótkie uszka. Notuję.', 'Bez długich uszu. Skreślam króliki.'],
   },
   {
     id: 'q_marsupial',
     attribute_key: 'is_marsupial',
-    text_pl: 'Czy zwierzę, o którym myślisz, nosi młode w torbie na brzuchu?',
-    variants: [
-      'Czy zwierzę, o którym myślisz, nosi młode w torbie na brzuchu?',
-      'Czy to torbacz?',
-      'Czy ten zwierzak ma kieszonkę, w której nosi swoje dziecko?',
-      'A czy to torbacz, jak kangur lub koala?',
-      'Detektyw pyta — czy mówimy o australijskim torbaczu?',
+    core: [
+      'Czy twoje zwierzę nosi maluszka w kieszonce na brzuchu?',
+      'Czy ma kieszonkę na brzuchu, jak kangur albo koala?',
+      'Czy to torbacz, czyli zwierzę z kieszonką na brzuchu?',
     ],
+    setups: ['Ja też mam kieszonkę. Trzymam w niej lupę!', 'Hop, hop! Teraz pytanie z kieszonką.'],
+    onYes: ['Kieszonka! Ciekawe, czy zmieści się w niej kanapka.', 'Torbacz! Hop, notuję.'],
+    onNo: ['Bez kieszonki. Skreślam kangury.', 'Nie torbacz. Notuję.'],
   },
 ];
 
-/**
- * Losuje jedną z wersji pytania (text_pl lub jeden z `variants`).
- * Zwraca tekst + voiceKey do odtworzenia MP3 (z voice-manifest.ts).
- */
-export function pickQuestionVariant(q: Question): { text: string; voiceKey: string } {
-  if (!q.variants || q.variants.length === 0) {
-    // Brak variants — używamy text_pl. voiceKey wskazuje na variant.0 bo skrypt
-    // generujący zawsze zapisuje co najmniej `question.{id}.0` (z text_pl).
-    return { text: q.text_pl, voiceKey: `question.${q.id}.0` };
-  }
-  const idx = Math.floor(Math.random() * q.variants.length);
-  return { text: q.variants[idx], voiceKey: `question.${q.id}.${idx}` };
+/** Tekst i klucz głosu jednej kwestii. */
+export type Line = { text: string; voiceKey: string };
+
+/** Klucze głosu: `q.{id}.core.{i}`, `q.{id}.setup.{i}`, `q.{id}.yes.{i}`, `q.{id}.no.{i}`. */
+export type QuestionPart = 'core' | 'setup' | 'yes' | 'no';
+
+const PART_POOL: Record<QuestionPart, (q: Question) => string[]> = {
+  core: (q) => q.core,
+  setup: (q) => q.setups,
+  yes: (q) => q.onYes,
+  no: (q) => q.onNo,
+};
+
+/** Zwraca listę kwestii danej części pytania — używane też przez generator głosu. */
+export function questionLines(q: Question, part: QuestionPart): Line[] {
+  return PART_POOL[part](q).map((text, i) => ({ text, voiceKey: `q.${q.id}.${part}.${i}` }));
+}
+
+/** Losuje jedną kwestię danej części pytania. */
+export function pickQuestionLine(q: Question, part: QuestionPart): Line {
+  const lines = questionLines(q, part);
+  return lines[Math.floor(Math.random() * lines.length)];
 }

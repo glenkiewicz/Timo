@@ -193,3 +193,25 @@ export function pickBestGuess(
   const ties = scored.filter((s) => s.score >= maxScore - 0.01);
   return ties[Math.floor(Math.random() * ties.length)].animal;
 }
+
+/** Poziom „ciepło–zimno” — jak blisko rozwiązania jest silnik. */
+export type HeatLevel = 'cold' | 'warm' | 'hot';
+
+/** Pula, przy której robi się „ciepło”. */
+export const HEAT_WARM_POOL = 30;
+/** Pula, przy której robi się „gorąco”. */
+export const HEAT_HOT_POOL = 5;
+
+/**
+ * Liczone z liczby pozostałych kandydatów, a nie z numeru pytania — Timo mówi
+ * „gorąco” dopiero wtedy, gdy naprawdę zostało niewielu. Minimalna liczba
+ * pytań chroni wyprawy z małą pulą (18 kart) przed „ciepło” już po Q1.
+ */
+export function heatLevel(state: EngineState): HeatLevel {
+  const eligible = eligibleCandidates(state).length;
+  if (eligible <= HEAT_HOT_POOL && state.questionsAsked >= MIN_QUESTIONS_BEFORE_GUESS - 1) {
+    return 'hot';
+  }
+  if (eligible <= HEAT_WARM_POOL && state.questionsAsked >= 2) return 'warm';
+  return 'cold';
+}

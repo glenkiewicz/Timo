@@ -16,13 +16,22 @@ export type Animal = {
   expedition_tags?: string[];
 };
 
+/**
+ * Pytanie Timo. Wypowiedź = `[setup?] + core`. Żart (setup) to osobne, zamknięte
+ * zdanie, więc każdy setup pasuje do każdego rdzenia tego samego pytania.
+ * Zasady pisania: `scripts/validate-timo-lines.ts`.
+ */
 export type Question = {
   id: string;
   attribute_key: AttributeKey;
-  /** Domyślna (najkrótsza) forma pytania. */
-  text_pl: string;
-  /** Opcjonalne warianty stylistyczne — losowane przy zadawaniu pytania. */
-  variants?: string[];
+  /** Czyste, dokładne wersje pytania. Zaczynają się od „Czy”, kończą „?”. [0] = forma kanoniczna. */
+  core: string[];
+  /** Zdania z charakterem przed pytaniem. Kończą się „.” lub „!”. */
+  setups: string[];
+  /** Reakcje na „Tak”, związane z tematem pytania. */
+  onYes: string[];
+  /** Reakcje na „Nie”, związane z tematem pytania. */
+  onNo: string[];
 };
 
 export type AnswerType = 'yes' | 'no' | 'idk' | 'hard';

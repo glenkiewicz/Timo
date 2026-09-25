@@ -15,16 +15,23 @@ import {
   logGuessRejected,
   logStart,
 } from '@/features/game/game-log';
+import { pickOutsideCategoryLine } from '@/data/timo-lines';
 import {
   applyAnswer,
   eligibleCandidates,
+  heatLevel,
+  type EngineState,
   MAX_QUESTIONS,
   pickBestGuess,
   pickNextQuestion,
   shouldAttemptGuess,
   shouldGiveUp,
 } from '@/features/game/guessing-engine';
-import { resetPersonalityMemory } from '@/features/game/timo-personality';
+import {
+  decorateQuestion,
+  resetPersonalityMemory,
+  type DecoratedQuestion,
+} from '@/features/game/timo-personality';
 import type {
   Animal,
   AnswerType,
@@ -56,6 +63,8 @@ type GameState = {
   excludedAnimals: Set<string>;
   answers: GameAnswer[];
   currentQuestion: Question | null;
+  /** Co Timo mówi przy bieżącym pytaniu (wstęp + pytanie) — dymek i głos. */
+  prompt: DecoratedQuestion | null;
   guess: Animal | null;
   phase: GamePhase;
   questionsAsked: number;
@@ -72,17 +81,18 @@ type GameState = {
   /** Tryb wyprawy ('guided' = Wyprawa z Timo, 'expert' = klasyczna). */
   expeditionMode: 'guided' | 'expert' | null;
   /**
-   * Flaga: w guided pula 18 została wyczerpana i silnik rozszerzył do całej
-   * ANIMALS (dziecko myślało o zwierzęciu spoza kart inspiracji). UI używa do
-   * pokazania komunikatu "outside category" raz, potem kasuje flagę.
+   * Flaga: w guided pula 18 została wyczerpana i silnik rozszerzył pulę
+   * (dziecko myślało o zwierzęciu spoza kart inspiracji). Następne pytanie
+   * dostaje komunikat „spoza wyprawy” jako wstęp — raz na grę.
    */
   didEscapeCategory: boolean;
+  /** Komunikat „spoza wyprawy” już padł w tej grze. */
+  escapeAnnounced: boolean;
 
   start: (opts?: StartOpts) => void;
   answer: (a: AnswerType) => void;
   acceptGuess: () => void;
   rejectGuess: () => void;
-  acknowledgeEscape: () => void;
   reset: () => void;
 };
 
@@ -104,12 +114,30 @@ function initialQuestion(): Question | null {
   return pickNextQuestion(initialEngineState(), [], QUESTIONS);
 }
 
+/**
+ * Składa wypowiedź Timo dla nowego pytania. Komunikat „spoza wyprawy” trafia
+ * do pierwszego pytania po ucieczce z puli (guided), tylko raz na grę.
+ */
+function buildPrompt(
+  question: Question | null,
+  engine: EngineState,
+  opts: { announceEscape: boolean },
+): DecoratedQuestion | null {
+  if (!question) return null;
+  return decorateQuestion(question, {
+    questionsAsked: engine.questionsAsked,
+    heat: heatLevel(engine),
+    outside: opts.announceEscape ? pickOutsideCategoryLine() : null,
+  });
+}
+
 export const useGameStore = create<GameState>((set, get) => ({
   candidates: ANIMALS,
   usedAttributes: new Set(),
   excludedAnimals: new Set(),
   answers: [],
   currentQuestion: initialQuestion(),
+  prompt: null,
   guess: null,
   phase: 'asking',
   questionsAsked: 0,
@@ -120,6 +148,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   expeditionBasePool: null,
   expeditionMode: null,
   didEscapeCategory: false,
+  escapeAnnounced: false,
 
   start: (opts) => {
     resetPersonalityMemory();
@@ -154,12 +183,14 @@ export const useGameStore = create<GameState>((set, get) => ({
     };
 
     logStart(baseEngine);
+    const firstQuestion = pickNextQuestion(baseEngine, [], QUESTIONS);
     set({
       candidates,
       usedAttributes: new Set(),
       excludedAnimals: excluded,
       answers: [],
-      currentQuestion: pickNextQuestion(baseEngine, [], QUESTIONS),
+      currentQuestion: firstQuestion,
+      prompt: buildPrompt(firstQuestion, baseEngine, { announceEscape: false }),
       guess: null,
       phase: 'asking',
       questionsAsked: 0,
@@ -169,10 +200,9 @@ export const useGameStore = create<GameState>((set, get) => ({
       expeditionBasePool,
       expeditionMode,
       didEscapeCategory: false,
+      escapeAnnounced: false,
     });
   },
-
-  acknowledgeEscape: () => set({ didEscapeCategory: false }),
 
   answer: (a: AnswerType) => {
     const state = get();
@@ -223,6 +253,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         answers: nextAnswers,
         questionsAsked: nextAsked,
         currentQuestion: null,
+        prompt: null,
         guess: null,
         phase: 'child_stumped',
       });
@@ -266,6 +297,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         answers: nextAnswers,
         questionsAsked: nextAsked,
         currentQuestion: null,
+        prompt: null,
         guess,
         phase: guess ? 'guess_attempt' : 'child_stumped',
         guessAttempts: state.guessAttempts + (guess ? 1 : 0),
@@ -285,6 +317,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         answers: nextAnswers,
         questionsAsked: nextAsked,
         currentQuestion: null,
+        prompt: null,
         guess,
         phase: guess ? 'guess_attempt' : 'child_stumped',
         guessAttempts: state.guessAttempts + (guess ? 1 : 0),
@@ -293,14 +326,19 @@ export const useGameStore = create<GameState>((set, get) => ({
       return;
     }
 
+    const escaped = state.didEscapeCategory || didEscape;
+    const announceEscape =
+      escaped && state.expeditionMode === 'guided' && !state.escapeAnnounced;
     set({
       candidates: workingCandidates,
       usedAttributes: nextUsed,
       answers: nextAnswers,
       questionsAsked: nextAsked,
       currentQuestion: nextQuestion,
+      prompt: buildPrompt(nextQuestion, engineState, { announceEscape }),
       phase: 'asking',
-      didEscapeCategory: state.didEscapeCategory || didEscape,
+      didEscapeCategory: escaped,
+      escapeAnnounced: state.escapeAnnounced || announceEscape,
     });
   },
 
@@ -377,13 +415,18 @@ export const useGameStore = create<GameState>((set, get) => ({
       return;
     }
 
+    const escaped = state.didEscapeCategory || didEscape;
+    const announceEscape =
+      escaped && state.expeditionMode === 'guided' && !state.escapeAnnounced;
     set({
       candidates: workingState.candidates,
       excludedAnimals: nextExcluded,
       guess: null,
       currentQuestion: nextQuestion,
+      prompt: buildPrompt(nextQuestion, workingState, { announceEscape }),
       phase: 'asking',
-      didEscapeCategory: state.didEscapeCategory || didEscape,
+      didEscapeCategory: escaped,
+      escapeAnnounced: state.escapeAnnounced || announceEscape,
     });
   },
 
