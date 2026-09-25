@@ -45,6 +45,10 @@ SCENES = {
  "water_giants": ("a wild ocean coast with high cliffs","big open sky with wind-torn clouds","tall dark cliffs on both sides, deep blue open sea stretching to the horizon, white spray on rocks","wet dark sand"),
  "dinos_myths": ("a prehistoric valley full of giant ferns","misty sky with a smoking volcano far in the distance","huge tree ferns and cycads, layered misty ridges, steaming ground vents, primitive horsetail plants","deep green ferny ground"),
  "shelled": ("a rocky beach with shallow tide pools","soft blue sky with light clouds over a calm sea","large round boulders, clear tide pools reflecting the sky, seaweed draped on rock, a calm sea behind","damp grey-green rock and coarse sand, clearly darker than the sky"),
+ # ---- krainy kolekcji, które dotąd pożyczały tła wypraw tematycznych ----
+ "region_mountains": ("a high mountain meadow below snowy peaks","clear cool blue sky above jagged snow-capped peaks","grey rocky slopes, dark fir trees and a few scattered boulders, a thin waterfall on a distant cliff, patches of snow","alpine meadow grass with small wildflowers"),
+ "region_asia": ("an Asian valley with bamboo and rice terraces","soft warm sky with a pale misty mountain far away","tall bamboo groves at the edges, green stepped rice terraces on a hillside, a small red torii-style gate, a pink cherry-blossom tree","soft green grass"),
+ "region_australia": ("the Australian outback at warm afternoon light","wide pale blue sky over a distant red rock monolith","red earth, silvery eucalyptus trees with pale trunks, spinifex grass tufts, low dusty bushes","reddish-brown outback ground with sparse dry grass"),
  "colorful": ("a bright tropical flower garden","clear blue sky with a soft rainbow arc","hibiscus, orchids and heliconia in strong colours, big glossy leaves, a stone path curving away","green garden grass"),
 }
 

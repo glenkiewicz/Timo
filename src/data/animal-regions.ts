@@ -134,20 +134,20 @@ export const ANIMAL_REGIONS: AnimalRegion[] = [
     source: { kind: 'match', test: (a, r) => a.attributes.lives_in_water === true && hasAny(r, 'polska', 'europa') } },
   { id: 'jungle',    label: 'Dżungla',     patch: 'jungle',    background: 'green-jungle', dock: { bg: '#677f30', fg: '#ffffff' },
     source: { kind: 'match', test: (a) => a.attributes.lives_in_jungle === true } },
-  { id: 'mountain',  label: 'Góry',        patch: 'mountain',  background: 'scary-animals', dock: { bg: '#5c533b', fg: '#ffffff' },
+  { id: 'mountain',  label: 'Góry',        patch: 'mountain',  background: 'region-mountains', dock: { bg: '#618030', fg: '#ffffff' },
     source: { kind: 'roster', expeditionId: 'mountain', except: (a, r) => r.has('polska') && !POLISH_MOUNTAIN.has(a.id) } },
   { id: 'forest',    label: 'Polski las',  patch: 'forest',    background: 'forest-kids', dock: { bg: '#5f7e3c', fg: '#ffffff' },
     source: { kind: 'match', test: (_a, r) => r.has('polska') } },
   { id: 'savanna',   label: 'Afryka',      patch: 'savanna',   background: 'savanna-kids', dock: { bg: '#7b7a28', fg: '#ffffff' },
     source: { kind: 'match', test: (a) =>
       ['africa-sub', 'africa-north', 'madagascar'].includes(homeContinent(a) ?? '') } },
-  { id: 'australia', label: 'Australia i Oceania', patch: 'australia', background: 'jumpers', dock: { bg: '#64802a', fg: '#ffffff' },
+  { id: 'australia', label: 'Australia i Oceania', patch: 'australia', background: 'region-australia', dock: { bg: '#af623e', fg: '#ffffff' },
     source: { kind: 'match', test: (a) =>
       ['australia', 'new-zealand', 'new-guinea'].includes(homeContinent(a) ?? '') } },
-  { id: 'americas',  label: 'Ameryka',     patch: 'americas',  background: 'long-nose', dock: { bg: '#7d7932', fg: '#ffffff' },
+  { id: 'americas',  label: 'Ameryka',     patch: 'americas',  background: 'scary-animals', dock: { bg: '#5c533b', fg: '#ffffff' },
     source: { kind: 'match', test: (a) =>
       ['america-n', 'america-c', 'america-s'].includes(homeContinent(a) ?? '') } },
-  { id: 'asia',      label: 'Azja',        patch: 'asia',      background: 'striped-spotted', dock: { bg: '#637e30', fg: '#ffffff' },
+  { id: 'asia',      label: 'Azja',        patch: 'asia',      background: 'region-asia', dock: { bg: '#647e34', fg: '#ffffff' },
     source: { kind: 'match', test: (a) =>
       ['asia-west', 'asia-south', 'asia-cent', 'asia-east', 'asia-se'].includes(homeContinent(a) ?? '') } },
   { id: 'world',     label: 'Cały świat',  patch: 'meadow',    background: 'bugs-and-worms', dock: { bg: '#4e3c2c', fg: '#ffffff' },

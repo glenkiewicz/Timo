@@ -71,8 +71,10 @@ const PATCH_RATIO: Record<string, number> = {
 export const INK = '#4a3726';
 
 /**
- * Tła krain to te same pliki, co tła wypraw — `require` chce literałów.
- * Ocean jako jedyny ma własne tło, bez wyprawy o tej nazwie.
+ * Tła krain — `require` chce literałów. Większość to tła wypraw o tym samym
+ * miejscu; Ocean, Góry, Azja i Australia mają własne (`region-*`), bo
+ * pożyczone od wypraw tematycznych pokazywały co innego — Góry stały
+ * w kanionie, a Azja w europejskim lesie.
  */
 const BACKGROUNDS: Record<string, number> = {
   'bugs-and-worms': require('../../../assets/backgrounds/exp-bugs-and-worms.webp'),
@@ -82,12 +84,12 @@ const BACKGROUNDS: Record<string, number> = {
   'green-jungle': require('../../../assets/backgrounds/exp-green-jungle.webp'),
   'home-pets-friends': require('../../../assets/backgrounds/exp-home-pets-friends.webp'),
   'ice-land': require('../../../assets/backgrounds/exp-ice-land.webp'),
-  jumpers: require('../../../assets/backgrounds/exp-jumpers.webp'),
-  'long-nose': require('../../../assets/backgrounds/exp-long-nose.webp'),
   ocean: require('../../../assets/backgrounds/ocean.webp'),
+  'region-asia': require('../../../assets/backgrounds/region-asia.webp'),
+  'region-australia': require('../../../assets/backgrounds/region-australia.webp'),
+  'region-mountains': require('../../../assets/backgrounds/region-mountains.webp'),
   'savanna-kids': require('../../../assets/backgrounds/exp-savanna-kids.webp'),
   'scary-animals': require('../../../assets/backgrounds/exp-scary-animals.webp'),
-  'striped-spotted': require('../../../assets/backgrounds/exp-striped-spotted.webp'),
   swimmers: require('../../../assets/backgrounds/exp-swimmers.webp'),
   'water-friends': require('../../../assets/backgrounds/exp-water-friends.webp'),
 };
