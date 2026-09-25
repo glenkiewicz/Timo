@@ -49,8 +49,14 @@ type StatBadgeProps = {
  * rozciągany do liczby rozjeżdżałby się przy każdej zmianie cyfr.
  */
 const PILL = require('../../../assets/map/pill.webp');
-const PILL_H = 40;
+const PILL_H = 28;
 const PILL_W = PILL_H * 2.5;
+/**
+ * Ilustracja jest WYŻSZA od pigułki i zachodzi na jej lewy koniec — wystaje
+ * nad i pod papier, jak ikony nagród w Finchu. Mała pigułka, duży obrazek.
+ */
+const ART = 38;
+const OVERHANG = ART * 0.4;
 
 export function StatBadge({
   tooltipKey,
@@ -94,40 +100,40 @@ export function StatBadge({
           onPress={handlePress}
           accessibilityRole="button"
           accessibilityLabel={TOOLTIPS[tooltipKey].title}
-          style={{
-            width: PILL_W,
-            height: PILL_H,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: 3,
-            paddingRight: 4,
-          }}>
+          style={{ width: OVERHANG + PILL_W, height: ART, justifyContent: 'center' }}>
           <Image
             source={PILL}
-            style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+            style={{
+              position: 'absolute',
+              left: OVERHANG,
+              top: (ART - PILL_H) / 2,
+              width: PILL_W,
+              height: PILL_H,
+            }}
             contentFit="fill"
             transition={0}
             accessible={false}
           />
           <Image
             source={TOOLTIP_ART[tooltipKey]}
-            style={{ width: 30, height: 30, opacity: muted ? 0.4 : 1 }}
+            style={{ position: 'absolute', left: 0, top: 0, width: ART, height: ART, opacity: muted ? 0.4 : 1 }}
             contentFit="contain"
             transition={0}
             accessible={false}
           />
-          <AnimatedCounter
-            from={from}
-            to={to}
-            delayMs={delayMs}
-            durationMs={durationMs}
-            style={{
-              color: muted ? UI.textFaint : INK,
-              fontFamily: 'Gabarito-Bold',
-              fontSize: 17,
-            }}
-          />
+          <View style={{ marginLeft: ART + 2, marginRight: 8, alignItems: 'center' }}>
+            <AnimatedCounter
+              from={from}
+              to={to}
+              delayMs={delayMs}
+              durationMs={durationMs}
+              style={{
+                color: muted ? UI.textFaint : INK,
+                fontFamily: 'Gabarito-Bold',
+                fontSize: 16,
+              }}
+            />
+          </View>
         </Pressable>
       </Animated.View>
 
