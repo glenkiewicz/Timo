@@ -110,12 +110,25 @@ export default function BadgesScreen() {
                   unlocked={unlocked.has(b.id)}
                   width={cell}
                   onPress={() =>
-                    openSheet({
-                      title: b.label_pl,
-                      description: b.description_pl,
-                      art: BADGE_ART[b.id],
-                      accent: 'gold',
-                    })
+                    openSheet(
+                      unlocked.has(b.id)
+                        ? {
+                            title: b.label_pl,
+                            description: b.description_pl,
+                            art: BADGE_ART[b.id],
+                            accent: 'gold',
+                          }
+                        : {
+                            title: 'Jeszcze nie zdobyta',
+                            // Podpowiedź grupy mówi, ZA CO się ją zdobywa, a nie
+                            // zdradza samej odznaki — nazwa zostaje niespodzianką.
+                            description: `${g.hint} Zagraj z Timo, a ta odznaka może być Twoja!`,
+                            art: BADGE_ART[b.id],
+                            silhouette: true,
+                            accent: 'gold',
+                            button: 'Do dzieła!',
+                          }
+                    )
                   }
                 />
               ))}
@@ -193,9 +206,6 @@ function Badge({
     </View>
   );
 
-  // Niezdobyta nie otwiera opisu — jak nieodkryte zwierzę na półce.
-  if (!unlocked) return body;
-
   return (
     <Pressable
       onPress={() => {
@@ -203,7 +213,7 @@ function Badge({
         onPress();
       }}
       accessibilityRole="button"
-      accessibilityLabel={badge.label_pl}
+      accessibilityLabel={unlocked ? badge.label_pl : 'Odznaka jeszcze nie zdobyta'}
       style={({ pressed }) => ({ transform: [{ scale: pressed ? 0.96 : 1 }] })}>
       {body}
     </Pressable>

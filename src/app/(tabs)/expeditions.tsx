@@ -87,6 +87,7 @@ export default function ExpeditionsScreen() {
       openSheet({
         art: LOCK_ART,
         accent: 'sky',
+        button: 'Do dzieła!',
         title: 'Wyprawa zablokowana',
         description:
           'Wyprawy odkrywasz przez Wyprawę Dnia. Codziennie Timo wybiera nowe propozycje. Może jutro trafisz właśnie na tę!',

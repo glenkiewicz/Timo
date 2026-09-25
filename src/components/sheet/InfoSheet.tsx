@@ -22,6 +22,14 @@ export type SheetContent = {
   description: string;
   /** Ilustracja wystająca nad krawędź panelu. */
   art?: number;
+  /**
+   * Pokaż ilustrację jako sylwetkę — nieodkryte zwierzę i niezdobyta
+   * odznaka. Ta sama sylwetka, co na tarczy: panel mówi „jeszcze nie masz”,
+   * ale nie zdradza, co to.
+   */
+  silhouette?: boolean;
+  /** Napis na przycisku. „Super!” pasuje do zdobytych rzeczy, nie do zamkniętych. */
+  button?: string;
   /** Kolor panelu — ma pasować do miejsca, z którego go otwarto. */
   accent: Accent;
 };
@@ -167,6 +175,7 @@ function InfoSheet({
           <Image
             source={content.art}
             style={{ position: 'absolute', top: -ART * 0.5, width: ART, height: ART }}
+            tintColor={content.silhouette ? UI.pageFaint : undefined}
             contentFit="contain"
             transition={0}
             accessible={false}
@@ -204,7 +213,7 @@ function InfoSheet({
             transform: [{ scale: pressed ? 0.98 : 1 }],
           })}>
           <Text style={{ color: '#ffffff', fontFamily: 'Gabarito-Bold', fontSize: 17 }}>
-            Super!
+            {content.button ?? 'Super!'}
           </Text>
         </Pressable>
       </Animated.View>

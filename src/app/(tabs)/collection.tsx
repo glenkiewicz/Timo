@@ -10,9 +10,10 @@ import {
   RegionIsland,
   Signpost,
 } from '@/components/collection/map';
+import { useInfoSheet } from '@/components/sheet/InfoSheet';
 import { Icon } from '@/components/ui/Icon';
 import { DEV_UNLOCK_ALL } from '@/config/features';
-import { ILLUSTRATED_ANIMALS } from '@/data/animal-images';
+import { ILLUSTRATED_ANIMALS, animalImageFor } from '@/data/animal-images';
 import { BY_REGION, VISIBLE_REGIONS, regionById } from '@/data/animal-regions';
 import { ANIMALS } from '@/data/animals';
 import { useDockStore } from '@/lib/stores/dock-store';
@@ -256,6 +257,7 @@ function RegionShelf({
   const insets = useSafeAreaInsets();
   const { width: screenW } = useWindowDimensions();
   const region = regionById(regionId);
+  const openSheet = useInfoSheet();
 
   // Dok przejmuje kolor dołu tej planszy i oddaje go przy wyjściu. Sprzątanie
   // w `return` jest tu istotne: bez niego zielona mapa dostałaby kolor ostatnio
@@ -345,7 +347,24 @@ function RegionShelf({
                       </Link.AppleZoom>
                     </Link>
                   ) : (
-                    <AnimalCircle animalId={a.id} discovered={false} size={cell * 0.84} />
+                    <Pressable
+                      onPress={() => {
+                        if (Platform.OS !== 'web') Haptics.selectionAsync();
+                        openSheet({
+                          title: 'Jeszcze nieodkryte',
+                          // Nazwy nie zdradzamy — sylwetka i kraina mają
+                          // wystarczyć, żeby dziecko zgadywało, kto to.
+                          description: `To zwierzę mieszka w krainie ${region?.label ?? 'na mapie'}. Pomyśl o nim w grze z Timo — każde zwierzę z rundy trafia do Twojej kolekcji!`,
+                          art: animalImageFor(a.id),
+                          silhouette: true,
+                          accent: 'violet',
+                          button: 'Do dzieła!',
+                        });
+                      }}
+                      accessibilityRole="button"
+                      accessibilityLabel="Zwierzę jeszcze nieodkryte">
+                      <AnimalCircle animalId={a.id} discovered={false} size={cell * 0.84} />
+                    </Pressable>
                   )}
                   <Text
                     numberOfLines={1}
