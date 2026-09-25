@@ -13,7 +13,7 @@ import {
 import { Icon } from '@/components/ui/Icon';
 import { DEV_UNLOCK_ALL } from '@/config/features';
 import { ILLUSTRATED_ANIMALS } from '@/data/animal-images';
-import { ANIMAL_REGIONS, BY_REGION, regionById } from '@/data/animal-regions';
+import { BY_REGION, VISIBLE_REGIONS, regionById } from '@/data/animal-regions';
 import { ANIMALS } from '@/data/animals';
 import { useDockStore } from '@/lib/stores/dock-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
@@ -107,7 +107,7 @@ function CollectionMap({
           wysokości ekranu bez wpisywanych na sztywno odstępów. */}
       <View style={{ flex: 1, justifyContent: 'center' }}>
         <FlatList
-          data={ANIMAL_REGIONS}
+          data={VISIBLE_REGIONS}
           keyExtractor={(r) => r.id}
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -136,7 +136,7 @@ function CollectionMap({
         <View
           className="flex-row justify-center items-center"
           style={{ gap: 6, marginTop: 18 }}>
-          {ANIMAL_REGIONS.map((r, i) => (
+          {VISIBLE_REGIONS.map((r, i) => (
             <View
               key={r.id}
               style={{
@@ -191,7 +191,7 @@ function Island({
   width,
   onPress,
 }: {
-  region: (typeof ANIMAL_REGIONS)[number];
+  region: (typeof VISIBLE_REGIONS)[number];
   discovered: Set<string>;
   width: number;
   onPress: () => void;
