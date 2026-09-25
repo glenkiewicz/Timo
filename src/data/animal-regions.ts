@@ -83,6 +83,10 @@ const PLACED: Record<string, string> = {
   flying_squirrel: 'asia',
   great_grey_owl: 'asia',
   koi: 'home',
+  // Żyją na wielu kontynentach, ale dla dziecka to zwierzęta pustyń i sawann —
+  // i najwięcej gatunków żółwi lądowych ma Afryka z Madagaskarem.
+  scorpion: 'savanna',
+  turtle: 'savanna',
   // Roster wyprawy „Góry" ma je dla klimatu, ale żyją na preriach i nad wodą.
   bison_american: 'americas',
   coyote: 'americas',
