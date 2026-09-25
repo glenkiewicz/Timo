@@ -709,7 +709,10 @@ DESCRIPTIONS: dict[str, str] = {
     "tetra_neon": "a neon tetra, a tiny fish with a bright electric-blue stripe along its side and a red lower body",
     "mandarinfish": "a mandarinfish, a tiny fish with a wavy psychedelic pattern of blue, orange, and green",
     "triggerfish": "a triggerfish, an oval-bodied reef fish with a bold pattern and a small tight downturned mouth",
-    "surgeonfish": "a surgeonfish, an oval flattened reef fish in blue-grey with a small pointed ridge near the base of its tail",
+    # Filtr treści odbijał ten opis dwa razy, póki wspominał o kolcu przy ogonie —
+    # „surgeon" plus ostrze czytało się jak broń. Opisujemy samą rybę; pokolec
+    # i tak jest rozpoznawalny po kształcie i barwie, a nie po kolcu.
+    "surgeonfish": "a bright lemon-yellow coral-reef fish with a rounded disc-shaped flat body, a long tapering snout, tall smooth fins along the back and belly and a pale crescent tail",
     "snapper": "a snapper, a silvery-pink elongated fish with a pointed head",
     "tiger_shark": "a tiger shark, a grey shark with dark vertical stripes along its body and a blunt rounded snout",
     "nurse_shark": "a nurse shark, a brownish-grey shark with a flattened body and two small barbels near its mouth",
