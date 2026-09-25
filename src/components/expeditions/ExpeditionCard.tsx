@@ -57,6 +57,8 @@ export function expeditionAccent(id: string): Accent {
  * eksperta) dostają pustą tarczę — emoji tu nie wraca, bo odstawało od
  * ilustracji i wyglądało inaczej na każdym systemie.
  */
+const LOCKED_TINT = '#b9a98b';
+
 function ExpeditionDisc({
   expeditionId,
   size,
@@ -77,7 +79,9 @@ function ExpeditionDisc({
             style={{ flex: 1 }}
             // Zamknięta wyprawa jako sylwetka — jak nieodkryte zwierzę:
             // wiadomo, że coś tam jest, ale jeszcze nie co.
-            tintColor={locked ? UI.pageFaint : undefined}
+            // Jaśniejszy beż niż sylwetka zwierzęcia: zamknięta wyprawa ma
+            // ustępować dostępnym, a ciemny brąz ciągnął wzrok najmocniej.
+            tintColor={locked ? LOCKED_TINT : undefined}
             contentFit="contain"
             transition={0}
             accessible={false}
@@ -204,10 +208,10 @@ export function ExpeditionCard({
   const overhang = Math.round(discSize * 0.4);
   const pad = 18;
   const title = e.childTitle ?? e.title;
-  const faded = locked ? 0.7 : 1;
+  const faded = locked ? 0.8 : 1;
 
   const body = (
-    <PaperCard style={{ marginLeft: overhang, padding: pad }}>
+    <PaperCard style={{ marginLeft: overhang, padding: pad, opacity: locked ? 0.78 : 1 }}>
       <View className="flex-row items-center">
         {/* Ujemny margines wypycha tarczę poza papier; karta nie przycina
             dzieci, więc wystaje jak ikona na pigułce. */}
