@@ -1,16 +1,19 @@
+import * as Haptics from 'expo-haptics';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useMemo } from 'react';
-import { ScrollView } from 'react-native';
+import { Platform, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { AnimalTradingCard } from '@/components/collection/AnimalTradingCard';
+import { AnimalCard } from '@/components/collection/AnimalCard';
+import { RegionBackdrop } from '@/components/collection/map';
 import { Button } from '@/components/ui/Button';
-import { ScreenHeader } from '@/components/ui/ScreenHeader';
-import { ANIMALS_BY_ID } from '@/data/animals';
+import { Icon } from '@/components/ui/Icon';
+import { regionOfAnimal } from '@/data/animal-regions';
+import { ANIMALS, ANIMALS_BY_ID } from '@/data/animals';
 import { EXPEDITIONS_BY_ID } from '@/data/expeditions';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { UI } from '@/theme/ui';
-import { Text, View } from '@/tw';
+import { Pressable, Text, View } from '@/tw';
 
 export default function AnimalCardScreen() {
   const router = useRouter();
@@ -42,6 +45,9 @@ export default function AnimalCardScreen() {
     return undefined;
   }, [animal, expeditionProgress]);
 
+  const goBack = () =>
+    router.canGoBack() ? router.back() : router.replace('/(tabs)/collection');
+
   if (!animal) {
     return (
       <View className="flex-1 bg-canvas items-center justify-center px-6">
@@ -59,29 +65,44 @@ export default function AnimalCardScreen() {
     );
   }
 
-  return (
-    <View className="flex-1 bg-canvas">
-      <ScreenHeader
-        eyebrow="KARTA ODKRYWCY"
-        title={animal.name_pl}
-        onBack={() =>
-          router.canGoBack() ? router.back() : router.replace('/(tabs)/collection')
-        }
-      />
+  // Tło krainy, z której półki dziecko przyszło — karta ma się czytać jak
+  // zbliżenie na tę samą scenę, a nie przejście do innego ekranu.
+  const region = regionOfAnimal(animal.id);
 
+  return (
+    <RegionBackdrop background={region?.background}>
       <ScrollView
         contentContainerStyle={{
-          paddingTop: 12,
-          paddingBottom: insets.bottom + 24,
+          paddingTop: insets.top + 56,
+          paddingBottom: insets.bottom + 28,
         }}
         showsVerticalScrollIndicator={false}>
-        <AnimalTradingCard
+        <AnimalCard
           animal={animal}
           cardNumber={cardNumber}
-          cardTotal={500}
+          cardTotal={ANIMALS.length}
           discoveredOn={discoveredOn}
         />
       </ScrollView>
-    </View>
+
+      {/* Powrót unosi się nad treścią, jak na półce krainy — pełnego paska
+          nagłówka tu nie ma, bo nazwę niesie tabliczka. */}
+      <Pressable
+        onPress={() => {
+          if (Platform.OS !== 'web') Haptics.selectionAsync();
+          goBack();
+        }}
+        accessibilityRole="button"
+        accessibilityLabel="Wróć do kolekcji"
+        className="w-11 h-11 items-center justify-center rounded-pill"
+        style={{
+          position: 'absolute',
+          top: insets.top + 6,
+          left: 14,
+          backgroundColor: 'rgba(28, 32, 20, 0.42)',
+        }}>
+        <Icon name="arrow-left" size={22} color={UI.onLawn} strokeWidth={2.6} />
+      </Pressable>
+    </RegionBackdrop>
   );
 }

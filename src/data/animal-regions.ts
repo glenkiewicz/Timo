@@ -118,3 +118,12 @@ export const BY_REGION: Record<string, Animal[]> = (() => {
 export function regionById(id: string): AnimalRegion | undefined {
   return ANIMAL_REGIONS.find((r) => r.id === id);
 }
+
+const REGION_OF_ANIMAL: Record<string, AnimalRegion> = Object.fromEntries(
+  ANIMAL_REGIONS.flatMap((r) => BY_REGION[r.id].map((a) => [a.id, r]))
+);
+
+/** Kraina, na której półce stoi zwierzę — każde stoi dokładnie na jednej. */
+export function regionOfAnimal(animalId: string): AnimalRegion | undefined {
+  return REGION_OF_ANIMAL[animalId];
+}

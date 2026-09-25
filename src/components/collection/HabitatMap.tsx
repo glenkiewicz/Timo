@@ -113,16 +113,22 @@ export function HabitatMap({ regions, width = 320 }: Props) {
         alignSelf: 'center',
         borderRadius: 14,
         overflow: 'hidden',
-        backgroundColor: imgError ? UI.sunken : '#f7f3ec',
-        borderWidth: 2,
-        borderColor: UI.line,
+        backgroundColor: UI.pageSlot,
       }}>
-      <Image
-        source={WORLD_MAP}
-        style={{ position: 'absolute', top: 0, left: 0, width, height }}
-        contentFit="cover"
-        onError={() => setImgError(true)}
-      />
+      {/* Mapa to szary ląd na BIAŁYM tle, bez alfy. Mnożenie zamienia biel
+          w papier pod spodem, a ląd ociepla — inaczej na kremowej karcie
+          leżałby biały prostokąt. */}
+      {imgError ? null : (
+        <View
+          style={{ position: 'absolute', top: 0, left: 0, width, height, mixBlendMode: 'multiply' }}>
+          <Image
+            source={WORLD_MAP}
+            style={{ width, height }}
+            contentFit="cover"
+            onError={() => setImgError(true)}
+          />
+        </View>
+      )}
 
       <Svg
         width={width}
@@ -156,7 +162,7 @@ export function HabitatMap({ regions, width = 320 }: Props) {
               fill={COLORS.bandLabel}
               fontWeight="bold"
               textAnchor="middle">
-              🧊  ANTARKTYKA
+              ANTARKTYKA
             </SvgText>
           </G>
         ) : null}
@@ -174,9 +180,7 @@ function MythicalMap({ width, height }: { width: number; height: number }) {
         alignSelf: 'center',
         borderRadius: 14,
         overflow: 'hidden',
-        backgroundColor: '#f4e5c5',
-        borderWidth: 2,
-        borderColor: UI.line,
+        backgroundColor: UI.pageSlot,
       }}>
       <Svg
         width={width}
@@ -217,7 +221,7 @@ function MythicalMap({ width, height }: { width: number; height: number }) {
           fill="#a24d17"
           textAnchor="middle"
           fontWeight="bold">
-          tylko w legendach ✨
+          tylko w legendach
         </SvgText>
       </Svg>
     </View>

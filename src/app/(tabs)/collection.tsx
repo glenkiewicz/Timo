@@ -4,7 +4,12 @@ import { useEffect, useMemo, useState } from 'react';
 import { FlatList, Platform, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { AnimalCircle, RegionIsland, Signpost } from '@/components/collection/map';
+import {
+  AnimalCircle,
+  RegionBackdrop,
+  RegionIsland,
+  Signpost,
+} from '@/components/collection/map';
 import { Icon } from '@/components/ui/Icon';
 import { DEV_UNLOCK_ALL } from '@/config/features';
 import { ILLUSTRATED_ANIMALS } from '@/data/animal-images';
@@ -363,44 +368,5 @@ function RegionShelf({
         )}
       />
     </RegionBackdrop>
-  );
-}
-
-/** Tła regionów to te same pliki, co tła wypraw — `require` chce literałów. */
-const BACKGROUNDS: Record<string, number> = {
-  'bugs-and-worms': require('../../../assets/backgrounds/exp-bugs-and-worms.webp'),
-  'farm-timo': require('../../../assets/backgrounds/exp-farm-timo.webp'),
-  'forest-kids': require('../../../assets/backgrounds/exp-forest-kids.webp'),
-  'green-jungle': require('../../../assets/backgrounds/exp-green-jungle.webp'),
-  'home-pets-friends': require('../../../assets/backgrounds/exp-home-pets-friends.webp'),
-  'ice-land': require('../../../assets/backgrounds/exp-ice-land.webp'),
-  jumpers: require('../../../assets/backgrounds/exp-jumpers.webp'),
-  'savanna-kids': require('../../../assets/backgrounds/exp-savanna-kids.webp'),
-  'scary-animals': require('../../../assets/backgrounds/exp-scary-animals.webp'),
-  swimmers: require('../../../assets/backgrounds/exp-swimmers.webp'),
-  'water-friends': require('../../../assets/backgrounds/exp-water-friends.webp'),
-};
-
-function RegionBackdrop({
-  background,
-  children,
-}: {
-  background?: string;
-  children: React.ReactNode;
-}) {
-  const source = background ? BACKGROUNDS[background] : undefined;
-  return (
-    <View className="flex-1" style={{ backgroundColor: UI.page }}>
-      {source ? (
-        <Image
-          source={source}
-          style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
-          contentFit="cover"
-          transition={0}
-          accessible={false}
-        />
-      ) : null}
-      {children}
-    </View>
   );
 }

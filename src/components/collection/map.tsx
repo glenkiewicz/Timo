@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 
 import { AnimalImage } from '@/components/collection/AnimalImage';
+import { UI } from '@/theme/ui';
 import { Text, View } from '@/tw';
 import { Image } from '@/tw/image';
 
@@ -60,6 +61,53 @@ const PATCH_RATIO: Record<string, number> = {
   savanna: 1.212,
 };
 
+/** Atrament napisów na drewnie i papierze — tabliczka, zwój, panele karty. */
+export const INK = '#4a3726';
+
+/**
+ * Tła krain to te same pliki, co tła wypraw — `require` chce literałów.
+ * Ocean jako jedyny ma własne tło, bez wyprawy o tej nazwie.
+ */
+const BACKGROUNDS: Record<string, number> = {
+  'bugs-and-worms': require('../../../assets/backgrounds/exp-bugs-and-worms.webp'),
+  'farm-timo': require('../../../assets/backgrounds/exp-farm-timo.webp'),
+  'forest-kids': require('../../../assets/backgrounds/exp-forest-kids.webp'),
+  'green-jungle': require('../../../assets/backgrounds/exp-green-jungle.webp'),
+  'home-pets-friends': require('../../../assets/backgrounds/exp-home-pets-friends.webp'),
+  'ice-land': require('../../../assets/backgrounds/exp-ice-land.webp'),
+  jumpers: require('../../../assets/backgrounds/exp-jumpers.webp'),
+  ocean: require('../../../assets/backgrounds/ocean.webp'),
+  'savanna-kids': require('../../../assets/backgrounds/exp-savanna-kids.webp'),
+  'scary-animals': require('../../../assets/backgrounds/exp-scary-animals.webp'),
+  swimmers: require('../../../assets/backgrounds/exp-swimmers.webp'),
+  'water-friends': require('../../../assets/backgrounds/exp-water-friends.webp'),
+};
+
+/** Ekran na tle krainy — półka regionu i karta zwierzęcia. */
+export function RegionBackdrop({
+  background,
+  children,
+}: {
+  background?: string;
+  children: ReactNode;
+}) {
+  const source = background ? BACKGROUNDS[background] : undefined;
+  return (
+    <View className="flex-1" style={{ backgroundColor: UI.page }}>
+      {source ? (
+        <Image
+          source={source}
+          style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+          contentFit="cover"
+          transition={0}
+          accessible={false}
+        />
+      ) : null}
+      {children}
+    </View>
+  );
+}
+
 /** Drewniana tabliczka z nazwą regionu. */
 export function Signpost({ label, width }: { label: string; width: number }) {
   const height = width / RATIO.signpost;
@@ -74,8 +122,10 @@ export function Signpost({ label, width }: { label: string; width: number }) {
       />
       <Text
         numberOfLines={1}
+        adjustsFontSizeToFit
+        minimumFontScale={0.55}
         style={{
-          color: '#4a3726',
+          color: INK,
           fontFamily: 'Gabarito-Bold',
           fontSize: Math.max(11, Math.round(width * 0.085)),
           paddingHorizontal: width * 0.16,
@@ -101,7 +151,7 @@ export function Banner({ text, width }: { text: string; width: number }) {
       <Text
         numberOfLines={1}
         style={{
-          color: '#4a3726',
+          color: INK,
           fontFamily: 'Gabarito-Bold',
           fontSize: Math.round(width * 0.13),
         }}>
