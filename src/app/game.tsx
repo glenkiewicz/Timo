@@ -209,7 +209,6 @@ export default function GameScreen() {
 
           <StatBadge
             tooltipKey="paws"
-            icon="paw"
             from={previousPaws}
             to={paws}
             accent="sky"

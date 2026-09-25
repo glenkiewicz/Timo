@@ -23,9 +23,17 @@ type DockState = {
   /** null = domyślna zieleń z `UI.panel` i białe podpisy. */
   tint: DockTint | null;
   setTint: (tint: DockTint | null) => void;
+  /**
+   * Wysokość doku w punktach. Wysuwany panel (`InfoSheet`) kończy się NAD
+   * dokiem, tak jak w Finchu — dok zostaje widoczny i przejmuje kolor panelu.
+   */
+  height: number;
+  setHeight: (height: number) => void;
 };
 
 export const useDockStore = create<DockState>((set) => ({
   tint: null,
   setTint: (tint) => set({ tint }),
+  height: 0,
+  setHeight: (height) => set({ height }),
 }));

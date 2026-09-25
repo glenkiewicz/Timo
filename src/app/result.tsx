@@ -237,7 +237,6 @@ export default function ResultScreen() {
         <View className="flex-row items-center">
           <StatBadge
             tooltipKey="streak"
-            icon="flame"
             from={previousStreak}
             to={streak}
             accent="fox"
@@ -246,7 +245,6 @@ export default function ResultScreen() {
           />
           <StatBadge
             tooltipKey="paws"
-            icon="paw"
             from={previousPaws}
             to={paws}
             accent="sky"

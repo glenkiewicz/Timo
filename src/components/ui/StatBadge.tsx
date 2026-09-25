@@ -1,5 +1,5 @@
 import * as Haptics from 'expo-haptics';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { Platform } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -11,15 +11,15 @@ import Animated, {
 
 import { AnimatedCounter } from '@/components/gamification/AnimatedCounter';
 import { FloatingDelta } from '@/components/gamification/FloatingDelta';
-import { InfoModal } from '@/components/gamification/InfoModal';
-import { Icon, type IconName } from '@/components/ui/Icon';
-import { TOOLTIPS, type TooltipKey } from '@/data/info-tooltips';
-import { ACCENT, SHADOW, UI, type Accent } from '@/theme/ui';
+import { useInfoSheet } from '@/components/sheet/InfoSheet';
+import { TOOLTIPS, TOOLTIP_ART, type TooltipKey } from '@/data/info-tooltips';
+import { INK } from '@/components/collection/map';
+import { UI, type Accent } from '@/theme/ui';
 import { Pressable, View } from '@/tw';
+import { Image } from '@/tw/image';
 
 type StatBadgeProps = {
   tooltipKey: TooltipKey;
-  icon: IconName;
   from: number;
   to: number;
   accent?: Accent;
@@ -30,18 +30,30 @@ type StatBadgeProps = {
 };
 
 /**
- * Statystyka w górnym pasku — ikona i liczba w białym chipie.
+ * Statystyka w górnym pasku — ilustracja i liczba na pergaminowej pigułce.
  *
- * Chip nie jest ozdobą: pasek leży teraz na ilustracji polany, a sama ikona
- * w kolorze akcentu ginęła na niebie i koronach drzew. Biała pigułka z cieniem
- * `e0` daje jej stałe, spokojne podłoże — tak samo jak Finch trzyma górne
- * sterowanie w białym chipie nad sceną.
+ * Pigułka nie jest ozdobą: pasek leży na ilustracji polany i sama ikona ginęła
+ * na niebie i koronach drzew. Pergamin zamiast białego chipa, bo z tego papieru
+ * są tarcze zwierząt i odznak.
+ *
+ * Ilustracja to TEN SAM obrazek, który wystaje nad wysuwany panel po puknięciu
+ * (`TOOLTIP_ART`) — płomień serii, łapka tropów, kalendarz dni — więc dziecko
+ * łączy licznik z wyjaśnieniem bez czytania. Wcześniej były tu kreskowe ikony
+ * SVG, a dni z Timo pokazywał listek, który nic nie mówił.
  *
  * Puknięcie otwiera wyjaśnienie, a zmiana wartości podbija licznik.
  */
+/**
+ * Pergaminowa pigułka — ta sama tekstura i obszycie, co tarcze kolekcji
+ * i odznak (`generate-map-kit.py pill`). Stała szerokość, bo przerywany obrys
+ * rozciągany do liczby rozjeżdżałby się przy każdej zmianie cyfr.
+ */
+const PILL = require('../../../assets/map/pill.webp');
+const PILL_H = 40;
+const PILL_W = PILL_H * 2.5;
+
 export function StatBadge({
   tooltipKey,
-  icon,
   from,
   to,
   accent = 'fox',
@@ -49,7 +61,7 @@ export function StatBadge({
   durationMs = 900,
   dimWhenZero = false,
 }: StatBadgeProps) {
-  const [open, setOpen] = useState(false);
+  const openSheet = useInfoSheet();
   const delta = to - from;
   const pulse = useSharedValue(1);
 
@@ -70,12 +82,10 @@ export function StatBadge({
 
   const handlePress = useCallback(() => {
     if (Platform.OS !== 'web') Haptics.selectionAsync();
-    setOpen(true);
-  }, []);
+    openSheet({ ...TOOLTIPS[tooltipKey], art: TOOLTIP_ART[tooltipKey], accent });
+  }, [openSheet, tooltipKey, accent]);
 
   const muted = dimWhenZero && to === 0;
-  const iconColor = muted ? UI.textFaint : ACCENT[accent].base;
-  const textColor = muted ? UI.textFaint : ACCENT[accent].deep;
 
   return (
     <View style={{ alignItems: 'center', marginHorizontal: 2 }}>
@@ -85,23 +95,35 @@ export function StatBadge({
           accessibilityRole="button"
           accessibilityLabel={TOOLTIPS[tooltipKey].title}
           style={{
+            width: PILL_W,
+            height: PILL_H,
             flexDirection: 'row',
             alignItems: 'center',
-            gap: 6,
-            paddingHorizontal: 10,
-            paddingVertical: 6,
-            backgroundColor: UI.surface,
-            borderRadius: 999,
-            boxShadow: SHADOW.e0,
+            justifyContent: 'center',
+            gap: 3,
+            paddingRight: 4,
           }}>
-          <Icon name={icon} size={22} color={iconColor} strokeWidth={2.4} />
+          <Image
+            source={PILL}
+            style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+            contentFit="fill"
+            transition={0}
+            accessible={false}
+          />
+          <Image
+            source={TOOLTIP_ART[tooltipKey]}
+            style={{ width: 30, height: 30, opacity: muted ? 0.4 : 1 }}
+            contentFit="contain"
+            transition={0}
+            accessible={false}
+          />
           <AnimatedCounter
             from={from}
             to={to}
             delayMs={delayMs}
             durationMs={durationMs}
             style={{
-              color: textColor,
+              color: muted ? UI.textFaint : INK,
               fontFamily: 'Gabarito-Bold',
               fontSize: 17,
             }}
@@ -116,12 +138,6 @@ export function StatBadge({
           color={delta >= 0 ? UI.primaryDeep : UI.dangerDeep}
         />
       ) : null}
-
-      <InfoModal
-        visible={open}
-        tooltip={TOOLTIPS[tooltipKey]}
-        onClose={() => setOpen(false)}
-      />
     </View>
   );
 }

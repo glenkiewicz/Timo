@@ -23,6 +23,7 @@ import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { InfoSheetProvider } from '@/components/sheet/InfoSheet';
 import { useAuthStore } from '@/lib/stores/auth-store';
 
 SplashScreen.preventAutoHideAsync();
@@ -85,6 +86,9 @@ export default function RootLayout() {
       <EntryRedirect signedIn={signedIn} playing={playing} />
     <SafeAreaProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
+        {/* Wysuwane panele z opisem na ekranach bez doku (gra, wynik).
+            Zakładki mają własny provider, który kończy panel nad dokiem. */}
+        <InfoSheetProvider>
         <Stack screenOptions={{ headerShown: false, animation: 'fade' }}>
           {/* Trasy chronione nie renderują się wcale, dopóki warunek jest
               fałszywy — dzięki temu ekran gry nie mignie przed logowaniem. */}
@@ -105,6 +109,7 @@ export default function RootLayout() {
             <Stack.Screen name="leaderboard" />
           </Stack.Protected>
         </Stack>
+        </InfoSheetProvider>
       </GestureHandlerRootView>
     </SafeAreaProvider>
     </>

@@ -70,8 +70,28 @@ SHEETS = {
   ("night_owl",       "a crescent moon with a small sleepy owl sitting on it"),
   ("early_bird",      "a small yellow chick next to a rising sun"),
  ],
+ # Ikony wysuwanych paneli z opisem (tropy, XP, poziom, zablokowana wyprawa).
+ # Seria, dni, kolekcja i odznaki biorą gotowe ilustracje odznak.
+ "info": [
+  ("paws",   "an orange animal paw print"),
+  ("xp",     "a shiny golden star with small sparkles around it"),
+  ("level",  "a cute smiling orange fox head"),
+  ("lock",   "a closed golden padlock"),
+ ],
+ # Przycisk głosu Timo na Home.
+ "sound": [
+  ("sound_on",  "a round orange loudspeaker with blue sound waves coming out of it"),
+  ("sound_off", "the same round orange loudspeaker with a small red cross next to it and no sound waves"),
+ ],
 }
-COLS = {"a": 3, "b": 3}
+COLS = {"a": 3, "b": 3, "info": 2, "sound": 2}
+# Ikony z zamkniętym otworem (kabłąk kłódki): zalewanie tła idzie od krawędzi
+# i do środka nie dociera, więc otwór zostaje biały. Wycinamy w nich czystą
+# biel zamkniętą w sylwetce — tylko tu, bo kremowe strony kalendarzy czy
+# brzuszki zwierząt w innych ikonach są jasne, ale muszą zostać kryjące.
+HOLES = {"lock"}
+# Dokąd trafiają pocięte ikony — domyślnie odznaki.
+OUT_DIR = {"info": pathlib.Path("assets/icons/info"), "sound": pathlib.Path("assets/icons/info")}
 
 
 def prompt(sheet):
@@ -115,10 +135,11 @@ def generate(sheets):
     tasks = {}
     for s in sheets:
         rows = -(-len(SHEETS[s]) // COLS[s])
-        size = "3:4" if rows == 4 else "1:1"
+        size = "3:4" if rows == 4 else ("16:9" if rows == 1 else "1:1")
+        res = "2k" if len(SHEETS[s]) > 4 else "1k"
         r = call("/images/generations", {
             "model": MODEL, "prompt": prompt(s), "size": size,
-            "resolution": "2k", "n": 1, "reference_images": [STYLE_REF]}, k)
+            "resolution": res, "n": 1, "reference_images": [STYLE_REF]}, k)
         tasks[s] = r["id"]; print(f"  wyslano  arkusz {s}  {r['id']}", flush=True)
     t0 = time.time()
     while tasks and time.time() - t0 < 1200:
@@ -137,8 +158,9 @@ def generate(sheets):
 
 
 def cut(sheets):
-    OUT.mkdir(parents=True, exist_ok=True)
     for s in sheets:
+        out = OUT_DIR.get(s, OUT)
+        out.mkdir(parents=True, exist_ok=True)
         items = SHEETS[s]
         rgb = np.asarray(Image.open(RAW / f"sheet-{s}.png").convert("RGB")).astype(np.uint8)
         # Nie `foreground`: ten zostawia tylko NAJWIĘKSZY kształt (jedna ikona
@@ -151,34 +173,59 @@ def cut(sheets):
         glue = cv2.dilate(mask, np.ones((3, 3), np.uint8), iterations=max(4, w // 120))
         n, lab, stats, cent = cv2.connectedComponentsWithStats(glue)
         comps = [i for i in range(1, n) if stats[i, cv2.CC_STAT_AREA] > (w * h) * 0.004]
-        if len(comps) != len(items):
-            print(f"  arkusz {s}: {len(comps)} obszarow zamiast {len(items)} — nie tne")
+        groups = [[i] for i in comps]
+        if len(groups) > len(items):
+            # Odpryski stojące dalej niż sięga klej (iskierki wokół gwiazdy)
+            # łączymy po komórce siatki, w której leży ich środek.
+            cols = COLS[s]
+            rows_n = -(-len(items) // cols)
+            cells = {}
+            for i in comps:
+                c = (int(cent[i][1] // (h / rows_n)), int(cent[i][0] // (w / cols)))
+                cells.setdefault(c, []).append(i)
+            groups = list(cells.values())
+        if len(groups) != len(items):
+            print(f"  arkusz {s}: {len(groups)} obszarow zamiast {len(items)} — nie tne")
             continue
+
+        def centre(g):
+            ys, xs = np.nonzero(np.isin(lab, g))
+            return xs.mean(), ys.mean()
+        gc = [centre(g) for g in groups]
         # Kolejność wierszami: grupujemy po wysokości środka, w wierszu po x.
-        comps.sort(key=lambda i: cent[i][1])
-        rows, row = [], [comps[0]]
-        for i in comps[1:]:
-            if abs(cent[i][1] - cent[row[0]][1]) < h * 0.08:
-                row.append(i)
+        idx = sorted(range(len(groups)), key=lambda k: gc[k][1])
+        rows, row = [], [idx[0]]
+        for k in idx[1:]:
+            if abs(gc[k][1] - gc[row[0]][1]) < h * 0.08:
+                row.append(k)
             else:
-                rows.append(row); row = [i]
+                rows.append(row); row = [k]
         rows.append(row)
-        order = [i for r in rows for i in sorted(r, key=lambda i: cent[i][0])]
+        order = [groups[k] for r in rows for k in sorted(r, key=lambda k: gc[k][0])]
 
         inner = cv2.erode(mask, K3, iterations=1)
         grown = cv2.inpaint(rgb, (mask - inner).astype(np.uint8), 3, cv2.INPAINT_TELEA)
-        for (bid, _), ci in zip(items, order):
-            x, y, bw, bh = stats[ci, :4]
-            region = (lab[y:y + bh, x:x + bw] == ci)
+        for (bid, _), g in zip(items, order):
+            region_full = np.isin(lab, g)
+            ys, xs = np.nonzero(region_full)
+            y, x, bh, bw = ys.min(), xs.min(), ys.max() - ys.min() + 1, xs.max() - xs.min() + 1
+            region = region_full[y:y + bh, x:x + bw]
             alpha = (inner[y:y + bh, x:x + bw] * region * 255).astype(np.uint8)
+            if bid in HOLES:
+                crop = rgb[y:y + bh, x:x + bw].astype(int)
+                white = (crop.min(axis=2) >= 246).astype(np.uint8)
+                k, hl, hs, _ = cv2.connectedComponentsWithStats(white)
+                for j in range(1, k):
+                    if hs[j, cv2.CC_STAT_AREA] > bw * bh * 0.01:
+                        alpha[cv2.dilate((hl == j).astype(np.uint8), K3, iterations=2) > 0] = 0
             im = Image.fromarray(np.dstack([grown[y:y + bh, x:x + bw], alpha]), "RGBA")
             im = im.crop(im.getbbox())
             side = int(SIZE * 0.9)
             r = max(im.width, im.height)
             im = im.resize((round(im.width * side / r), round(im.height * side / r)), Image.LANCZOS)
-            out = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
-            out.paste(im, ((SIZE - im.width) // 2, (SIZE - im.height) // 2), im)
-            out.save(OUT / f"{bid}.png", optimize=True)
+            canvas = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
+            canvas.paste(im, ((SIZE - im.width) // 2, (SIZE - im.height) // 2), im)
+            canvas.save(out / f"{bid}.png", optimize=True)
         print(f"  arkusz {s}: pociete {len(items)} ikon (prog {t}, {w}x{h})")
 
 

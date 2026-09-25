@@ -11,11 +11,11 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { Icon, type IconName } from '@/components/ui/Icon';
-import { TOOLTIPS, type TooltipKey } from '@/data/info-tooltips';
+import { useInfoSheet } from '@/components/sheet/InfoSheet';
+import { TOOLTIPS, TOOLTIP_ART, type TooltipKey } from '@/data/info-tooltips';
 import { ACCENT, UI, type Accent } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
 
-import { InfoModal } from '../gamification/InfoModal';
 
 type RewardTileProps = {
   tooltipKey: TooltipKey;
@@ -63,7 +63,7 @@ export function RewardTile({
   label,
   prefix = '+',
 }: RewardTileProps) {
-  const [open, setOpen] = useState(false);
+  const openSheet = useInfoSheet();
   const enter = useSharedValue(0);
   const countValue = useCountUp(value, 750, delay + 80);
   const a = ACCENT[accent];
@@ -94,7 +94,7 @@ export function RewardTile({
         <Pressable
           onPress={() => {
             if (Platform.OS !== 'web') Haptics.selectionAsync();
-            setOpen(true);
+            openSheet({ ...TOOLTIPS[tooltipKey], art: TOOLTIP_ART[tooltipKey], accent });
           }}
           accessibilityRole="button"
           accessibilityLabel={`${label ?? ''} ${prefix}${value}`}>
@@ -134,12 +134,6 @@ export function RewardTile({
           </View>
         </Pressable>
       </Animated.View>
-
-      <InfoModal
-        visible={open}
-        tooltip={TOOLTIPS[tooltipKey]}
-        onClose={() => setOpen(false)}
-      />
     </View>
   );
 }

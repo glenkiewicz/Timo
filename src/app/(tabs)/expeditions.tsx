@@ -1,15 +1,17 @@
 import { useRouter } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ExpeditionIcon } from '@/components/expeditions/ExpeditionIcon';
-import { InfoModal } from '@/components/gamification/InfoModal';
+import { useInfoSheet } from '@/components/sheet/InfoSheet';
 import { Card } from '@/components/ui/Card';
 import { Icon } from '@/components/ui/Icon';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { DEV_UNLOCK_ALL } from '@/config/features';
+import { EXPEDITION_ICONS } from '@/data/expedition-icons';
+import { LOCK_ART } from '@/data/info-tooltips';
 import {
   EXPEDITIONS,
   SHOW_EXPERT_EXPEDITIONS,
@@ -49,11 +51,7 @@ export default function ExpeditionsScreen() {
   const chooseExpedition = useProfileStore((s) => s.chooseExpedition);
   const startGame = useGameStore((s) => s.start);
 
-  const [info, setInfo] = useState<{
-    emoji: string;
-    title: string;
-    description: string;
-  } | null>(null);
+  const openSheet = useInfoSheet();
 
   /** Lista wypraw widoczna w UI — guided + opcjonalnie expert (za feature flagiem). */
   const visibleExpeditions = useMemo(
@@ -86,8 +84,9 @@ export default function ExpeditionsScreen() {
 
   const launchIfAvailable = (e: Expedition, status: CardStatus) => {
     if (status === 'locked') {
-      setInfo({
-        emoji: '🔒',
+      openSheet({
+        art: LOCK_ART,
+        accent: 'sky',
         title: 'Wyprawa zablokowana',
         description:
           'Wyprawy odkrywasz przez Wyprawę Dnia. Codziennie Timo wybiera nowe propozycje. Może jutro trafisz właśnie na tę!',
@@ -95,8 +94,9 @@ export default function ExpeditionsScreen() {
       return;
     }
     if (status === 'completed') {
-      setInfo({
-        emoji: e.hero_emoji,
+      openSheet({
+        art: EXPEDITION_ICONS[e.id],
+        accent: 'sky',
         title: `${e.title} — ukończona!`,
         description: `${e.description_pl}\n\nWróć do niej, gdy znów pojawi się jako Wyprawa Dnia.`,
       });
@@ -167,12 +167,6 @@ export default function ExpeditionsScreen() {
             );
           })}
       </ScrollView>
-
-      <InfoModal
-        visible={!!info}
-        tooltip={info ?? { emoji: '', title: '', description: '' }}
-        onClose={() => setInfo(null)}
-      />
     </View>
   );
 }

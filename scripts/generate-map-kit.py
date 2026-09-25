@@ -99,6 +99,13 @@ PIECES = {
  "slot": (STYLE + "An empty circular slot for a sticker: a circle of sandy beige paper "
           "slightly darker than parchment, outlined with a dashed brown line, the inside "
           "empty and flat." + ALPHA, "1:1"),
+
+ # Pigułka statystyk na Home, grze i wyniku — ta sama tekstura co `slot`,
+ # tylko rozciągnięta w stadion, żeby liczniki leżały na tym samym papierze.
+ "pill": (STYLE + "An empty horizontal pill-shaped slot (a long rounded capsule, about "
+          "three times wider than tall) made of sandy beige paper slightly darker than "
+          "parchment, outlined with a dashed brown line running evenly along the edge, the "
+          "inside empty and flat." + ALPHA, "16:9"),
 }
 
 

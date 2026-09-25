@@ -1,10 +1,10 @@
 import * as Haptics from 'expo-haptics';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Platform, ScrollView, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { BadgeDisc } from '@/components/badges/BadgeDisc';
-import { InfoModal } from '@/components/gamification/InfoModal';
+import { useInfoSheet } from '@/components/sheet/InfoSheet';
 import { BADGE_ART } from '@/data/badge-art';
 import { BADGES, BADGE_GROUPS, type BadgeDef } from '@/data/badges';
 import { useProfileStore } from '@/lib/stores/profile-store';
@@ -14,8 +14,6 @@ import { Image } from '@/tw/image';
 
 const COLUMNS = 3;
 const GUTTER = 16;
-
-type Tip = { title: string; description: string; art?: number };
 
 /**
  * Odznaki w języku kolekcji: wyprane tło, tytuł z paskiem postępu, a każda
@@ -31,7 +29,7 @@ export default function BadgesScreen() {
   const badges = useProfileStore((s) => s.badges);
   const unlocked = useMemo(() => new Set(badges), [badges]);
 
-  const [tip, setTip] = useState<Tip | null>(null);
+  const openSheet = useInfoSheet();
 
   const groups = useMemo(
     () =>
@@ -94,7 +92,15 @@ export default function BadgesScreen() {
             <GroupHeader
               label={g.label}
               count={`${g.items.filter((b) => unlocked.has(b.id)).length}/${g.items.length}`}
-              onHint={() => setTip({ title: g.label, description: g.hint })}
+              onHint={() =>
+                openSheet({
+                  title: g.label,
+                  description: g.hint,
+                  // Grupa pokazuje swoją pierwszą odznakę — to jej „herb”.
+                  art: BADGE_ART[g.items[0].id],
+                  accent: 'gold',
+                })
+              }
             />
             <View className="flex-row flex-wrap" style={{ paddingHorizontal: GUTTER }}>
               {g.items.map((b) => (
@@ -104,7 +110,12 @@ export default function BadgesScreen() {
                   unlocked={unlocked.has(b.id)}
                   width={cell}
                   onPress={() =>
-                    setTip({ title: b.label_pl, description: b.description_pl, art: BADGE_ART[b.id] })
+                    openSheet({
+                      title: b.label_pl,
+                      description: b.description_pl,
+                      art: BADGE_ART[b.id],
+                      accent: 'gold',
+                    })
                   }
                 />
               ))}
@@ -112,13 +123,6 @@ export default function BadgesScreen() {
           </View>
         ))}
       </ScrollView>
-
-      <InfoModal
-        visible={!!tip}
-        tooltip={{ emoji: '', title: tip?.title ?? '', description: tip?.description ?? '' }}
-        art={tip?.art}
-        onClose={() => setTip(null)}
-      />
     </View>
   );
 }

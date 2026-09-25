@@ -12,6 +12,7 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { StreakCelebration } from '@/components/gamification/StreakCelebration';
+import { InfoSheetProvider } from '@/components/sheet/InfoSheet';
 import { useDailyCheckIn } from '@/features/gamification/useDailyCheckIn';
 import { useDockStore } from '@/lib/stores/dock-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
@@ -120,10 +121,12 @@ function TabItem({
 
 function AppTabBar({ state, navigation }: BottomTabBarProps) {
   const tint = useDockStore((s) => s.tint);
+  const setHeight = useDockStore((s) => s.setHeight);
   const insets = useSafeAreaInsets();
 
   return (
     <View
+      onLayout={(e) => setHeight(e.nativeEvent.layout.height)}
       className="flex-row px-2 pt-2"
       style={{
         // Ekran, który wypełnia sobą tło, podaje własny kolor doku — jedna
@@ -175,7 +178,7 @@ export default function TabsLayout() {
   const dismiss = useProfileStore((s) => s.dismissStreakCelebration);
 
   return (
-    <>
+    <InfoSheetProvider aboveDock>
       <Tabs
         initialRouteName="index"
         screenOptions={{ headerShown: false }}
@@ -192,6 +195,6 @@ export default function TabsLayout() {
         bonusPaws={celebration?.bonusPaws ?? 0}
         onClose={dismiss}
       />
-    </>
+    </InfoSheetProvider>
   );
 }

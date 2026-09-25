@@ -50,3 +50,19 @@ export const TOOLTIPS = {
 } as const satisfies Record<string, TooltipDef>;
 
 export type TooltipKey = keyof typeof TOOLTIPS;
+
+/**
+ * Ilustracje do wysuwanych paneli z opisem. Seria, dni, kolekcja i odznaki
+ * biorą gotowe rysunki odznak — ten sam obiekt znaczy w aplikacji to samo.
+ */
+export const TOOLTIP_ART: Record<TooltipKey, number> = {
+  paws: require('../../assets/icons/info/paws.png'),
+  xp: require('../../assets/icons/info/xp.png'),
+  level: require('../../assets/icons/info/level.png'),
+  streak: require('../../assets/badges/streak_3.png'),
+  daily_streak: require('../../assets/badges/daily_streak_7.png'),
+  collection: require('../../assets/badges/collector_25.png'),
+  badges: require('../../assets/badges/streak_10.png'),
+};
+
+export const LOCK_ART: number = require('../../assets/icons/info/lock.png');

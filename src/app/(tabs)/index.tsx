@@ -13,7 +13,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AnimatedCounter } from '@/components/gamification/AnimatedCounter';
 import { LeaderboardCard } from '@/components/leaderboard/LeaderboardCard';
 import { FloatingDelta } from '@/components/gamification/FloatingDelta';
-import { InfoModal } from '@/components/gamification/InfoModal';
+import { INK, SlotDisc } from '@/components/collection/map';
+import { useInfoSheet } from '@/components/sheet/InfoSheet';
 import { ExpeditionIcon } from '@/components/expeditions/ExpeditionIcon';
 import { SceneBackdrop, TimoStage, sceneBaseColor } from '@/components/timo/TimoStage';
 import { Button } from '@/components/ui/Button';
@@ -22,7 +23,7 @@ import { Icon } from '@/components/ui/Icon';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { StatBadge } from '@/components/ui/StatBadge';
 import { EXPEDITIONS_BY_ID } from '@/data/expeditions';
-import { TOOLTIPS } from '@/data/info-tooltips';
+import { TOOLTIPS, TOOLTIP_ART } from '@/data/info-tooltips';
 import { pickGreeting } from '@/data/timo-lines';
 import { levelFromXp, xpProgress } from '@/features/gamification/award';
 import { useWeeklyScoreSync } from '@/features/leaderboard/useWeeklyScoreSync';
@@ -31,8 +32,12 @@ import { SHOW_HOME_LEADERBOARD } from '@/config/features';
 import { timoVoice } from '@/lib/audio/timo-voice';
 import { useGameStore } from '@/lib/stores/game-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
-import { SHADOW, UI } from '@/theme/ui';
+import { UI } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
+import { Image } from '@/tw/image';
+
+const SOUND_ON = require('../../../assets/icons/info/sound_on.png');
+const SOUND_OFF = require('../../../assets/icons/info/sound_off.png');
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -94,7 +99,7 @@ export default function HomeScreen() {
     return () => clearTimeout(t);
   }, [lastReward, clearLastReward]);
 
-  const [levelInfoOpen, setLevelInfoOpen] = useState(false);
+  const openSheet = useInfoSheet();
 
   // Linia gruntu polany: mierzona z pozycji Timo, bo zależy od wysokości paska
   // statystyk (insets.top), paska XP i liczby linijek dymka. Patrz TimoStage.
@@ -133,7 +138,6 @@ export default function HomeScreen() {
         <View className="flex-row items-center">
           <StatBadge
             tooltipKey="streak"
-            icon="flame"
             from={previousStreak}
             to={streak}
             accent="fox"
@@ -142,7 +146,6 @@ export default function HomeScreen() {
           />
           <StatBadge
             tooltipKey="paws"
-            icon="paw"
             from={previousPaws}
             to={paws}
             accent="sky"
@@ -150,7 +153,6 @@ export default function HomeScreen() {
           {dailyStreak > 0 ? (
             <StatBadge
               tooltipKey="daily_streak"
-              icon="leaf"
               from={dailyStreak}
               to={dailyStreak}
               accent="primary"
@@ -163,16 +165,18 @@ export default function HomeScreen() {
           onPress={() => setAudioMuted(!audioMuted)}
           accessibilityRole="button"
           accessibilityLabel={audioMuted ? 'Włącz głos Timo' : 'Wycisz głos Timo'}
-          className="w-11 h-11 items-center justify-center rounded-pill"
-          // Biały chip z cieniem, jak przy StatBadge — przycisk leży na
-          // ilustracji, a dotychczasowe `sunken` się z nią zlewało.
-          style={{ backgroundColor: UI.surface, boxShadow: SHADOW.e0 }}>
-          <Icon
-            name={audioMuted ? 'sound-off' : 'sound-on'}
-            size={21}
-            color={audioMuted ? UI.textFaint : UI.textSoft}
-            strokeWidth={2.4}
-          />
+          style={({ pressed }) => ({ transform: [{ scale: pressed ? 0.94 : 1 }] })}>
+          {/* Ta sama tarcza, co zwierzęta i odznaki, pod tym samym papierem
+              co pigułki obok — wcześniej był tu biały chip z kreskową ikoną. */}
+          <SlotDisc size={46}>
+            <Image
+              source={audioMuted ? SOUND_OFF : SOUND_ON}
+              style={{ flex: 1 }}
+              contentFit="contain"
+              transition={0}
+              accessible={false}
+            />
+          </SlotDisc>
         </Pressable>
       </View>
 
@@ -185,31 +189,26 @@ export default function HomeScreen() {
         }}>
         {/* ---------- poziom + pasek XP ---------- */}
         <Pressable
-          onPress={() => setLevelInfoOpen(true)}
+          onPress={() => openSheet({ ...TOOLTIPS.level, art: TOOLTIP_ART.level, accent: 'primary' })}
           accessibilityRole="button"
           accessibilityLabel={`Poziom ${level}, ${title}`}
           className="flex-row items-center gap-3">
           <View style={{ alignItems: 'center' }}>
             <Animated.View style={avatarStyle}>
-              <View
-                className="w-14 h-14 items-center justify-center rounded-pill"
-                style={{
-                  backgroundColor: UI.primaryPale,
-                  borderWidth: 3,
-                  borderColor: UI.primary,
-                }}>
-                <AnimatedCounter
-                  from={previousLevel}
-                  to={level}
-                  durationMs={700}
-                  delayMs={200}
-                  style={{
-                    color: UI.primaryDeep,
-                    fontFamily: 'Gabarito-Bold',
-                    fontSize: 20,
-                  }}
-                />
-              </View>
+              {/* Numer poziomu na tej samej tarczy, co głośnik i odznaki —
+                  turkusowe kółko z UI 3.0 było ostatnim elementem paska
+                  w starym stylu. */}
+              <SlotDisc size={58}>
+                <View className="flex-1 items-center justify-center">
+                  <AnimatedCounter
+                    from={previousLevel}
+                    to={level}
+                    durationMs={700}
+                    delayMs={200}
+                    style={{ color: INK, fontFamily: 'Gabarito-Bold', fontSize: 22 }}
+                  />
+                </View>
+              </SlotDisc>
             </Animated.View>
             {levelUp ? (
               <FloatingDelta
@@ -248,13 +247,6 @@ export default function HomeScreen() {
             />
           </View>
         </Pressable>
-
-        <InfoModal
-          visible={levelInfoOpen}
-          tooltip={TOOLTIPS.level}
-          onClose={() => setLevelInfoOpen(false)}
-        />
-
         {/* ---------- ranking tygodnia ----------
             Schowany na czas przebudowy wizualnej (SHOW_HOME_LEADERBOARD).
             Sama synchronizacja wyniku leci wyżej, przez useWeeklyScoreSync. */}
