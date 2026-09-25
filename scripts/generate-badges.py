@@ -83,15 +83,22 @@ SHEETS = {
   ("sound_on",  "a round orange loudspeaker with blue sound waves coming out of it"),
   ("sound_off", "the same round orange loudspeaker with a small red cross next to it and no sound waves"),
  ],
+ # Trzy kroki gry na ekranie startowym dla dziecka, które gra pierwszy raz.
+ "steps": [
+  ("think",  "a soft white thought bubble cloud with a small orange paw print inside it"),
+  ("answer", "two big round buttons side by side, a green one with a white check mark and a red one with a white cross"),
+  ("guess",  "a golden magnifying glass with a small sparkle on the glass"),
+ ],
 }
-COLS = {"a": 3, "b": 3, "info": 2, "sound": 2}
+COLS = {"a": 3, "b": 3, "info": 2, "sound": 2, "steps": 3}
 # Ikony z zamkniętym otworem (kabłąk kłódki): zalewanie tła idzie od krawędzi
 # i do środka nie dociera, więc otwór zostaje biały. Wycinamy w nich czystą
 # biel zamkniętą w sylwetce — tylko tu, bo kremowe strony kalendarzy czy
 # brzuszki zwierząt w innych ikonach są jasne, ale muszą zostać kryjące.
 HOLES = {"lock"}
 # Dokąd trafiają pocięte ikony — domyślnie odznaki.
-OUT_DIR = {"info": pathlib.Path("assets/icons/info"), "sound": pathlib.Path("assets/icons/info")}
+OUT_DIR = {"info": pathlib.Path("assets/icons/info"), "sound": pathlib.Path("assets/icons/info"),
+           "steps": pathlib.Path("assets/icons/start")}
 
 
 def prompt(sheet):

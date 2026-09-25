@@ -36,7 +36,8 @@ export default function ProfilesScreen() {
   const enter = async (id: string) => {
     selectProfile(id);
     await hydrateFromServer(id);
-    router.replace('/(tabs)');
+    // Przez ekran startowy — nowe dziecko też ma sam powiedzieć „Gramy!”.
+    router.replace('/start');
   };
 
   const handleCreate = async () => {

@@ -25,6 +25,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { InfoSheetProvider } from '@/components/sheet/InfoSheet';
 import { useAuthStore } from '@/lib/stores/auth-store';
+import { useStartSeen } from '@/lib/stores/session-store';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -49,6 +50,7 @@ export default function RootLayout() {
   const initializing = useAuthStore((s) => s.initializing);
   const session = useAuthStore((s) => s.session);
   const activeProfileId = useAuthStore((s) => s.activeProfileId);
+  const startSeen = useStartSeen(activeProfileId);
 
   useEffect(() => init(), [init]);
 
@@ -83,7 +85,7 @@ export default function RootLayout() {
 
   return (
     <>
-      <EntryRedirect signedIn={signedIn} playing={playing} />
+      <EntryRedirect signedIn={signedIn} playing={playing} startSeen={startSeen} />
     <SafeAreaProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
         {/* Wysuwane panele z opisem na ekranach bez doku (gra, wynik).
@@ -100,7 +102,15 @@ export default function RootLayout() {
             <Stack.Screen name="profiles" />
           </Stack.Protected>
 
-          <Stack.Protected guard={playing}>
+          {/* Ekran startowy przy KAŻDYM uruchomieniu, jak ekran tytułowy
+              w grach. Dopóki dziecko nie stuknie „Gramy!”, reszta gry jest
+              zamknięta — Menu nie montuje się pod spodem, więc Timo nie
+              zacznie mówić, zanim dziecko samo zacznie. */}
+          <Stack.Protected guard={playing && !startSeen}>
+            <Stack.Screen name="start" />
+          </Stack.Protected>
+
+          <Stack.Protected guard={playing && startSeen}>
             <Stack.Screen name="(tabs)" />
             <Stack.Screen name="game" />
             <Stack.Screen name="result" />
@@ -130,9 +140,11 @@ export default function RootLayout() {
 function EntryRedirect({
   signedIn,
   playing,
+  startSeen,
 }: {
   signedIn: boolean;
   playing: boolean;
+  startSeen: boolean;
 }) {
   const router = useRouter();
   const segments = useSegments();
@@ -150,8 +162,12 @@ function EntryRedirect({
       if (!onProfiles) router.replace('/profiles');
       return;
     }
-    if (inAuth || onProfiles) router.replace('/(tabs)');
-  }, [signedIn, playing, segments, router]);
+    if (!startSeen) {
+      if (first !== 'start') router.replace('/start');
+      return;
+    }
+    if (inAuth || onProfiles || first === 'start') router.replace('/(tabs)');
+  }, [signedIn, playing, startSeen, segments, router]);
 
   return null;
 }

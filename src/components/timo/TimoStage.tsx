@@ -283,9 +283,11 @@ type TimoStageProps = {
   children?: ReactNode;
   /** Zwraca odległość linii gruntu od góry ekranu (w punktach). */
   onGroundY?: (y: number) => void;
+  /** Wysokość pasa z liskiem; ekran startowy pokazuje go większego niż Menu. */
+  height?: number;
 };
 
-export function TimoStage({ children, onGroundY }: TimoStageProps) {
+export function TimoStage({ children, onGroundY, height = BAND_HEIGHT }: TimoStageProps) {
   const bandRef = useRef<RNView>(null);
 
   const handleLayout = useCallback(() => {
@@ -302,13 +304,13 @@ export function TimoStage({ children, onGroundY }: TimoStageProps) {
       <RNView
         ref={bandRef}
         onLayout={handleLayout}
-        style={{ height: BAND_HEIGHT, alignItems: 'center' }}>
+        style={{ height, alignItems: 'center' }}>
         {/* Bez `offsetX`: nowy kadr jest cięty symetrycznie względem korpusu
             (margines 63 px z lewej, 65 z prawej), więc lisek jest już
             wyśrodkowany. Poprzedni klip wymagał korekty, bo przycinałem go
             do zasięgu WSZYSTKICH klatek, a ten sięgał dalej w lewo przez
             podniesioną łapkę. */}
-        <TimoAnimated clip="idle" height={BAND_HEIGHT} />
+        <TimoAnimated clip="idle" height={height} />
       </RNView>
     </RNView>
   );
