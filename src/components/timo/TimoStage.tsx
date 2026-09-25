@@ -271,6 +271,11 @@ function resolveScene(scene: SceneName, expeditionId?: string | null): Scene {
  * klatce — `SceneBackdrop` nie rysuje niczego, dopóki `TimoStage` nie zmierzy
  * linii gruntu, więc inaczej mignęłaby zieleń, zanim pojawi się plaża.
  */
+/** Samo tło sceny — dla ekranów, które kładą je bez liska na linii gruntu. */
+export function sceneSource(scene: SceneName, expeditionId?: string | null): number {
+  return resolveScene(scene, expeditionId).source;
+}
+
 export function sceneBaseColor(scene: SceneName, expeditionId?: string | null): string {
   return resolveScene(scene, expeditionId).base;
 }
