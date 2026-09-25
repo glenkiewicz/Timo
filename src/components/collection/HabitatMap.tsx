@@ -26,19 +26,46 @@ const COLORS = {
   bandFill: 'rgba(232,138,60,0.35)',
 };
 
-/** Centroidy regionów w przestrzeni viewBox 1920×1152. */
-const REGION_CENTERS: Partial<Record<MapRegion, { x: number; y: number }>> = {
-  'america-n': { x: 380, y: 400 },
-  'america-s': { x: 610, y: 860 },
-  europa: { x: 1010, y: 360 },
-  polska: { x: 1075, y: 380 },
-  'africa-north': { x: 1060, y: 560 },
-  'africa-sub': { x: 1100, y: 780 },
-  'asia-cent': { x: 1450, y: 400 },
-  'asia-east': { x: 1640, y: 470 },
-  'asia-se': { x: 1620, y: 720 },
-  australia: { x: 1700, y: 870 },
-  arctic: { x: 700, y: 130 },
+type Point = { x: number; y: number };
+
+/**
+ * Markery regionów w przestrzeni viewBox 1920×1152 — sprawdzone na
+ * `world-map.jpg` (kropka ląduje na lądzie danego regionu, oceany na wodzie).
+ * Pacyfik jest na obu krawędziach mapy, więc ma dwa punkty.
+ */
+const REGION_MARKERS: Partial<Record<MapRegion, Point[]>> = {
+  'america-n': [{ x: 380, y: 400 }],
+  'america-c': [{ x: 420, y: 590 }],
+  'america-s': [{ x: 630, y: 800 }],
+  europa: [{ x: 970, y: 425 }],
+  'africa-north': [{ x: 990, y: 585 }],
+  'africa-sub': [{ x: 1040, y: 745 }],
+  madagascar: [{ x: 1132, y: 815 }],
+  'asia-west': [{ x: 1180, y: 590 }],
+  'asia-south': [{ x: 1285, y: 625 }],
+  'asia-cent': [{ x: 1420, y: 390 }],
+  'asia-east': [{ x: 1480, y: 520 }],
+  'asia-se': [{ x: 1440, y: 690 }],
+  'new-guinea': [{ x: 1590, y: 735 }],
+  australia: [{ x: 1550, y: 870 }],
+  'new-zealand': [{ x: 1740, y: 960 }],
+  arctic: [{ x: 700, y: 130 }],
+  atlantic: [
+    { x: 730, y: 500 },
+    { x: 820, y: 880 },
+  ],
+  'pacific-e': [{ x: 220, y: 650 }],
+  'pacific-w': [{ x: 1850, y: 560 }],
+  indian: [{ x: 1380, y: 820 }],
+};
+
+const POLSKA: Point = { x: 1045, y: 395 };
+
+/** Regiony, które rozwijają się w kilka innych. */
+const EXPANSIONS: Partial<Record<MapRegion, MapRegion[]>> = {
+  pacific: ['pacific-e', 'pacific-w'],
+  oceans: ['atlantic', 'pacific-e', 'pacific-w', 'indian'],
+  worldwide: ['america-n', 'america-s', 'europa', 'africa-sub', 'asia-south', 'asia-east', 'australia'],
 };
 
 type MarkerProps = {
@@ -70,39 +97,13 @@ export function HabitatMap({ regions, width = 320 }: Props) {
     return <MythicalMap width={width} height={height} />;
   }
 
-  const pointRegions: MapRegion[] = [
-    'america-n',
-    'america-s',
-    'europa',
-    'africa-north',
-    'africa-sub',
-    'asia-cent',
-    'asia-east',
-    'asia-se',
-    'australia',
-    'arctic',
-  ];
-
-  // Polska to punkt wewnątrz Europy — gdy aktywna, tłumimy marker Europy.
-  // Analogicznie tłumimy podregiony zawarte w "większym" markerze.
-  // Worldwide rysuje markery na wszystkich zamieszkałych kontynentach —
-  // wtedy tłumimy pojedyncze regiony, żeby nie dublować kropek.
-  const suppress = new Set<MapRegion>();
-  if (active.has('polska')) suppress.add('europa');
-  if (active.has('africa-sub')) suppress.add('africa-north');
-  if (active.has('asia-east')) suppress.add('asia-cent');
-  if (active.has('worldwide')) {
-    for (const r of pointRegions) suppress.add(r);
+  // Rozwijamy zbiorcze regiony do pojedynczych markerów (Set usuwa dublety).
+  const markers = new Set<MapRegion>();
+  for (const r of regions) {
+    for (const x of EXPANSIONS[r] ?? [r]) markers.add(x);
   }
-
-  const worldwideRegions: MapRegion[] = [
-    'america-n',
-    'america-s',
-    'europa',
-    'africa-sub',
-    'asia-east',
-    'australia',
-  ];
+  // Polska to czerwony punkt wewnątrz Europy — marker Europy by się z nim nakładał.
+  if (active.has('polska')) markers.delete('europa');
 
   return (
     <View
@@ -129,23 +130,14 @@ export function HabitatMap({ regions, width = 320 }: Props) {
         viewBox={`0 0 ${MAP_W} ${MAP_H}`}
         preserveAspectRatio="xMidYMid meet"
         style={{ position: 'absolute', top: 0, left: 0 }}>
-        {pointRegions.map((r) => {
-          if (!active.has(r) || suppress.has(r)) return null;
-          const c = REGION_CENTERS[r];
-          if (!c) return null;
-          return <Marker key={r} cx={c.x} cy={c.y} />;
-        })}
-
-        {active.has('worldwide')
-          ? worldwideRegions.map((r) => {
-              const c = REGION_CENTERS[r];
-              if (!c) return null;
-              return <Marker key={`ww-${r}`} cx={c.x} cy={c.y} />;
-            })
-          : null}
+        {Array.from(markers).flatMap((r) =>
+          (REGION_MARKERS[r] ?? []).map((c, i) => (
+            <Marker key={`${r}-${i}`} cx={c.x} cy={c.y} />
+          )),
+        )}
 
         {active.has('polska') ? (
-          <Marker cx={REGION_CENTERS.polska!.x} cy={REGION_CENTERS.polska!.y} color={COLORS.polskaFill} />
+          <Marker cx={POLSKA.x} cy={POLSKA.y} color={COLORS.polskaFill} />
         ) : null}
 
         {active.has('antarctica') ? (
@@ -164,17 +156,8 @@ export function HabitatMap({ regions, width = 320 }: Props) {
               fill={COLORS.bandLabel}
               fontWeight="bold"
               textAnchor="middle">
-              🧊  ANTARKTYDA
+              🧊  ANTARKTYKA
             </SvgText>
-          </G>
-        ) : null}
-
-        {active.has('oceans') ? (
-          <G>
-            <Marker cx={300} cy={500} />
-            <Marker cx={1380} cy={400} />
-            <Marker cx={450} cy={950} />
-            <Marker cx={1450} cy={950} />
           </G>
         ) : null}
       </Svg>
@@ -241,26 +224,44 @@ function MythicalMap({ width, height }: { width: number; height: number }) {
   );
 }
 
+/** Kolejność i nazwy w podpisie pod mapą. */
+const REGION_LABELS: [MapRegion, string][] = [
+  ['europa', 'Europa'],
+  ['africa-north', 'Afryka Pn.'],
+  ['africa-sub', 'Afryka'],
+  ['madagascar', 'Madagaskar'],
+  ['asia-west', 'Bliski Wschód'],
+  ['asia-cent', 'Azja Pn. i Środk.'],
+  ['asia-south', 'Indie i Azja Pd.'],
+  ['asia-east', 'Azja Wsch.'],
+  ['asia-se', 'Azja Pd.-Wsch.'],
+  ['america-n', 'Ameryka Pn.'],
+  ['america-c', 'Meksyk i Ameryka Środk.'],
+  ['america-s', 'Ameryka Pd.'],
+  ['new-guinea', 'Nowa Gwinea'],
+  ['australia', 'Australia'],
+  ['new-zealand', 'Nowa Zelandia'],
+  ['arctic', 'Arktyka'],
+  ['antarctica', 'Antarktyka'],
+  ['atlantic', 'Atlantyk'],
+  ['pacific', 'Pacyfik'],
+  ['pacific-w', 'zach. Pacyfik'],
+  ['pacific-e', 'wsch. Pacyfik'],
+  ['indian', 'Ocean Indyjski'],
+];
+
 export function regionsLabel(regions: MapRegion[]): string {
   if (regions.length === 0) return 'różne zakątki świata';
-  if (regions.includes('mythical')) return 'tylko w legendach';
-  if (regions.includes('worldwide')) return 'cały świat';
+  const has = new Set(regions);
+  if (has.has('mythical')) return 'tylko w legendach';
+  if (has.has('worldwide')) return has.has('polska') ? 'cały świat, także Polska' : 'cały świat';
+  if (has.has('oceans')) return 'wszystkie oceany';
 
   const labels: string[] = [];
-  if (regions.includes('polska')) labels.push('Polska');
-  if (regions.includes('europa') && !regions.includes('polska')) labels.push('Europa');
-  if (regions.includes('africa-sub')) labels.push('Afryka');
-  if (regions.includes('africa-north') && !regions.includes('africa-sub')) labels.push('Afryka Pn.');
-  if (regions.includes('asia-east')) labels.push('Azja Wsch.');
-  if (regions.includes('asia-se') && !regions.includes('asia-east')) labels.push('Azja Pd-Wsch.');
-  if (regions.includes('asia-cent')) labels.push('Azja Środk.');
-  if (regions.includes('america-n')) labels.push('Ameryka Pn.');
-  if (regions.includes('america-s')) labels.push('Ameryka Pd.');
-  if (regions.includes('australia')) labels.push('Australia');
-  if (regions.includes('arctic')) labels.push('Arktyka');
-  if (regions.includes('antarctica')) labels.push('Antarktyda');
-  if (regions.includes('oceans')) labels.push('wszystkie oceany');
-
-  if (labels.length === 0) return 'różne zakątki świata';
-  return labels.join(' · ');
+  if (has.has('polska')) labels.push(has.has('europa') ? 'Europa, w tym Polska' : 'Polska');
+  for (const [region, label] of REGION_LABELS) {
+    if (region === 'europa' && has.has('polska')) continue;
+    if (has.has(region)) labels.push(label);
+  }
+  return labels.length > 0 ? labels.join(' · ') : 'różne zakątki świata';
 }

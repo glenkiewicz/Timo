@@ -1,23 +1,36 @@
+import { ANIMAL_RANGES } from '@/data/animal-ranges';
 import type { Animal } from '@/types/game';
 
 /**
  * Regiony mapy świata wykorzystywane w `<HabitatMap />`.
- * Punkt `polska` to specjalny "marker" na Europie — używany razem z `europa`.
- * `oceans` highlightuje całe tło. `mythical` rysuje mapę skarbów.
+ * Punkt `polska` to specjalny (czerwony) marker na Europie — zwykle razem z `europa`.
+ * Oceany mają własne markery na wodzie; `oceans` = Atlantyk + Pacyfik + O. Indyjski.
+ * `worldwide` stawia markery na zamieszkałych kontynentach, `mythical` rysuje mapę skarbów.
  */
 export type MapRegion =
   | 'polska'
   | 'europa'
-  | 'africa-sub'
   | 'africa-north'
+  | 'africa-sub'
+  | 'madagascar'
+  | 'asia-west'
+  | 'asia-south'
+  | 'asia-cent'
   | 'asia-east'
   | 'asia-se'
-  | 'asia-cent'
   | 'america-n'
+  | 'america-c'
   | 'america-s'
+  | 'new-guinea'
   | 'australia'
+  | 'new-zealand'
   | 'arctic'
   | 'antarctica'
+  | 'atlantic'
+  | 'pacific'
+  | 'pacific-w'
+  | 'pacific-e'
+  | 'indian'
   | 'oceans'
   | 'worldwide'
   | 'mythical';
@@ -38,10 +51,6 @@ export type AnimalDetails = {
   lifespan_pl?: string;
   /** Doprecyzowany opis diety, gdy potrzebny więcej niż chip. */
   diet_pl?: string;
-  /** Opis środowiska, gdy auto-derywacja z tagów to za mało. */
-  habitat_pl?: string;
-  /** Override mapy — jak brak, wyliczamy z expedition_tags. */
-  map_regions?: MapRegion[];
 };
 
 /**
@@ -839,7 +848,6 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
       'W Polsce najsłynniejszy: Smok Wawelski pod Krakowem.',
       'W europejskich legendach strzeże skarbów, w chińskich — przynosi szczęście.',
     ],
-    habitat_pl: 'tylko w legendach, baśniach i grach',
   },
   unicorn: {
     facts_pl: [
@@ -847,7 +855,6 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
       'Średniowieczne "rogi jednorożca" sprzedawane jako lekarstwo to były kły narwala.',
       'Występuje w mitach indyjskich, chińskich i europejskich.',
     ],
-    habitat_pl: 'w bajkach i legendach',
   },
   mammoth: {
     tagline_pl: 'kosmaty olbrzym epoki lodowcowej',
@@ -876,7 +883,6 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
       'Występuje w mitach Egiptu, Grecji, Chin i Japonii.',
       'W chrześcijaństwie stał się symbolem zmartwychwstania.',
     ],
-    habitat_pl: 'w mitach starożytnych cywilizacji',
   },
   kraken: {
     facts_pl: [
@@ -884,7 +890,6 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
       'Prawdziwy "kraken" to kalmar olbrzymi — istnieje naprawdę, do 13 m długości.',
       'Pierwsze opisy pojawiły się w islandzkich sagach z XII wieku.',
     ],
-    habitat_pl: 'w mrocznych głębinach Atlantyku — według legend',
   },
   mermaid: {
     facts_pl: [
@@ -892,7 +897,6 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
       'Słynna polska syrena z herbu Warszawy.',
       'Marynarze przez wieki mylili je z manatami i diugoniami.',
     ],
-    habitat_pl: 'w morzach i legendach żeglarzy',
   },
   yeti: {
     facts_pl: [
@@ -900,7 +904,6 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
       'Opisy mówią o stworzeniu 2 m wysokim, pokrytym białym futrem.',
       'Niektóre "ślady yeti" okazały się tropami niedźwiedzia himalajskiego.',
     ],
-    habitat_pl: 'w mroźnych szczytach Himalajów — według legend',
   },
 
   // === Polska las — pozostałe ssaki ===
@@ -1551,7 +1554,6 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   aardwolf_kenya: {
     facts_pl: ['Hiena pręgowana stroszy długą grzywę na grzbiecie, żeby wyglądać na większą.', 'Żyje w Afryce i Azji — jest spokojniejsza i bardziej samotna niż hiena cętkowana.'],
     size_pl: 'Długość 85–130 cm. Waga 25–55 kg.', lifespan_pl: '12 lat dziko', diet_pl: 'Padlina, kości, owady, owoce.',
-    map_regions: ['africa-sub', 'africa-north', 'asia-cent'],
   },
   caracal: {
     facts_pl: ['Karakal skacze 3 metry w pionie i łapie ptaki w locie.', 'Czarne pędzelki na uszach — stąd nazwa (z tureckiego "karakulak" = czarne ucho).'],
@@ -1597,7 +1599,6 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   honey_badger: {
     facts_pl: ['Zorilla to afrykański kuzyn tchórza — w obronie wydziela bardzo brzydki zapach.', 'Ma czarno-białe paski jak skunks, choć skunksem nie jest.'],
     size_pl: 'Długość 30–40 cm + ogon. Waga 0,5–1,5 kg.', lifespan_pl: '5–8 lat', diet_pl: 'Gryzonie, owady, jaja, jaszczurki.',
-    map_regions: ['africa-sub'],
   },
   sitatunga: {
     facts_pl: ['Sitatunga ma długie, rozstawione kopyta — dzięki nim nie grzęźnie w bagnie.', 'Świetnie pływa — chowa się pod wodą tylko z nosem na powierzchni.'],
@@ -1696,7 +1697,6 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   binturong_indo: {
     facts_pl: ['Łaskun zjada owoce kawy — z nasion, które przeszły przez jego brzuch, robi się bardzo drogą kawę.', 'Jest aktywny nocą i świetnie wspina się po drzewach.'],
     size_pl: 'Długość 45–60 cm + ogon. Waga 2–5 kg.', lifespan_pl: '15–20 lat', diet_pl: 'Owoce, owady, drobne zwierzęta.',
-    map_regions: ['asia-se'],
   },
   asian_elephant: {
     facts_pl: ['Słoń indyjski jest mniejszy niż afrykański, a jego trąba kończy się jednym "palcem".', 'W Indiach od tysięcy lat pomaga ludziom — w pracy, wojsku i ceremoniach.'],
@@ -1777,7 +1777,6 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   green_anaconda: {
     facts_pl: ['Boa szmaragdowy odpoczywa na gałęzi zwinięty w pętle — zielony jak liście.', 'Młode rodzą się pomarańczowe lub czerwone i zielenieją dopiero z wiekiem.'],
     size_pl: 'Długość 1,5–2 m.', lifespan_pl: '15–20 lat', diet_pl: 'Gryzonie, ptaki, jaszczurki.',
-    map_regions: ['america-s'],
   },
   piranha: {
     facts_pl: ['Piranie żyją w słodkich wodach Amazonki.', 'Mają ostre zęby, ale ataki na ludzi zdarzają się bardzo rzadko — to raczej płochliwe ryby.'],
@@ -1803,7 +1802,6 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   tree_frog: {
     facts_pl: ['Rzekotka czerwonooka przykleja się palcami do liści — ma na nich lepkie poduszeczki.', 'Jaja składa na liściach nad wodą — kijanki wpadają do niej, gdy się wyklują.'],
     size_pl: 'Długość 4–7 cm.', lifespan_pl: '5 lat', diet_pl: 'Owady, pajęczaki.',
-    map_regions: ['america-s'],
   },
   glass_frog: {
     facts_pl: ['Żaba szklana ma przezroczysty brzuch — widać jej serce.', 'Na zielonym liściu jest prawie niewidoczna.'],
@@ -1836,7 +1834,6 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   atlas_butterfly: {
     facts_pl: ['Ornitoptera królowej Aleksandry to największy motyl dzienny świata — jego skrzydła mają ponad 25 cm.', 'Żyje tylko w lasach deszczowych Papui-Nowej Gwinei i jest pod ścisłą ochroną.'],
     size_pl: 'Rozpiętość 25–28 cm.', lifespan_pl: '3 miesiące (dorosły)', diet_pl: 'Nektar kwiatów.',
-    map_regions: ['australia'],
   },
   atlas_moth: {
     facts_pl: ['Pawica atlas to jedna z największych ciem świata — skrzydła ma większe niż dłoń dorosłego.', 'Ma "okna" na skrzydłach — fragmenty bez łusek.'],
@@ -1941,7 +1938,6 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   komodo_juvenile: {
     facts_pl: ['Waran paskowany świetnie pływa — to druga co do wielkości jaszczurka świata.', 'Potrafi długo zostać pod wodą i często mieszka blisko ludzi.'],
     size_pl: 'Długość 1,5–2,5 m. Waga do 25 kg.', lifespan_pl: '10–15 lat', diet_pl: 'Ryby, żaby, ptaki, jaja, padlina.',
-    map_regions: ['asia-se'],
   },
   rattlesnake: {
     facts_pl: ['Grzechotnik strzela ostrzeżenie ogonem przed atakiem.', 'Jego "grzechotka" to złuszczone resztki skóry.'],
@@ -2041,7 +2037,6 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   aardvark_pig: {
     facts_pl: ['Babirusa ma kły, które wyrastają przez górną wargę i zawijają się jak rogi.', 'Żyje tylko na kilku wyspach Indonezji — nazwa znaczy "świnia-jeleń".'],
     size_pl: 'Długość 85–110 cm. Waga 60–100 kg.', lifespan_pl: '10–24 lat', diet_pl: 'Owoce, liście, grzyby, owady.',
-    map_regions: ['asia-se'],
   },
   horned_lizard: {
     facts_pl: ['Frynozom strzela krwią z oczu, gdy się broni — celuje w paszczę drapieżnika.', 'Jego krew zawiera substancje cuchnące dla psów i kojotów.'],
@@ -2102,7 +2097,6 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   snow_fox: {
     facts_pl: ['Zając polarny potrafi skakać na samych tylnych łapach jak kangur.', 'Zimą ma śnieżnobiałe futro — tylko końcówki uszu zostają czarne.'],
     size_pl: 'Długość 50–70 cm. Waga 3–5 kg.', lifespan_pl: '3–5 lat', diet_pl: 'Wierzba karłowata, mchy, porosty, trawa.',
-    map_regions: ['arctic', 'america-n'],
   },
   wolverine: {
     facts_pl: ['Rosomak jest wielkości średniego psa, ale tak odważny, że odpędza wilki od zdobyczy.', 'Może zjeść padlinę zamarzniętą na kamień — łamie ją zębami.'],
@@ -2138,7 +2132,6 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   atlantic_puffin: {
     facts_pl: ['Alka krzywonosa świetnie nurkuje — pod wodą "leci", machając skrzydłami.', 'Gniazduje na skalnych półkach nad morzem, w wielkich koloniach.'],
     size_pl: 'Długość 37–39 cm.', lifespan_pl: '20–30 lat', diet_pl: 'Drobne ryby — śledzie, dobijaki.',
-    map_regions: ['arctic', 'europa', 'oceans'],
   },
   arctic_tern: {
     tagline_pl: 'mistrz dystansu',
@@ -2516,7 +2509,6 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
     tagline_pl: 'rekordzista długowieczności',
     facts_pl: ['Żółw olbrzymi z wysp Aldabra na Oceanie Indyjskim może żyć ponad 150 lat.', 'Najstarszy znany żółw, Jonathan z Wyspy Świętej Heleny, ma już prawie 200 lat!'],
     size_pl: 'Długość 1–1,2 m. Waga do 250 kg.', lifespan_pl: '100–150+ lat', diet_pl: 'Trawa, liście, owoce.',
-    map_regions: ['africa-sub'],
   },
   turtle: {
     facts_pl: ['Niektóre żółwie lądowe dożywają ponad 100 lat.', 'Skorupa to ich własny szkielet — żebra zrośnięte z płytkami.'],
@@ -2712,69 +2704,58 @@ export const ANIMAL_DETAILS: Record<string, AnimalDetails> = {
   },
   bigfoot: {
     facts_pl: ['Bigfoot zostawia rzekomo wielkie ślady w lasach Ameryki.', 'Pierwsze nagranie z 1967 — "film Patterson-Gimlin" — do dziś dyskutowany.'],
-    habitat_pl: 'w lasach Ameryki Północnej — według legend',
   },
   nessie: {
     facts_pl: ['Potwór z Loch Ness mieszka rzekomo w szkockim jeziorze.', 'Pierwsze "nowoczesne" zdjęcie z 1934 — okazało się oszustwem.'],
-    habitat_pl: 'w szkockim jeziorze Loch Ness — według legend',
   },
   sphinx: {
     facts_pl: ['Sfinks z mitologii ma głowę człowieka i ciało lwa.', 'Największy stoi w Gizie w Egipcie — wykuty w skale 4500 lat temu.'],
-    habitat_pl: 'w mitologii starożytnego Egiptu i Grecji',
   },
   griffin: {
     facts_pl: ['Gryf ma głowę orła i ciało lwa — strażnik skarbów.', 'W herbach symbolizuje siłę i czujność.'],
-    habitat_pl: 'w mitach Persji, Grecji i średniowiecznej Europy',
   },
   // === Poprawki — nowe/zmienione gatunki bez wcześniejszego opisu ===
   morpho_blue: {
     facts_pl: ['Gąsienica modraszka ariona mieszka w mrowisku — mrówki karmią ją jak własne dziecko!', 'W Polsce jest rzadki i objęty ochroną.'],
     size_pl: 'Rozpiętość 3–4 cm.', lifespan_pl: 'kilka tygodni (dorosły)', diet_pl: 'Nektar (dorosły), larwy mrówek (gąsienica).',
-    habitat_pl: 'nasłonecznione łąki Polski i Europy', map_regions: ['europa', 'polska'],
   },
   monarch_butterfly: {
     facts_pl: ['Cytrynek to jeden z pierwszych motyli wiosny — przezimowuje ukryty wśród liści.', 'Dorosły cytrynek żyje nawet rok — dłużej niż większość motyli.'],
     size_pl: 'Rozpiętość 5–6 cm.', lifespan_pl: 'do 1 roku', diet_pl: 'Nektar kwiatów.',
-    habitat_pl: 'lasy, ogrody i łąki Polski', map_regions: ['europa', 'polska'],
   },
   orb_weaver: {
     facts_pl: ['Tygrzyk paskowany ma żółto-czarne paski jak osa i tka sieć z zygzakiem.', 'Kiedyś żył tylko na południu Europy — dziś spotkasz go na łąkach w całej Polsce.'],
     size_pl: 'Długość 1–2 cm (samica).', lifespan_pl: '1 rok', diet_pl: 'Koniki polne, muchy i inne owady.',
-    habitat_pl: 'łąki i nieużytki Polski', map_regions: ['europa', 'polska'],
   },
   sun_spider: {
     facts_pl: ['Topik to pająk, który mieszka pod wodą w bańce powietrza jak w dzwonie nurkowym.', 'Powietrze przynosi z powierzchni na włoskach odwłoka.'],
     size_pl: 'Długość 8–15 mm.', lifespan_pl: '1–2 lata', diet_pl: 'Drobne zwierzęta wodne.',
-    habitat_pl: 'zarośnięte stawy i jeziora Polski', map_regions: ['europa', 'polska'],
   },
   isopod_giant: {
     facts_pl: ['Stonoga to skorupiak, który żyje na lądzie — oddycha czymś w rodzaju skrzeli, dlatego lubi wilgoć.', 'Mama nosi jaja i młode w specjalnej torbie pod brzuchem.'],
     size_pl: 'Długość 1–2 cm.', lifespan_pl: '2–3 lata', diet_pl: 'Butwiejące liście i drewno.',
-    habitat_pl: 'wilgotne miejsca pod kamieniami i korą — także w piwnicach', map_regions: ['europa', 'polska'],
   },
   brook_trout: {
     facts_pl: ['Głowacica to największa ryba łososiowata Europy — może mieć ponad metr długości.', 'W Polsce żyje w górskich rzekach, np. w Dunajcu.'],
     size_pl: 'Długość 70–150 cm.', lifespan_pl: '15–20 lat', diet_pl: 'Ryby, żaby, czasem małe ssaki.',
-    habitat_pl: 'górskie rzeki dorzecza Dunaju', map_regions: ['europa', 'polska'],
   },
   giant_anteater: {
     facts_pl: ['Tamandua trzyma się gałęzi chwytnym ogonem, a gdy się boi, brzydko pachnie jak skunks.', 'Długim językiem wyjada mrówki i termity z gniazd na drzewach.'],
     size_pl: 'Długość 50–90 cm + ogon.', lifespan_pl: '9–15 lat', diet_pl: 'Mrówki, termity, pszczoły.',
-    habitat_pl: 'lasy tropikalne Ameryki Środkowej i Południowej', map_regions: ['america-s'],
   },
   vampire_squid_giant: {
     facts_pl: ['Kalmar Humboldta poluje w stadach i błyska na czerwono i biało — rybacy nazywają go "czerwonym diabłem".', 'Może mieć prawie 2 metry długości i jest bardzo szybki.'],
     size_pl: 'Długość do 1,5–2 m. Waga do 50 kg.', lifespan_pl: '1–2 lata', diet_pl: 'Ryby, kryl, inne kalmary.',
-    habitat_pl: 'wschodni Pacyfik', map_regions: ['oceans'],
   },
   mantis_shrimp_punching: {
     facts_pl: ['Krab bokser trzyma w szczypcach małe ukwiały i macha nimi jak pomponami, żeby odstraszyć wrogów.', 'Ukwiały przy okazji pomagają mu łapać drobinki jedzenia.'],
     size_pl: 'Szerokość 1–2 cm.', lifespan_pl: 'kilka lat', diet_pl: 'Drobinki jedzenia zebrane przez ukwiały.',
-    habitat_pl: 'rafy koralowe Oceanu Indyjskiego i Pacyfiku', map_regions: ['oceans'],
   },
 };
 
 // === Mapowanie expedition_tags → regions ===
+// Tylko awaryjnie: dla zwierzęcia bez wpisu w `ANIMAL_RANGES` (np. świeżo
+// dodanego). Tagi wypraw to biomy, nie zasięgi — stąd zgrubne przybliżenie.
 
 const TAG_TO_REGIONS: Record<string, MapRegion[]> = {
   polish_forest: ['europa', 'polska'],
@@ -2797,11 +2778,11 @@ const HABITAT_LABELS: Record<string, string> = {
   home_pets: 'domy ludzi',
   savanna: 'afrykańska sawanna',
   jungle: 'tropikalne dżungle',
-  arctic: 'lodowe krainy Arktyki i Antarktydy',
+  arctic: 'lodowe krainy Arktyki',
   australia: 'australijski busz',
-  ocean: 'głębiny oceanu',
+  ocean: 'morza i oceany',
   mountain: 'wysokie góry',
-  freshwater: 'polskie rzeki i jeziora',
+  freshwater: 'rzeki i jeziora',
   mythical: 'tylko w legendach i mitach',
 };
 
@@ -2835,271 +2816,7 @@ export function deriveFactChips(animal: Animal): FactChip[] {
   return out;
 }
 
-/**
- * Per-animal regions, takes priority over tag-based derivation.
- * Dodajemy tutaj wszystko, co biom-tagi załatwiają źle:
- *  - dżungla: tygrys (Azja) vs jaguar (Ameryka Pd) vs goryl (Afryka)
- *  - góry: kondor, kozica, świstak, pantera śnieżna…
- *  - egzotyczne zwierzęta domowe (papugi, koi) wracają do natywnego regionu
- *  - pingwiny → Antarktyda zamiast Arktyki
- */
-const MAP_REGION_OVERRIDES: Partial<Record<string, MapRegion[]>> = {
-  // === AZJA — dżungla / Himalaje / step ===
-  tiger: ['asia-east', 'asia-se'],
-  siberian_tiger: ['asia-east'],
-  panda: ['asia-east'],
-  red_panda: ['asia-east'],
-  orangutan: ['asia-se'],
-  gibbon: ['asia-se'],
-  macaque: ['asia-east', 'asia-se'],
-  japanese_macaque: ['asia-east'],
-  snow_monkey: ['asia-east'],
-  langur: ['asia-se'],
-  binturong: ['asia-se'],
-
-  asian_elephant: ['asia-se'],
-  sun_bear: ['asia-se'],
-  moon_bear: ['asia-east'],
-  sloth_bear: ['asia-se'],
-  proboscis_monkey: ['asia-se'],
-  clouded_leopard: ['asia-se'],
-  serow: ['asia-east'],
-  takin: ['asia-east'],
-  dhole: ['asia-east', 'asia-se'],
-  musk_deer: ['asia-east'],
-  saola: ['asia-se'],
-  snub_nosed_monkey: ['asia-east'],
-  snow_leopard: ['asia-cent', 'asia-east'],
-  king_cobra: ['asia-se'],
-  reticulated_python: ['asia-se'],
-  python: ['asia-se', 'africa-sub'],
-  komodo: ['asia-se'],
-
-  cobra: ['asia-se', 'africa-sub'],
-  atlas_moth: ['asia-se'],
-
-  silk_moth: ['asia-east'],
-  gharial: ['asia-se'],
-  koi: ['asia-east'],
-  saiga: ['asia-cent'],
-  yak: ['asia-cent', 'asia-east'],
-  sable: ['asia-cent', 'asia-east'],
-  marmot: ['europa', 'asia-cent'],
-  saltwater_croc: ['asia-se', 'australia'],
-
-  // === AMERYKA PŁD — dżungla / Andy / pampa ===
-  jaguar: ['america-s'],
-  sloth: ['america-s'],
-  anteater: ['america-s'],
-  capybara: ['america-s'],
-  ocelot: ['america-s', 'america-n'],
-  toucan: ['america-s'],
-  toucan_keel: ['america-s'],
-  macaw: ['america-s'],
-  anaconda: ['america-s'],
-
-  piranha: ['america-s'],
-  eel_electric: ['america-s'],
-  boa: ['america-s'],
-  basilisk: ['america-s'],
-  poison_frog: ['america-s'],
-  glass_frog: ['america-s'],
-  mantella: ['africa-sub'], // Madagaskar
-  jaguarundi: ['america-s'],
-  coati: ['america-s'],
-  paca: ['america-s'],
-  tamarin: ['america-s'],
-  marmoset: ['america-s'],
-  giant_otter: ['america-s'],
-  hoatzin: ['america-s'],
-  blue_morpho: ['america-s'],
-  bird_eater: ['america-s'],
-  caecilian: ['america-s', 'asia-se'],
-  matamata: ['america-s'],
-  hercules_beetle: ['america-s'],
-  vicuna: ['america-s'],
-  guanaco: ['america-s'],
-  llama: ['america-s'],
-  alpaca: ['america-s'],
-  pampas_deer: ['america-s'],
-  maned_wolf: ['america-s'],
-  condor: ['america-s'],
-  rhea: ['america-s'],
-  iguana: ['america-s', 'america-n'],
-  discus: ['america-s'],
-  arowana: ['america-s', 'asia-se'],
-  pichi: ['america-s'],
-  tapir: ['america-s', 'asia-se'],
-  armadillo: ['america-s', 'america-n'],
-  chinchilla: ['america-s'],
-  guinea_pig: ['america-s'],
-  pangolin: ['africa-sub', 'asia-se'],
-
-  // === AMERYKA PŁN ===
-  bison_american: ['america-n'],
-  grizzly: ['america-n'],
-  coyote: ['america-n'],
-  puma: ['america-n', 'america-s'],
-  raccoon: ['america-n'],
-  opossum: ['america-n', 'america-s'],
-  skunk: ['america-n'],
-  bald_eagle: ['america-n'],
-  alligator: ['america-n'],
-  rattlesnake: ['america-n'],
-  monarch: ['america-n'],
-  chipmunk: ['asia-east'],
-  snowshoe_hare: ['america-n'],
-  alligator_snapping: ['america-n'],
-  hellbender: ['america-n'],
-  axolotl: ['america-n'],
-  bullfrog: ['america-n'],
-  aardvark_pig: ['asia-se'],
-  peccary: ['america-n', 'america-s'],
-  flying_squirrel: ['europa', 'asia-east'],
-  horned_lizard: ['america-n'],
-
-  // === AFRYKA ===
-  gorilla: ['africa-sub'],
-  chimpanzee: ['africa-sub'],
-  mandrill: ['africa-sub'],
-  lemur: ['africa-sub'],
-  aye_aye: ['africa-sub'],
-  okapi: ['africa-sub'],
-  bongo: ['africa-sub'],
-  goliath_beetle: ['africa-sub'],
-  ratel: ['africa-sub'],
-
-  secretary_bird: ['africa-sub'],
-  aardwolf: ['africa-sub'],
-
-  caracal: ['africa-sub', 'asia-cent'],
-  mongoose: ['africa-sub', 'asia-se'],
-  meerkat: ['africa-sub'],
-  aardvark: ['africa-sub'],
-  rock_hyrax: ['africa-sub'],
-  serval: ['africa-sub'],
-  mamba: ['africa-sub'],
-  shoebill: ['africa-sub'],
-  marabou: ['africa-sub'],
-  chameleon: ['africa-sub', 'asia-se'],
-  fennec: ['africa-north'],
-  addax: ['africa-north'],
-  oryx: ['africa-sub'],
-  genet: ['africa-sub', 'europa'],
-  monitor_lizard: ['africa-sub', 'asia-se'],
-
-  // === EUROPA / Alpy ===
-  chamois: ['europa', 'polska'],
-  ibex: ['europa'],
-  european_mink: ['europa'],
-  giant_salamander: ['asia-east'],
-
-  // === HOLARKTYCZNE / KOSMOPOLITYCZNE ===
-  // Gatunki z polish_forest, które żyją też poza Europą — dorzucamy odpowiednie kontynenty.
-  owl: ['europa', 'polska', 'asia-east', 'america-n', 'africa-sub'],
-  eagle_owl: ['europa', 'polska', 'asia-east'],
-  eagle_owl_white: ['europa', 'polska', 'asia-east'],
-  fox: ['europa', 'polska', 'asia-east', 'america-n', 'africa-north'],
-  wolf: ['europa', 'polska', 'asia-east', 'america-n'],
-  bat: ['europa', 'polska', 'asia-east', 'america-n', 'africa-sub', 'america-s', 'australia'],
-  raven: ['europa', 'polska', 'asia-east', 'america-n'],
-  crow: ['europa', 'polska', 'asia-east', 'america-n'],
-  magpie: ['europa', 'polska', 'asia-east', 'america-n'],
-  pigeon: ['worldwide'],
-  sparrow: ['europa', 'polska', 'asia-east', 'america-n', 'africa-sub'],
-  frog: ['europa', 'polska', 'asia-east', 'america-n', 'africa-sub'],
-  toad: ['europa', 'polska', 'asia-east', 'america-n', 'america-s'],
-  salamander: ['europa', 'polska', 'america-n'],
-  newt: ['europa', 'polska', 'asia-east', 'america-n'],
-  snake: ['worldwide'],
-  spider: ['worldwide'],
-  ant: ['worldwide'],
-  bee: ['worldwide'],
-  wasp: ['worldwide'],
-  butterfly: ['worldwide'],
-  ladybug: ['worldwide'],
-  mosquito: ['worldwide'],
-  fly: ['worldwide'],
-  dragonfly: ['worldwide'],
-  beetle: ['worldwide'],
-  cricket: ['worldwide'],
-  grasshopper: ['worldwide'],
-  cockroach: ['worldwide'],
-  termite: ['africa-sub', 'america-s', 'asia-se', 'australia'],
-  praying_mantis_giant: ['asia-se', 'africa-sub'],
-  earthworm: ['worldwide'],
-  centipede: ['worldwide'],
-  snail: ['europa', 'polska', 'asia-east', 'america-n'],
-  slug: ['worldwide'],
-
-  // === POLARNE / SUBPOLARNE ===
-  wolverine: ['arctic', 'europa', 'america-n'],
-  mountain_hare: ['europa', 'arctic'],
-  arctic_tern: ['arctic', 'antarctica'],
-
-  // === ANTARKTYDA (pingwiny) ===
-  penguin_emperor: ['antarctica'],
-  king_penguin: ['antarctica'],
-  rockhopper_penguin: ['antarctica'],
-  penguin_little: ['australia', 'antarctica'],
-  leopard_seal: ['antarctica', 'oceans'],
-  elephant_seal: ['oceans', 'antarctica'],
-
-  // === AUSTRALIA / Nowa Zelandia ===
-  parakeet: ['australia'],
-  cockatoo: ['australia', 'asia-se'],
-  budgerigar: ['australia'],
-  octopus_blue_ring: ['australia', 'asia-se'],
-  giant_weta: ['australia'],
-  thorny_devil: ['australia'],
-  frilled_lizard: ['australia'],
-  kakapo: ['australia'],
-  kiwi: ['australia'],
-  kea: ['australia'],
-  tuatara: ['australia'],
-  lyrebird: ['australia'],
-
-  // === Egzotyczne ptaki ===
-  eagle: ['europa', 'asia-cent', 'america-n'],
-  vulture: ['africa-sub', 'asia-se'],
-  galapagos_tortoise: ['america-s'],
-  parrot: ['america-s', 'africa-sub', 'asia-se'],
-  flamingo: ['africa-sub', 'america-s'],
-  hummingbird: ['america-s', 'america-n'],
-  ostrich: ['africa-sub'],
-  emu: ['australia'],
-  cassowary: ['australia'],
-  cassowary_dwarf: ['australia'],
-  booby: ['oceans', 'america-s'],
-  quetzal: ['america-s'],
-  hornbill: ['asia-se', 'africa-sub'],
-  bird_of_paradise: ['australia', 'asia-se'],
-
-  // === Ryby / morze pojedyncze ===
-  swordfish: ['oceans'],
-  manta_ray: ['oceans'],
-  whale_shark: ['oceans'],
-  hammerhead: ['oceans'],
-  marlin: ['oceans'],
-  parrotfish: ['oceans'],
-  wrasse: ['oceans'],
-  lionfish: ['oceans'],
-  stonefish: ['oceans'],
-  pufferfish: ['oceans'],
-  porcupinefish: ['oceans'],
-  blobfish: ['oceans'],
-  angler_fish: ['oceans'],
-  moonfish: ['oceans'],
-  mola_giant: ['oceans'],
-
-  // === Mityczne wyjątki (jednorożec/sfinks/gryf bez prawdziwego regionu) ===
-  // wszystkie mityczne i tak idą przez `mythical` w renderze
-};
-
 export function deriveMapRegions(animal: Animal): MapRegion[] {
-  const explicit = MAP_REGION_OVERRIDES[animal.id];
-  if (explicit) return [...explicit];
-
   const tags = animal.expedition_tags ?? [];
   const set = new Set<MapRegion>();
   for (const tag of tags) {
@@ -3134,10 +2851,12 @@ export type ResolvedAnimalDetails = {
 
 /**
  * Główne wejście dla UI — zwraca komplet danych z fallbackiem.
- * Hand-pisane wpisy nadpisują auto-derywację gdzie to ma sens.
+ * Hand-pisane wpisy nadpisują auto-derywację gdzie to ma sens; zasięg
+ * („Gdzie spotkasz") pochodzi z `ANIMAL_RANGES`.
  */
 export function getAnimalDetails(animal: Animal): ResolvedAnimalDetails {
   const override = ANIMAL_DETAILS[animal.id];
+  const range = ANIMAL_RANGES[animal.id];
   const facts =
     override?.facts_pl && override.facts_pl.length > 0
       ? override.facts_pl
@@ -3148,8 +2867,8 @@ export function getAnimalDetails(animal: Animal): ResolvedAnimalDetails {
     size_pl: override?.size_pl,
     lifespan_pl: override?.lifespan_pl,
     diet_pl: override?.diet_pl,
-    habitat_pl: override?.habitat_pl ?? deriveHabitatText(animal),
+    habitat_pl: range?.habitat_pl ?? deriveHabitatText(animal),
     chips: deriveFactChips(animal),
-    map_regions: override?.map_regions ?? deriveMapRegions(animal),
+    map_regions: range ? [...range.regions] : deriveMapRegions(animal),
   };
 }
