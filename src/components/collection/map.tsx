@@ -33,12 +33,9 @@ const PATCHES: Record<string, number> = {
   ocean: require('../../../assets/map/patch-ocean.webp'),
   river: require('../../../assets/map/patch-river.webp'),
   savanna: require('../../../assets/map/patch-savanna.webp'),
-  // TYMCZASOWO: nowe krainy pożyczają wyspy, dopóki nie powstaną własne
-  // (`python3 scripts/generate-map-kit.py patch-legend patch-americas patch-asia`,
-  // potem `matte-map-kit.py`). Po wygenerowaniu podmień require i PATCH_RATIO.
-  legend: require('../../../assets/map/patch-jungle.webp'),
-  americas: require('../../../assets/map/patch-savanna.webp'),
-  asia: require('../../../assets/map/patch-mountain.webp'),
+  legend: require('../../../assets/map/patch-legend.webp'),
+  americas: require('../../../assets/map/patch-americas.webp'),
+  asia: require('../../../assets/map/patch-asia.webp'),
 };
 
 /**
@@ -65,9 +62,9 @@ const PATCH_RATIO: Record<string, number> = {
   ocean: 1.292,
   river: 1.098,
   savanna: 1.212,
-  legend: 1.046,
-  americas: 1.212,
-  asia: 1.205,
+  legend: 1.021,
+  americas: 1.173,
+  asia: 1.099,
 };
 
 /** Atrament napisów na drewnie i papierze — tabliczka, zwój, panele karty. */
