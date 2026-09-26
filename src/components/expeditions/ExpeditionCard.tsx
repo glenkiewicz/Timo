@@ -306,7 +306,7 @@ export function ExpeditionTile({
           marginTop: disc / 2,
           paddingTop: disc / 2 + 6,
           paddingBottom: 12,
-          paddingHorizontal: 8,
+          paddingHorizontal: 12,
           minHeight: 100,
           alignItems: 'center',
           opacity: done ? 0.6 : 1,
