@@ -48,6 +48,7 @@ assets/ui/_raw/
 assets/map/_raw/
 assets/badges/_raw/
 assets/sfx/_candidates/
+assets/timo/character/_raw/
 
 # Cache Pythona ze skryptów generujących assety
 scripts/__pycache__/
