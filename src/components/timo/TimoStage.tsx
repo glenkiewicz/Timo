@@ -413,19 +413,19 @@ const TALK_FADE_OUT_MS = 280;
  * klatce dwie różne pozy — łapkę przy brodzie, a zaraz machanie z idle,
  * które cały czas leciało pod spodem własnym rytmem.
  *
- * Dlatego:
- * - koniec kwestii montuje idle od nowa — jego pierwsza klatka to poza,
- *   z której wygenerowano pętle mówienia — a pętla mówienia znika
- *   przenikaniem, zamiast zniknąć w jednej klatce;
- * - początek kwestii wchodzi przenikaniem na wierzch idle, dopiero gdy
- *   pętla się wczyta (bez pustej klatki), zawsze od pierwszej klatki.
+ * Dlatego pętla mówienia wchodzi i schodzi przenikaniem nad idle, które
+ * trzyma pełne krycie, więc zmiana pozy rozkłada się na ~0,3 s zamiast
+ * jednej klatki, a lisek nigdy nie prześwituje.
+ * Idle NIE jest montowane od nowa — próba startu od pierwszej klatki dawała
+ * pustą klatkę na czas wczytania (miganie) i zatrzymywała animację na
+ * ekranie startowym. Pętla mówienia wchodzi dopiero po wczytaniu, więc jej
+ * montowanie jest niewidoczne.
  */
 function TalkingTimo({ height }: { height: number }) {
   const mood = useTalkMood();
   // Pętla na wierzchu — zostaje zamontowana także w trakcie zejścia.
   const [shown, setShown] = useState<TalkMood | null>(null);
   const [talkKey, setTalkKey] = useState(0);
-  const [idleKey, setIdleKey] = useState(0);
   const talkOpacity = useSharedValue(0);
 
   // Pętla na wierzchu jest widoczna albo właśnie znika — w tej chwili lisek
@@ -448,7 +448,6 @@ function TalkingTimo({ height }: { height: number }) {
       setShown(mood);
       setTalkKey((k) => k + 1);
     } else {
-      setIdleKey((k) => k + 1);
       talkOpacity.value = withTiming(0, { duration: TALK_FADE_OUT_MS }, (done) => {
         if (done) runOnJS(hideTalk)();
       });
@@ -456,9 +455,12 @@ function TalkingTimo({ height }: { height: number }) {
   }, [mood, talkOpacity]);
 
   const talkStyle = useAnimatedStyle(() => ({ opacity: talkOpacity.value }));
-  // Idle znika dokładnie tak, jak pojawia się mówienie — inaczej spod
-  // mówiącego liska wystawał drugi (łapka, ogon), bo pozy się różnią.
-  const idleStyle = useAnimatedStyle(() => ({ opacity: 1 - talkOpacity.value }));
+  // Idle chowa się dopiero, gdy mówienie jest w pełni widoczne — inaczej
+  // spod mówiącego liska wystawał drugi (łapka, ogon). NIE przenikamy obu
+  // naraz: dwie warstwy po 50% kryją razem tylko 75% i lisek na chwilę
+  // prześwitywał (miganie). Idle pod spodem trzyma pełne krycie przez całe
+  // przejście.
+  const idleStyle = useAnimatedStyle(() => ({ opacity: talkOpacity.value >= 0.999 ? 0 : 1 }));
 
   function hideTalk() {
     talkVisible.current = false;
@@ -468,7 +470,7 @@ function TalkingTimo({ height }: { height: number }) {
   return (
     <RNView style={{ height, alignSelf: 'stretch' }}>
       <Animated.View style={idleStyle}>
-        <TimoAnimated key={`idle-${idleKey}`} clip="idle" height={height} />
+        <TimoAnimated clip="idle" height={height} />
       </Animated.View>
       {shown ? (
         <Animated.View style={[{ position: 'absolute', top: 0, left: 0, right: 0 }, talkStyle]}>
