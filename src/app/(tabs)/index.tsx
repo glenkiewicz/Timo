@@ -1,6 +1,5 @@
 import { useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
-import { ScrollView } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -178,13 +177,11 @@ export default function HomeScreen() {
         </Pressable>
       </View>
 
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          flexGrow: 1,
-          paddingHorizontal: 20,
-          paddingBottom: 12,
-        }}>
+      {/* Zwykły widok, nie ScrollView: w środku jest tylko pasek XP, a przewijanie
+          zajmowało cały środek ekranu — przeciągnięcie po lisku ciągnęło pasek.
+          Gdy wróci tabela wyników (SHOW_HOME_LEADERBOARD), trzeba będzie ją
+          przewijać osobno, nie cały środek. */}
+      <View style={{ flex: 1, paddingHorizontal: 20, paddingBottom: 12 }}>
         {/* ---------- poziom + pasek XP ---------- */}
         <Pressable
           onPress={() => openSheet({ ...TOOLTIPS.level, art: TOOLTIP_ART.level, accent: 'primary' })}
@@ -249,7 +246,7 @@ export default function HomeScreen() {
             Schowany na czas przebudowy wizualnej (SHOW_HOME_LEADERBOARD).
             Sama synchronizacja wyniku leci wyżej, przez useWeeklyScoreSync. */}
         {SHOW_HOME_LEADERBOARD ? <LeaderboardCard /> : null}
-      </ScrollView>
+      </View>
 
       {/* ---------- Timo ----------
           Warstwa nad treścią, wyśrodkowana na CAŁYM ekranie. Wcześniej lisek
