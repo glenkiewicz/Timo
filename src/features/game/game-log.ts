@@ -1,14 +1,11 @@
-import { scoredEligible } from '@/features/game/guessing-engine';
+import { plausibleCount, scoredEligible, type EngineState } from '@/features/game/guessing-engine';
 import { DEV_LOG_QUESTIONS } from '@/config/features';
 import type { DecoratedQuestion } from '@/features/game/timo-personality';
 import type { Animal, AnswerType, AttributeKey, Question } from '@/types/game';
 
-type EngineState = {
-  candidates: Animal[];
-  usedAttributes: Set<AttributeKey>;
-  excludedAnimals: Set<string>;
-  questionsAsked: number;
-};
+function eligibleCount(state: EngineState): number {
+  return state.candidates.filter((a) => !state.excludedAnimals.has(a.id)).length;
+}
 
 const BANNER = '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
 
@@ -44,15 +41,21 @@ const ANSWER_PL: Record<AnswerType, string> = {
   hard: 'TRUDNE',
 };
 
-function remaining(state: EngineState): number {
-  return state.candidates.filter((a) => !state.excludedAnimals.has(a.id)).length;
+/** Kandydaci „zgodni z tym, co wiemy” — pula już nie maleje przez filtr. */
+function remaining(state: EngineState, answers: Parameters<typeof scoredEligible>[1]): number {
+  return plausibleCount(state, answers);
 }
 
 /** Pytanie w chwili, gdy Timo je zadaje — z wstępem, tak jak słyszy dziecko. */
-export function logAsked(question: Question, prompt: DecoratedQuestion, state: EngineState) {
+export function logAsked(
+  question: Question,
+  prompt: DecoratedQuestion,
+  state: EngineState,
+  answers: Parameters<typeof scoredEligible>[1]
+) {
   if (!DEV_LOG_QUESTIONS) return;
   live(
-    `Q${state.questionsAsked + 1} · ${question.id} (${question.attribute_key}) · pula ${remaining(state)}\n` +
+    `Q${state.questionsAsked + 1} · ${question.id} (${question.attribute_key}) · pula ${remaining(state, answers)}\n` +
       `         „${prompt.text}”\n` +
       `         głos: ${prompt.sequence.join(' + ')}`
   );
@@ -62,15 +65,15 @@ function top5(state: EngineState, answers: Parameters<typeof scoredEligible>[1])
   const scored = scoredEligible(state, answers).slice(0, 5);
   if (scored.length === 0) return '(brak)';
   return scored
-    .map((s, i) => `${i + 1}.${s.animal.name_pl}(${s.score.toFixed(1)})`)
+    .map((s, i) => `${i + 1}.${s.animal.name_pl}(${s.score.toFixed(1)}%)`)
     .join(' · ');
 }
 
 export function logStart(state: EngineState) {
   if (!__DEV__) return;
   buffer.length = 0;
-  push(`🦊  NOWA GRA  ·  pula: ${state.candidates.length}`);
-  live(`──── NOWA GRA · pula ${remaining(state)} ────`);
+  push(`🦊  NOWA GRA  ·  pula: ${eligibleCount(state)}`);
+  live(`──── NOWA GRA · pula ${eligibleCount(state)} ────`);
 }
 
 export function logAnswer(
@@ -78,11 +81,12 @@ export function logAnswer(
   answer: AnswerType,
   before: EngineState,
   after: EngineState,
+  answersBefore: Parameters<typeof scoredEligible>[1],
   answers: Parameters<typeof scoredEligible>[1]
 ) {
   if (!__DEV__) return;
-  const beforeCount = before.candidates.filter((a) => !before.excludedAnimals.has(a.id)).length;
-  const afterCount = after.candidates.filter((a) => !after.excludedAnimals.has(a.id)).length;
+  const beforeCount = before.questionsAsked === 0 ? eligibleCount(before) : remaining(before, answersBefore);
+  const afterCount = remaining(after, answers);
   const tag = answer.toUpperCase().padEnd(4);
   push(
     `Q${after.questionsAsked.toString().padStart(2, ' ')} [${tag}] „${question.core[0]}"  (${beforeCount}→${afterCount})`
@@ -126,12 +130,13 @@ export function logGuessRejected(guess: Animal | null, eligibleCount: number) {
   live(`   ↳ PUDŁO: ${guess?.name_pl ?? '(brak)'} · zostało ${eligibleCount}`);
 }
 
-export function logGiveUp(state: EngineState) {
+export function logGiveUp(state: EngineState, answers: Parameters<typeof scoredEligible>[1]) {
   if (!__DEV__) return;
-  const remaining = state.candidates.filter((a) => !state.excludedAnimals.has(a.id)).length;
+  const left = remaining(state, answers);
   const qN = questionCount();
   const gN = guessCount();
-  push(`🏳️  PODDAJĘ SIĘ po ${state.questionsAsked} pyt. Pozostało: ${remaining}`);
+  push(`🏳️  PODDAJĘ SIĘ po ${state.questionsAsked} pyt. Pozostało: ${left}`);
+  live(`PODDAJĘ SIĘ po ${state.questionsAsked} pyt. · TOP: ${top5(state, answers)}`);
   push(`     SUMMARY: pytań=${qN}, strzałów=${gN}, wynik=LOSS`);
   flush();
 }

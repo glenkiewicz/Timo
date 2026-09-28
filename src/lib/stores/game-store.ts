@@ -18,9 +18,9 @@ import {
 } from '@/features/game/game-log';
 import { pickOutsideCategoryLine } from '@/data/timo-lines';
 import {
-  applyAnswer,
   eligibleCandidates,
   heatLevel,
+  plausibleCount,
   type EngineState,
   MAX_QUESTIONS,
   pickBestGuess,
@@ -89,6 +89,12 @@ type GameState = {
   didEscapeCategory: boolean;
   /** Komunikat „spoza wyprawy” już padł w tej grze. */
   escapeAnnounced: boolean;
+  /**
+   * Waga startowa per zwierzę. W wyprawie z Timo 18 kart ma 1, a reszta
+   * tematycznej puli mało — dziecko może pomyśleć o czymś spoza kart, ale
+   * silnik najpierw szuka wśród nich. Brak = równe szanse.
+   */
+  priors: Record<string, number> | undefined;
 
   start: (opts?: StartOpts) => void;
   answer: (a: AnswerType) => void;
@@ -122,16 +128,48 @@ function initialQuestion(): Question | null {
 function buildPrompt(
   question: Question | null,
   engine: EngineState,
+  answers: GameAnswer[],
   opts: { announceEscape: boolean },
 ): DecoratedQuestion | null {
   if (!question) return null;
   const prompt = decorateQuestion(question, {
     questionsAsked: engine.questionsAsked,
-    heat: heatLevel(engine),
+    heat: heatLevel(engine, answers),
     outside: opts.announceEscape ? pickOutsideCategoryLine() : null,
   });
-  logAsked(question, prompt, engine);
+  logAsked(question, prompt, engine, answers);
   return prompt;
+}
+
+/** Waga startowa zwierząt spoza 18 kart wyprawy z Timo. */
+const OUTSIDE_CARDS_PRIOR = 0.06;
+
+function engineOf(state: GameState): EngineState {
+  return {
+    candidates: state.candidates,
+    usedAttributes: state.usedAttributes,
+    excludedAnimals: state.excludedAnimals,
+    questionsAsked: state.questionsAsked,
+    priors: state.priors,
+  };
+}
+
+/**
+ * „Spoza wyprawy” w wyprawie z Timo: lider nie jest już żadną z 18 kart.
+ * Komunikat pada raz na grę, jako wstęp do następnego pytania.
+ */
+function escapeUpdate(
+  state: GameState,
+  engine: EngineState,
+  answers: GameAnswer[],
+): { didEscape: boolean; announce: boolean } {
+  if (state.expeditionMode !== 'guided' || !state.expeditionBasePool) {
+    return { didEscape: state.didEscapeCategory, announce: false };
+  }
+  const leader = pickBestGuess(engine, answers);
+  const outside = !!leader && !state.expeditionBasePool.some((a) => a.id === leader.id);
+  const didEscape = state.didEscapeCategory || outside;
+  return { didEscape, announce: didEscape && !state.escapeAnnounced };
 }
 
 export const useGameStore = create<GameState>((set, get) => ({
@@ -152,6 +190,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   expeditionMode: null,
   didEscapeCategory: false,
   escapeAnnounced: false,
+  priors: undefined,
 
   start: (opts) => {
     resetPersonalityMemory();
@@ -163,26 +202,37 @@ export const useGameStore = create<GameState>((set, get) => ({
     let expeditionId: string | null = null;
     let expeditionBasePool: Animal[] | null = null;
     let expeditionMode: 'guided' | 'expert' | null = null;
+    let priors: Record<string, number> | undefined;
 
     if (opts?.expeditionId) {
       const exp = EXPEDITIONS_BY_ID[opts.expeditionId];
       if (exp) {
-        // expeditionPool() automatycznie wybiera inspirationRoster dla guided
-        // lub roster dla expert.
-        candidates = expeditionPool(exp.id);
-        expeditionBasePool = candidates;
         expeditionMode = opts.expeditionMode ?? exp.mode ?? 'expert';
+        expeditionBasePool = expeditionPool(exp.id);
         mode = 'expedition';
         expeditionId = opts.expeditionId;
+        if (expeditionMode === 'guided') {
+          // 18 kart to najpewniejsi kandydaci, ale nie jedyni: dziecko wolno
+          // pomyśleć o czymś spoza kart. Zamiast resetu po wyczerpaniu kart
+          // cała tematyczna pula jest w grze od początku, z niską wagą.
+          const expansion = expeditionExpansionPool(exp.id);
+          candidates = expansion.length > 0 ? expansion : candidates;
+          const cards = new Set(expeditionBasePool.map((a) => a.id));
+          priors = Object.fromEntries(candidates.map((a) => [a.id, cards.has(a.id) ? 1 : OUTSIDE_CARDS_PRIOR]));
+        } else {
+          // Klasyczna wyprawa: tylko jej roster.
+          candidates = expeditionBasePool;
+        }
       }
     }
 
     const excluded = new Set<string>(opts?.excludeDiscovered ?? []);
-    const baseEngine = {
+    const baseEngine: EngineState = {
       candidates,
       usedAttributes: new Set<AttributeKey>(),
       excludedAnimals: excluded,
       questionsAsked: 0,
+      priors,
     };
 
     logStart(baseEngine);
@@ -193,7 +243,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       excludedAnimals: excluded,
       answers: [],
       currentQuestion: firstQuestion,
-      prompt: buildPrompt(firstQuestion, baseEngine, { announceEscape: false }),
+      prompt: buildPrompt(firstQuestion, baseEngine, [], { announceEscape: false }),
       guess: null,
       phase: 'asking',
       questionsAsked: 0,
@@ -204,6 +254,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       expeditionMode,
       didEscapeCategory: false,
       escapeAnnounced: false,
+      priors,
     });
   },
 
@@ -212,46 +263,30 @@ export const useGameStore = create<GameState>((set, get) => ({
     if (state.phase !== 'asking' || !state.currentQuestion) return;
 
     const q = state.currentQuestion;
-    const nextCandidates = applyAnswer(state.candidates, q.attribute_key, a);
+    const before = engineOf(state);
     const nextUsed = new Set(state.usedAttributes);
     nextUsed.add(q.attribute_key);
     const nextAsked = state.questionsAsked + 1;
+    const engineState: EngineState = { ...before, usedAttributes: nextUsed, questionsAsked: nextAsked };
 
+    const withoutCount: GameAnswer = {
+      question_id: q.id,
+      attribute_key: q.attribute_key,
+      answer: a,
+      remaining_candidates: 0,
+    };
+    const provisional = [...state.answers, withoutCount];
     const nextAnswers: GameAnswer[] = [
       ...state.answers,
-      {
-        question_id: q.id,
-        attribute_key: q.attribute_key,
-        answer: a,
-        remaining_candidates: nextCandidates.length,
-      },
+      { ...withoutCount, remaining_candidates: plausibleCount(engineState, provisional) },
     ];
 
-    let engineState = {
-      candidates: nextCandidates,
-      usedAttributes: nextUsed,
-      excludedAnimals: state.excludedAnimals,
-      questionsAsked: nextAsked,
-    };
+    logAnswer(q, a, before, engineState, state.answers, nextAnswers);
 
-    logAnswer(
-      q,
-      a,
-      {
-        candidates: state.candidates,
-        usedAttributes: state.usedAttributes,
-        excludedAnimals: state.excludedAnimals,
-        questionsAsked: state.questionsAsked,
-      },
-      engineState,
-      nextAnswers
-    );
-
-    // 1) Hard limit → Timo gives up
+    // 1) Hard limit → Timo się poddaje
     if (nextAsked >= MAX_QUESTIONS) {
-      logGiveUp(engineState);
+      logGiveUp(engineState, nextAnswers);
       set({
-        candidates: nextCandidates,
         usedAttributes: nextUsed,
         answers: nextAnswers,
         questionsAsked: nextAsked,
@@ -263,39 +298,11 @@ export const useGameStore = create<GameState>((set, get) => ({
       return;
     }
 
-    // 1b) Pula wyciśnięta do zera → relax. Zachowanie zależne od trybu:
-    //  - guided  → rozszerz do unii rosterów pokrewnych expert wypraw
-    //              (np. water_friends → ocean + freshwater). Last resort = ANIMALS.
-    //              Trzymanie tematyki ratuje od pytań typu "Czy żyje w Afryce?"
-    //              w wyprawie wodnej.
-    //  - expert  → zostań w roster wyprawy (Matamata nie wpadnie do "owadów").
-    //  - free    → cała ANIMALS.
-    let workingCandidates = nextCandidates;
-    let didEscape = false;
-    if (eligibleCandidates(engineState).length === 0) {
-      let fallback: Animal[];
-      if (state.expeditionMode === 'guided' && state.expeditionId) {
-        const themed = expeditionExpansionPool(state.expeditionId);
-        fallback = themed.length > 0 ? themed : ANIMALS;
-        didEscape = true;
-      } else {
-        fallback = state.expeditionBasePool ?? ANIMALS;
-      }
-      workingCandidates = fallback;
-      engineState = {
-        candidates: fallback,
-        usedAttributes: nextUsed,
-        excludedAnimals: state.excludedAnimals,
-        questionsAsked: nextAsked,
-      };
-    }
-
-    // 2) Time to try a guess
-    if (shouldAttemptGuess(engineState, nextAnswers)) {
+    // 2) Pora na strzał
+    if (shouldAttemptGuess(engineState, nextAnswers, QUESTIONS)) {
       const guess = pickBestGuess(engineState, nextAnswers);
       logGuessAttempt(guess, engineState, nextAnswers);
       set({
-        candidates: workingCandidates,
         usedAttributes: nextUsed,
         answers: nextAnswers,
         questionsAsked: nextAsked,
@@ -304,18 +311,16 @@ export const useGameStore = create<GameState>((set, get) => ({
         guess,
         phase: guess ? 'guess_attempt' : 'child_stumped',
         guessAttempts: state.guessAttempts + (guess ? 1 : 0),
-        didEscapeCategory: state.didEscapeCategory || didEscape,
       });
       return;
     }
 
-    // 3) Pick next question
+    // 3) Następne pytanie; gdy pytań brak — ostatni strzał
     const nextQuestion = pickNextQuestion(engineState, nextAnswers, QUESTIONS);
     if (!nextQuestion) {
-      // out of questions → try one last guess
       const guess = pickBestGuess(engineState, nextAnswers);
+      logGuessAttempt(guess, engineState, nextAnswers);
       set({
-        candidates: workingCandidates,
         usedAttributes: nextUsed,
         answers: nextAnswers,
         questionsAsked: nextAsked,
@@ -324,24 +329,20 @@ export const useGameStore = create<GameState>((set, get) => ({
         guess,
         phase: guess ? 'guess_attempt' : 'child_stumped',
         guessAttempts: state.guessAttempts + (guess ? 1 : 0),
-        didEscapeCategory: state.didEscapeCategory || didEscape,
       });
       return;
     }
 
-    const escaped = state.didEscapeCategory || didEscape;
-    const announceEscape =
-      escaped && state.expeditionMode === 'guided' && !state.escapeAnnounced;
+    const escape = escapeUpdate(state, engineState, nextAnswers);
     set({
-      candidates: workingCandidates,
       usedAttributes: nextUsed,
       answers: nextAnswers,
       questionsAsked: nextAsked,
       currentQuestion: nextQuestion,
-      prompt: buildPrompt(nextQuestion, engineState, { announceEscape }),
+      prompt: buildPrompt(nextQuestion, engineState, nextAnswers, { announceEscape: escape.announce }),
       phase: 'asking',
-      didEscapeCategory: escaped,
-      escapeAnnounced: state.escapeAnnounced || announceEscape,
+      didEscapeCategory: escape.didEscape,
+      escapeAnnounced: state.escapeAnnounced || escape.announce,
     });
   },
 
@@ -354,82 +355,42 @@ export const useGameStore = create<GameState>((set, get) => ({
     const state = get();
     if (!state.guess) return;
 
+    // Jedyne trwałe wykluczenie w grze: zwierzę, w które Timo spudłował.
+    // Reszta zostaje w pamięci odpowiedzi — nie ma już resetu puli.
     const nextExcluded = new Set(state.excludedAnimals);
     nextExcluded.add(state.guess.id);
+    const engineState: EngineState = { ...engineOf(state), excludedAnimals: nextExcluded };
 
-    const engineState = {
-      candidates: state.candidates,
-      usedAttributes: state.usedAttributes,
-      excludedAnimals: nextExcluded,
-      questionsAsked: state.questionsAsked,
-    };
+    logGuessRejected(state.guess, plausibleCount(engineState, state.answers));
 
-    const eligibleAfterExclude = eligibleCandidates(engineState).length;
-    logGuessRejected(state.guess, eligibleAfterExclude);
-
-    // give up only if hit hard limit; if pula=0 by exclusion, relax filter (revert last answer impact)
-    if (state.questionsAsked >= MAX_QUESTIONS) {
-      logGiveUp(engineState);
-      set({
-        excludedAnimals: nextExcluded,
-        guess: null,
-        phase: 'child_stumped',
-      });
+    if (state.questionsAsked >= MAX_QUESTIONS || eligibleCandidates(engineState).length === 0) {
+      logGiveUp(engineState, state.answers);
+      set({ excludedAnimals: nextExcluded, guess: null, phase: 'child_stumped' });
       return;
     }
 
-    // If we filtered ourselves into a corner (eligible=0), broaden:
-    //  - guided  → tematyczny expansion pool (ocean+freshwater dla wodnych itp.)
-    //  - expert  → expeditionBasePool (zostań w roster wyprawy)
-    //  - free    → ANIMALS
-    let workingState = engineState;
-    let didEscape = false;
-    if (eligibleAfterExclude === 0) {
-      let fallback: Animal[];
-      if (state.expeditionMode === 'guided' && state.expeditionId) {
-        const themed = expeditionExpansionPool(state.expeditionId);
-        fallback = themed.length > 0 ? themed : ANIMALS;
-        didEscape = true;
-      } else {
-        fallback = state.expeditionBasePool ?? ANIMALS;
-      }
-      workingState = {
-        candidates: fallback,
-        usedAttributes: state.usedAttributes,
-        excludedAnimals: nextExcluded,
-        questionsAsked: state.questionsAsked,
-      };
-    }
-
-    const nextQuestion = pickNextQuestion(workingState, state.answers, QUESTIONS);
-
-    // Out of questions but still have eligible candidates → keep guessing
+    const nextQuestion = pickNextQuestion(engineState, state.answers, QUESTIONS);
     if (!nextQuestion) {
-      const newGuess = pickBestGuess(workingState, state.answers);
-      logGuessAttempt(newGuess, workingState, state.answers);
+      const newGuess = pickBestGuess(engineState, state.answers);
+      logGuessAttempt(newGuess, engineState, state.answers);
       set({
-        candidates: workingState.candidates,
         excludedAnimals: nextExcluded,
         guess: newGuess,
         phase: newGuess ? 'guess_attempt' : 'child_stumped',
         guessAttempts: state.guessAttempts + (newGuess ? 1 : 0),
-        didEscapeCategory: state.didEscapeCategory || didEscape,
       });
       return;
     }
 
-    const escaped = state.didEscapeCategory || didEscape;
-    const announceEscape =
-      escaped && state.expeditionMode === 'guided' && !state.escapeAnnounced;
+    const escape = escapeUpdate(state, engineState, state.answers);
     set({
-      candidates: workingState.candidates,
       excludedAnimals: nextExcluded,
       guess: null,
       currentQuestion: nextQuestion,
-      prompt: buildPrompt(nextQuestion, workingState, { announceEscape }),
+      prompt: buildPrompt(nextQuestion, engineState, state.answers, { announceEscape: escape.announce }),
       phase: 'asking',
-      didEscapeCategory: escaped,
-      escapeAnnounced: state.escapeAnnounced || announceEscape,
+      didEscapeCategory: escape.didEscape,
+      escapeAnnounced: state.escapeAnnounced || escape.announce,
     });
   },
 
@@ -440,10 +401,5 @@ export const useGameStore = create<GameState>((set, get) => ({
 
 // Helper for screens
 export function remainingCandidatesCount(state: GameState): number {
-  return eligibleCandidates({
-    candidates: state.candidates,
-    usedAttributes: state.usedAttributes,
-    excludedAnimals: state.excludedAnimals,
-    questionsAsked: state.questionsAsked,
-  }).length;
+  return plausibleCount(engineOf(state), state.answers);
 }
