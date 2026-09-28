@@ -2,6 +2,14 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useWindowDimensions, View as RNView } from 'react-native';
 
+import Animated, {
+  cancelAnimation,
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
+
 import { useTalkMood, type TalkMood } from '@/lib/audio/timo-voice';
 import { Image } from '@/tw/image';
 
@@ -393,42 +401,86 @@ const TALK_CLIP: Record<TalkMood, TimoClip> = {
   oops: 'talk-oops',
 };
 
+/** Wejście pętli mówienia i jej zejście — przenikanie zamiast cięcia. */
+const TALK_FADE_IN_MS = 180;
+const TALK_FADE_OUT_MS = 280;
+
 /**
  * Lisek, który rusza buzią, gdy gra jego głos.
  *
- * Idle leży zawsze pod spodem; pętla mówienia wchodzi na wierzch dopiero,
- * gdy się wczyta — bez tego przy pierwszej kwestii przez chwilę byłoby pusto.
- * Nastrój (mówi / pyta / cieszy się / ups) wybiera `useTalkMood` z klucza
- * kwestii. Każda nowa wypowiedź montuje pętlę od nowa (`key`), więc zaczyna
- * się od pierwszej klatki, czyli od pozy idle — lisek nie przeskakuje.
+ * Pętli WebP nie da się przewinąć do wybranej klatki, a głos kończy się
+ * w dowolnym momencie ruchu. Twarde przełączenie pokazywało więc w jednej
+ * klatce dwie różne pozy — łapkę przy brodzie, a zaraz machanie z idle,
+ * które cały czas leciało pod spodem własnym rytmem.
+ *
+ * Dlatego:
+ * - koniec kwestii montuje idle od nowa — jego pierwsza klatka to poza,
+ *   z której wygenerowano pętle mówienia — a pętla mówienia znika
+ *   przenikaniem, zamiast zniknąć w jednej klatce;
+ * - początek kwestii wchodzi przenikaniem na wierzch idle, dopiero gdy
+ *   pętla się wczyta (bez pustej klatki), zawsze od pierwszej klatki.
  */
 function TalkingTimo({ height }: { height: number }) {
   const mood = useTalkMood();
-  const [loaded, setLoaded] = useState<TalkMood | null>(null);
-  const utterance = useRef(0);
-  const wasTalking = useRef(false);
-  if (mood && !wasTalking.current) utterance.current += 1;
-  wasTalking.current = mood !== null;
+  // Pętla na wierzchu — zostaje zamontowana także w trakcie zejścia.
+  const [shown, setShown] = useState<TalkMood | null>(null);
+  const [talkKey, setTalkKey] = useState(0);
+  const [idleKey, setIdleKey] = useState(0);
+  const talkOpacity = useSharedValue(0);
+
+  // Pętla na wierzchu jest widoczna albo właśnie znika — w tej chwili lisek
+  // ma pozę z pętli mówienia, nie z idle.
+  const talkVisible = useRef(false);
 
   useEffect(() => {
-    if (!mood) setLoaded(null);
-  }, [mood]);
+    if (mood) {
+      cancelAnimation(talkOpacity);
+      if (talkVisible.current) {
+        // Kolejna kwestia zaraz po poprzedniej (reakcja → następne pytanie):
+        // ta sama pętla gra dalej — nowa startowałaby od pozy idle i lisek
+        // przeskoczyłby w jednej klatce. Nastrój zmienia się dopiero, gdy
+        // Timo naprawdę zamilknie.
+        talkOpacity.value = withTiming(1, { duration: TALK_FADE_IN_MS });
+        return;
+      }
+      talkOpacity.value = 0;
+      talkVisible.current = true;
+      setShown(mood);
+      setTalkKey((k) => k + 1);
+    } else {
+      setIdleKey((k) => k + 1);
+      talkOpacity.value = withTiming(0, { duration: TALK_FADE_OUT_MS }, (done) => {
+        if (done) runOnJS(hideTalk)();
+      });
+    }
+  }, [mood, talkOpacity]);
 
-  const talking = mood !== null && loaded === mood;
+  const talkStyle = useAnimatedStyle(() => ({ opacity: talkOpacity.value }));
+  // Idle znika dokładnie tak, jak pojawia się mówienie — inaczej spod
+  // mówiącego liska wystawał drugi (łapka, ogon), bo pozy się różnią.
+  const idleStyle = useAnimatedStyle(() => ({ opacity: 1 - talkOpacity.value }));
+
+  function hideTalk() {
+    talkVisible.current = false;
+    setShown(null);
+  }
+
   return (
     <RNView style={{ height, alignSelf: 'stretch' }}>
-      <RNView style={{ opacity: talking ? 0 : 1 }}>
-        <TimoAnimated clip="idle" height={height} />
-      </RNView>
-      {mood ? (
-        <RNView style={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
+      <Animated.View style={idleStyle}>
+        <TimoAnimated key={`idle-${idleKey}`} clip="idle" height={height} />
+      </Animated.View>
+      {shown ? (
+        <Animated.View style={[{ position: 'absolute', top: 0, left: 0, right: 0 }, talkStyle]}>
           <TimoAnimated
-            key={`${mood}-${utterance.current}`}
-            clip={TALK_CLIP[mood]}
+            key={`talk-${talkKey}`}
+            clip={TALK_CLIP[shown]}
             height={height}
-            onLoad={() => setLoaded(mood)}
+            onLoad={() => {
+              talkOpacity.value = withTiming(1, { duration: TALK_FADE_IN_MS });
+            }}
           />
-        </RNView>
+        </Animated.View>
       ) : null}
     </RNView>
   );
