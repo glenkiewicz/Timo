@@ -64,3 +64,10 @@ export const DEV_START_SCREEN = devOnly<'first-time' | 'returning' | 'skip'>('sk
  * - 'completed' — ukończona („Jutro czeka nowa przygoda”).
  */
 export const DEV_DAILY_EXPEDITION = devOnly<'pick' | 'chosen' | 'completed'>('pick');
+
+/**
+ * Log pytań na żywo w konsoli Metro: każde zadane pytanie (id, atrybut, pula,
+ * pełny tekst Timo ze wstępem, klucze głosu), odpowiedź i zmiana puli.
+ * Filtruj po „[Timo]”. Podsumowanie całej gry idzie i tak na końcu partii.
+ */
+export const DEV_LOG_QUESTIONS = __DEV__ && true;

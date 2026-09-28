@@ -9,6 +9,7 @@ import {
 import { QUESTIONS } from '@/data/questions';
 import {
   logAnswer,
+  logAsked,
   logGiveUp,
   logGuessAccepted,
   logGuessAttempt,
@@ -124,11 +125,13 @@ function buildPrompt(
   opts: { announceEscape: boolean },
 ): DecoratedQuestion | null {
   if (!question) return null;
-  return decorateQuestion(question, {
+  const prompt = decorateQuestion(question, {
     questionsAsked: engine.questionsAsked,
     heat: heatLevel(engine),
     outside: opts.announceEscape ? pickOutsideCategoryLine() : null,
   });
+  logAsked(question, prompt, engine);
+  return prompt;
 }
 
 export const useGameStore = create<GameState>((set, get) => ({
