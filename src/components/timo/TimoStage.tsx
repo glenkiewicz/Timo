@@ -1,10 +1,11 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useWindowDimensions, View as RNView } from 'react-native';
 
+import { useTalkMood, type TalkMood } from '@/lib/audio/timo-voice';
 import { Image } from '@/tw/image';
 
-import { TimoAnimated } from './TimoAnimated';
+import { TimoAnimated, type TimoClip } from './TimoAnimated';
 
 /**
  * Polana Timo — pełnoekranowa ilustracja lasu z animowanym Timo na trawie.
@@ -315,7 +316,7 @@ export function TimoStage({ children, onGroundY, height = BAND_HEIGHT }: TimoSta
             wyśrodkowany. Poprzedni klip wymagał korekty, bo przycinałem go
             do zasięgu WSZYSTKICH klatek, a ten sięgał dalej w lewo przez
             podniesioną łapkę. */}
-        <TimoAnimated clip="idle" height={height} />
+        <TalkingTimo height={height} />
       </RNView>
     </RNView>
   );
@@ -382,5 +383,53 @@ export function SceneBackdrop({
       transition={0}
       accessible={false}
     />
+  );
+}
+
+const TALK_CLIP: Record<TalkMood, TimoClip> = {
+  talk: 'talk',
+  ask: 'talk-ask',
+  happy: 'talk-happy',
+  oops: 'talk-oops',
+};
+
+/**
+ * Lisek, który rusza buzią, gdy gra jego głos.
+ *
+ * Idle leży zawsze pod spodem; pętla mówienia wchodzi na wierzch dopiero,
+ * gdy się wczyta — bez tego przy pierwszej kwestii przez chwilę byłoby pusto.
+ * Nastrój (mówi / pyta / cieszy się / ups) wybiera `useTalkMood` z klucza
+ * kwestii. Każda nowa wypowiedź montuje pętlę od nowa (`key`), więc zaczyna
+ * się od pierwszej klatki, czyli od pozy idle — lisek nie przeskakuje.
+ */
+function TalkingTimo({ height }: { height: number }) {
+  const mood = useTalkMood();
+  const [loaded, setLoaded] = useState<TalkMood | null>(null);
+  const utterance = useRef(0);
+  const wasTalking = useRef(false);
+  if (mood && !wasTalking.current) utterance.current += 1;
+  wasTalking.current = mood !== null;
+
+  useEffect(() => {
+    if (!mood) setLoaded(null);
+  }, [mood]);
+
+  const talking = mood !== null && loaded === mood;
+  return (
+    <RNView style={{ height, alignSelf: 'stretch' }}>
+      <RNView style={{ opacity: talking ? 0 : 1 }}>
+        <TimoAnimated clip="idle" height={height} />
+      </RNView>
+      {mood ? (
+        <RNView style={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
+          <TimoAnimated
+            key={`${mood}-${utterance.current}`}
+            clip={TALK_CLIP[mood]}
+            height={height}
+            onLoad={() => setLoaded(mood)}
+          />
+        </RNView>
+      ) : null}
+    </RNView>
   );
 }

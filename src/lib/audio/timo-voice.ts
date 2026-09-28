@@ -75,6 +75,38 @@ function applyPlaybackRate(player: AudioPlayer): void {
 
 type Listener = (speaking: boolean) => void;
 
+/**
+ * Nastrój pętli mówienia — która animacja liska towarzyszy kwestii.
+ * Tabela w docs/prompts-timo-talking.md.
+ */
+export type TalkMood = 'talk' | 'ask' | 'happy' | 'oops';
+
+/**
+ * Sekwencję klipów (np. setup + pytanie) gra JEDNA pętla — ta, którą wskazuje
+ * ostatni klip, żeby lisek nie zmieniał nastroju w pół zdania. Wyjątek: nazwa
+ * zwierzęcia na końcu strzału („Mój nos mówi, że to…” + „Lis”) należy do
+ * wstępu, więc decyduje klip przed nią.
+ */
+export function talkMoodFor(keys: string[]): TalkMood {
+	let key = keys[keys.length - 1] ?? '';
+	if (key.startsWith('animal.') && keys.length > 1) key = keys[keys.length - 2];
+	if (/^q\.[^.]+\.core\./.test(key) || key.startsWith('wyglup.') || key.startsWith('guess_intro.')) {
+		return 'ask';
+	}
+	if (
+		/^q\.[^.]+\.yes\./.test(key) ||
+		key.startsWith('heat.') ||
+		key.startsWith('victory.') ||
+		key.startsWith('streak_milestone.')
+	) {
+		return 'happy';
+	}
+	if (key.startsWith('miss.') || key.startsWith('giveup.') || key.startsWith('guided_giveup.')) {
+		return 'oops';
+	}
+	return 'talk';
+}
+
 class TimoVoiceController {
 	private player: AudioPlayer | null = null;
 	private subscription: { remove: () => void } | null = null;
@@ -83,6 +115,13 @@ class TimoVoiceController {
 	private sequenceToken = 0;
 	private listeners = new Set<Listener>();
 	private speakingState = false;
+	/** Klucze bieżącej kwestii — z nich nastrój pętli mówienia. */
+	private currentKeys: string[] = [];
+
+	/** Nastrój bieżącej kwestii (ważny, gdy Timo mówi). */
+	mood(): TalkMood {
+		return talkMoodFor(this.currentKeys);
+	}
 
 	private setSpeaking(value: boolean): void {
 		if (this.speakingState === value) return;
@@ -337,6 +376,7 @@ class TimoVoiceController {
 		if (this.isMuted()) return;
 		const myToken = ++this.sequenceToken;
 		this.cleanupCurrent();
+		this.currentKeys = [voiceKey];
 		await this.playOne(voiceKey, myToken);
 		if (myToken === this.sequenceToken) {
 			this.setSpeaking(false);
@@ -358,6 +398,7 @@ class TimoVoiceController {
 		if (this.isMuted() || voiceKeys.length === 0) return;
 		const myToken = ++this.sequenceToken;
 		this.cleanupCurrent();
+		this.currentKeys = voiceKeys;
 
 		const initialDelay = options?.initialDelayMs ?? 0;
 		if (initialDelay > 0) {
@@ -398,4 +439,13 @@ export function useIsTimoSpeaking(): boolean {
 		return timoVoice.subscribe(setSpeaking);
 	}, []);
 	return speaking;
+}
+
+/**
+ * Hook: nastrój bieżącej kwestii, gdy Timo mówi, albo `null`, gdy milczy.
+ * Z niego scena wybiera pętlę mówienia liska.
+ */
+export function useTalkMood(): TalkMood | null {
+	const speaking = useIsTimoSpeaking();
+	return speaking ? timoVoice.mood() : null;
 }

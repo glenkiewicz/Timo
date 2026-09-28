@@ -21,6 +21,12 @@ import { Image } from '@/tw/image';
 const CLIPS = {
   idle: require('../../../assets/timo/character/timo-idle.webp'),
   walk: require('../../../assets/timo/character/timo-walk.webp'),
+  // Pętle mówienia — ten sam kadr co idle, pierwsza klatka w pozie idle
+  // (scripts/process-timo-talk.py), więc podmiana nie przesuwa liska.
+  talk: require('../../../assets/timo/character/timo-talk.webp'),
+  'talk-ask': require('../../../assets/timo/character/timo-talk-ask.webp'),
+  'talk-happy': require('../../../assets/timo/character/timo-talk-happy.webp'),
+  'talk-oops': require('../../../assets/timo/character/timo-talk-oops.webp'),
 } as const;
 
 export type TimoClip = keyof typeof CLIPS;
@@ -31,21 +37,29 @@ type TimoAnimatedProps = {
   height?: number;
   /** Pozioma korekta w punktach — patrz `CLIP_BODY_OFFSET_PX` w `TimoStage`. */
   offsetX?: number;
+  /** Animacja wczytana — scena chowa wtedy idle pod spodem. */
+  onLoad?: () => void;
 };
 
 const LABELS: Record<TimoClip, string> = {
   idle: 'Timo macha łapką',
   walk: 'Timo spaceruje',
+  talk: 'Timo mówi',
+  'talk-ask': 'Timo pyta',
+  'talk-happy': 'Timo się cieszy',
+  'talk-oops': 'Timo jest zakłopotany',
 };
 
 export function TimoAnimated({
   clip = 'idle',
   height = 190,
   offsetX = 0,
+  onLoad,
 }: TimoAnimatedProps) {
   return (
     <Image
       source={CLIPS[clip]}
+      onLoad={onLoad}
       style={{
         width: '100%',
         height,
