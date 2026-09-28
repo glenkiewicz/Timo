@@ -283,17 +283,22 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     logAnswer(q, a, before, engineState, state.answers, nextAnswers);
 
-    // 1) Hard limit → Timo się poddaje
+    // 1) Limit pytań → ostatnia szansa: strzał w lidera. Wcześniej Timo
+    //    poddawał się z gotową listą (np. pies 6%, świnia 5%), nie próbując.
+    //    Po pudle przy limicie `rejectGuess` kończy grę.
     if (nextAsked >= MAX_QUESTIONS) {
-      logGiveUp(engineState, nextAnswers);
+      const guess = pickBestGuess(engineState, nextAnswers);
+      if (guess) logGuessAttempt(guess, engineState, nextAnswers);
+      else logGiveUp(engineState, nextAnswers);
       set({
         usedAttributes: nextUsed,
         answers: nextAnswers,
         questionsAsked: nextAsked,
         currentQuestion: null,
         prompt: null,
-        guess: null,
-        phase: 'child_stumped',
+        guess,
+        phase: guess ? 'guess_attempt' : 'child_stumped',
+        guessAttempts: state.guessAttempts + (guess ? 1 : 0),
       });
       return;
     }

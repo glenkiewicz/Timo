@@ -85,7 +85,11 @@ function play(engine: any, target: any, belief: Belief, slip: number, oldMode: b
       resets++;
       log.push('RESET');
     }
-    if (asked >= MAX) return { win: false, asked, guesses, resets, log, pointless };
+    if (asked >= MAX) {
+      const last = engine.pickBestGuess(state(), answers);
+      guesses++;
+      return { win: last?.id === target.id, asked, guesses, resets, log, pointless };
+    }
 
     // strzały — po pudle od razu kolejny strzał, jeśli silnik dalej chce
     while (engine.shouldAttemptGuess(state(), answers, QUESTIONS)) {

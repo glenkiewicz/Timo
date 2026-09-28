@@ -58,19 +58,25 @@ const SLIP: Partial<Record<AttributeKey, number>> = {
   lives_in_water: 0.2,
   lives_on_farm: 0.2,
   lives_at_home: 0.2,
-  has_fur: 0.15,
-  is_mammal: 0.15,
+  has_fur: 0.2,
+  has_long_ears: 0.2,
+  // Gromada i rzeczy widoczne na pierwszy rzut oka — tu dziecko rzadko się
+  // myli (pytanie o ssaka ma przykłady: pies, krowa, słoń). Sprzeczność z nimi
+  // waży mocno, więc ptak nie wraca do gry po „ssak — tak”.
+  is_mammal: 0.05,
+  is_bird: 0.05,
+  is_fish: 0.05,
+  is_insect: 0.05,
+  is_reptile: 0.07,
+  is_amphibian: 0.07,
+  has_feathers: 0.04,
+  can_fly: 0.05,
+  has_shell: 0.05,
 };
 
 function slipOf(attr: AttributeKey): number {
   return SLIP[attr] ?? BASE_SLIP;
 }
-
-/**
- * Zwierzęta „zgodne z tym, co wiemy” — waga co najmniej taka część lidera.
- * Tę liczbę pokazuje log, ciepło–zimno i `remaining_candidates`.
- */
-const PLAUSIBLE_RATIO = 0.25;
 
 export type EngineState = {
   /** Cały zbiór, z którego Timo zgaduje. Nie kurczy się w trakcie gry. */
@@ -143,12 +149,50 @@ export function scoredEligible(
     .sort((a, b) => b.score - a.score);
 }
 
-/** Ilu kandydatów jest „zgodnych z tym, co wiemy” (patrz PLAUSIBLE_RATIO). */
+/**
+ * „Koszt” sprzeczności zwierzęcia z odpowiedziami — iloraz szans każdej
+ * złamanej odpowiedzi „tak/nie”. „Czasem” i „nie wiem” nie kosztują nic.
+ * Sprzeczność z pytaniem jednoznacznym (ssak, pióra) kosztuje dużo, z miękkim
+ * (grupa, szybkie, futro) mało.
+ */
+function consistency(animal: Animal, answers: GameAnswer[]): number {
+  let r = 1;
+  for (const a of answers) {
+    if (a.answer !== 'yes' && a.answer !== 'no') continue;
+    const v = animal.attributes[a.attribute_key];
+    if (v === null || v === undefined) continue;
+    if (v !== (a.answer === 'yes')) {
+      const s = slipOf(a.attribute_key);
+      r *= s / (1 - s);
+    }
+  }
+  return r;
+}
+
+/**
+ * Kandydaci „zgodni z tym, co wiemy” — najmniejszy koszt sprzeczności
+ * (z tolerancją `TIER_TOLERANCE`), bez popularności.
+ *
+ * Nie próg wagi i nie sama LICZBA sprzeczności: gdy liderzy odpadną po
+ * pudłach, obie wersje wpuszczały zwierzęta sprzeczne z różnymi odpowiedziami
+ * — ptaki mimo „ssak — tak” — i Timo pytał „czy ma pióra?”, „czy ma sześć
+ * nóżek?”. Koszt trzyma grupę spójną: po jeżu zostają pies, świnia, borsuk
+ * i szop, każde z jedną MIĘKKĄ sprzecznością.
+ */
+function plausibleSet(state: EngineState, answers: GameAnswer[]): Animal[] {
+  const eligible = eligibleCandidates(state);
+  if (eligible.length === 0) return [];
+  const scored = eligible.map((a) => ({ a, c: consistency(a, answers) }));
+  const best = Math.max(...scored.map((x) => x.c));
+  return scored.filter((x) => x.c >= best * TIER_TOLERANCE).map((x) => x.a);
+}
+
+/** Zwierzę mieści się w grupie zgodnych, jeśli jest co najwyżej o tyle „gorsze”. */
+const TIER_TOLERANCE = 0.5;
+
+/** Ilu kandydatów jest „zgodnych z tym, co wiemy” (patrz `plausibleSet`). */
 export function plausibleCount(state: EngineState, answers: GameAnswer[]): number {
-  const scored = scoredEligible(state, answers);
-  const top = scored[0]?.score ?? 0;
-  if (top === 0) return 0;
-  return scored.filter((s) => s.score >= top * PLAUSIBLE_RATIO).length;
+  return plausibleSet(state, answers).length;
 }
 
 export function shouldGiveUp(state: EngineState): boolean {
@@ -219,6 +263,8 @@ function rankQuestions(
   const total = focus.reduce((sum, s) => sum + s.score, 0) || 1;
   const prior = focus.map((s) => s.score / total);
   const h0 = entropy(prior);
+  const tier = new Set(plausibleSet(state, answers).map((a) => a.id));
+  const plausible = scored.filter((s) => tier.has(s.animal.id));
 
   const gains = remaining.map((q) => {
     let pYes = 0;
@@ -231,7 +277,7 @@ function rankQuestions(
     const post = (yes: boolean, norm: number) =>
       norm <= 0 ? [] : prior.map((p, i) => (p * (yes ? joint[i] : 1 - joint[i])) / norm);
     const gain = h0 - (pYes * entropy(post(true, pYes)) + pNo * entropy(post(false, pNo)));
-    return { q, gain: Number.isFinite(gain) ? gain : 0, sensible: splitsPlausible(q, scored) };
+    return { q, gain: Number.isFinite(gain) ? gain : 0, sensible: splitsPlausible(q, plausible) };
   });
   // Najpierw pytania, które rozdzielają zwierzęta ZGODNE z odpowiedziami.
   // Sam zysk informacji lubił też pytania rozdzielające tylko tych, którzy
@@ -244,9 +290,7 @@ function rankQuestions(
  * Czy pytanie coś rozstrzyga wśród zgodnych kandydatów — gdy ≥95% ich wagi
  * przewiduje tę samą odpowiedź, odpowiedź już wynika z poprzednich.
  */
-function splitsPlausible(q: Question, scored: Array<{ animal: Animal; score: number }>): boolean {
-  const top = scored[0]?.score ?? 0;
-  const plausible = scored.filter((s) => s.score >= top * PLAUSIBLE_RATIO);
+function splitsPlausible(q: Question, plausible: Array<{ animal: Animal; score: number }>): boolean {
   const total = plausible.reduce((n, s) => n + s.score, 0) || 1;
   let yes = 0;
   let no = 0;
