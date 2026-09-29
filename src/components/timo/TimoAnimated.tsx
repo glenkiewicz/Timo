@@ -21,12 +21,12 @@ import { Image } from '@/tw/image';
 const CLIPS = {
   idle: require('../../../assets/timo/character/timo-idle.webp'),
   walk: require('../../../assets/timo/character/timo-walk.webp'),
-  // Pętle mówienia — ten sam kadr co idle, pierwsza klatka w pozie idle
-  // (scripts/process-timo-talk.py), więc podmiana nie przesuwa liska.
+  // Animacje v2 (docs/prompts-timo-anim-v2.md): idle, mówienie i machanie
+  // z JEDNEJ klatki startowej tym samym modelem — ten sam lisek, ciało
+  // nieruchome, więc idle i mówienie różnią się tylko buzią, oczami i ogonem.
   talk: require('../../../assets/timo/character/timo-talk.webp'),
-  'talk-ask': require('../../../assets/timo/character/timo-talk-ask.webp'),
   'talk-happy': require('../../../assets/timo/character/timo-talk-happy.webp'),
-  'talk-oops': require('../../../assets/timo/character/timo-talk-oops.webp'),
+  wave: require('../../../assets/timo/character/timo-wave.webp'),
 } as const;
 
 export type TimoClip = keyof typeof CLIPS;
@@ -42,12 +42,11 @@ type TimoAnimatedProps = {
 };
 
 const LABELS: Record<TimoClip, string> = {
-  idle: 'Timo macha łapką',
+  idle: 'Timo stoi i się uśmiecha',
   walk: 'Timo spaceruje',
   talk: 'Timo mówi',
-  'talk-ask': 'Timo pyta',
   'talk-happy': 'Timo się cieszy',
-  'talk-oops': 'Timo jest zakłopotany',
+  wave: 'Timo macha łapką',
 };
 
 export function TimoAnimated({

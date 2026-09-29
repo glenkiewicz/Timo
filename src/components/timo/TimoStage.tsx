@@ -299,9 +299,16 @@ type TimoStageProps = {
   onGroundY?: (y: number) => void;
   /** Wysokość pasa z liskiem; ekran startowy pokazuje go większego niż Menu. */
   height?: number;
+  /** Co lisek robi, gdy nie mówi — domyślnie spokojne idle, na starcie macha. */
+  idleClip?: TimoClip;
 };
 
-export function TimoStage({ children, onGroundY, height = BAND_HEIGHT }: TimoStageProps) {
+export function TimoStage({
+  children,
+  onGroundY,
+  height = BAND_HEIGHT,
+  idleClip = 'idle',
+}: TimoStageProps) {
   const bandRef = useRef<RNView>(null);
 
   const handleLayout = useCallback(() => {
@@ -324,7 +331,7 @@ export function TimoStage({ children, onGroundY, height = BAND_HEIGHT }: TimoSta
             wyśrodkowany. Poprzedni klip wymagał korekty, bo przycinałem go
             do zasięgu WSZYSTKICH klatek, a ten sięgał dalej w lewo przez
             podniesioną łapkę. */}
-        <TalkingTimo height={height} />
+        <TalkingTimo height={height} idleClip={idleClip} />
       </RNView>
     </RNView>
   );
@@ -394,16 +401,25 @@ export function SceneBackdrop({
   );
 }
 
+/**
+ * „Pyta” i „ups” grają zwykłe mówienie — w v2 różnica nastroju siedzi
+ * w buzi i brwiach, nie w gestach, a gesty rozjeżdżały pozy.
+ */
 const TALK_CLIP: Record<TalkMood, TimoClip> = {
   talk: 'talk',
-  ask: 'talk-ask',
+  ask: 'talk',
   happy: 'talk-happy',
-  oops: 'talk-oops',
+  oops: 'talk',
 };
 
 /** Wejście pętli mówienia i jej zejście — przenikanie zamiast cięcia. */
-const TALK_FADE_IN_MS = 180;
-const TALK_FADE_OUT_MS = 280;
+/**
+ * Krótko: w v2 idle i mówienie różnią się tylko buzią i oczami, więc
+ * przenikanie nie musi ukrywać zmiany pozy — ma tylko wygładzić wejście
+ * i zamknąć buzię RAZEM z końcem głosu.
+ */
+const TALK_FADE_IN_MS = 120;
+const TALK_FADE_OUT_MS = 150;
 
 /**
  * Lisek, który rusza buzią, gdy gra jego głos.
@@ -421,7 +437,7 @@ const TALK_FADE_OUT_MS = 280;
  * ekranie startowym. Pętla mówienia wchodzi dopiero po wczytaniu, więc jej
  * montowanie jest niewidoczne.
  */
-function TalkingTimo({ height }: { height: number }) {
+function TalkingTimo({ height, idleClip }: { height: number; idleClip: TimoClip }) {
   const mood = useTalkMood();
   // Pętla na wierzchu — zostaje zamontowana także w trakcie zejścia.
   const [shown, setShown] = useState<TalkMood | null>(null);
@@ -470,7 +486,7 @@ function TalkingTimo({ height }: { height: number }) {
   return (
     <RNView style={{ height, alignSelf: 'stretch' }}>
       <Animated.View style={idleStyle}>
-        <TimoAnimated clip="idle" height={height} />
+        <TimoAnimated clip={idleClip} height={height} />
       </Animated.View>
       {shown ? (
         <Animated.View style={[{ position: 'absolute', top: 0, left: 0, right: 0 }, talkStyle]}>

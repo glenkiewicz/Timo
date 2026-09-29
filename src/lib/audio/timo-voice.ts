@@ -117,6 +117,28 @@ class TimoVoiceController {
 	private speakingState = false;
 	/** Klucze bieżącej kwestii — z nich nastrój pętli mówienia. */
 	private currentKeys: string[] = [];
+	/**
+	 * Dźwięk FAKTYCZNIE gra — od pierwszego postępu klipu do jego końca.
+	 * Różni się od „mówi” (`speakingState`), które obejmuje też pauzę przed
+	 * pytaniem i przerwy między klipami: buzia liska ma iść za dźwiękiem,
+	 * nie za tą flagą.
+	 */
+	private audibleState = false;
+	private audibleListeners = new Set<Listener>();
+
+	private setAudible(value: boolean): void {
+		if (this.audibleState === value) return;
+		this.audibleState = value;
+		for (const l of this.audibleListeners) l(value);
+	}
+
+	subscribeAudible(listener: Listener): () => void {
+		this.audibleListeners.add(listener);
+		listener(this.audibleState);
+		return () => {
+			this.audibleListeners.delete(listener);
+		};
+	}
 
 	/** Nastrój bieżącej kwestii (ważny, gdy Timo mówi). */
 	mood(): TalkMood {
@@ -176,6 +198,7 @@ class TimoVoiceController {
 	stop(): void {
 		this.sequenceToken += 1;
 		this.cleanupCurrent();
+		this.setAudible(false);
 		this.setSpeaking(false);
 	}
 
@@ -309,6 +332,9 @@ class TimoVoiceController {
 								);
 						}
 					}
+					// Buzia rusza dopiero, gdy dźwięk naprawdę popłynął — nie w chwili
+					// wywołania play(), bo start potrafi się opóźnić o kilkaset ms.
+					if (status.playing && status.currentTime > 0) this.setAudible(true);
 					if (status.didJustFinish) {
 						finishOnce("finished");
 						return;
@@ -377,8 +403,10 @@ class TimoVoiceController {
 		const myToken = ++this.sequenceToken;
 		this.cleanupCurrent();
 		this.currentKeys = [voiceKey];
+		this.setAudible(false);
 		await this.playOne(voiceKey, myToken);
 		if (myToken === this.sequenceToken) {
+			this.setAudible(false);
 			this.setSpeaking(false);
 		}
 	}
@@ -399,6 +427,10 @@ class TimoVoiceController {
 		const myToken = ++this.sequenceToken;
 		this.cleanupCurrent();
 		this.currentKeys = voiceKeys;
+		// Nowa wypowiedź: buzia stoi, dopóki pierwszy klip nie zabrzmi (pauza
+		// przed pytaniem to cisza). Między klipami sekwencji zostaje otwarta —
+		// kończy ją dopiero ostatni klip.
+		this.setAudible(false);
 
 		const initialDelay = options?.initialDelayMs ?? 0;
 		if (initialDelay > 0) {
@@ -416,6 +448,7 @@ class TimoVoiceController {
 			await this.playOne(voiceKeys[i], myToken);
 		}
 		if (myToken === this.sequenceToken) {
+			this.setAudible(false);
 			this.setSpeaking(false);
 		}
 	}
@@ -442,10 +475,11 @@ export function useIsTimoSpeaking(): boolean {
 }
 
 /**
- * Hook: nastrój bieżącej kwestii, gdy Timo mówi, albo `null`, gdy milczy.
- * Z niego scena wybiera pętlę mówienia liska.
+ * Hook: nastrój bieżącej kwestii, gdy dźwięk głosu faktycznie gra, albo
+ * `null`, gdy panuje cisza. Z niego scena wybiera pętlę mówienia liska.
  */
 export function useTalkMood(): TalkMood | null {
-	const speaking = useIsTimoSpeaking();
-	return speaking ? timoVoice.mood() : null;
+	const [audible, setAudible] = useState<boolean>(false);
+	useEffect(() => timoVoice.subscribeAudible(setAudible), []);
+	return audible ? timoVoice.mood() : null;
 }

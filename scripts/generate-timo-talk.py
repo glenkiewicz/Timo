@@ -19,7 +19,7 @@ import json, pathlib, re, sys, time, urllib.request, uuid
 
 API = "https://toapis.com/v1"
 MODEL = "kling-v3"
-DOC = pathlib.Path("docs/prompts-timo-talking.md")
+DOC = pathlib.Path("docs/prompts-timo-talking.md")  # --doc=… podmienia
 START = pathlib.Path("assets/timo/character/timo-talk-start.png")
 OUT = pathlib.Path("assets/timo/character/_raw")
 
@@ -31,10 +31,10 @@ def key():
     sys.exit("brak TOAPIS_API_KEY w .env")
 
 
-def prompts():
-    text = DOC.read_text(encoding="utf-8")
+def prompts(doc=None):
+    text = (doc or DOC).read_text(encoding="utf-8")
     out = {}
-    for m in re.finditer(r"^## \d+\..*?`([a-z-]+)`.*?```\n(.*?)```", text, re.S | re.M):
+    for m in re.finditer(r"^## \d+\..*?`([a-z0-9-]+)`.*?```\n(.*?)```", text, re.S | re.M):
         out[m.group(1)] = m.group(2).strip()
     neg = re.search(r"## Negative prompt.*?```\n(.*?)```", text, re.S)
     return out, (neg.group(1).strip() if neg else "")
@@ -87,8 +87,11 @@ def main():
     opts = dict(a[2:].split("=", 1) for a in sys.argv[1:] if a.startswith("--"))
     variants = int(opts.get("variants", 3))
     mode = opts.get("mode", "pro")
+    doc = pathlib.Path(opts["doc"]) if "doc" in opts else None
+    durations = {k: int(v) for k, v in (x.split(":") for x in opts.get("durations", "").split(",") if x)}
+    default_duration = int(opts.get("duration", 5))
 
-    all_prompts, negative = prompts()
+    all_prompts, negative = prompts(doc)
     names = args or list(all_prompts)
     k = key()
     OUT.mkdir(parents=True, exist_ok=True)
@@ -105,7 +108,7 @@ def main():
                 "model": MODEL,
                 "prompt": all_prompts[name],
                 "mode": mode,
-                "duration": 5,
+                "duration": durations.get(name, default_duration),
                 "aspect_ratio": "9:16",
                 "audio": False,
                 "image_with_roles": [

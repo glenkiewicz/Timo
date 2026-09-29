@@ -27,10 +27,10 @@ import numpy as np
 from PIL import Image
 
 SIZE = (435, 640)
-SCALE = 0.680 / 1.5
+SCALE = 0.680  # dla filmu 720 px szerokości; dla innych przeliczane w process()
 OFFSET = (-25, -124)
 FPS = 24
-IDLE = 'assets/timo/character/timo-idle.webp'
+IDLE = 'assets/timo/character/timo-frame-ref.png'  # wzorzec kadru: pierwsza klatka PIERWOTNEGO idle
 
 
 def frames(mp4: str) -> list[np.ndarray]:
@@ -67,7 +67,7 @@ def defringe(rgb: np.ndarray, a: np.ndarray) -> np.ndarray:
     return np.clip(out, 0, 255).astype(np.uint8)
 
 
-def fit(first: np.ndarray, idle_alpha: np.ndarray) -> np.ndarray:
+def fit(first: np.ndarray, idle_alpha: np.ndarray, scale: float) -> np.ndarray:
     """
     Skala i przesunięcie tego filmu → kadr timo-idle, dopasowane kształtem
     liska z PIERWSZEJ klatki do pierwszej klatki idle. Kling lekko przekadrowuje
@@ -77,7 +77,7 @@ def fit(first: np.ndarray, idle_alpha: np.ndarray) -> np.ndarray:
     m = (alpha(first) > 128).astype(np.float32)
     target = idle_alpha > 128
     best = None
-    for s in np.arange(SCALE * 0.95, SCALE * 1.05, SCALE * 0.002):
+    for s in np.arange(scale * 0.95, scale * 1.05, scale * 0.002):
         for oy in range(OFFSET[1] - 24, OFFSET[1] + 25, 2):
             for ox in range(OFFSET[0] - 16, OFFSET[0] + 17, 2):
                 M = np.float32([[s, 0, ox], [0, s, oy]])
@@ -101,7 +101,8 @@ def process(mp4: str, out: str) -> None:
     fs = frames(mp4)[:-1]
     idle = Image.open(IDLE)
     idle.seek(0)
-    M = fit(fs[0], np.asarray(idle.convert('RGBA'))[..., 3])
+    # Tryb pro daje 1080 px, std 720 px — skala zależy od szerokości filmu.
+    M = fit(fs[0], np.asarray(idle.convert('RGBA'))[..., 3], SCALE * 720 / fs[0].shape[1])
     imgs = [to_idle_frame(f, M) for f in fs]
     imgs[0].save(out, save_all=True, append_images=imgs[1:], duration=round(1000 / FPS),
                  loop=0, lossless=False, quality=80, method=4)
