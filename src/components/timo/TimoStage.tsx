@@ -428,18 +428,14 @@ const TALK_FADE_OUT_MS = 150;
 /**
  * Lisek, który rusza buzią, gdy gra jego głos.
  *
- * Pętli WebP nie da się przewinąć do wybranej klatki, a głos kończy się
- * w dowolnym momencie ruchu. Twarde przełączenie pokazywało więc w jednej
- * klatce dwie różne pozy — łapkę przy brodzie, a zaraz machanie z idle,
- * które cały czas leciało pod spodem własnym rytmem.
+ * Idle gra bez przerwy na spodzie. Obie pętle mówienia (zwykła i radosna)
+ * są wczytane z góry i ZATRZYMANE — przy pierwszym dźwięku kwestii właściwa
+ * przewija się na początek i rusza od razu, bez wczytywania pliku, które
+ * dodawało opóźnienie buzi względem głosu. Wchodzi i schodzi przenikaniem
+ * nad idle, które trzyma pełne krycie, więc lisek nigdy nie prześwituje.
  *
- * Dlatego pętla mówienia wchodzi i schodzi przenikaniem nad idle, które
- * trzyma pełne krycie, więc zmiana pozy rozkłada się na ~0,3 s zamiast
- * jednej klatki, a lisek nigdy nie prześwituje.
- * Idle NIE jest montowane od nowa — próba startu od pierwszej klatki dawała
- * pustą klatkę na czas wczytania (miganie) i zatrzymywała animację na
- * ekranie startowym. Pętla mówienia wchodzi dopiero po wczytaniu, więc jej
- * montowanie jest niewidoczne.
+ * Kwestia zaraz po poprzedniej (reakcja → pytanie) nie przewija pętli —
+ * nowa startowałaby od pozy idle i lisek przeskoczyłby w jednej klatce.
  */
 export function TalkingTimo({
   height,
@@ -452,30 +448,23 @@ export function TalkingTimo({
 }) {
   const dress = outfitFor(outfit);
   const mood = useTalkMood();
-  // Pętla na wierzchu — zostaje zamontowana także w trakcie zejścia.
-  const [shown, setShown] = useState<TalkMood | null>(null);
-  const [talkKey, setTalkKey] = useState(0);
+  // Która pętla jest na wierzchu — zostaje też w trakcie zejścia.
+  const [shown, setShown] = useState<TimoClip>('talk');
+  const [playing, setPlaying] = useState(false);
+  const [restart, setRestart] = useState(0);
   const talkOpacity = useSharedValue(0);
-
-  // Pętla na wierzchu jest widoczna albo właśnie znika — w tej chwili lisek
-  // ma pozę z pętli mówienia, nie z idle.
   const talkVisible = useRef(false);
 
   useEffect(() => {
     if (mood) {
       cancelAnimation(talkOpacity);
-      if (talkVisible.current) {
-        // Kolejna kwestia zaraz po poprzedniej (reakcja → następne pytanie):
-        // ta sama pętla gra dalej — nowa startowałaby od pozy idle i lisek
-        // przeskoczyłby w jednej klatce. Nastrój zmienia się dopiero, gdy
-        // Timo naprawdę zamilknie.
-        talkOpacity.value = withTiming(1, { duration: TALK_FADE_IN_MS });
-        return;
+      if (!talkVisible.current) {
+        talkVisible.current = true;
+        setShown(TALK_CLIP[mood]);
+        setRestart((r) => r + 1);
       }
-      talkOpacity.value = 0;
-      talkVisible.current = true;
-      setShown(mood);
-      setTalkKey((k) => k + 1);
+      setPlaying(true);
+      talkOpacity.value = withTiming(1, { duration: TALK_FADE_IN_MS });
     } else {
       talkOpacity.value = withTiming(0, { duration: TALK_FADE_OUT_MS }, (done) => {
         if (done) runOnJS(hideTalk)();
@@ -483,37 +472,41 @@ export function TalkingTimo({
     }
   }, [mood, talkOpacity]);
 
-  const talkStyle = useAnimatedStyle(() => ({ opacity: talkOpacity.value }));
-  // Idle chowa się dopiero, gdy mówienie jest w pełni widoczne — inaczej
-  // spod mówiącego liska wystawał drugi (łapka, ogon). NIE przenikamy obu
-  // naraz: dwie warstwy po 50% kryją razem tylko 75% i lisek na chwilę
-  // prześwitywał (miganie). Idle pod spodem trzyma pełne krycie przez całe
-  // przejście.
-  const idleStyle = useAnimatedStyle(() => ({ opacity: talkOpacity.value >= 0.999 ? 0 : 1 }));
-
   function hideTalk() {
     talkVisible.current = false;
-    setShown(null);
+    setPlaying(false);
   }
+
+  const talkStyle = useAnimatedStyle(() => ({ opacity: talkOpacity.value }));
+  // Idle chowa się dopiero, gdy mówienie jest w pełni widoczne — dwie
+  // warstwy po 50% kryją razem tylko 75% i lisek prześwitywał.
+  const idleStyle = useAnimatedStyle(() => ({ opacity: talkOpacity.value >= 0.999 ? 0 : 1 }));
+
+  const talkSource = (clip: TimoClip) =>
+    dress ? (clip === 'talk-happy' ? dress.happy : dress.talk) : undefined;
 
   return (
     <RNView style={{ height, alignSelf: 'stretch' }}>
       <Animated.View style={idleStyle}>
         <TimoAnimated clip={idleClip} height={height} source={dress?.idle} />
       </Animated.View>
-      {shown ? (
-        <Animated.View style={[{ position: 'absolute', top: 0, left: 0, right: 0 }, talkStyle]}>
+      {(['talk', 'talk-happy'] as const).map((clip) => (
+        <Animated.View
+          key={clip}
+          pointerEvents="none"
+          style={[
+            { position: 'absolute', top: 0, left: 0, right: 0 },
+            shown === clip ? talkStyle : { opacity: 0 },
+          ]}>
           <TimoAnimated
-            key={`talk-${talkKey}`}
-            clip={TALK_CLIP[shown]}
-            source={dress ? (TALK_CLIP[shown] === 'talk-happy' ? dress.happy : dress.talk) : undefined}
+            clip={clip}
+            source={talkSource(clip)}
             height={height}
-            onLoad={() => {
-              talkOpacity.value = withTiming(1, { duration: TALK_FADE_IN_MS });
-            }}
+            paused={!(playing && shown === clip)}
+            restartToken={shown === clip ? restart : 0}
           />
         </Animated.View>
-      ) : null}
+      ))}
     </RNView>
   );
 }

@@ -1,4 +1,7 @@
+import { View } from '@/tw';
 import { Image } from '@/tw/image';
+
+import { AlphaVideo } from './AlphaVideo';
 
 /**
  * Animowany Timo — zapętlone klipy maskotki.
@@ -19,14 +22,16 @@ import { Image } from '@/tw/image';
  *   element ekranu.
  */
 const CLIPS = {
-  idle: require('../../../assets/timo/character/timo-idle.webp'),
-  walk: require('../../../assets/timo/character/timo-walk.webp'),
+  // Klipy liska jako wideo „podwójne” (kolor + maska) — patrz AlphaVideo.
+  idle: require('../../../assets/timo/character/timo-idle.mp4'),
   // Animacje v2 (docs/prompts-timo-anim-v2.md): idle, mówienie i machanie
   // z JEDNEJ klatki startowej tym samym modelem — ten sam lisek, ciało
   // nieruchome, więc idle i mówienie różnią się tylko buzią, oczami i ogonem.
-  talk: require('../../../assets/timo/character/timo-talk.webp'),
-  'talk-happy': require('../../../assets/timo/character/timo-talk-happy.webp'),
-  wave: require('../../../assets/timo/character/timo-wave.webp'),
+  talk: require('../../../assets/timo/character/timo-talk.mp4'),
+  'talk-happy': require('../../../assets/timo/character/timo-talk-happy.mp4'),
+  wave: require('../../../assets/timo/character/timo-wave.mp4'),
+  // Spacer zostaje animowanym WebP — jest nieprzezroczysty (tło w klipie).
+  walk: require('../../../assets/timo/character/timo-walk.webp'),
 } as const;
 
 export type TimoClip = keyof typeof CLIPS;
@@ -41,6 +46,10 @@ type TimoAnimatedProps = {
   onLoad?: () => void;
   /** Zamiast klipu z `CLIPS` — np. lisek przebrany pod wyprawę (`outfits.ts`). */
   source?: number;
+  /** Zatrzymany klip nie zużywa dekodera (pętla mówienia, gdy Timo milczy). */
+  paused?: boolean;
+  /** Zmiana przewija klip na początek — nowa wypowiedź od pierwszej klatki. */
+  restartToken?: number;
 };
 
 const LABELS: Record<TimoClip, string> = {
@@ -57,24 +66,40 @@ export function TimoAnimated({
   offsetX = 0,
   onLoad,
   source,
+  paused,
+  restartToken,
 }: TimoAnimatedProps) {
+  if (clip === 'walk' && !source) {
+    return (
+      <Image
+        source={CLIPS.walk}
+        onLoad={onLoad}
+        style={{
+          width: '100%',
+          height,
+          ...(offsetX ? { transform: [{ translateX: offsetX }] } : null),
+        }}
+        contentFit="contain"
+        useAppleWebpCodec={false}
+        transition={0}
+        accessibilityRole="image"
+        accessibilityLabel={LABELS.walk}
+      />
+    );
+  }
   return (
-    <Image
-      source={source ?? CLIPS[clip]}
-      onLoad={onLoad}
-      style={{
-        width: '100%',
-        height,
-        ...(offsetX ? { transform: [{ translateX: offsetX }] } : null),
-      }}
-      contentFit="contain"
-      // iOS-owy dekoder WebP potrafi gubić klatki animacji — libwebp jest wolniejszy,
-      // ale odtwarza pętlę poprawnie.
-      useAppleWebpCodec={false}
-      // Pas animacji ma być statyczny w layoucie — żadnego fade-in przy montażu.
-      transition={0}
+    <View
+      accessible
       accessibilityRole="image"
       accessibilityLabel={LABELS[clip]}
-    />
+      style={offsetX ? { transform: [{ translateX: offsetX }] } : undefined}>
+      <AlphaVideo
+        source={source ?? CLIPS[clip]}
+        height={height}
+        paused={paused}
+        restartToken={restartToken}
+        onReady={onLoad}
+      />
+    </View>
   );
 }

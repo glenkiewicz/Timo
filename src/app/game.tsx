@@ -1,5 +1,6 @@
 import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
+import { useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AnswerCard, type AnswerType } from '@/components/buttons/AnswerCard';
@@ -45,6 +46,7 @@ function nameInSentence(name: string): string {
 }
 
 export default function GameScreen() {
+  const { width: screenW } = useWindowDimensions();
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
@@ -210,7 +212,13 @@ export default function GameScreen() {
             i tło przeskalowywałoby się w kółko. Luz pionowy zbiera więc blok
             pod nim — to dymek pływa w wolnej przestrzeni, nie lisek. */}
         <View className="flex-1 items-center px-6" style={{ paddingTop: 12 }}>
-          <TimoStage onGroundY={setGroundY} outfit={expedition?.id} />
+          {/* Większy niż domyślne 190 pt — między liskiem a dymkiem zostawało
+              dużo pustej trawy. */}
+          <TimoStage
+            onGroundY={setGroundY}
+            outfit={expedition?.id}
+            height={Math.round(screenW * 0.6)}
+          />
 
           <View
             style={{

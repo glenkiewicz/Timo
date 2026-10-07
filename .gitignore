@@ -58,3 +58,10 @@ scripts/__pycache__/
 marketing/out/
 marketing/.cache/
 assets/voices/_samples/
+
+# Animacje liska jako WebP — tylko robocze; aplikacja gra wideo .mp4 (scripts/encode-alpha-video.py)
+assets/timo/outfits/*/*.webp
+assets/timo/character/timo-idle.webp
+assets/timo/character/timo-talk.webp
+assets/timo/character/timo-talk-happy.webp
+assets/timo/character/timo-wave.webp

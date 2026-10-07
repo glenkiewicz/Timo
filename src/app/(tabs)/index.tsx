@@ -7,6 +7,7 @@ import Animated, {
   withSequence,
   withSpring,
 } from 'react-native-reanimated';
+import { useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AnimatedCounter } from '@/components/gamification/AnimatedCounter';
@@ -37,6 +38,7 @@ const SOUND_ON = require('../../../assets/icons/info/sound_on.png');
 const SOUND_OFF = require('../../../assets/icons/info/sound_off.png');
 
 export default function HomeScreen() {
+  const { width: screenW } = useWindowDimensions();
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const start = useGameStore((s) => s.start);
@@ -266,7 +268,8 @@ export default function HomeScreen() {
           justifyContent: 'center',
           pointerEvents: 'none',
         }}>
-        <TimoStage onGroundY={setGroundY} />
+        {/* Większy niż domyślne 190 pt — na Menu lisek ginął na tle polany. */}
+        <TimoStage onGroundY={setGroundY} height={Math.round(screenW * 0.6)} />
       </View>
 
       {/* ---------- dok: wyprawa dnia + CTA ----------
