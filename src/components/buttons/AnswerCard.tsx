@@ -12,21 +12,21 @@ import { Pressable, Text, View } from '@/tw';
 
 export type AnswerType = 'yes' | 'no' | 'idk' | 'hard';
 
-const ACCENT_FOR: Record<AnswerType, Accent> = {
+export const ACCENT_FOR: Record<AnswerType, Accent> = {
   yes: 'primary',
   no: 'danger',
   idk: 'sky',
   hard: 'fox',
 };
 
-const LABEL: Record<AnswerType, string> = {
+export const LABEL: Record<AnswerType, string> = {
   yes: 'Tak',
   no: 'Nie',
   idk: 'Nie wiem',
   hard: 'To zależy',
 };
 
-const GLYPH: Record<AnswerType, string> = {
+export const GLYPH: Record<AnswerType, string> = {
   yes: '✓',
   no: '✕',
   idk: '?',

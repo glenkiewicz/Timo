@@ -160,6 +160,19 @@ export default function HomeScreen() {
           ) : null}
         </View>
 
+        <View className="flex-row items-center" style={{ gap: 8 }}>
+        {/* Pełna instrukcja gry — ta sama tarcza co głośnik obok. */}
+        <Pressable
+          onPress={() => router.push('/help')}
+          accessibilityRole="button"
+          accessibilityLabel="Jak grać — instrukcja"
+          style={({ pressed }) => ({ transform: [{ scale: pressed ? 0.94 : 1 }] })}>
+          <SlotDisc size={46}>
+            <View className="flex-1 items-center justify-center">
+              <Text style={{ color: INK, fontFamily: 'Gabarito-Bold', fontSize: 22 }}>?</Text>
+            </View>
+          </SlotDisc>
+        </Pressable>
         <Pressable
           onPress={() => setAudioMuted(!audioMuted)}
           accessibilityRole="button"
@@ -177,6 +190,7 @@ export default function HomeScreen() {
             />
           </SlotDisc>
         </Pressable>
+        </View>
       </View>
 
       {/* Zwykły widok, nie ScrollView: w środku jest tylko pasek XP, a przewijanie
