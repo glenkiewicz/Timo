@@ -52,3 +52,9 @@ assets/timo/character/_raw/
 
 # Cache Pythona ze skryptów generujących assety
 scripts/__pycache__/
+
+# Treści na social media — wyrenderowane filmy i slajdy oraz zrzut danych gry.
+# Odtwarzalne skryptami z scripts/marketing/.
+marketing/out/
+marketing/.cache/
+assets/voices/_samples/

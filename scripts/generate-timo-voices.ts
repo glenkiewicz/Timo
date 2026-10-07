@@ -170,10 +170,44 @@ const VOICE_SETTINGS = {
 	speed: 1.0,
 };
 
-const MODEL_ID = 'eleven_multilingual_v2';
+/**
+ * Model i język wybierane po rodzaju nagrania — odsłuch próbek 07.10.2026.
+ *
+ * `eleven_multilingual_v2` (pierwsza wersja) SAM zgadywał język i krótkie
+ * teksty brał za angielskie: „Lew” czytał „lju”, „Hi, hi” — „haj hi”.
+ * Teraz język jest wymuszony (`language_code: 'pl'`), a model dobrany:
+ * - kwestie Timo → `eleven_v3`: najbardziej naturalne zdania i wtrącenia;
+ * - nazwy zwierząt → `eleven_flash_v2_5`: v3 mylił krótkie nazwy (Lew, Lis),
+ *   flash czyta je poprawnie.
+ * v3 przyjmuje stability tylko 0 / 0,5 / 1 — 0,5 to tryb naturalny.
+ */
+type TtsModel = { model_id: string; voice_settings: typeof VOICE_SETTINGS };
+
+const LINE_MODEL: TtsModel = {
+	model_id: 'eleven_v3',
+	voice_settings: { ...VOICE_SETTINGS, stability: 0.5 },
+};
+const NAME_MODEL: TtsModel = {
+	model_id: 'eleven_flash_v2_5',
+	voice_settings: VOICE_SETTINGS,
+};
+
+function modelFor(voiceKey: string): TtsModel {
+	return voiceKey.startsWith('animal.') ? NAME_MODEL : LINE_MODEL;
+}
+
+/**
+ * Skrót = model + tekst: zmiana modelu daje nowy plik, więc zwykłe
+ * uruchomienie regeneruje to, co trzeba, a `--prune` sprząta stare.
+ */
+function voiceHash(voiceKey: string, text: string): string {
+	return sha12(`${modelFor(voiceKey).model_id}|${text}`);
+}
+
 const OUTPUT_FORMAT = 'mp3_44100_128';
 
-async function fetchTts(text: string): Promise<Buffer> {
+async function fetchTts(text: string, voiceKey: string): Promise<Buffer> {
+	const model = modelFor(voiceKey);
 	const res = await fetch(`${ELEVEN_URL}?output_format=${OUTPUT_FORMAT}`, {
 		method: 'POST',
 		headers: {
@@ -183,8 +217,9 @@ async function fetchTts(text: string): Promise<Buffer> {
 		},
 		body: JSON.stringify({
 			text,
-			model_id: MODEL_ID,
-			voice_settings: VOICE_SETTINGS,
+			model_id: model.model_id,
+			language_code: 'pl',
+			voice_settings: model.voice_settings,
 		}),
 	});
 
@@ -249,7 +284,7 @@ async function runSmoke(): Promise<void> {
 		const outPath = resolve(outDir, `${num}_${line.slug}.mp3`);
 		process.stdout.write(`${num}/${SMOKE_LINES.length} ${line.slug.padEnd(45)} ... `);
 		try {
-			const buf = await fetchTts(line.text);
+			const buf = await fetchTts(line.text, `smoke.${line.slug}`);
 			mkdirSync(dirname(outPath), { recursive: true });
 			writeFileSync(outPath, buf);
 			success += 1;
@@ -480,7 +515,7 @@ async function runFull(): Promise<void> {
 	for (let i = 0; i < lines.length; i++) {
 		const line = lines[i];
 		const num = String(i + 1).padStart(4, ' ');
-		const hash = sha12(line.text);
+		const hash = voiceHash(line.voiceKey, line.text);
 		const filename = `${hash}.mp3`;
 		const outPath = resolve(VOICES_DIR, filename);
 		const existing = manifest[line.voiceKey];
@@ -498,7 +533,7 @@ async function runFull(): Promise<void> {
 		process.stdout.write(`${num}/${lines.length} ${line.voiceKey.padEnd(35)} ${hash} ... `);
 
 		try {
-			const buf = await fetchTts(line.text);
+			const buf = await fetchTts(line.text, line.voiceKey);
 			writeFileSync(outPath, buf);
 			manifest[line.voiceKey] = {
 				hash,

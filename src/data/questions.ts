@@ -348,7 +348,7 @@ export const QUESTIONS: Question[] = [
       'Czy spotkasz je w gospodarstwie na wsi?',
     ],
     setups: [
-      'Ko-ko-ko, mu-u, be-e! Ale tu głośno.',
+      'Ko, ko, ko! Muuu! Beee! Ale tu głośno.',
       'Kiedyś zakradłem się do kurnika. Kury okropnie na mnie nakrzyczały!',
     ],
     onYes: ['Farma! Kukuryku, notuję.', 'Wiejski trop! Pachnie sianem.'],
