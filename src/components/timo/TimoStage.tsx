@@ -13,6 +13,7 @@ import Animated, {
 import { useTalkMood, type TalkMood } from '@/lib/audio/timo-voice';
 import { Image } from '@/tw/image';
 
+import { outfitFor } from './outfits';
 import { TimoAnimated, type TimoClip } from './TimoAnimated';
 
 /**
@@ -301,6 +302,8 @@ type TimoStageProps = {
   height?: number;
   /** Co lisek robi, gdy nie mówi — domyślnie spokojne idle, na starcie macha. */
   idleClip?: TimoClip;
+  /** Wyprawa — jeśli ma przebranie (`outfits.ts`), lisek gra w nim. */
+  outfit?: string | null;
 };
 
 export function TimoStage({
@@ -308,6 +311,7 @@ export function TimoStage({
   onGroundY,
   height = BAND_HEIGHT,
   idleClip = 'idle',
+  outfit,
 }: TimoStageProps) {
   const bandRef = useRef<RNView>(null);
 
@@ -331,7 +335,7 @@ export function TimoStage({
             wyśrodkowany. Poprzedni klip wymagał korekty, bo przycinałem go
             do zasięgu WSZYSTKICH klatek, a ten sięgał dalej w lewo przez
             podniesioną łapkę. */}
-        <TalkingTimo height={height} idleClip={idleClip} />
+        <TalkingTimo height={height} idleClip={idleClip} outfit={outfit} />
       </RNView>
     </RNView>
   );
@@ -418,7 +422,7 @@ const TALK_CLIP: Record<TalkMood, TimoClip> = {
  * przenikanie nie musi ukrywać zmiany pozy — ma tylko wygładzić wejście
  * i zamknąć buzię RAZEM z końcem głosu.
  */
-const TALK_FADE_IN_MS = 120;
+const TALK_FADE_IN_MS = 60;
 const TALK_FADE_OUT_MS = 150;
 
 /**
@@ -437,7 +441,16 @@ const TALK_FADE_OUT_MS = 150;
  * ekranie startowym. Pętla mówienia wchodzi dopiero po wczytaniu, więc jej
  * montowanie jest niewidoczne.
  */
-function TalkingTimo({ height, idleClip }: { height: number; idleClip: TimoClip }) {
+export function TalkingTimo({
+  height,
+  idleClip = 'idle',
+  outfit,
+}: {
+  height: number;
+  idleClip?: TimoClip;
+  outfit?: string | null;
+}) {
+  const dress = outfitFor(outfit);
   const mood = useTalkMood();
   // Pętla na wierzchu — zostaje zamontowana także w trakcie zejścia.
   const [shown, setShown] = useState<TalkMood | null>(null);
@@ -486,13 +499,14 @@ function TalkingTimo({ height, idleClip }: { height: number; idleClip: TimoClip 
   return (
     <RNView style={{ height, alignSelf: 'stretch' }}>
       <Animated.View style={idleStyle}>
-        <TimoAnimated clip={idleClip} height={height} />
+        <TimoAnimated clip={idleClip} height={height} source={dress?.idle} />
       </Animated.View>
       {shown ? (
         <Animated.View style={[{ position: 'absolute', top: 0, left: 0, right: 0 }, talkStyle]}>
           <TimoAnimated
             key={`talk-${talkKey}`}
             clip={TALK_CLIP[shown]}
+            source={dress ? (TALK_CLIP[shown] === 'talk-happy' ? dress.happy : dress.talk) : undefined}
             height={height}
             onLoad={() => {
               talkOpacity.value = withTiming(1, { duration: TALK_FADE_IN_MS });

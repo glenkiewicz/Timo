@@ -263,7 +263,9 @@ class TimoVoiceController {
 			};
 
 			try {
-				player = createAudioPlayer(source);
+				// Status co 50 ms zamiast domyślnych 500 ms — z niego buzia liska
+				// wie, że dźwięk ruszył; przy 500 ms usta ruszały wyraźnie po głosie.
+				player = createAudioPlayer(source, { updateInterval: 50 });
 			} catch (e) {
 				if (__DEV__)
 					console.warn(

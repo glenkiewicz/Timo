@@ -88,6 +88,8 @@ def main():
     variants = int(opts.get("variants", 3))
     mode = opts.get("mode", "pro")
     doc = pathlib.Path(opts["doc"]) if "doc" in opts else None
+    start = pathlib.Path(opts.get("start", START))  # przebrany lisek: inna klatka startowa
+    prefix = opts.get("prefix", "")  # np. water_friends- — nie nadpisuje zwykłych klipów
     durations = {k: int(v) for k, v in (x.split(":") for x in opts.get("durations", "").split(",") if x)}
     default_duration = int(opts.get("duration", 5))
 
@@ -95,13 +97,13 @@ def main():
     names = args or list(all_prompts)
     k = key()
     OUT.mkdir(parents=True, exist_ok=True)
-    frame = upload(k, START)
+    frame = upload(k, start)
     print(f"klatka startowa/końcowa: {frame}")
 
     tasks = {}
     for name in names:
         for n in range(1, variants + 1):
-            dest = OUT / f"{name}-{n}.mp4"
+            dest = OUT / f"{prefix}{name}-{n}.mp4"
             if dest.exists():
                 continue
             r = request("POST", "/videos/generations", k, json.dumps({

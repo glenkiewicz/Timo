@@ -210,7 +210,7 @@ export default function GameScreen() {
             i tło przeskalowywałoby się w kółko. Luz pionowy zbiera więc blok
             pod nim — to dymek pływa w wolnej przestrzeni, nie lisek. */}
         <View className="flex-1 items-center px-6" style={{ paddingTop: 12 }}>
-          <TimoStage onGroundY={setGroundY} />
+          <TimoStage onGroundY={setGroundY} outfit={expedition?.id} />
 
           <View
             style={{

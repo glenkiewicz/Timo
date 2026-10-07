@@ -39,6 +39,8 @@ type TimoAnimatedProps = {
   offsetX?: number;
   /** Animacja wczytana — scena chowa wtedy idle pod spodem. */
   onLoad?: () => void;
+  /** Zamiast klipu z `CLIPS` — np. lisek przebrany pod wyprawę (`outfits.ts`). */
+  source?: number;
 };
 
 const LABELS: Record<TimoClip, string> = {
@@ -54,10 +56,11 @@ export function TimoAnimated({
   height = 190,
   offsetX = 0,
   onLoad,
+  source,
 }: TimoAnimatedProps) {
   return (
     <Image
-      source={CLIPS[clip]}
+      source={source ?? CLIPS[clip]}
       onLoad={onLoad}
       style={{
         width: '100%',

@@ -6,8 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AnimalCircle, INK } from '@/components/collection/map';
 import { expeditionAccent } from '@/components/expeditions/ExpeditionCard';
-import { TimoCharacter } from '@/components/timo/TimoCharacter';
-import { sceneBaseColor, sceneSource } from '@/components/timo/TimoStage';
+import { TalkingTimo, sceneBaseColor, sceneSource } from '@/components/timo/TimoStage';
 import { Bubble } from '@/components/ui/Bubble';
 import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
@@ -144,7 +143,11 @@ export default function ExpeditionIntroScreen() {
           <View>
             {/* Timo + dymek */}
             <View className="flex-row items-end gap-2" style={{ marginTop: 12 }}>
-              <TimoCharacter size={86} />
+              {/* Animowany lisek — w przebraniu wyprawy, jeśli je ma — i rusza
+                  buzią przy głosowym wstępie, jak w grze. */}
+              <View style={{ width: 92 }}>
+                <TalkingTimo height={136} outfit={exp.id} />
+              </View>
               <View className="flex-1 pb-2">
                 <Bubble eyebrow="TIMO MÓWI" tail="bottom-left">
                   <Text
