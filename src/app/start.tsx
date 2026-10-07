@@ -75,7 +75,7 @@ export default function StartScreen() {
           pointerEvents: 'none',
         }}>
         {/* Większy niż w Menu — tu lisek jest jedynym bohaterem ekranu. */}
-        <TimoStage onGroundY={setGroundY} height={Math.round(screenW * 0.72)} idleClip="wave" />
+        <TimoStage onGroundY={setGroundY} height={Math.round(screenW * 0.72)} />
       </View>
 
       <View style={{ flex: 1 }} />
