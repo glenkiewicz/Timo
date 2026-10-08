@@ -27,6 +27,7 @@ import { InfoSheetProvider } from '@/components/sheet/InfoSheet';
 import { sfx } from '@/lib/audio/sfx';
 import { useAuthStore } from '@/lib/stores/auth-store';
 import { useStartSeen } from '@/lib/stores/session-store';
+import { useNeedsOnboarding, useOnboardingStore } from '@/lib/stores/onboarding-store';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -52,6 +53,8 @@ export default function RootLayout() {
   const session = useAuthStore((s) => s.session);
   const activeProfileId = useAuthStore((s) => s.activeProfileId);
   const startSeen = useStartSeen(activeProfileId);
+  const onboardingHydrated = useOnboardingStore((s) => s.hydrated);
+  const needsOnboarding = useNeedsOnboarding();
 
   useEffect(() => init(), [init]);
   // Efekty ładujemy od razu — pierwsze stuknięcie nie może czekać na plik.
@@ -61,7 +64,7 @@ export default function RootLayout() {
   // Splash trzyma się do czasu, aż wiadomo, KTÓRY ekran pokazać. Bez tego
   // przez moment widać ekran gry, zanim wskoczy logowanie — a Timo zdąży
   // odpalić powitanie.
-  const ready = fontsReady && !initializing;
+  const ready = fontsReady && !initializing && onboardingHydrated;
 
   useEffect(() => {
     if (ready) {
@@ -88,7 +91,12 @@ export default function RootLayout() {
 
   return (
     <>
-      <EntryRedirect signedIn={signedIn} playing={playing} startSeen={startSeen} />
+      <EntryRedirect
+        onboarding={needsOnboarding}
+        signedIn={signedIn}
+        playing={playing}
+        startSeen={startSeen}
+      />
       <TransitionSound />
     <SafeAreaProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
@@ -98,11 +106,17 @@ export default function RootLayout() {
         <Stack screenOptions={{ headerShown: false, animation: 'fade' }}>
           {/* Trasy chronione nie renderują się wcale, dopóki warunek jest
               fałszywy — dzięki temu ekran gry nie mignie przed logowaniem. */}
-          <Stack.Protected guard={!signedIn}>
+          {/* Pierwsze uruchomienie: Timo się przedstawia, zanim cokolwiek
+              innego — także zanim pojawi się wybór dziecka. */}
+          <Stack.Protected guard={needsOnboarding}>
+            <Stack.Screen name="onboarding" />
+          </Stack.Protected>
+
+          <Stack.Protected guard={!signedIn && !needsOnboarding}>
             <Stack.Screen name="(auth)" />
           </Stack.Protected>
 
-          <Stack.Protected guard={signedIn && !playing}>
+          <Stack.Protected guard={signedIn && !playing && !needsOnboarding}>
             <Stack.Screen name="profiles" />
           </Stack.Protected>
 
@@ -170,10 +184,12 @@ function TransitionSound() {
 }
 
 function EntryRedirect({
+  onboarding,
   signedIn,
   playing,
   startSeen,
 }: {
+  onboarding: boolean;
   signedIn: boolean;
   playing: boolean;
   startSeen: boolean;
@@ -185,8 +201,13 @@ function EntryRedirect({
     const first = segments[0];
     const inAuth = first === '(auth)';
     const onProfiles = first === 'profiles';
-    // Ekran konta otwiera się nad profilami i nad grą — nie przekierowujemy.
+    // Ekran konta otwiera się nad profilami, grą i onboardingiem
+    // („Mam już konto”) — nie przekierowujemy.
     if (signedIn && first === 'account') return;
+    if (onboarding) {
+      if (first !== 'onboarding') router.replace('/onboarding');
+      return;
+    }
 
     if (!signedIn) {
       if (!inAuth) router.replace('/(auth)/sign-in');
@@ -200,8 +221,8 @@ function EntryRedirect({
       if (first !== 'start') router.replace('/start');
       return;
     }
-    if (inAuth || onProfiles || first === 'start') router.replace('/(tabs)');
-  }, [signedIn, playing, startSeen, segments, router]);
+    if (inAuth || onProfiles || first === 'start' || first === 'onboarding') router.replace('/(tabs)');
+  }, [onboarding, signedIn, playing, startSeen, segments, router]);
 
   return null;
 }

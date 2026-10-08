@@ -37,6 +37,8 @@ type AuthState = {
   initializing: boolean;
 
   profiles: ChildProfile[];
+  /** Lista profili wczytana z bazy dla bieżącej sesji. */
+  profilesLoaded: boolean;
   activeProfileId: string | null;
 
   busy: boolean;
@@ -118,6 +120,7 @@ export const useAuthStore = create<AuthState>()(
       session: null,
       initializing: true,
       profiles: [],
+      profilesLoaded: false,
       activeProfileId: null,
       busy: false,
       error: null,
@@ -141,7 +144,7 @@ export const useAuthStore = create<AuthState>()(
             // Nowy użytkownik — także przejście z anonimowego na istniejące
             // konto („Mam już konto”): profile są inne, aktywny trzeba wyzerować.
             if (session && session.user.id !== prevUser) {
-              if (prevUser) set({ profiles: [], activeProfileId: null });
+              if (prevUser) set({ profiles: [], profilesLoaded: false, activeProfileId: null });
               void get().loadProfiles();
             }
             if (!session) {
@@ -336,6 +339,7 @@ export const useAuthStore = create<AuthState>()(
         const active = get().activeProfileId;
         set({
           profiles,
+          profilesLoaded: true,
           // Profil mógł zostać usunięty na innym urządzeniu.
           activeProfileId: profiles.some((p) => p.id === active) ? active : null,
           error: null,

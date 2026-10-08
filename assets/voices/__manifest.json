@@ -7060,5 +7060,35 @@
     "file": "3efcf5568006.mp3",
     "text": "Strzykwa świnka",
     "generatedAt": "2026-10-07T09:19:18.151Z"
+  },
+  "onboarding.0": {
+    "hash": "2064cf6363eb",
+    "file": "2064cf6363eb.mp3",
+    "text": "Cześć! Jestem Timo, lisek detektyw. Mój nos wywęszy każde zwierzę!",
+    "generatedAt": "2026-10-08T06:39:37.798Z"
+  },
+  "onboarding.1": {
+    "hash": "46432e0fda86",
+    "file": "46432e0fda86.mp3",
+    "text": "Pomyśl o jakimś zwierzęciu, tylko nic nie mów. Ja zadam pytania, a potem zgadnę!",
+    "generatedAt": "2026-10-08T06:39:40.812Z"
+  },
+  "onboarding.2": {
+    "hash": "cfb1e6d1c295",
+    "file": "cfb1e6d1c295.mp3",
+    "text": "Możemy zgadywać wszystkie zwierzęta świata albo ruszyć na wyprawę. Na każdą wyprawę mam inne przebranie!",
+    "generatedAt": "2026-10-08T06:39:43.951Z"
+  },
+  "onboarding.3": {
+    "hash": "79e86be35ac9",
+    "file": "79e86be35ac9.mp3",
+    "text": "Każde zwierzę z naszej zabawy trafia do kolekcji. Zbierzemy ich ponad siedemset!",
+    "generatedAt": "2026-10-08T06:39:46.395Z"
+  },
+  "onboarding.4": {
+    "hash": "d05b90ffff9a",
+    "file": "d05b90ffff9a.mp3",
+    "text": "A teraz poproś dorosłego o pomoc. Zaraz zaczynamy!",
+    "generatedAt": "2026-10-08T06:39:48.266Z"
   }
 }

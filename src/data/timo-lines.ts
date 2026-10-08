@@ -378,3 +378,17 @@ export function pickReaction(kind: 'idk' | 'hard'): Pick {
     ? pickWithKey('reaction:idk', REACTION_IDK, 'reaction.idk')
     : pickWithKey('reaction:hard', REACTION_HARD, 'reaction.hard');
 }
+
+/* ===================== Onboarding ===================== */
+
+/**
+ * Po jednej kwestii na stronę onboardingu (`src/app/onboarding.tsx`),
+ * w tej samej kolejności co strony. Słucha dziecko razem z rodzicem.
+ */
+export const ONBOARDING_LINES: string[] = [
+  'Cześć! Jestem Timo, lisek detektyw. Mój nos wywęszy każde zwierzę!',
+  'Pomyśl o jakimś zwierzęciu, tylko nic nie mów. Ja zadam pytania, a potem zgadnę!',
+  'Możemy zgadywać wszystkie zwierzęta świata albo ruszyć na wyprawę. Na każdą wyprawę mam inne przebranie!',
+  'Każde zwierzę z naszej zabawy trafia do kolekcji. Zbierzemy ich ponad siedemset!',
+  'A teraz poproś dorosłego o pomoc. Zaraz zaczynamy!',
+];

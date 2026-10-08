@@ -58,6 +58,7 @@ import {
 	HEAT_HOT_LINES,
 	HEAT_WARM_LINES,
 	MISS_LINES,
+	ONBOARDING_LINES,
 	OUTSIDE_CATEGORY_LINES,
 	REACTION_HARD,
 	REACTION_IDK,
@@ -328,6 +329,7 @@ function buildStaticLines(): Line[] {
 		['guess_intro', GUESS_INTROS],
 		['miss', MISS_LINES],
 		['outside', OUTSIDE_CATEGORY_LINES],
+		['onboarding', ONBOARDING_LINES],
 		['intro.generic', GENERIC_EXPEDITION_INTRO],
 		...Object.entries(EXPEDITION_INTROS).map(
 			([expId, pool]) => [`intro.${expId}`, pool] as [string, readonly string[]],

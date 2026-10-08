@@ -71,3 +71,10 @@ export const DEV_DAILY_EXPEDITION = devOnly<'pick' | 'chosen' | 'completed'>('pi
  * Filtruj po „[Timo]”. Podsumowanie całej gry idzie i tak na końcu partii.
  */
 export const DEV_LOG_QUESTIONS = __DEV__ && true;
+
+/**
+ * Onboarding (src/app/onboarding.tsx):
+ * - 'show' — pokazuj przy każdym uruchomieniu, aż do „Zaczynamy” (podgląd),
+ * - 'auto' — tylko przy pierwszym uruchomieniu bez konta i bez profili.
+ */
+export const DEV_ONBOARDING = devOnly<'show'>('auto');
