@@ -18,6 +18,7 @@ import { useAuthStore } from '@/lib/stores/auth-store';
 import { useOnboardingStore } from '@/lib/stores/onboarding-store';
 import { useSessionStore } from '@/lib/stores/session-store';
 import { HatchScene } from '@/components/onboarding/HatchScene';
+import { Paywall } from '@/components/paywall/Paywall';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { supabase } from '@/lib/supabase';
 import { SHADOW, UI } from '@/theme/ui';
@@ -31,7 +32,13 @@ import { Image } from '@/tw/image';
 const BG = '#fef6e5';
 
 type Info = { kind: 'info'; art: number; title: string; text: string };
-type Step = Info | { kind: 'name' } | { kind: 'age' } | { kind: 'reminder' } | { kind: 'hatch' };
+type Step =
+  | Info
+  | { kind: 'name' }
+  | { kind: 'age' }
+  | { kind: 'reminder' }
+  | { kind: 'paywall' }
+  | { kind: 'hatch' };
 
 /** Karty informacyjne — kolejność = kwestie `ONBOARDING_LINES` (`onboarding.N`). */
 const INFO: Info[] = [
@@ -67,7 +74,16 @@ const INFO: Info[] = [
   },
 ];
 
-const STEPS: Step[] = [...INFO, { kind: 'name' }, { kind: 'age' }, { kind: 'reminder' }, { kind: 'hatch' }];
+const STEPS: Step[] = [
+  ...INFO,
+  { kind: 'name' },
+  { kind: 'age' },
+  { kind: 'reminder' },
+  // Ostatnia decyzja rodzica, zanim telefon trafi do dziecka na „Hurra!”.
+  { kind: 'paywall' },
+  { kind: 'hatch' },
+];
+const PAYWALL = STEPS.length - 2;
 const HATCH = STEPS.length - 1;
 const FIRST_QUESTION = INFO.length;
 
@@ -110,8 +126,8 @@ export default function OnboardingScreen() {
   const current = STEPS[step];
   // Bez sesji (anonimowe konto się nie założyło) nie ma gdzie zapisać
   // profilu — po kartach od razu kończymy, a dalej jest stary ekran logowania.
-  // Ostatni krok z paskiem postępu — „wyklucie” jest już poza nim.
-  const lastStep = session ? HATCH - 1 : FIRST_QUESTION - 1;
+  // Ostatni krok z paskiem postępu — paywall i „wyklucie” są już poza nim.
+  const lastStep = session ? PAYWALL - 1 : FIRST_QUESTION - 1;
 
   useEffect(() => {
     if (current.kind === 'info') void timoVoice.playLine(`onboarding.${step}`);
@@ -157,7 +173,7 @@ export default function OnboardingScreen() {
       await hydrateFromServer(id);
       setProfileId(id);
       setFinishing(false);
-      setStep(HATCH);
+      setStep(PAYWALL);
       return;
     }
     markDone();
@@ -171,6 +187,11 @@ export default function OnboardingScreen() {
   };
 
   const art = Math.min(contentW - 48, 380);
+
+  if (current.kind === 'paywall') {
+    // Zakup albo „Może później” — „Hurra!” jest nagrodą w obu przypadkach.
+    return <Paywall background={BG} onDone={() => setStep(HATCH)} />;
+  }
 
   if (current.kind === 'hatch') {
     return (

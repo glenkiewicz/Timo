@@ -40,6 +40,9 @@ SCENES = {
                "an elephant, a parrot, a turtle), two shiny golden medal badges float beside him",
     "parent": "Timo gently hugs a big soft rounded shield with a red heart on it, calm and "
               "reassuring smile",
+    "paywall": "Timo sits happily next to a big open wooden treasure chest that glows softly "
+               "and is full of colourful animal picture cards and a few golden stars spilling out, "
+               "he holds one card up proudly",
 }
 
 # Ekran „wyklucia” — bez liska (lisek to animacja wideo, która z tej sterty wyskakuje).
