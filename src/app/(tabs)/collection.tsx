@@ -21,6 +21,7 @@ import { useProfileStore } from '@/lib/stores/profile-store';
 import { UI } from '@/theme/ui';
 import type { Animal } from '@/types/game';
 import { Pressable, Text, View } from '@/tw';
+import { contentColumn, useContentWidth } from '@/lib/layout';
 import { Image } from '@/tw/image';
 
 /** Ile zwierząt podgląda wyspa na mapie. */
@@ -69,7 +70,8 @@ function CollectionMap({
   onOpen: (regionId: string) => void;
 }) {
   const insets = useSafeAreaInsets();
-  const { width: screenW } = useWindowDimensions();
+  const screenW = useContentWidth();
+  const { width: fullW } = useWindowDimensions();
   const [page, setPage] = useState(0);
 
   // Krok przesuwania jest WĘŻSZY niż ekran, więc sąsiednie krainy wystają przy
@@ -77,7 +79,9 @@ function CollectionMap({
   // w bok — `pagingEnabled` na pełną szerokość chowa sąsiadów całkowicie.
   const step = screenW * 0.84;
   const islandW = step - 24;
-  const side = (screenW - step) / 2;
+  // Karuzela jedzie przez CAŁY ekran (na iPadzie sąsiednie krainy wystają
+  // dalej), a sama kraina ma szerokość kolumny treści.
+  const side = (fullW - step) / 2;
 
   const found = discovered.size;
 
@@ -255,7 +259,7 @@ function RegionShelf({
   onBack: () => void;
 }) {
   const insets = useSafeAreaInsets();
-  const { width: screenW } = useWindowDimensions();
+  const screenW = useContentWidth();
   const region = regionById(regionId);
   const openSheet = useInfoSheet();
 
@@ -328,6 +332,7 @@ function RegionShelf({
         keyExtractor={(row) => row[0]?.id ?? 'pusto'}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
+          ...contentColumn,
           paddingHorizontal: 14,
           paddingTop: 14,
           paddingBottom: insets.bottom + 24,

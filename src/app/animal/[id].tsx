@@ -13,6 +13,7 @@ import { ANIMALS, ANIMALS_BY_ID } from '@/data/animals';
 import { EXPEDITIONS_BY_ID } from '@/data/expeditions';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { UI } from '@/theme/ui';
+import { contentColumn } from '@/lib/layout';
 import { Pressable, Text, View } from '@/tw';
 
 export default function AnimalCardScreen() {
@@ -73,6 +74,7 @@ export default function AnimalCardScreen() {
     <RegionBackdrop background={region?.background}>
       <ScrollView
         contentContainerStyle={{
+          ...contentColumn,
           paddingTop: insets.top + 56,
           paddingBottom: insets.bottom + 28,
         }}

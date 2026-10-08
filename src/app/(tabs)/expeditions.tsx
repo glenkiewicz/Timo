@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { useMemo } from 'react';
-import { ScrollView, useWindowDimensions } from 'react-native';
+import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ExpeditionCard } from '@/components/expeditions/ExpeditionCard';
@@ -17,6 +17,7 @@ import { useGameStore } from '@/lib/stores/game-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { ACCENT, UI, type Accent } from '@/theme/ui';
 import { Text, View } from '@/tw';
+import { contentColumn, useContentWidth } from '@/lib/layout';
 import { Image } from '@/tw/image';
 
 type CardStatus = 'completed' | 'in_progress' | 'available_today' | 'locked';
@@ -43,7 +44,7 @@ const STATUS_ACCENT: Record<Exclude<CardStatus, 'locked'>, Accent> = {
 export default function ExpeditionsScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const { width: screenW } = useWindowDimensions();
+  const screenW = useContentWidth();
   const expeditionProgress = useProfileStore((s) => s.expeditionProgress);
   const dailyChoice = useProfileStore((s) => s.dailyChoice);
   const chooseExpedition = useProfileStore((s) => s.chooseExpedition);
@@ -136,6 +137,7 @@ export default function ExpeditionsScreen() {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
+          ...contentColumn,
           paddingHorizontal: 16,
           paddingTop: insets.top + 8,
           paddingBottom: insets.bottom + 24,

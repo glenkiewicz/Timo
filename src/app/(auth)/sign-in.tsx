@@ -12,6 +12,7 @@ import { useAuthStore } from '@/lib/stores/auth-store';
 import { isSupabaseConfigured } from '@/lib/supabase';
 import { UI } from '@/theme/ui';
 import { Text, View } from '@/tw';
+import { contentColumn } from '@/lib/layout';
 
 export default function SignInScreen() {
   const insets = useSafeAreaInsets();
@@ -83,6 +84,7 @@ export default function SignInScreen() {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
+          ...contentColumn,
           flexGrow: 1,
           justifyContent: 'center',
           paddingHorizontal: 24,

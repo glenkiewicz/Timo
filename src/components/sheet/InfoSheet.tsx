@@ -17,6 +17,7 @@ import { useDockStore, type DockTint } from '@/lib/stores/dock-store';
 import { ACCENT, UI, type Accent } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
 import { Image } from '@/tw/image';
+import { CONTENT_MAX } from '@/lib/layout';
 
 export type SheetContent = {
   title: string;
@@ -168,6 +169,9 @@ function InfoSheet({
             left: 0,
             right: 0,
             bottom: 0,
+            // Na iPadzie panel nie rozciąga się na cały ekran — kolumna treści.
+            marginHorizontal: 'auto',
+            maxWidth: CONTENT_MAX,
             backgroundColor: a.base,
             borderTopLeftRadius: 36,
             borderTopRightRadius: 36,

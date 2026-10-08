@@ -13,6 +13,7 @@ import { MAX_QUESTIONS } from '@/features/game/guessing-engine';
 import { MAX_LEVEL, RANKS } from '@/features/gamification/titles';
 import { ACCENT, SHADOW, UI } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
+import { contentColumn } from '@/lib/layout';
 import { Image } from '@/tw/image';
 
 const ART = {
@@ -52,7 +53,7 @@ export default function HelpScreen() {
 
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingTop: insets.top + 8, paddingBottom: insets.bottom + 28 }}>
+        contentContainerStyle={{ ...contentColumn, paddingTop: insets.top + 8, paddingBottom: insets.bottom + 28 }}>
         <View className="flex-row items-center" style={{ paddingHorizontal: GUTTER, gap: 12 }}>
           <Pressable
             onPress={() => {

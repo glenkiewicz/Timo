@@ -1,6 +1,6 @@
 import * as Haptics from 'expo-haptics';
 import { useMemo } from 'react';
-import { Platform, ScrollView, useWindowDimensions } from 'react-native';
+import { Platform, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { BadgeDisc } from '@/components/badges/BadgeDisc';
@@ -10,6 +10,7 @@ import { BADGES, BADGE_GROUPS, type BadgeDef } from '@/data/badges';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { UI } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
+import { contentColumn, useContentWidth } from '@/lib/layout';
 import { Image } from '@/tw/image';
 
 const COLUMNS = 3;
@@ -25,7 +26,7 @@ const GUTTER = 16;
  */
 export default function BadgesScreen() {
   const insets = useSafeAreaInsets();
-  const { width: screenW } = useWindowDimensions();
+  const screenW = useContentWidth();
   const badges = useProfileStore((s) => s.badges);
   const unlocked = useMemo(() => new Set(badges), [badges]);
 
@@ -55,7 +56,7 @@ export default function BadgesScreen() {
 
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingTop: insets.top + 8, paddingBottom: insets.bottom + 24 }}>
+        contentContainerStyle={{ ...contentColumn, paddingTop: insets.top + 8, paddingBottom: insets.bottom + 24 }}>
         <Text
           className="text-center"
           style={{ color: UI.text, fontFamily: 'Gabarito-Bold', fontSize: 26 }}>

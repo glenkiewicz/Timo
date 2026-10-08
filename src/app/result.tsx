@@ -25,6 +25,7 @@ import { useGameStore } from '@/lib/stores/game-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { SHADOW, UI } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
+import { contentColumn } from '@/lib/layout';
 import { Image } from '@/tw/image';
 
 export default function ResultScreen() {
@@ -272,6 +273,7 @@ export default function ResultScreen() {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
+          ...contentColumn,
           flexGrow: 1,
           alignItems: 'center',
           paddingHorizontal: 20,

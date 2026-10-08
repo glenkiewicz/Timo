@@ -1,7 +1,7 @@
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Platform, useWindowDimensions } from 'react-native';
+import { Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { INK } from '@/components/collection/map';
@@ -13,6 +13,7 @@ import { useProfileStore } from '@/lib/stores/profile-store';
 import { useSessionStore } from '@/lib/stores/session-store';
 import { SHADOW, UI } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
+import { useTimoHeight } from '@/lib/layout';
 import { Image } from '@/tw/image';
 
 const STEPS = [
@@ -38,8 +39,8 @@ const STEPS = [
 export default function StartScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const { width: screenW } = useWindowDimensions();
   const [groundY, setGroundY] = useState<number | null>(null);
+  const timoH = useTimoHeight(0.72);
 
   const activeProfileId = useAuthStore((s) => s.activeProfileId);
   const nick = useAuthStore((s) => s.profiles.find((p) => p.id === s.activeProfileId)?.nick);
@@ -75,7 +76,7 @@ export default function StartScreen() {
           pointerEvents: 'none',
         }}>
         {/* Większy niż w Menu — tu lisek jest jedynym bohaterem ekranu. */}
-        <TimoStage onGroundY={setGroundY} height={Math.round(screenW * 0.72)} />
+        <TimoStage onGroundY={setGroundY} height={timoH} />
       </View>
 
       <View style={{ flex: 1 }} />

@@ -11,6 +11,7 @@ import { useAuthStore } from '@/lib/stores/auth-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { UI } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
+import { contentColumn } from '@/lib/layout';
 
 const AVATARS = ['🦊', '🐻', '🐰', '🦉', '🐼', '🦁', '🐸', '🐨'];
 
@@ -70,6 +71,7 @@ export default function ProfilesScreen() {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
+          ...contentColumn,
           flexGrow: 1,
           paddingHorizontal: 20,
           paddingTop: insets.top + 24,

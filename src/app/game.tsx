@@ -1,6 +1,5 @@
 import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
-import { useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AnswerCard, type AnswerType } from '@/components/buttons/AnswerCard';
@@ -21,6 +20,7 @@ import { timoVoice, useIsTimoSpeaking } from '@/lib/audio/timo-voice';
 import { useGameStore } from '@/lib/stores/game-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { SHADOW, UI } from '@/theme/ui';
+import { contentColumn, useTimoHeight } from '@/lib/layout';
 import { Pressable, Text, View } from '@/tw';
 
 /**
@@ -46,7 +46,7 @@ function nameInSentence(name: string): string {
 }
 
 export default function GameScreen() {
-  const { width: screenW } = useWindowDimensions();
+  const timoH = useTimoHeight(0.6);
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
@@ -153,7 +153,7 @@ export default function GameScreen() {
       <SceneBackdrop groundY={groundY} scene="game" expeditionId={expedition?.id} />
       <View
         className="flex-1"
-        style={{ paddingTop: insets.top + 8, paddingBottom: insets.bottom + 14 }}>
+        style={{ ...contentColumn, paddingTop: insets.top + 8, paddingBottom: insets.bottom + 14 }}>
         {/* ---------- pasek gry ---------- */}
         <View className="flex-row items-center gap-2 px-4">
           <Pressable
@@ -217,7 +217,7 @@ export default function GameScreen() {
           <TimoStage
             onGroundY={setGroundY}
             outfit={expedition?.id}
-            height={Math.round(screenW * 0.6)}
+            height={timoH}
           />
 
           <View

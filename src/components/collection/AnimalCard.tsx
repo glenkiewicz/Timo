@@ -1,12 +1,12 @@
 import { Link } from 'expo-router';
 import type { ReactNode } from 'react';
-import { useWindowDimensions } from 'react-native';
 
 import { Icon } from '@/components/ui/Icon';
 import { getAnimalDetails } from '@/data/animal-details';
 import { ACCENT, type Accent, SHADOW, UI } from '@/theme/ui';
 import type { Animal } from '@/types/game';
 import { Text, View } from '@/tw';
+import { contentColumn, useContentWidth } from '@/lib/layout';
 import { Image } from '@/tw/image';
 
 import { HabitatMap, regionsLabel } from './HabitatMap';
@@ -34,7 +34,7 @@ const GUTTER = 16;
  * Emoji wypadły całkiem — systemowy krój obok rysunków czytał się jak usterka.
  */
 export function AnimalCard({ animal, cardNumber, cardTotal, discoveredOn }: Props) {
-  const { width: screenW } = useWindowDimensions();
+  const screenW = useContentWidth();
   const d = getAnimalDetails(animal);
 
   const disc = Math.min(screenW * 0.66, 300);

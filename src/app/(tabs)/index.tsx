@@ -7,7 +7,6 @@ import Animated, {
   withSequence,
   withSpring,
 } from 'react-native-reanimated';
-import { useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AnimatedCounter } from '@/components/gamification/AnimatedCounter';
@@ -32,13 +31,14 @@ import { useGameStore } from '@/lib/stores/game-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { UI } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
+import { contentColumn, useTimoHeight } from '@/lib/layout';
 import { Image } from '@/tw/image';
 
 const SOUND_ON = require('../../../assets/icons/info/sound_on.png');
 const SOUND_OFF = require('../../../assets/icons/info/sound_off.png');
 
 export default function HomeScreen() {
-  const { width: screenW } = useWindowDimensions();
+  const timoH = useTimoHeight(0.6);
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const start = useGameStore((s) => s.start);
@@ -133,7 +133,7 @@ export default function HomeScreen() {
       {/* ---------- górny pasek statystyk ---------- */}
       <View
         className="flex-row items-center justify-between px-4"
-        style={{ paddingTop: insets.top + 8, paddingBottom: 10 }}>
+        style={{ ...contentColumn, paddingTop: insets.top + 8, paddingBottom: 10 }}>
         <View className="flex-row items-center">
           <StatBadge
             tooltipKey="streak"
@@ -197,7 +197,7 @@ export default function HomeScreen() {
           zajmowało cały środek ekranu — przeciągnięcie po lisku ciągnęło pasek.
           Gdy wróci tabela wyników (SHOW_HOME_LEADERBOARD), trzeba będzie ją
           przewijać osobno, nie cały środek. */}
-      <View style={{ flex: 1, paddingHorizontal: 20, paddingBottom: 12 }}>
+      <View style={{ ...contentColumn, flex: 1, paddingHorizontal: 20, paddingBottom: 12 }}>
         {/* ---------- poziom + pasek XP ---------- */}
         <Pressable
           onPress={() => openSheet({ ...TOOLTIPS.level, art: TOOLTIP_ART.level, accent: 'primary' })}
@@ -283,13 +283,13 @@ export default function HomeScreen() {
           pointerEvents: 'none',
         }}>
         {/* Większy niż domyślne 190 pt — na Menu lisek ginął na tle polany. */}
-        <TimoStage onGroundY={setGroundY} height={Math.round(screenW * 0.6)} />
+        <TimoStage onGroundY={setGroundY} height={timoH} />
       </View>
 
       {/* ---------- dok: wyprawa dnia + CTA ----------
           Wyprawa siedziała w ScrollView zaraz pod Timo. Tutaj jest zadokowana
           nad przyciskiem: dół ekranu niesie akcje, środek zostaje dla liska. */}
-      <View className="px-5" style={{ paddingTop: 10, paddingBottom: 12 }}>
+      <View className="px-5" style={{ ...contentColumn, paddingTop: 10, paddingBottom: 12 }}>
         <ExpeditionDailyCard />
         <View style={{ marginTop: 12 }}>
           {/* Lisi kolor, bo to gra z samym Timo — przycisk wyprawy wyżej

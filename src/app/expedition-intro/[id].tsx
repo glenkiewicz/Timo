@@ -1,7 +1,7 @@
 import * as Haptics from 'expo-haptics';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { FlatList, Platform, useWindowDimensions } from 'react-native';
+import { FlatList, Platform } from 'react-native';
 import Animated, {
   type SharedValue,
   useAnimatedScrollHandler,
@@ -24,12 +24,14 @@ import { useGameStore } from '@/lib/stores/game-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { SHADOW, UI } from '@/theme/ui';
 import type { Animal } from '@/types/game';
+import { contentColumn, useContentWidth, useTimoHeight } from '@/lib/layout';
 import { Pressable, Text, View } from '@/tw';
 
 export default function ExpeditionIntroScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const { width: screenW } = useWindowDimensions();
+  const screenW = useContentWidth();
+  const timoH = useTimoHeight(0);
   const { id } = useLocalSearchParams<{ id: string }>();
   const expeditionProgress = useProfileStore((s) => s.expeditionProgress);
   const chooseExpedition = useProfileStore((s) => s.chooseExpedition);
@@ -141,7 +143,7 @@ export default function ExpeditionIntroScreen() {
           <TimoStage
             onGroundY={setGroundY}
             outfit={exp.id}
-            height={Math.round(Math.min(screenW * 0.62, 280))}
+            height={Math.max(Math.round(Math.min(screenW * 0.62, 280)), timoH)}
           />
         </View>
       </View>
@@ -166,7 +168,7 @@ export default function ExpeditionIntroScreen() {
       </View>
 
       {/* Przycisk pod karuzelą, nie na niej — wcześniej zasłaniał zwierzęta. */}
-      <View style={{ paddingHorizontal: 16, paddingBottom: insets.bottom + 12, paddingTop: 6 }}>
+      <View style={{ ...contentColumn, paddingHorizontal: 16, paddingBottom: insets.bottom + 12, paddingTop: 6 }}>
         <Plate label="Mam zwierzę!" accent={accent} onPress={handleStart} />
       </View>
     </View>
@@ -181,7 +183,7 @@ export default function ExpeditionIntroScreen() {
  * Karty dalej nieklikalne: dziecko ma pomyśleć, nie klikać.
  */
 function AnimalCarousel({ animals }: { animals: Animal[] }) {
-  const { width: screenW } = useWindowDimensions();
+  const screenW = useContentWidth();
   const item = Math.round(screenW * 0.44);
   const side = (screenW - item) / 2;
   const x = useSharedValue(0);
@@ -199,7 +201,7 @@ function AnimalCarousel({ animals }: { animals: Animal[] }) {
   };
 
   return (
-    <View style={{ marginTop: 10 }}>
+    <View style={{ ...contentColumn, marginTop: 10 }}>
       <View>
         <Animated.FlatList
           ref={list}
