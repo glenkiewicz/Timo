@@ -63,7 +63,7 @@
           "microphonePermission": false
         }
       ],
-      "expo-notifications"
+      "./plugins/withoutPushEntitlement"
     ],
     "experiments": {
       "typedRoutes": true,
