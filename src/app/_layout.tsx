@@ -28,6 +28,7 @@ import { sfx } from '@/lib/audio/sfx';
 import { useAuthStore } from '@/lib/stores/auth-store';
 import { useStartSeen } from '@/lib/stores/session-store';
 import { useNeedsOnboarding, useOnboardingStore } from '@/lib/stores/onboarding-store';
+import { initPurchases } from '@/lib/purchases';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -57,6 +58,12 @@ export default function RootLayout() {
   const needsOnboarding = useNeedsOnboarding();
 
   useEffect(() => init(), [init]);
+  // RevenueCat zna gracza po tym samym uid co Supabase (także anonimowym) —
+  // subskrypcja idzie za kontem rodzica na każde urządzenie.
+  const userId = session?.user.id;
+  useEffect(() => {
+    if (userId) void initPurchases(userId);
+  }, [userId]);
   // Efekty ładujemy od razu — pierwsze stuknięcie nie może czekać na plik.
   useEffect(() => sfx.preload(), []);
 

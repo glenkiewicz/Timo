@@ -6,7 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { INK } from '@/components/collection/map';
 import { Icon } from '@/components/ui/Icon';
-import { PLANS, type PlanId, purchase, restorePurchases } from '@/lib/purchases';
+import { type PlanId, purchase, restorePurchases, usePlans } from '@/lib/purchases';
 import { SHADOW, UI } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
 import { Image } from '@/tw/image';
@@ -41,7 +41,8 @@ export function Paywall({ onDone, background }: { onDone: (purchased: boolean) =
   const [busy, setBusy] = useState(false);
   const [info, setInfo] = useState<string | null>(null);
 
-  const selected = PLANS.find((p) => p.id === plan)!;
+  const plans = usePlans();
+  const selected = plans.find((p) => p.id === plan) ?? plans[0];
   const cta = selected.trialDays > 0 ? `Wypróbuj ${selected.trialDays} dni za darmo` : 'Wybieram plan roczny';
   const fine =
     selected.trialDays > 0
@@ -52,14 +53,17 @@ export function Paywall({ onDone, background }: { onDone: (purchased: boolean) =
 
   const buy = async () => {
     setBusy(true);
-    const ok = await purchase(plan);
+    const result = await purchase(plan);
     setBusy(false);
-    if (ok) {
+    if (result === 'purchased') {
       if (Platform.OS !== 'web') Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       onDone(true);
-    } else {
+    } else if (result === 'unavailable') {
       setInfo('Zakupy będą dostępne wkrótce. Na razie grasz w wersji darmowej.');
+    } else if (result === 'failed') {
+      setInfo('Nie udało się dokończyć zakupu. Sprawdź połączenie i spróbuj jeszcze raz.');
     }
+    // 'cancelled' — rodzic zamknął okno Apple, nic nie mówimy.
   };
 
   const restore = async () => {
@@ -124,7 +128,7 @@ export function Paywall({ onDone, background }: { onDone: (purchased: boolean) =
         </View>
 
         <View style={{ marginTop: 14, gap: 10 }}>
-          {PLANS.map((p) => {
+          {plans.map((p) => {
             const on = p.id === plan;
             return (
               <Pressable
