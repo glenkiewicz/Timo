@@ -23,6 +23,7 @@ import { useProfileStore } from '@/lib/stores/profile-store';
 import { supabase } from '@/lib/supabase';
 import { SHADOW, UI } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
+import { DEV_ONBOARDING } from '@/config/features';
 import { Image } from '@/tw/image';
 
 /**
@@ -152,13 +153,17 @@ export default function OnboardingScreen() {
     setFinishing(true);
     timoVoice.stop();
     if (session) {
-      const id = await createProfile(nick, avatar);
+      // Podgląd (`DEV_ONBOARDING = 'show'`) na koncie, które ma już dzieci:
+      // bez zakładania kolejnego profilu — każde przejście dokładało jeden,
+      // aż konto wpadało w limit 6 i zapis się wywracał.
+      const existing = DEV_ONBOARDING === 'show' ? useAuthStore.getState().profiles[0]?.id : undefined;
+      const id = existing ?? (await createProfile(nick, avatar));
       if (!id) {
         setFinishing(false);
         setStep(FIRST_QUESTION);
         return;
       }
-      if (avatar === PHOTO_AVATAR && photoUri) {
+      if (!existing && avatar === PHOTO_AVATAR && photoUri) {
         try {
           saveAvatarPhoto(id, photoUri);
         } catch (e) {
@@ -167,7 +172,7 @@ export default function OnboardingScreen() {
       }
       // Kolumna z migracji 0004 — bez niej zapis się nie uda, ale to tylko
       // informacja na przyszłość, więc profil i tak powstaje.
-      if (age) void supabase.from('profiles').update({ age_band: age }).eq('id', id);
+      if (age && !existing) void supabase.from('profiles').update({ age_band: age }).eq('id', id);
       if (reminder) await enableDailyReminder().catch(() => false);
       selectProfile(id);
       await hydrateFromServer(id);
@@ -263,6 +268,21 @@ export default function OnboardingScreen() {
 
         {current.kind === 'name' ? (
           <View>
+            {error ? (
+              <View
+                style={{
+                  marginBottom: 14,
+                  padding: 14,
+                  borderRadius: 18,
+                  backgroundColor: UI.dangerPale,
+                  borderWidth: 2,
+                  borderColor: UI.danger,
+                }}>
+                <Text style={{ color: UI.dangerDeep, fontFamily: 'Lexend-Bold', fontSize: 15, lineHeight: 21 }}>
+                  Nie udało się zapisać profilu. {error}
+                </Text>
+              </View>
+            ) : null}
             <Title>Jak ma na imię dziecko?</Title>
             <Lead>Timo będzie się tak do niego zwracał. Imię widzi tylko ta aplikacja.</Lead>
             <View style={{ marginTop: 22 }}>
@@ -290,11 +310,6 @@ export default function OnboardingScreen() {
                 setPhotoUri(uri);
               }}
             />
-            {error ? (
-              <Text style={{ color: UI.dangerDeep, fontFamily: 'Lexend-Bold', fontSize: 13, marginTop: 12 }}>
-                {error}
-              </Text>
-            ) : null}
           </View>
         ) : null}
 
