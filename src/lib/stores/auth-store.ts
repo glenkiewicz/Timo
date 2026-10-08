@@ -17,8 +17,21 @@ export type ChildProfile = {
   nick_variant: number;
 };
 
+/**
+ * `link` — dopięcie e-maila / Apple / Google do bieżącego, anonimowego konta
+ * (ten sam uid, postępy zostają). `login` — wejście na istniejące konto;
+ * anonimowe postępy z tego urządzenia zostają porzucone.
+ */
+export type AuthMode = 'link' | 'login';
+
 type AuthState = {
-  /** Sesja rodzica. `null` = nikt nie jest zalogowany. */
+  /**
+   * Sesja. Jak w Finchu gra startuje bez zakładania konta: przy pierwszym
+   * uruchomieniu powstaje anonimowe konto Supabase (prawdziwy `auth.uid()`,
+   * więc RLS i zapis postępów działają bez zmian). `null` tylko wtedy, gdy
+   * anonimowej sesji nie udało się założyć (brak sieci, wyłączone w panelu) —
+   * wtedy zostaje stary ekran logowania.
+   */
   session: Session | null;
   /** Trwa pierwsze sprawdzenie sesji — do czasu końca nie przekierowujemy. */
   initializing: boolean;
@@ -35,9 +48,13 @@ type AuthState = {
    * Jedno wejście dla e-maila: logowanie, a gdy konta jeszcze nie ma —
    * założenie go. Rodzic nie musi wybierać między „zaloguj" a „zarejestruj".
    */
-  signInWithEmail: (email: string, password: string) => Promise<void>;
-  signInWithGoogle: () => Promise<void>;
-  signInWithApple: () => Promise<void>;
+  signInWithEmail: (email: string, password: string, mode?: AuthMode) => Promise<void>;
+  signInWithGoogle: (mode?: AuthMode) => Promise<void>;
+  signInWithApple: (mode?: AuthMode) => Promise<void>;
+  /** Konto bez e-maila ani Apple/Google — postępy żyją tylko na tym urządzeniu. */
+  isAnonymous: () => boolean;
+  /** Zakłada anonimową sesję, jeśli żadnej nie ma. */
+  ensureSession: () => Promise<void>;
   signOut: () => Promise<void>;
 
   /** Konto założone, ale Supabase czeka na potwierdzenie adresu. */
@@ -78,6 +95,17 @@ function friendlyError(message: string): string {
   if (lower.includes('network') || lower.includes('fetch')) {
     return 'Brak połączenia z serwerem.';
   }
+  if (
+    lower.includes('already been registered') ||
+    lower.includes('email address already') ||
+    lower.includes('identity is already linked') ||
+    lower.includes('already linked to another user')
+  ) {
+    return 'To konto już istnieje — wybierz „Mam już konto” i zaloguj się.';
+  }
+  if (lower.includes('anonymous sign-ins are disabled')) {
+    return 'Gra bez konta jest chwilowo niedostępna — zaloguj się.';
+  }
   if (lower.includes('limit 6 profili')) {
     return 'Na koncie może być najwyżej 6 profili.';
   }
@@ -95,17 +123,25 @@ export const useAuthStore = create<AuthState>()(
       error: null,
 
       init: () => {
-        void supabase.auth.getSession().then(({ data }) => {
-          set({ session: data.session, initializing: false });
-          if (data.session) void get().loadProfiles();
+        void supabase.auth.getSession().then(async ({ data }) => {
+          if (data.session) {
+            set({ session: data.session, initializing: false });
+            void get().loadProfiles();
+            return;
+          }
+          await get().ensureSession();
+          set({ initializing: false });
         });
 
         const { data: subscription } = supabase.auth.onAuthStateChange(
           (_event, session) => {
-            const hadSession = Boolean(get().session);
+            const prevUser = get().session?.user.id;
             set({ session, initializing: false });
 
-            if (session && !hadSession) {
+            // Nowy użytkownik — także przejście z anonimowego na istniejące
+            // konto („Mam już konto”): profile są inne, aktywny trzeba wyzerować.
+            if (session && session.user.id !== prevUser) {
+              if (prevUser) set({ profiles: [], activeProfileId: null });
               void get().loadProfiles();
             }
             if (!session) {
@@ -117,12 +153,41 @@ export const useAuthStore = create<AuthState>()(
         return () => subscription.subscription.unsubscribe();
       },
 
+      isAnonymous: () => get().session?.user.is_anonymous === true,
+
+      ensureSession: async () => {
+        if (get().session) return;
+        const { data, error } = await supabase.auth.signInAnonymously();
+        if (error || !data.session) {
+          // Zostaje ekran logowania — lepsze to niż pusta gra bez zapisu.
+          if (error) console.warn('[auth] anonimowa sesja:', error.message);
+          return;
+        }
+        set({ session: data.session });
+      },
+
       awaitingConfirmation: null,
       clearAwaitingConfirmation: () => set({ awaitingConfirmation: null }),
 
-      signInWithEmail: async (rawEmail, password) => {
+      signInWithEmail: async (rawEmail, password, mode) => {
         const email = rawEmail.trim();
         set({ busy: true, error: null, awaitingConfirmation: null });
+
+        if ((mode ?? (get().isAnonymous() ? 'link' : 'login')) === 'link') {
+          // Dopięcie e-maila do anonimowego konta — uid i postępy zostają.
+          // Przy włączonym potwierdzaniu adresu e-mail dopisze się dopiero po
+          // kliknięciu linku; hasło jest ustawione od razu.
+          const { data, error } = await supabase.auth.updateUser({ email, password });
+          if (error) {
+            set({ busy: false, error: friendlyError(error.message) });
+            return;
+          }
+          set({
+            busy: false,
+            awaitingConfirmation: data.user?.new_email ? email : null,
+          });
+          return;
+        }
 
         // 1. Najpierw zwykłe logowanie — to najczęstszy przypadek.
         const signIn = await supabase.auth.signInWithPassword({ email, password });
@@ -133,6 +198,14 @@ export const useAuthStore = create<AuthState>()(
 
         // Inny błąd niż złe dane (np. brak sieci) — nie zakładamy konta.
         if (!signIn.error.message.toLowerCase().includes('invalid login credentials')) {
+          set({ busy: false, error: friendlyError(signIn.error.message) });
+          return;
+        }
+
+        // Z anonimowej gry „Mam już konto” to tylko logowanie: nowe konto
+        // w tym miejscu porzuciłoby postępy z telefonu bez żadnej korzyści —
+        // od tego jest „Zapisz postępy” (tryb `link`).
+        if (get().isAnonymous()) {
           set({ busy: false, error: friendlyError(signIn.error.message) });
           return;
         }
@@ -163,14 +236,15 @@ export const useAuthStore = create<AuthState>()(
         });
       },
 
-      signInWithGoogle: async () => {
+      signInWithGoogle: async (mode) => {
         set({ busy: true, error: null });
         try {
           const redirectTo = Linking.createURL('auth/callback');
-          const { data, error } = await supabase.auth.signInWithOAuth({
-            provider: 'google',
-            options: { redirectTo, skipBrowserRedirect: true },
-          });
+          const link = (mode ?? (get().isAnonymous() ? 'link' : 'login')) === 'link';
+          const options = { redirectTo, skipBrowserRedirect: true };
+          const { data, error } = link
+            ? await supabase.auth.linkIdentity({ provider: 'google', options })
+            : await supabase.auth.signInWithOAuth({ provider: 'google', options });
           if (error) throw error;
           if (!data.url) throw new Error('Google nie zwrócił adresu logowania.');
 
@@ -194,7 +268,7 @@ export const useAuthStore = create<AuthState>()(
         }
       },
 
-      signInWithApple: async () => {
+      signInWithApple: async (mode) => {
         set({ busy: true, error: null });
         try {
           const credential = await AppleAuthentication.signInAsync({
@@ -208,10 +282,11 @@ export const useAuthStore = create<AuthState>()(
             throw new Error('Apple nie zwróciło tokenu tożsamości.');
           }
 
-          const { error } = await supabase.auth.signInWithIdToken({
-            provider: 'apple',
-            token: credential.identityToken,
-          });
+          const link = (mode ?? (get().isAnonymous() ? 'link' : 'login')) === 'link';
+          const idToken = { provider: 'apple' as const, token: credential.identityToken };
+          const { error } = link
+            ? await supabase.auth.linkIdentity(idToken)
+            : await supabase.auth.signInWithIdToken(idToken);
           if (error) throw error;
 
           set({ busy: false });
@@ -241,6 +316,9 @@ export const useAuthStore = create<AuthState>()(
           error: null,
           awaitingConfirmation: null,
         });
+        // Jak w Finchu: po wylogowaniu gra działa dalej od zera, na nowym
+        // anonimowym koncie.
+        await get().ensureSession();
       },
 
       loadProfiles: async () => {

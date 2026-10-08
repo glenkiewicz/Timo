@@ -106,6 +106,11 @@ export default function RootLayout() {
             <Stack.Screen name="profiles" />
           </Stack.Protected>
 
+          {/* Konto rodzica (zapis postępów / logowanie) — z profili i z gry. */}
+          <Stack.Protected guard={signedIn}>
+            <Stack.Screen name="account" />
+          </Stack.Protected>
+
           {/* Ekran startowy przy KAŻDYM uruchomieniu, jak ekran tytułowy
               w grach. Dopóki dziecko nie stuknie „Gramy!”, reszta gry jest
               zamknięta — Menu nie montuje się pod spodem, więc Timo nie
@@ -180,6 +185,8 @@ function EntryRedirect({
     const first = segments[0];
     const inAuth = first === '(auth)';
     const onProfiles = first === 'profiles';
+    // Ekran konta otwiera się nad profilami i nad grą — nie przekierowujemy.
+    if (signedIn && first === 'account') return;
 
     if (!signedIn) {
       if (!inAuth) router.replace('/(auth)/sign-in');

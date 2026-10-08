@@ -24,6 +24,7 @@ export default function ProfilesScreen() {
   const deleteProfile = useAuthStore((s) => s.deleteProfile);
   const selectProfile = useAuthStore((s) => s.selectProfile);
   const signOut = useAuthStore((s) => s.signOut);
+  const anonymous = useAuthStore((s) => s.session?.user.is_anonymous === true);
   const busy = useAuthStore((s) => s.busy);
   const error = useAuthStore((s) => s.error);
   const clearError = useAuthStore((s) => s.clearError);
@@ -220,13 +221,26 @@ export default function ProfilesScreen() {
 
         <View className="flex-1" />
 
-        <View className="mt-6">
-          <Button
-            label="Wyloguj konto rodzica"
-            variant="ghost"
-            size="sm"
-            onPress={() => void signOut()}
-          />
+        <View className="mt-6 gap-2">
+          {anonymous ? (
+            <>
+              {/* Jak w Finchu: konto nie jest wymagane, ale bez niego postępy
+                  żyją tylko na tym telefonie. */}
+              <Button
+                label="Zapisz postępy — załóż konto rodzica"
+                variant="ghost"
+                size="md"
+                onPress={() => router.push('/account')}
+              />
+            </>
+          ) : (
+            <Button
+              label="Wyloguj konto rodzica"
+              variant="ghost"
+              size="sm"
+              onPress={() => void signOut()}
+            />
+          )}
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
