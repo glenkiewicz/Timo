@@ -1,6 +1,6 @@
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -75,6 +75,9 @@ const INFO: Info[] = [
   },
 ];
 
+/** Licznik montowań ekranu — patrz efekt głosu w komponencie. */
+let onboardingMounts = 0;
+
 const STEPS: Step[] = [
   ...INFO,
   { kind: 'name' },
@@ -130,14 +133,32 @@ export default function OnboardingScreen() {
   // Ostatni krok z paskiem postępu — paywall i „wyklucie” są już poza nim.
   const lastStep = session ? PAYWALL - 1 : FIRST_QUESTION - 1;
 
+  // Przy starcie ekran montuje się dwa razy (ekran początkowy + przekierowanie
+  // na /onboarding). Znikająca kopia, sprzątając, uciszała głos nowej — na
+  // telefonie pierwsze kwestie milczały. Każda kopia gra i zatrzymuje głos
+  // tylko wtedy, gdy jest najnowsza.
+  const mountId = useRef(0);
   useEffect(() => {
-    if (current.kind === 'info') void timoVoice.playLine(`onboarding.${step}`);
-    else if (current.kind !== 'hatch') timoVoice.stop();
-  }, [step, current.kind]);
-  useEffect(() => {
+    mountId.current = ++onboardingMounts;
     setActive(true);
-    return () => timoVoice.stop();
+    // Nagrania kart wczytane z góry — pierwsze odtworzenie pliku na telefonie
+    // potrafiło przepaść, drugie (po powrocie do karty) grało zawsze.
+    timoVoice.preload(INFO.map((_, i) => `onboarding.${i}`));
+    return () => {
+      if (onboardingMounts === mountId.current) timoVoice.stop();
+    };
   }, [setActive]);
+
+  useEffect(() => {
+    if (onboardingMounts !== mountId.current) return;
+    if (current.kind !== 'info') {
+      if (current.kind !== 'hatch') timoVoice.stop();
+      return;
+    }
+    // Pierwsza kwestia chwilę po wejściu — gdy ekran i nawigacja się ustoją.
+    const t = setTimeout(() => void timoVoice.playLine(`onboarding.${step}`), step === 0 ? 400 : 0);
+    return () => clearTimeout(t);
+  }, [step, current.kind]);
 
   const tap = () => {
     if (Platform.OS !== 'web') Haptics.selectionAsync();

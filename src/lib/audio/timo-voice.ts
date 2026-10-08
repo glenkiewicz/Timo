@@ -53,6 +53,8 @@ const INTER_CLIP_GAP_MS = 250;
  * cicho gubi pierwszy start.
  */
 const RETRY_PLAY_AFTER_MS = 600;
+/** Po tylu ms odtwarzacze z `preload` są zwalniane. */
+const PRELOAD_RELEASE_MS = 8000;
 
 /**
  * Aktualne parametry runtime głosu — exportowane do DebugOverlay (DEV).
@@ -194,6 +196,34 @@ class TimoVoiceController {
 			}
 			this.player = null;
 		}
+	}
+
+	/**
+	 * Wczytuje klipy z wyprzedzeniem (bez odtwarzania). Na telefonie pierwsze
+	 * odtworzenie pliku potrafiło przepaść, a drugie grało — tu to „pierwsze”
+	 * dzieje się po cichu, zanim dziecko cokolwiek usłyszy. Odtwarzacze są
+	 * zwalniane po kilku sekundach; pliki zostają już w pamięci systemu.
+	 */
+	preload(voiceKeys: string[]): void {
+		const players: AudioPlayer[] = [];
+		for (const key of voiceKeys) {
+			const source = voiceFor(key);
+			if (source == null) continue;
+			try {
+				players.push(createAudioPlayer(source));
+			} catch {
+				/* podgrzanie jest tylko optymalizacją */
+			}
+		}
+		setTimeout(() => {
+			for (const p of players) {
+				try {
+					p.remove();
+				} catch {
+					/* ignore */
+				}
+			}
+		}, PRELOAD_RELEASE_MS);
 	}
 
 	stop(): void {
