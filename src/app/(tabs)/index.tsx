@@ -158,7 +158,8 @@ export default function HomeScreen() {
             to={paws}
             accent="sky"
           />
-          {dailyStreak > 0 ? (
+          {/* Od drugiego dnia z rzędu — „1” pierwszego dnia nic nie mówiło. */}
+          {dailyStreak > 1 ? (
             <StatBadge
               tooltipKey="daily_streak"
               from={dailyStreak}

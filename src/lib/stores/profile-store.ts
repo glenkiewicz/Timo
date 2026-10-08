@@ -301,7 +301,9 @@ export const useProfileStore = create<ProfileState>()(
           lastSeenDate: todayLocal(),
           paws: state.paws + move.bonusPaws,
           badges: Array.from(unlocked),
-          streakCelebration: celebration,
+          // Seria „1 dzień” to nie seria — świętujemy od drugiego dnia z rzędu.
+          // Dzień pierwszy (i pierwszy po przerwie) liczy się po cichu.
+          streakCelebration: move.streak >= 2 ? celebration : null,
         });
         void get().pushToServer();
 
