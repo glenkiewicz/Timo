@@ -141,7 +141,6 @@ export default function HomeScreen() {
             to={streak}
             accent="fox"
             delayMs={120}
-            dimWhenZero
           />
           <StatBadge
             tooltipKey="paws"

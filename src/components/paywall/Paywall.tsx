@@ -1,12 +1,11 @@
 import * as Haptics from 'expo-haptics';
 import * as Linking from 'expo-linking';
 import { useState } from 'react';
-import { Platform, ScrollView } from 'react-native';
+import { Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { INK } from '@/components/collection/map';
 import { Icon } from '@/components/ui/Icon';
-import { useContentWidth } from '@/lib/layout';
 import { PLANS, type PlanId, purchase, restorePurchases } from '@/lib/purchases';
 import { SHADOW, UI } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
@@ -37,7 +36,6 @@ const BENEFITS = [
  */
 export function Paywall({ onDone, background }: { onDone: (purchased: boolean) => void; background: string }) {
   const insets = useSafeAreaInsets();
-  const contentW = useContentWidth();
   const [plan, setPlan] = useState<PlanId>('monthly');
   const [gate, setGate] = useState<null | (() => void)>(null);
   const [busy, setBusy] = useState(false);
@@ -72,13 +70,11 @@ export function Paywall({ onDone, background }: { onDone: (purchased: boolean) =
     else setInfo('Nie znaleźliśmy subskrypcji na tym koncie Apple.');
   };
 
-  const art = Math.min(contentW * 0.62, 300);
-
   return (
     <View style={{ flex: 1, backgroundColor: background }}>
-      <ScrollView
-        contentContainerStyle={{ paddingTop: insets.top + 8, paddingHorizontal: 24, paddingBottom: 16 }}
-        showsVerticalScrollIndicator={false}>
+      {/* Bez przewijania — cały paywall widać od razu. Ilustracja bierze tyle
+          miejsca, ile zostaje po treści, więc na małym telefonie maleje. */}
+      <View style={{ flex: 1, paddingTop: insets.top + 8, paddingHorizontal: 24, paddingBottom: 8 }}>
         <View className="flex-row justify-end">
           <Pressable
             onPress={() => onDone(false)}
@@ -90,18 +86,20 @@ export function Paywall({ onDone, background }: { onDone: (purchased: boolean) =
           </Pressable>
         </View>
 
-        <Image
-          source={ART}
-          style={{ width: art, height: art, alignSelf: 'center' }}
-          contentFit="contain"
-          transition={0}
-          accessible={false}
-        />
+        <View style={{ flex: 1, minHeight: 70, maxHeight: 440, marginTop: -8 }}>
+          <Image
+            source={ART}
+            style={{ width: '100%', height: '100%' }}
+            contentFit="contain"
+            transition={0}
+            accessible={false}
+          />
+        </View>
         <Text className="text-center" style={{ color: INK, fontFamily: 'Gabarito-Bold', fontSize: 28, lineHeight: 33 }}>
           Odkryj całego Timo
         </Text>
 
-        <View style={{ marginTop: 16, gap: 10 }}>
+        <View style={{ marginTop: 12, gap: 8 }}>
           {BENEFITS.map((b) => (
             <View key={b} className="flex-row items-center" style={{ gap: 12 }}>
               <View
@@ -115,12 +113,17 @@ export function Paywall({ onDone, background }: { onDone: (purchased: boolean) =
                 }}>
                 <Icon name="check" size={16} color={UI.primaryDeep} strokeWidth={3} />
               </View>
-              <Text style={{ flex: 1, color: INK, fontFamily: 'Lexend', fontSize: 16, lineHeight: 21 }}>{b}</Text>
+              <Text
+                numberOfLines={1}
+                adjustsFontSizeToFit
+                style={{ flex: 1, color: INK, fontFamily: 'Lexend', fontSize: 16, lineHeight: 21 }}>
+                {b}
+              </Text>
             </View>
           ))}
         </View>
 
-        <View style={{ marginTop: 20, gap: 12 }}>
+        <View style={{ marginTop: 14, gap: 10 }}>
           {PLANS.map((p) => {
             const on = p.id === plan;
             return (
@@ -136,7 +139,8 @@ export function Paywall({ onDone, background }: { onDone: (purchased: boolean) =
                   flexDirection: 'row',
                   alignItems: 'center',
                   gap: 14,
-                  padding: 16,
+                  paddingHorizontal: 16,
+                  paddingVertical: 13,
                   borderRadius: 22,
                   backgroundColor: on ? UI.foxPale : UI.page,
                   borderWidth: 3,
@@ -176,11 +180,11 @@ export function Paywall({ onDone, background }: { onDone: (purchased: boolean) =
         {info ? (
           <Text
             className="text-center"
-            style={{ color: UI.goldDeep, fontFamily: 'Lexend-Bold', fontSize: 13, lineHeight: 18, marginTop: 14 }}>
+            style={{ color: UI.goldDeep, fontFamily: 'Lexend-Bold', fontSize: 13, lineHeight: 18, marginTop: 10 }}>
             {info}
           </Text>
         ) : null}
-      </ScrollView>
+      </View>
 
       <View style={{ paddingHorizontal: 24, paddingBottom: insets.bottom + 10 }}>
         <Pressable

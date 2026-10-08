@@ -259,7 +259,6 @@ export default function ResultScreen() {
             to={streak}
             accent="fox"
             delayMs={120}
-            dimWhenZero
           />
           <StatBadge
             tooltipKey="paws"

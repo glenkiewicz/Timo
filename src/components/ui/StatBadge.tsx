@@ -25,8 +25,6 @@ type StatBadgeProps = {
   accent?: Accent;
   delayMs?: number;
   durationMs?: number;
-  /** Wyszarza ikonę i liczbę, gdy licznik stoi na zerze. */
-  dimWhenZero?: boolean;
 };
 
 /**
@@ -65,7 +63,6 @@ export function StatBadge({
   accent = 'fox',
   delayMs = 0,
   durationMs = 900,
-  dimWhenZero = false,
 }: StatBadgeProps) {
   const openSheet = useInfoSheet();
   const delta = to - from;
@@ -91,7 +88,6 @@ export function StatBadge({
     openSheet({ ...TOOLTIPS[tooltipKey], art: TOOLTIP_ART[tooltipKey], accent });
   }, [openSheet, tooltipKey, accent]);
 
-  const muted = dimWhenZero && to === 0;
 
   return (
     <View style={{ alignItems: 'center', marginHorizontal: 2 }}>
@@ -116,7 +112,7 @@ export function StatBadge({
           />
           <Image
             source={TOOLTIP_ART[tooltipKey]}
-            style={{ position: 'absolute', left: 0, top: 0, width: ART, height: ART, opacity: muted ? 0.4 : 1 }}
+            style={{ position: 'absolute', left: 0, top: 0, width: ART, height: ART }}
             contentFit="contain"
             transition={0}
             accessible={false}
@@ -128,7 +124,7 @@ export function StatBadge({
               delayMs={delayMs}
               durationMs={durationMs}
               style={{
-                color: muted ? UI.textFaint : INK,
+                color: INK,
                 fontFamily: 'Gabarito-Bold',
                 fontSize: 16,
               }}
