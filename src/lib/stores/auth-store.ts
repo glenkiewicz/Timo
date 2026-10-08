@@ -64,7 +64,8 @@ type AuthState = {
   clearAwaitingConfirmation: () => void;
 
   loadProfiles: () => Promise<void>;
-  createProfile: (nick: string, avatar: string) => Promise<boolean>;
+  /** Id nowego profilu albo `null`, gdy się nie udało. */
+  createProfile: (nick: string, avatar: string) => Promise<string | null>;
   deleteProfile: (id: string) => Promise<void>;
   selectProfile: (id: string | null) => void;
 
@@ -348,7 +349,7 @@ export const useAuthStore = create<AuthState>()(
 
       createProfile: async (nick, avatar) => {
         const session = get().session;
-        if (!session) return false;
+        if (!session) return null;
 
         set({ busy: true, error: null });
         const { data, error } = await supabase
@@ -359,14 +360,14 @@ export const useAuthStore = create<AuthState>()(
 
         if (error || !data) {
           set({ busy: false, error: friendlyError(error?.message ?? 'Nie udało się dodać profilu.') });
-          return false;
+          return null;
         }
 
         set({
           busy: false,
           profiles: [...get().profiles, data as ChildProfile],
         });
-        return true;
+        return (data as ChildProfile).id;
       },
 
       deleteProfile: async (id) => {

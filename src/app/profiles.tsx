@@ -7,13 +7,13 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Field } from '@/components/ui/Field';
 import { Icon } from '@/components/ui/Icon';
+import { AVATARS } from '@/data/avatars';
 import { useAuthStore } from '@/lib/stores/auth-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { UI } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
 import { contentColumn } from '@/lib/layout';
 
-const AVATARS = ['🦊', '🐻', '🐰', '🦉', '🐼', '🦁', '🐸', '🐨'];
 
 export default function ProfilesScreen() {
   const router = useRouter();

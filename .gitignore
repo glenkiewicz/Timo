@@ -65,3 +65,6 @@ assets/timo/character/timo-idle.webp
 assets/timo/character/timo-talk.webp
 assets/timo/character/timo-talk-happy.webp
 assets/timo/character/timo-wave.webp
+
+# Warianty ilustracji onboardingu (scripts/generate-onboarding-art.py)
+assets/onboarding/_raw/

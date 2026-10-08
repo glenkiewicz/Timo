@@ -1,262 +1,386 @@
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
-import { useEffect, useRef, useState } from 'react';
-import { FlatList, Platform, useWindowDimensions } from 'react-native';
+import { useEffect, useState } from 'react';
+import { KeyboardAvoidingView, Platform } from 'react-native';
+import Animated, { FadeIn } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { INK } from '@/components/collection/map';
-import { OUTFITS } from '@/components/timo/outfits';
-import { SceneBackdrop, TimoStage, sceneBaseColor } from '@/components/timo/TimoStage';
-import { BADGE_ART } from '@/data/badge-art';
-import { LOCK_ART, TOOLTIP_ART } from '@/data/info-tooltips';
+import { Field } from '@/components/ui/Field';
+import { Icon } from '@/components/ui/Icon';
+import { AVATARS } from '@/data/avatars';
 import { timoVoice } from '@/lib/audio/timo-voice';
-import { useTimoHeight } from '@/lib/layout';
+import { useContentWidth } from '@/lib/layout';
+import { enableDailyReminder } from '@/lib/reminders';
+import { useAuthStore } from '@/lib/stores/auth-store';
 import { useOnboardingStore } from '@/lib/stores/onboarding-store';
+import { useProfileStore } from '@/lib/stores/profile-store';
+import { supabase } from '@/lib/supabase';
 import { SHADOW, UI } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
 import { Image } from '@/tw/image';
 
-const ART = {
-  think: require('../../assets/icons/start/think.png'),
-  answer: require('../../assets/icons/start/answer.png'),
-  guess: require('../../assets/icons/start/guess.png'),
-  expeditions: require('../../assets/icons/tab-expeditions.png'),
-  collection: require('../../assets/icons/tab-collection.png'),
-  badges: require('../../assets/icons/tab-badges.png'),
-};
+/**
+ * Tło ekranu = tło ilustracji (scripts/generate-onboarding-art.py wyrównuje
+ * je co do piksela), więc obrazek nie ma krawędzi — jak w Finchu.
+ */
+const BG = '#fef6e5';
 
-type Row = { art: number; title: string; text: string };
-type Page = { title: string; lead?: string; rows: Row[] };
+type Info = { kind: 'info'; art: number; title: string; text: string };
+type Step = Info | { kind: 'name' } | { kind: 'age' } | { kind: 'reminder' };
 
-/** Kolejność stron = kolejność kwestii `ONBOARDING_LINES` (voiceKey `onboarding.N`). */
-const PAGES: Page[] = [
+/** Karty informacyjne — kolejność = kwestie `ONBOARDING_LINES` (`onboarding.N`). */
+const INFO: Info[] = [
   {
+    kind: 'info',
+    art: require('../../assets/onboarding/hello.webp'),
     title: 'Poznaj Timo!',
-    lead: 'Rudy lisek detektyw, który zgaduje zwierzęta. Dziecko myśli, Timo pyta — i próbuje zgadnąć.',
-    rows: [],
+    text: 'Rudy lisek detektyw, który zgaduje zwierzęta. Dziecko myśli, a Timo pyta.',
   },
   {
+    kind: 'info',
+    art: require('../../assets/onboarding/guess.webp'),
     title: 'Ty myślisz, Timo zgaduje',
-    rows: [
-      { art: ART.think, title: 'Pomyśl o zwierzęciu', text: 'W głowie — niczego nie klikasz.' },
-      { art: ART.answer, title: 'Odpowiadaj na pytania', text: 'Tak, nie, nie wiem albo to zależy.' },
-      { art: ART.guess, title: 'Timo zgaduje', text: 'Zgadł? A może trzeba mu pomóc?' },
-    ],
+    text: 'Pomyśl o zwierzęciu i odpowiadaj na pytania: tak, nie, nie wiem albo to zależy.',
   },
   {
+    kind: 'info',
+    art: require('../../assets/onboarding/ways.webp'),
     title: 'Graj, jak lubisz',
-    rows: [
-      { art: ART.guess, title: 'Wszystkie zwierzęta', text: 'Ponad 700 zwierząt z całego świata.' },
-      { art: TOOLTIP_ART.daily_streak, title: 'Wyprawa Dnia', text: 'Codziennie trzy nowe propozycje.' },
-      { art: BADGE_ART.explorer_1, title: 'Wyprawy z Timo', text: '24 wyprawy — na każdą lisek ma przebranie.' },
-    ],
+    text: 'Ponad 700 zwierząt, codzienna Wyprawa Dnia i 24 wyprawy, na które Timo zakłada przebrania.',
   },
   {
+    kind: 'info',
+    art: require('../../assets/onboarding/collect.webp'),
     title: 'Zbieraj i odkrywaj',
-    rows: [
-      { art: ART.collection, title: 'Kolekcja zwierząt', text: 'Karty z ciekawostkami i mapą, gdzie żyją.' },
-      { art: ART.badges, title: 'Odznaki', text: 'Za serie, odkrycia i wyprawy.' },
-      { art: TOOLTIP_ART.level, title: 'Poziomy i rangi', text: 'Od Małego tropiciela po Profesora Timo.' },
-    ],
+    text: 'Każde zwierzę trafia do kolekcji — z ciekawostkami i mapą. Do tego odznaki i poziomy.',
   },
   {
-    title: 'Dla rodzica',
-    rows: [
-      { art: LOCK_ART, title: 'Bez reklam i czatów', text: 'Dziecko nie rozmawia z obcymi i nic nie kupi samo.' },
-      { art: TOOLTIP_ART.level, title: 'Profil dla każdego dziecka', text: 'Osobna kolekcja, odznaki i postęp.' },
-      {
-        art: TOOLTIP_ART.paws,
-        title: 'Konto nie jest wymagane',
-        text: 'Gracie od razu. Postępy zapiszesz kontem rodzica, kiedy zechcesz.',
-      },
-    ],
+    kind: 'info',
+    art: require('../../assets/onboarding/parent.webp'),
+    title: 'Bezpiecznie dla dziecka',
+    text: 'Bez reklam i czatów. Konto nie jest wymagane — postępy zapiszesz, kiedy zechcesz.',
   },
 ];
 
-/** Przebrania przewijane na stronie o wyprawach — co 2,4 s inne. */
-const OUTFIT_TOUR = ['water_friends', 'night_animals', 'big_animals', 'green_jungle', 'ice_land'].filter(
-  (id) => id in OUTFITS,
-);
-const WAYS_PAGE = 2;
+const STEPS: Step[] = [...INFO, { kind: 'name' }, { kind: 'age' }, { kind: 'reminder' }];
+const FIRST_QUESTION = INFO.length;
+
+const AGES = [
+  { id: '3-5', label: '3–5 lat' },
+  { id: '6-8', label: '6–8 lat' },
+  { id: '9+', label: '9 lat i więcej' },
+] as const;
 
 /**
- * Onboarding — pierwsze uruchomienie, zanim pojawi się wybór dziecka.
- *
- * Timo stoi na tej samej polanie co w Menu i przy każdej stronie mówi jedną
- * kwestię, więc dziecko słucha, a rodzic czyta karty pod spodem. Na stronie
- * o wyprawach lisek zmienia przebrania. Kończy się „Zaczynamy!” → imię
- * dziecka (ekran profili). Miejsce na paywall: przed ostatnim krokiem.
+ * Onboarding w stylu Fincha — spokojny, osobny od gry: gładkie kremowe tło,
+ * pasek postępu, jedna ilustracja i jedna myśl na ekran. Na kartach Timo
+ * mówi swoją kwestię. Potem trzy pytania: imię i awatar dziecka (od razu
+ * zakładamy profil — bez osobnego „Kto gra?”), wiek i przypomnienia.
+ * Miejsce na paywall: po kartach, przed pytaniami (część C).
  */
 export default function OnboardingScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const { width } = useWindowDimensions();
-  const timoH = useTimoHeight(0.62);
+  const contentW = useContentWidth();
   const markDone = useOnboardingStore((s) => s.markDone);
+  const session = useAuthStore((s) => s.session);
+  const createProfile = useAuthStore((s) => s.createProfile);
+  const selectProfile = useAuthStore((s) => s.selectProfile);
+  const busy = useAuthStore((s) => s.busy);
+  const error = useAuthStore((s) => s.error);
+  const clearError = useAuthStore((s) => s.clearError);
+  const hydrateFromServer = useProfileStore((s) => s.hydrateFromServer);
 
-  const [groundY, setGroundY] = useState<number | null>(null);
-  const [page, setPage] = useState(0);
-  const [outfitIdx, setOutfitIdx] = useState(0);
-  const list = useRef<FlatList<Page>>(null);
+  const [step, setStep] = useState(0);
+  const [nick, setNick] = useState('');
+  const [avatar, setAvatar] = useState(AVATARS[0]);
+  const [age, setAge] = useState<string | null>(null);
+  const [finishing, setFinishing] = useState(false);
 
-  // Kwestia Timo do bieżącej strony — przerwana, gdy dziecko przewinie dalej.
+  const current = STEPS[step];
+  // Bez sesji (anonimowe konto się nie założyło) nie ma gdzie zapisać
+  // profilu — po kartach od razu kończymy, a dalej jest stary ekran logowania.
+  const lastStep = session ? STEPS.length - 1 : FIRST_QUESTION - 1;
+
   useEffect(() => {
-    void timoVoice.playLine(`onboarding.${page}`);
-  }, [page]);
+    if (current.kind === 'info') void timoVoice.playLine(`onboarding.${step}`);
+    else timoVoice.stop();
+  }, [step, current.kind]);
   useEffect(() => () => timoVoice.stop(), []);
 
-  useEffect(() => {
-    if (page !== WAYS_PAGE || OUTFIT_TOUR.length === 0) return;
-    const t = setInterval(() => setOutfitIdx((i) => (i + 1) % OUTFIT_TOUR.length), 2400);
-    return () => clearInterval(t);
-  }, [page]);
-
-  const last = page === PAGES.length - 1;
-
-  const go = (to: number) => {
+  const tap = () => {
     if (Platform.OS !== 'web') Haptics.selectionAsync();
-    list.current?.scrollToOffset({ offset: to * width, animated: true });
-    setPage(to);
+  };
+  const go = (to: number) => {
+    tap();
+    clearError();
+    setStep(Math.max(0, Math.min(lastStep, to)));
   };
 
-  const finish = () => {
-    if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+  const finish = async (reminder: boolean) => {
+    if (finishing) return;
+    setFinishing(true);
     timoVoice.stop();
+    if (session) {
+      const id = await createProfile(nick, avatar);
+      if (!id) {
+        setFinishing(false);
+        setStep(FIRST_QUESTION);
+        return;
+      }
+      // Kolumna z migracji 0004 — bez niej zapis się nie uda, ale to tylko
+      // informacja na przyszłość, więc profil i tak powstaje.
+      if (age) void supabase.from('profiles').update({ age_band: age }).eq('id', id);
+      if (reminder) await enableDailyReminder().catch(() => false);
+      selectProfile(id);
+      await hydrateFromServer(id);
+    }
+    if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     markDone();
   };
 
+  const art = Math.min(contentW - 48, 380);
+
   return (
-    <View className="flex-1" style={{ backgroundColor: sceneBaseColor('home') }}>
-      <SceneBackdrop groundY={groundY} scene="home" />
-
-      <View className="flex-row justify-end" style={{ paddingTop: insets.top + 8, paddingHorizontal: 16 }}>
-        {!last ? (
-          <Pressable
-            onPress={() => go(PAGES.length - 1)}
-            accessibilityRole="button"
-            className="rounded-pill"
-            style={{ paddingHorizontal: 14, paddingVertical: 8, backgroundColor: 'rgba(28, 32, 20, 0.42)' }}>
-            <Text style={{ color: UI.onLawn, fontFamily: 'Gabarito-Bold', fontSize: 15 }}>Pomiń</Text>
-          </Pressable>
-        ) : (
-          <View style={{ height: 37 }} />
-        )}
-      </View>
-
-      <View style={{ flex: 1, justifyContent: 'center', pointerEvents: 'none' }}>
-        <TimoStage
-          onGroundY={setGroundY}
-          height={timoH}
-          outfit={page === WAYS_PAGE ? OUTFIT_TOUR[outfitIdx] : undefined}
-        />
-      </View>
-
-      <FlatList
-        ref={list}
-        data={PAGES}
-        keyExtractor={(p) => p.title}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        style={{ flexGrow: 0 }}
-        onMomentumScrollEnd={(e) => setPage(Math.round(e.nativeEvent.contentOffset.x / width))}
-        renderItem={({ item }) => (
-          <View style={{ width, paddingHorizontal: 20, justifyContent: 'flex-end' }}>
-            <PageCard page={item} />
-          </View>
-        )}
-      />
-
-      <View style={{ paddingHorizontal: 20, paddingTop: 14, paddingBottom: insets.bottom + 16 }}>
-        <View className="flex-row justify-center" style={{ gap: 8, marginBottom: 14 }}>
-          {PAGES.map((p, i) => (
-            <View
-              key={p.title}
-              style={{
-                width: i === page ? 22 : 8,
-                height: 8,
-                borderRadius: 4,
-                backgroundColor: i === page ? UI.onLawn : 'rgba(255,255,255,0.5)',
-              }}
-            />
-          ))}
-        </View>
-
+    <KeyboardAvoidingView
+      style={{ flex: 1, backgroundColor: BG }}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+      {/* ---------- pasek: wstecz, postęp, pomiń ---------- */}
+      <View
+        className="flex-row items-center"
+        style={{ paddingTop: insets.top + 10, paddingHorizontal: 16, gap: 12 }}>
         <Pressable
-          onPress={() => (last ? finish() : go(page + 1))}
+          onPress={() => go(step - 1)}
+          disabled={step === 0}
           accessibilityRole="button"
-          style={({ pressed }) => ({
-            paddingVertical: 17,
-            borderRadius: 26,
-            alignItems: 'center',
-            backgroundColor: UI.fox,
-            boxShadow: pressed ? 'none' : `0px 5px 0px ${UI.foxDeep}`,
-            transform: [{ translateY: pressed ? 5 : 0 }],
-          })}>
-          <Text style={{ color: '#ffffff', fontFamily: 'Gabarito-Bold', fontSize: 22 }}>
-            {last ? 'Zaczynamy!' : 'Dalej'}
-          </Text>
+          accessibilityLabel="Wstecz"
+          className="w-10 h-10 items-center justify-center rounded-pill"
+          style={{ opacity: step === 0 ? 0 : 1 }}>
+          <Icon name="arrow-left" size={22} color={INK} strokeWidth={2.6} />
         </Pressable>
+        <View style={{ flex: 1, height: 10, borderRadius: 5, backgroundColor: UI.pageSlot, overflow: 'hidden' }}>
+          <View
+            style={{
+              width: `${((step + 1) / (lastStep + 1)) * 100}%`,
+              height: '100%',
+              borderRadius: 5,
+              backgroundColor: UI.fox,
+            }}
+          />
+        </View>
+        <Pressable
+          onPress={() => go(FIRST_QUESTION)}
+          disabled={step >= FIRST_QUESTION - 1}
+          accessibilityRole="button"
+          style={{ opacity: step >= FIRST_QUESTION - 1 ? 0 : 1, paddingHorizontal: 4 }}>
+          <Text style={{ color: UI.pageFaint, fontFamily: 'Gabarito-Bold', fontSize: 15 }}>Pomiń</Text>
+        </Pressable>
+      </View>
 
-        {last ? (
-          <Pressable
-            onPress={() => router.push('/account')}
-            accessibilityRole="button"
-            style={{ alignSelf: 'center', marginTop: 12, padding: 6 }}>
-            <Text style={{ color: UI.onLawn, fontFamily: 'Gabarito-Bold', fontSize: 15 }}>
-              Mam już konto — zaloguj się
+      {/* ---------- treść kroku ---------- */}
+      <Animated.View
+        key={step}
+        entering={FadeIn.duration(260)}
+        style={{ flex: 1, paddingHorizontal: 24, justifyContent: 'center' }}>
+        {current.kind === 'info' ? (
+          <View className="items-center">
+            <Image
+              source={current.art}
+              style={{ width: art, height: art }}
+              contentFit="contain"
+              transition={0}
+              accessible={false}
+            />
+            <Title>{current.title}</Title>
+            <Lead>{current.text}</Lead>
+          </View>
+        ) : null}
+
+        {current.kind === 'name' ? (
+          <View>
+            <Title>Jak ma na imię dziecko?</Title>
+            <Lead>Timo będzie się tak do niego zwracał. Imię widzi tylko ta aplikacja.</Lead>
+            <View style={{ marginTop: 22 }}>
+              <Field
+                label="IMIĘ DZIECKA"
+                value={nick}
+                onChangeText={(t) => {
+                  clearError();
+                  setNick(t);
+                }}
+                placeholder="np. Zosia"
+                autoCapitalize="words"
+                maxLength={20}
+              />
+            </View>
+            <Text style={{ color: UI.pageFaint, fontFamily: 'Gabarito-Bold', fontSize: 12, marginTop: 18 }}>
+              AWATAR
             </Text>
-          </Pressable>
+            <View className="flex-row flex-wrap" style={{ gap: 10, marginTop: 8 }}>
+              {AVATARS.map((a) => (
+                <Pressable
+                  key={a}
+                  onPress={() => {
+                    tap();
+                    setAvatar(a);
+                  }}
+                  accessibilityRole="button"
+                  accessibilityState={{ selected: avatar === a }}
+                  style={{
+                    width: 58,
+                    height: 58,
+                    borderRadius: 29,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: avatar === a ? UI.foxPale : UI.page,
+                    borderWidth: 3,
+                    borderColor: avatar === a ? UI.fox : 'transparent',
+                    boxShadow: `${SHADOW.e0}, ${SHADOW.rim}`,
+                  }}>
+                  <Text style={{ fontSize: 30 }}>{a}</Text>
+                </Pressable>
+              ))}
+            </View>
+            {error ? (
+              <Text style={{ color: UI.dangerDeep, fontFamily: 'Lexend-Bold', fontSize: 13, marginTop: 12 }}>
+                {error}
+              </Text>
+            ) : null}
+          </View>
+        ) : null}
+
+        {current.kind === 'age' ? (
+          <View>
+            <Title>{nick.trim() ? `Ile lat ma ${nick.trim()}?` : 'Ile lat ma dziecko?'}</Title>
+            <Lead>Pomoże nam dopasować zabawę. Możesz to pominąć.</Lead>
+            <View style={{ marginTop: 22, gap: 12 }}>
+              {AGES.map((a) => (
+                <Choice
+                  key={a.id}
+                  label={a.label}
+                  selected={age === a.id}
+                  onPress={() => {
+                    setAge(a.id);
+                    go(step + 1);
+                  }}
+                />
+              ))}
+            </View>
+          </View>
+        ) : null}
+
+        {current.kind === 'reminder' ? (
+          <View className="items-center">
+            <Image
+              source={INFO[0].art}
+              style={{ width: art * 0.7, height: art * 0.7 }}
+              contentFit="contain"
+              transition={0}
+              accessible={false}
+            />
+            <Title>Przypominać o Wyprawie Dnia?</Title>
+            <Lead>Raz dziennie, o 17:00, Timo da znać, że czeka nowa wyprawa. Wyłączysz to w ustawieniach telefonu.</Lead>
+          </View>
+        ) : null}
+      </Animated.View>
+
+      {/* ---------- przyciski ---------- */}
+      <View style={{ paddingHorizontal: 24, paddingBottom: insets.bottom + 16, gap: 10 }}>
+        {current.kind === 'info' ? (
+          <>
+            <MainButton
+              label={step === lastStep ? 'Zaczynamy!' : 'Dalej'}
+              onPress={() => (step === lastStep ? void finish(false) : go(step + 1))}
+            />
+            {step === FIRST_QUESTION - 1 ? (
+              <TextButton label="Mam już konto — zaloguj się" onPress={() => router.push('/account')} />
+            ) : null}
+          </>
+        ) : null}
+        {current.kind === 'name' ? (
+          <MainButton label="Dalej" disabled={nick.trim().length === 0} onPress={() => go(step + 1)} />
+        ) : null}
+        {current.kind === 'age' ? <TextButton label="Pomiń" onPress={() => go(step + 1)} /> : null}
+        {current.kind === 'reminder' ? (
+          <>
+            <MainButton
+              label={finishing || busy ? 'Chwileczkę…' : 'Tak, przypominaj'}
+              disabled={finishing}
+              onPress={() => void finish(true)}
+            />
+            <TextButton label="Nie teraz" onPress={() => void finish(false)} />
+          </>
         ) : null}
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
-function PageCard({ page }: { page: Page }) {
+function Title({ children }: { children: string }) {
   return (
-    <View
+    <Text
+      className="text-center"
+      style={{ color: INK, fontFamily: 'Gabarito-Bold', fontSize: 28, lineHeight: 34, marginTop: 18 }}>
+      {children}
+    </Text>
+  );
+}
+
+function Lead({ children }: { children: string }) {
+  return (
+    <Text
+      className="text-center"
+      style={{ color: UI.pageFaint, fontFamily: 'Lexend', fontSize: 17, lineHeight: 24, marginTop: 8 }}>
+      {children}
+    </Text>
+  );
+}
+
+function MainButton({ label, onPress, disabled }: { label: string; onPress: () => void; disabled?: boolean }) {
+  return (
+    <Pressable
+      onPress={onPress}
+      disabled={disabled}
+      accessibilityRole="button"
+      style={({ pressed }) => ({
+        paddingVertical: 17,
+        borderRadius: 26,
+        alignItems: 'center',
+        backgroundColor: UI.fox,
+        opacity: disabled ? 0.45 : 1,
+        boxShadow: pressed || disabled ? 'none' : `0px 5px 0px ${UI.foxDeep}`,
+        transform: [{ translateY: pressed ? 5 : 0 }],
+      })}>
+      <Text style={{ color: '#ffffff', fontFamily: 'Gabarito-Bold', fontSize: 21 }}>{label}</Text>
+    </Pressable>
+  );
+}
+
+function TextButton({ label, onPress }: { label: string; onPress: () => void }) {
+  return (
+    <Pressable onPress={onPress} accessibilityRole="button" style={{ alignSelf: 'center', padding: 8 }}>
+      <Text style={{ color: UI.pageFaint, fontFamily: 'Gabarito-Bold', fontSize: 16 }}>{label}</Text>
+    </Pressable>
+  );
+}
+
+function Choice({ label, selected, onPress }: { label: string; selected: boolean; onPress: () => void }) {
+  return (
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="button"
+      accessibilityState={{ selected }}
       style={{
-        backgroundColor: UI.page,
-        borderRadius: 28,
-        padding: 18,
-        boxShadow: `${SHADOW.e2}, ${SHADOW.rim}`,
+        paddingVertical: 18,
+        paddingHorizontal: 20,
+        borderRadius: 22,
+        backgroundColor: selected ? UI.foxPale : UI.page,
+        borderWidth: 3,
+        borderColor: selected ? UI.fox : 'transparent',
+        boxShadow: `${SHADOW.e1}, ${SHADOW.rim}`,
       }}>
-      <Text style={{ color: INK, fontFamily: 'Gabarito-Bold', fontSize: 24 }}>{page.title}</Text>
-      {page.lead ? (
-        <Text style={{ color: UI.pageFaint, fontFamily: 'Lexend', fontSize: 16, lineHeight: 22, marginTop: 4 }}>
-          {page.lead}
-        </Text>
-      ) : null}
-      {page.rows.length > 0 ? (
-        <View style={{ marginTop: 12, gap: 10 }}>
-          {page.rows.map((r) => (
-            <View key={r.title} className="flex-row items-center" style={{ gap: 12 }}>
-              <View
-                style={{
-                  width: 50,
-                  height: 50,
-                  borderRadius: 18,
-                  backgroundColor: UI.pageSlot,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Image
-                  source={r.art}
-                  style={{ width: 40, height: 40 }}
-                  contentFit="contain"
-                  transition={0}
-                  accessible={false}
-                />
-              </View>
-              <View style={{ flex: 1 }}>
-                <Text style={{ color: INK, fontFamily: 'Gabarito-Bold', fontSize: 17 }}>{r.title}</Text>
-                <Text style={{ color: INK, fontFamily: 'Lexend', fontSize: 14, lineHeight: 19 }}>{r.text}</Text>
-              </View>
-            </View>
-          ))}
-        </View>
-      ) : null}
-    </View>
+      <Text style={{ color: INK, fontFamily: 'Gabarito-Bold', fontSize: 19 }}>{label}</Text>
+    </Pressable>
   );
 }
