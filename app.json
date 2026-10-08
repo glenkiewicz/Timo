@@ -20,7 +20,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#fff1df",
+        "backgroundColor": "#2f6b4f",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
@@ -45,7 +45,7 @@
         {
           "backgroundColor": "#fff1df",
           "image": "./assets/images/splash-icon.png",
-          "imageWidth": 220
+          "imageWidth": 240
         }
       ],
       "expo-audio",
