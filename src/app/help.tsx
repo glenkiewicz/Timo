@@ -7,7 +7,10 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ACCENT_FOR, GLYPH, LABEL, type AnswerType } from '@/components/buttons/AnswerCard';
 import { INK } from '@/components/collection/map';
 import { Icon } from '@/components/ui/Icon';
+import { FREE_ANIMAL_IDS, FREE_EXPEDITIONS, FREE_REGIONS } from '@/config/free-tier';
+import { regionById } from '@/data/animal-regions';
 import { BADGE_ART } from '@/data/badge-art';
+import { EXPEDITIONS_BY_ID } from '@/data/expeditions';
 import { LOCK_ART, TOOLTIP_ART } from '@/data/info-tooltips';
 import { MAX_QUESTIONS } from '@/features/game/guessing-engine';
 import { MAX_LEVEL, RANKS } from '@/features/gamification/titles';
@@ -27,6 +30,12 @@ const ART = {
 };
 
 const GUTTER = 16;
+
+/** Z konfiguracji wersji darmowej — tekst nie rozjedzie się z blokadami. */
+const FREE_REGION_NAMES = FREE_REGIONS.map((id) => regionById(id)?.label ?? id).join(', ');
+const FREE_EXPEDITION_NAMES = FREE_EXPEDITIONS.map(
+  (id) => EXPEDITIONS_BY_ID[id]?.childTitle ?? EXPEDITIONS_BY_ID[id]?.title ?? id,
+).join(', ');
 
 /**
  * Pełna instrukcja gry — z Menu, przyciskiem „?” obok głośnika.
@@ -120,9 +129,9 @@ export default function HelpScreen() {
           Timo pokazuje zwierzęta z wyprawy. Przewiń je strzałkami, wybierz w głowie jedno i stuknij
           „Mam zwierzę!”.
         </Row>
-        <Row art={LOCK_ART} tint="violet" title="Zamknięte wyprawy">
-          Otwierają się przez Wyprawę Dnia. Zaglądaj codziennie — może jutro trafi się właśnie
-          ta.
+        <Row art={LOCK_ART} tint="violet" title="Wyprawy z kłódką">
+          Są w pełnej wersji. Jedna z nich codziennie trafia do Wyprawy Dnia za darmo — szukaj
+          plakietki „Dziś gratis”.
         </Row>
 
         <SectionHeader title="Nagrody" />
@@ -151,13 +160,31 @@ export default function HelpScreen() {
           przeczytać, za co jest.
         </Row>
 
+        <SectionHeader title="Wersja darmowa i pełna" />
+        <Row art={ART.guess} tint="primary" title="Za darmo">
+          {FREE_REGION_NAMES} — razem {FREE_ANIMAL_IDS.size} zwierząt do zgadywania i trzy wyprawy:{' '}
+          {FREE_EXPEDITION_NAMES}. Przed grą Timo pokazuje, o jakich zwierzętach można pomyśleć.
+        </Row>
+        <Row art={TOOLTIP_ART.daily_streak} tint="sky" title="Codziennie gratis">
+          W Wyprawie Dnia są dwie darmowe wyprawy i jedna z pełnej wersji — na ten jeden dzień za
+          darmo.
+        </Row>
+        <Row art={ART.collection} tint="fox" title="Pełna wersja">
+          Ponad 700 zwierząt, wszystkie 24 wyprawy i cała kolekcja. Jedna subskrypcja dla wszystkich
+          dzieci w rodzinie: miesięczna z 3 dniami za darmo albo roczna.
+        </Row>
+        <Row art={LOCK_ART} tint="violet" title="Zakupy tylko dla dorosłych">
+          Przed zakupem pojawia się pytanie, na które odpowie tylko dorosły. Subskrypcję anulujesz
+          w każdej chwili w ustawieniach App Store.
+        </Row>
+
         <SectionHeader title="Dla rodzica" />
         <Row art={ART.soundOn} tint="sky" title="Dźwięk">
           Głośnik w prawym górnym rogu Menu wycisza głos Timo i wszystkie dźwięki.
         </Row>
         <Row art={TOOLTIP_ART.level} tint="primary" title="Konta i profile">
-          Konto zakłada rodzic. Każde dziecko ma własny profil — z osobną kolekcją, odznakami
-          i postępem, zapisanymi także na serwerze.
+          Konto nie jest wymagane — gra działa od razu. Kontem rodzica zapiszesz postępy i zagrasz
+          na innym urządzeniu. Każde dziecko ma własny profil z osobną kolekcją i odznakami.
         </Row>
       </ScrollView>
     </View>

@@ -1,5 +1,7 @@
 import { create } from 'zustand';
 
+import { DEV_PREMIUM } from '@/config/features';
+
 /**
  * Zakupy — NA RAZIE ATRAPA. Docelowo RevenueCat (`react-native-purchases`):
  * ceny i trial przyjdą ze sklepu (`Offerings`), a status z `CustomerInfo`
@@ -45,5 +47,22 @@ export async function purchase(plan: PlanId): Promise<boolean> {
 
 export async function restorePurchases(): Promise<boolean> {
   await new Promise((r) => setTimeout(r, 500));
+  return useEntitlementStore.getState().premium;
+}
+
+/**
+ * Czy gracz ma pełną wersję. W dev można wymusić stan flagą `DEV_PREMIUM`
+ * (src/config/features.ts), żeby oglądać obie wersje bez kupowania.
+ */
+export function usePremium(): boolean {
+  const premium = useEntitlementStore((s) => s.premium);
+  if (DEV_PREMIUM === 'premium') return true;
+  if (DEV_PREMIUM === 'free') return false;
+  return premium;
+}
+
+export function isPremiumNow(): boolean {
+  if (DEV_PREMIUM === 'premium') return true;
+  if (DEV_PREMIUM === 'free') return false;
   return useEntitlementStore.getState().premium;
 }

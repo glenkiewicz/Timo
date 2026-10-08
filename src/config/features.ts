@@ -78,3 +78,11 @@ export const DEV_LOG_QUESTIONS = __DEV__ && true;
  * - 'auto' — tylko przy pierwszym uruchomieniu bez konta i bez profili.
  */
 export const DEV_ONBOARDING = devOnly<'show'>('auto');
+
+/**
+ * Wersja darmowa / pełna (src/lib/purchases.ts):
+ * - 'free'    — zawsze wersja darmowa (kłódki, pula 99 zwierząt),
+ * - 'premium' — zawsze pełna wersja, bez kupowania,
+ * - 'auto'    — według zakupu.
+ */
+export const DEV_PREMIUM = devOnly<'free' | 'premium'>('free');

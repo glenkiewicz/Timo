@@ -1,5 +1,5 @@
 import * as Haptics from 'expo-haptics';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import { FlatList, Platform, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -13,6 +13,9 @@ import {
 import { useInfoSheet } from '@/components/sheet/InfoSheet';
 import { Icon } from '@/components/ui/Icon';
 import { DEV_UNLOCK_ALL } from '@/config/features';
+import { isFreeRegion } from '@/config/free-tier';
+import { LOCK_ART } from '@/data/info-tooltips';
+import { usePremium } from '@/lib/purchases';
 import { ILLUSTRATED_ANIMALS, animalImageFor } from '@/data/animal-images';
 import { BY_REGION, VISIBLE_REGIONS, regionById } from '@/data/animal-regions';
 import { ANIMALS } from '@/data/animals';
@@ -73,6 +76,20 @@ function CollectionMap({
   const screenW = useContentWidth();
   const { width: fullW } = useWindowDimensions();
   const [page, setPage] = useState(0);
+  const router = useRouter();
+  const premium = usePremium();
+  // Wersja darmowa: najpierw otwarte krainy, zamknięte na końcu — dziecko
+  // zaczyna od tego, co może przeglądać.
+  const regions = useMemo(
+    () =>
+      premium
+        ? VISIBLE_REGIONS
+        : [
+            ...VISIBLE_REGIONS.filter((r) => isFreeRegion(r.id)),
+            ...VISIBLE_REGIONS.filter((r) => !isFreeRegion(r.id)),
+          ],
+    [premium],
+  );
 
   // Krok przesuwania jest WĘŻSZY niż ekran, więc sąsiednie krainy wystają przy
   // krawędziach. Bez tego podglądu nic nie mówiłoby dziecku, że da się jechać
@@ -112,7 +129,7 @@ function CollectionMap({
           wysokości ekranu bez wpisywanych na sztywno odstępów. */}
       <View style={{ flex: 1, justifyContent: 'center' }}>
         <FlatList
-          data={VISIBLE_REGIONS}
+          data={regions}
           keyExtractor={(r) => r.id}
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -130,7 +147,10 @@ function CollectionMap({
                 region={item}
                 discovered={discovered}
                 width={islandW}
-                onPress={() => onOpen(item.id)}
+                locked={!premium && !isFreeRegion(item.id)}
+                onPress={() =>
+                  !premium && !isFreeRegion(item.id) ? router.push('/paywall') : onOpen(item.id)
+                }
               />
             </View>
           )}
@@ -141,7 +161,7 @@ function CollectionMap({
         <View
           className="flex-row justify-center items-center"
           style={{ gap: 6, marginTop: 18 }}>
-          {VISIBLE_REGIONS.map((r, i) => (
+          {regions.map((r, i) => (
             <View
               key={r.id}
               style={{
@@ -194,11 +214,14 @@ function Island({
   region,
   discovered,
   width,
+  locked = false,
   onPress,
 }: {
   region: (typeof VISIBLE_REGIONS)[number];
   discovered: Set<string>;
   width: number;
+  /** Kraina z pełnej wersji — kłódka, stuknięcie otwiera paywall. */
+  locked?: boolean;
   onPress: () => void;
 }) {
   const all = BY_REGION[region.id] ?? [];
@@ -227,7 +250,24 @@ function Island({
       accessibilityRole="button"
       accessibilityLabel={`${region.label}: ${mine} z ${all.length}`}
       style={({ pressed }) => ({ transform: [{ scale: pressed ? 0.97 : 1 }] })}>
-      <RegionIsland patch={region.patch} width={width} preview={preview} />
+      <View style={{ opacity: locked ? 0.55 : 1 }}>
+        <RegionIsland patch={region.patch} width={width} preview={preview} />
+      </View>
+      {locked ? (
+        <View
+          style={{
+            position: 'absolute',
+            top: width * 0.3,
+            alignSelf: 'center',
+            alignItems: 'center',
+            gap: 6,
+          }}>
+          <Image source={LOCK_ART} style={{ width: 64, height: 64 }} contentFit="contain" transition={0} />
+          <View style={{ paddingHorizontal: 12, paddingVertical: 5, borderRadius: 999, backgroundColor: UI.fox }}>
+            <Text style={{ color: '#ffffff', fontFamily: 'Gabarito-Bold', fontSize: 13 }}>PEŁNA WERSJA</Text>
+          </View>
+        </View>
+      ) : null}
 
       {/* Tabliczka POD wyspą. W środku przecinała ją w poprzek i zasłaniała
           dolną połowę górnych zwierząt. */}

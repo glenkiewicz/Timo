@@ -17,6 +17,8 @@ import {
   logStart,
 } from '@/features/game/game-log';
 import { pickOutsideCategoryLine } from '@/data/timo-lines';
+import { FREE_ANIMAL_IDS } from '@/config/free-tier';
+import { isPremiumNow } from '@/lib/purchases';
 import {
   eligibleCandidates,
   heatLevel,
@@ -198,6 +200,11 @@ export const useGameStore = create<GameState>((set, get) => ({
     // tylko do wyprawy 'mythical' — żeby losowy "zgadnij zwierzę" pozostał realny).
     const mythicalIds = new Set(EXPEDITIONS_BY_ID.mythical?.roster ?? []);
     let candidates: Animal[] = ANIMALS.filter((a) => !mythicalIds.has(a.id));
+    // Wersja darmowa: gra swobodna tylko na zwierzętach z darmowych krain —
+    // te same, które dziecko widzi na ekranie przed grą (free-intro).
+    if (!opts?.expeditionId && !isPremiumNow()) {
+      candidates = candidates.filter((a) => FREE_ANIMAL_IDS.has(a.id));
+    }
     let mode: GameMode = 'free';
     let expeditionId: string | null = null;
     let expeditionBasePool: Animal[] | null = null;

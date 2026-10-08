@@ -33,6 +33,8 @@ import { UI } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
 import { contentColumn, useTimoHeight } from '@/lib/layout';
 import { Image } from '@/tw/image';
+import { isFreeExpedition } from '@/config/free-tier';
+import { usePremium } from '@/lib/purchases';
 
 const SOUND_ON = require('../../../assets/icons/info/sound_on.png');
 const SOUND_OFF = require('../../../assets/icons/info/sound_off.png');
@@ -69,9 +71,11 @@ export default function HomeScreen() {
   const progressFrom = levelUp ? 0 : xpProgress(previousXp).pct;
 
   // make sure today's expedition picks are present
+  // Po zakupie (zmiana wersji) zestaw dnia przelicza się na pełną wersję.
+  const premium = usePremium();
   useEffect(() => {
     ensureDailyChoice();
-  }, [ensureDailyChoice]);
+  }, [ensureDailyChoice, premium]);
 
   // Greeting Timo — gra raz na sesję aplikacji (nie przy każdym powrocie na home).
   // Cleanup ucina powitanie, gdy ekran znika (np. wylogowanie albo zmiana
@@ -121,6 +125,12 @@ export default function HomeScreen() {
   }));
 
   const handlePlay = () => {
+    // Wersja darmowa: najpierw ekran z pulą zwierząt — Timo zgaduje tylko
+    // spośród nich, więc dziecko musi wiedzieć, o kim może pomyśleć.
+    if (!premium) {
+      router.push('/free-intro');
+      return;
+    }
     start();
     router.push('/game');
   };
@@ -322,6 +332,7 @@ function SectionLabel({ children }: { children: string }) {
 
 function ExpeditionDailyCard() {
   const router = useRouter();
+  const premium = usePremium();
   const dailyChoice = useProfileStore((s) => s.dailyChoice);
   const expeditionProgress = useProfileStore((s) => s.expeditionProgress);
   const chooseExpedition = useProfileStore((s) => s.chooseExpedition);
@@ -406,6 +417,7 @@ function ExpeditionDailyCard() {
           <ExpeditionTile
             key={e.id}
             expedition={e}
+            gratis={!premium && !isFreeExpedition(e.id)}
             done={expeditionProgress[e.id]?.completed_at != null}
             onPress={() => launch(e.id)}
           />

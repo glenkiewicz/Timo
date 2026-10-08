@@ -959,6 +959,11 @@ export function pickDailyThree(dateKey: string): string[] {
  * Deterministyczne dla danego dnia.
  */
 export function pickDailyGuided(dateKey: string): string[] {
+  return rankDailyGuided(dateKey).slice(0, 3);
+}
+
+/** Wszystkie wyprawy dziecięce w kolejności losowania na dany dzień. */
+export function rankDailyGuided(dateKey: string): string[] {
   let seed = 0;
   for (let i = 0; i < dateKey.length; i++) seed = (seed * 31 + dateKey.charCodeAt(i)) & 0xffffffff;
   const guided = EXPEDITIONS.filter((e) => e.mode === 'guided');
@@ -967,7 +972,7 @@ export function pickDailyGuided(dateKey: string): string[] {
     const hb = hash(seed ^ stringHash(b.id));
     return ha - hb;
   });
-  return sorted.slice(0, 3).map((e) => e.id);
+  return sorted.map((e) => e.id);
 }
 
 function stringHash(s: string): number {

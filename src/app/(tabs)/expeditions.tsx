@@ -19,6 +19,8 @@ import { ACCENT, UI, type Accent } from '@/theme/ui';
 import { Text, View } from '@/tw';
 import { contentColumn, useContentWidth } from '@/lib/layout';
 import { Image } from '@/tw/image';
+import { isFreeExpedition } from '@/config/free-tier';
+import { usePremium } from '@/lib/purchases';
 
 type CardStatus = 'completed' | 'in_progress' | 'available_today' | 'locked';
 
@@ -49,6 +51,7 @@ export default function ExpeditionsScreen() {
   const dailyChoice = useProfileStore((s) => s.dailyChoice);
   const chooseExpedition = useProfileStore((s) => s.chooseExpedition);
   const startGame = useGameStore((s) => s.start);
+  const premium = usePremium();
 
   const openSheet = useInfoSheet();
 
@@ -74,14 +77,23 @@ export default function ExpeditionsScreen() {
   function statusFor(e: Expedition): CardStatus {
     const prog = expeditionProgress[e.id];
     if (prog?.completed_at != null) return 'completed';
+    // Wersja darmowa: płatna wyprawa otwarta tylko jako dzisiejsza gratisowa
+    // Wyprawa Dnia — rozpoczętą wczoraj też zamyka kłódka.
+    if (!premium && !isFreeExpedition(e.id) && !dailyIds.has(e.id) && !DEV_UNLOCK_ALL) return 'locked';
     if ((prog?.discovered.length ?? 0) > 0) return 'in_progress';
     if (dailyIds.has(e.id)) return 'available_today';
+    // Pełna wersja: wszystkie wyprawy otwarte. Darmowe — zawsze.
+    if (premium || isFreeExpedition(e.id)) return 'available_today';
     // DEV: odblokuj wszystkie wyprawy, żeby łatwo testować.
     if (DEV_UNLOCK_ALL) return 'available_today';
     return 'locked';
   }
 
   const launchIfAvailable = (e: Expedition, status: CardStatus) => {
+    if (status === 'locked' && !premium && !isFreeExpedition(e.id)) {
+      router.push('/paywall');
+      return;
+    }
     if (status === 'locked') {
       openSheet({
         art: LOCK_ART,
@@ -194,6 +206,7 @@ export default function ExpeditionsScreen() {
                 expedition={e}
                 status={status}
                 discoveredCount={prog?.discovered.length ?? 0}
+                paid={!premium && !isFreeExpedition(e.id)}
                 onPress={() => launchIfAvailable(e, status)}
               />
             );
@@ -208,6 +221,8 @@ type CardProps = {
   status: CardStatus;
   discoveredCount: number;
   onPress: () => void;
+  /** Zablokowana, bo płatna (wersja darmowa) — inny opis i paywall. */
+  paid?: boolean;
 };
 
 /**
@@ -216,7 +231,7 @@ type CardProps = {
  * kropki postępu w trakcie, nagrody przed startem, sylwetka z kłódką, gdy
  * zamknięta. Przycisku nie ma — cała karta jest klikalna, jak wcześniej.
  */
-function ListCard({ expedition: e, status, discoveredCount, onPress }: CardProps) {
+function ListCard({ expedition: e, status, discoveredCount, onPress, paid }: CardProps) {
   const isLocked = status === 'locked';
   const isCompleted = status === 'completed';
   const isInProgress = status === 'in_progress';
@@ -226,7 +241,9 @@ function ListCard({ expedition: e, status, discoveredCount, onPress }: CardProps
     : isInProgress
       ? 'W TRAKCIE'
       : isLocked
-        ? 'ZABLOKOWANA'
+        ? paid
+          ? 'PEŁNA WERSJA'
+          : 'ZABLOKOWANA'
         : 'DOSTĘPNA DZIŚ';
 
   return (
@@ -234,7 +251,13 @@ function ListCard({ expedition: e, status, discoveredCount, onPress }: CardProps
       expedition={e}
       eyebrow={statusLabel}
       eyebrowColor={isLocked ? UI.pageFaint : ACCENT[STATUS_ACCENT[status]].deep}
-      subtitle={isLocked ? 'Pojawi się kiedyś jako Wyprawa Dnia.' : e.description_pl}
+      subtitle={
+        isLocked
+          ? paid
+            ? 'Odblokuj wszystkie wyprawy — albo poczekaj, aż trafi się jako gratis w Wyprawie Dnia.'
+            : 'Pojawi się kiedyś jako Wyprawa Dnia.'
+          : e.description_pl
+      }
       discovered={isCompleted ? e.target_count : discoveredCount}
       showProgress={isInProgress || isCompleted}
       showRewards={!isCompleted && !isLocked}

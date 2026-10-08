@@ -18,11 +18,15 @@ import {
 import { isoWeekKey } from '@/features/leaderboard/week';
 import { useAuthStore } from '@/lib/stores/auth-store';
 import { supabase } from '@/lib/supabase';
+import { pickDailyFree } from '@/config/free-tier';
+import { isPremiumNow } from '@/lib/purchases';
 
 type DailyChoice = {
   date: string;
   expedition_ids: string[];
   chosen_id: string | null;
+  /** Zestaw z wersji darmowej (2 darmowe + 1 płatna gratis). */
+  free?: boolean;
 };
 
 type ExpeditionProgress = {
@@ -312,16 +316,21 @@ export const useProfileStore = create<ProfileState>()(
       ensureDailyChoice: () => {
         const state = get();
         const today = todayKey();
-        if (state.dailyChoice?.date === today) return;
+        const free = !isPremiumNow();
+        // Po zmianie wersji (zakup) przelicz dzisiejszy zestaw — chyba że
+        // dziecko już wybrało wyprawę.
+        const prev = state.dailyChoice;
+        if (prev?.date === today && (prev.chosen_id || Boolean(prev.free) === free)) return;
         // Wyprawa Dnia w MVP wybiera spośród guided (dziecięcych).
         // pickDailyThree zostawiamy do potencjalnego trybu "Eksperta".
-        const ids = pickDailyGuided(today);
+        const ids = free ? pickDailyFree(today) : pickDailyGuided(today);
         const fallback = ids.length > 0 ? ids : pickDailyThree(today);
         set({
           dailyChoice: {
             date: today,
             expedition_ids: fallback,
             chosen_id: null,
+            free,
           },
         });
       },

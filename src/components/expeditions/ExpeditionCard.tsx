@@ -285,10 +285,13 @@ export function ExpeditionCard({
 export function ExpeditionTile({
   expedition: e,
   done,
+  gratis = false,
   onPress,
 }: {
   expedition: Expedition;
   done: boolean;
+  /** Płatna wyprawa odblokowana na dziś w wersji darmowej. */
+  gratis?: boolean;
   onPress: () => void;
 }) {
   const disc = 66;
@@ -325,6 +328,20 @@ export function ExpeditionTile({
         {done ? (
           <View style={{ marginTop: 6 }}>
             <ProgressDots total={e.target_count} filled={e.target_count} accent={expeditionAccent(e.id)} size={7} />
+          </View>
+        ) : null}
+        {gratis && !done ? (
+          <View
+            style={{
+              marginTop: 6,
+              paddingHorizontal: 8,
+              paddingVertical: 3,
+              borderRadius: 999,
+              backgroundColor: UI.primary,
+            }}>
+            <Text style={{ color: '#ffffff', fontFamily: 'Gabarito-Bold', fontSize: 10, letterSpacing: 0.4 }}>
+              DZIŚ GRATIS
+            </Text>
           </View>
         ) : null}
       </PaperCard>
