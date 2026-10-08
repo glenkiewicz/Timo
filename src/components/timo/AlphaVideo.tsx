@@ -1,6 +1,7 @@
 import {
   Canvas,
   Fill,
+  Group,
   ImageShader,
   Shader,
   Skia,
@@ -8,7 +9,7 @@ import {
 } from '@shopify/react-native-skia';
 import { useAssets } from 'expo-asset';
 import { useEffect, useState } from 'react';
-import { runOnJS, useAnimatedReaction, useSharedValue } from 'react-native-reanimated';
+import { runOnJS, useAnimatedReaction, useDerivedValue, useSharedValue } from 'react-native-reanimated';
 
 import { View } from '@/tw';
 
@@ -83,6 +84,11 @@ export function AlphaVideo({
     frame: [fw, fh],
   };
 
+  // Bez klatki shader dostaje pusty obraz i Skia maluje CZARNY prostokąt —
+  // tak wyglądał pas liska przez klatkę, gdy pętla mówienia wchodziła, zanim
+  // dekoder oddał pierwszą klatkę. Do tego czasu warstwa jest przezroczysta.
+  const opacity = useDerivedValue(() => (currentFrame.value ? 1 : 0));
+
   const ready = useSharedValue(false);
   useAnimatedReaction(
     () => currentFrame.value !== null,
@@ -101,11 +107,13 @@ export function AlphaVideo({
       onLayout={(e) => setWidth(e.nativeEvent.layout.width)}>
       {width > 0 && fw > 0 ? (
         <Canvas style={{ width, height }}>
-          <Fill>
-            <Shader source={EFFECT} uniforms={uniforms}>
-              <ImageShader image={currentFrame} tx="decal" ty="decal" />
-            </Shader>
-          </Fill>
+          <Group opacity={opacity}>
+            <Fill>
+              <Shader source={EFFECT} uniforms={uniforms}>
+                <ImageShader image={currentFrame} tx="decal" ty="decal" />
+              </Shader>
+            </Fill>
+          </Group>
         </Canvas>
       ) : null}
     </View>

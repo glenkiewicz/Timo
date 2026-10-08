@@ -97,6 +97,7 @@ export function talkMoodFor(keys: string[]): TalkMood {
 		/^q\.[^.]+\.yes\./.test(key) ||
 		key.startsWith('heat.') ||
 		key.startsWith('victory.') ||
+		key.startsWith('hatch.') ||
 		key.startsWith('streak_milestone.')
 	) {
 		return 'happy';

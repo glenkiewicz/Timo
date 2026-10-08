@@ -392,3 +392,6 @@ export const ONBOARDING_LINES: string[] = [
   'Każde zwierzę z naszej zabawy trafia do kolekcji. Zbierzemy ich ponad siedemset!',
   'A teraz poproś dorosłego o pomoc. Zaraz zaczynamy!',
 ];
+
+/** Ekran „wyklucia” na końcu onboardingu — Timo wyskakuje ze sterty liści. */
+export const HATCH_LINES: string[] = ['Hurra! Już zaczynamy! Pomyśl o pierwszym zwierzęciu, a ja zgadnę!'];

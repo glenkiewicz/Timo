@@ -16,6 +16,8 @@ import { useContentWidth } from '@/lib/layout';
 import { enableDailyReminder } from '@/lib/reminders';
 import { useAuthStore } from '@/lib/stores/auth-store';
 import { useOnboardingStore } from '@/lib/stores/onboarding-store';
+import { useSessionStore } from '@/lib/stores/session-store';
+import { HatchScene } from '@/components/onboarding/HatchScene';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { supabase } from '@/lib/supabase';
 import { SHADOW, UI } from '@/theme/ui';
@@ -29,7 +31,7 @@ import { Image } from '@/tw/image';
 const BG = '#fef6e5';
 
 type Info = { kind: 'info'; art: number; title: string; text: string };
-type Step = Info | { kind: 'name' } | { kind: 'age' } | { kind: 'reminder' };
+type Step = Info | { kind: 'name' } | { kind: 'age' } | { kind: 'reminder' } | { kind: 'hatch' };
 
 /** Karty informacyjne — kolejność = kwestie `ONBOARDING_LINES` (`onboarding.N`). */
 const INFO: Info[] = [
@@ -65,7 +67,8 @@ const INFO: Info[] = [
   },
 ];
 
-const STEPS: Step[] = [...INFO, { kind: 'name' }, { kind: 'age' }, { kind: 'reminder' }];
+const STEPS: Step[] = [...INFO, { kind: 'name' }, { kind: 'age' }, { kind: 'reminder' }, { kind: 'hatch' }];
+const HATCH = STEPS.length - 1;
 const FIRST_QUESTION = INFO.length;
 
 const AGES = [
@@ -86,6 +89,9 @@ export default function OnboardingScreen() {
   const insets = useSafeAreaInsets();
   const contentW = useContentWidth();
   const markDone = useOnboardingStore((s) => s.markDone);
+  const setActive = useOnboardingStore((s) => s.setActive);
+  const markStartSeen = useSessionStore((s) => s.markStartSeen);
+  const [profileId, setProfileId] = useState<string | null>(null);
   const session = useAuthStore((s) => s.session);
   const createProfile = useAuthStore((s) => s.createProfile);
   const selectProfile = useAuthStore((s) => s.selectProfile);
@@ -104,13 +110,17 @@ export default function OnboardingScreen() {
   const current = STEPS[step];
   // Bez sesji (anonimowe konto się nie założyło) nie ma gdzie zapisać
   // profilu — po kartach od razu kończymy, a dalej jest stary ekran logowania.
-  const lastStep = session ? STEPS.length - 1 : FIRST_QUESTION - 1;
+  // Ostatni krok z paskiem postępu — „wyklucie” jest już poza nim.
+  const lastStep = session ? HATCH - 1 : FIRST_QUESTION - 1;
 
   useEffect(() => {
     if (current.kind === 'info') void timoVoice.playLine(`onboarding.${step}`);
-    else timoVoice.stop();
+    else if (current.kind !== 'hatch') timoVoice.stop();
   }, [step, current.kind]);
-  useEffect(() => () => timoVoice.stop(), []);
+  useEffect(() => {
+    setActive(true);
+    return () => timoVoice.stop();
+  }, [setActive]);
 
   const tap = () => {
     if (Platform.OS !== 'web') Haptics.selectionAsync();
@@ -145,12 +155,30 @@ export default function OnboardingScreen() {
       if (reminder) await enableDailyReminder().catch(() => false);
       selectProfile(id);
       await hydrateFromServer(id);
+      setProfileId(id);
+      setFinishing(false);
+      setStep(HATCH);
+      return;
     }
+    markDone();
+  };
+
+  /** Z „wyklucia” prosto do Menu — ekran startowy z drugim „Gramy!” byłby powtórką. */
+  const play = () => {
     if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    if (profileId) markStartSeen(profileId);
     markDone();
   };
 
   const art = Math.min(contentW - 48, 380);
+
+  if (current.kind === 'hatch') {
+    return (
+      <View style={{ flex: 1, backgroundColor: BG, paddingTop: insets.top, paddingBottom: insets.bottom + 16 }}>
+        <HatchScene nick={nick} onPlay={play} />
+      </View>
+    );
+  }
 
   return (
     <KeyboardAvoidingView

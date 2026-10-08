@@ -50,6 +50,10 @@ export const SFX: Record<string, [string, number, number]> = {
   'new-badge': ['A short soft twinkle of tiny bells.', 1.0, 0.8],
   'level-up': ['A short soft cheerful rising melody of four celesta notes.', 1.5, 1.2],
   'locked': ['A tiny soft muffled cushioned bump.', 0.5, 0.18],
+  // Ekran „wyklucia” na końcu onboardingu.
+  'rustle': ['A short soft rustle of a pile of dry autumn leaves being shaken.', 0.6, 0.45],
+  'pop': ['A soft playful cartoon pop with a light puff of leaves flying.', 0.5, 0.35],
+  'fanfare': ['A short joyful gentle fanfare of soft toy trumpets and a tiny glockenspiel sparkle, celebratory but soft for small children.', 2.5, 2.2],
 };
 
 /**

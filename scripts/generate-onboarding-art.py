@@ -42,6 +42,21 @@ SCENES = {
               "reassuring smile",
 }
 
+# Ekran „wyklucia” — bez liska (lisek to animacja wideo, która z tej sterty wyskakuje).
+PROPS = {
+    "leaf-pile": "a big round cosy pile of autumn leaves in orange, red, yellow and a few green "
+                 "leaves, seen from the front, wide and fairly low, nothing else in the picture",
+    "leaves": "exactly six separate single autumn leaves (two orange, two red, one yellow, one "
+              "green) scattered with lots of empty space between them, none touching or "
+              "overlapping, nothing else in the picture",
+}
+PROP_STYLE = (
+    "Same soft 3D children's-animation rendering style as the reference picture of the fox, but "
+    "WITHOUT the fox — no character at all. Square illustration: {S}. The whole background is ONE "
+    "flat plain warm cream colour #FDF5EC edge to edge — no frame, no border, no gradient, no "
+    "floor line, no shadow, no text."
+)
+
 
 def main(names, variants):
     k = outfit.key()
@@ -52,8 +67,9 @@ def main(names, variants):
         for n in range(1, variants + 1):
             if (OUT / f"{name}-{n}.png").exists():
                 continue
+            prompt = STYLE.format(S=SCENES[name]) if name in SCENES else PROP_STYLE.format(S=PROPS[name])
             r = outfit.request("POST", "/images/generations", k, json.dumps({
-                "model": outfit.MODEL, "prompt": STYLE.format(S=SCENES[name]),
+                "model": outfit.MODEL, "prompt": prompt,
                 "size": "1:1", "resolution": "1k", "n": 1, "reference_images": [ref]}).encode(),
                 {"Content-Type": "application/json"})
             tasks[f"{name}-{n}"] = r["id"]

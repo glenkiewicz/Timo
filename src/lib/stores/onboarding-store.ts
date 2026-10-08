@@ -15,6 +15,12 @@ type OnboardingState = {
   done: boolean;
   /** Onboarding skończony w TYM uruchomieniu — dla podglądu `DEV_ONBOARDING`. */
   doneThisRun: boolean;
+  /**
+   * Onboarding jest na ekranie. Po założeniu profilu warunek „brak profili”
+   * przestaje być prawdziwy, a scena „wyklucia” musi jeszcze dograć.
+   */
+  active: boolean;
+  setActive: (active: boolean) => void;
   hydrated: boolean;
   markDone: () => void;
 };
@@ -24,8 +30,10 @@ export const useOnboardingStore = create<OnboardingState>()(
     (set) => ({
       done: false,
       doneThisRun: false,
+      active: false,
+      setActive: (active) => set({ active }),
       hydrated: false,
-      markDone: () => set({ done: true, doneThisRun: true }),
+      markDone: () => set({ done: true, doneThisRun: true, active: false }),
     }),
     {
       name: 'timo-onboarding',
@@ -43,11 +51,13 @@ export const useOnboardingStore = create<OnboardingState>()(
 export function useNeedsOnboarding(): boolean {
   const done = useOnboardingStore((s) => s.done);
   const doneThisRun = useOnboardingStore((s) => s.doneThisRun);
+  const active = useOnboardingStore((s) => s.active);
   const session = useAuthStore((s) => s.session);
   const hasProfiles = useAuthStore((s) => s.profilesLoaded && s.profiles.length > 0);
 
   if (DEV_ONBOARDING === 'show') return !doneThisRun;
   if (done) return false;
+  if (active) return true;
   if (session && !session.user.is_anonymous) return false;
   return !hasProfiles;
 }

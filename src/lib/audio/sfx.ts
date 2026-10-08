@@ -34,6 +34,9 @@ const FILES = {
   'new-badge': require('../../../assets/sfx/new-badge.mp3'),
   'level-up': require('../../../assets/sfx/level-up.mp3'),
   locked: require('../../../assets/sfx/locked.mp3'),
+  rustle: require('../../../assets/sfx/rustle.mp3'),
+  pop: require('../../../assets/sfx/pop.mp3'),
+  fanfare: require('../../../assets/sfx/fanfare.mp3'),
 } as const;
 
 export type SfxName = keyof typeof FILES;
