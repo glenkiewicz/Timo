@@ -24,7 +24,9 @@ export type IconName =
   | 'lock'
   | 'check'
   | 'star'
-  | 'bolt';
+  | 'bolt'
+  | 'image'
+  | 'camera';
 
 type Ctx = { color: string; sw: number };
 
@@ -158,6 +160,26 @@ function shapes(name: IconName, { color, sw }: Ctx): ReactNode {
         <>
           <Rect x={4.6} y={10.2} width={14.8} height={10.8} rx={2.8} {...stroke} />
           <Path d="M8.2 10.2V7.4a3.8 3.8 0 0 1 7.6 0v2.8" {...stroke} />
+        </>
+      );
+
+    case 'image':
+      return (
+        <>
+          <Rect x={3.2} y={4.4} width={17.6} height={15.2} rx={2.8} {...stroke} />
+          <Path d="M8.6 10.6a1.6 1.6 0 1 0 0-3.2 1.6 1.6 0 0 0 0 3.2Z" {...stroke} />
+          <Path d="m20.8 15.2-4.6-4.6-9.4 9" {...stroke} />
+        </>
+      );
+
+    case 'camera':
+      return (
+        <>
+          <Path
+            d="M3.2 8.6a2 2 0 0 1 2-2h2.4l1.6-2.4h5.6l1.6 2.4h2.4a2 2 0 0 1 2 2v9.4a2 2 0 0 1-2 2H5.2a2 2 0 0 1-2-2Z"
+            {...stroke}
+          />
+          <Path d="M12 16.6a3.6 3.6 0 1 0 0-7.2 3.6 3.6 0 0 0 0 7.2Z" {...stroke} />
         </>
       );
 

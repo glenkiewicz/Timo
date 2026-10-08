@@ -54,7 +54,16 @@
       "expo-status-bar",
       "expo-web-browser",
       "expo-asset",
-      "./plugins/withUISceneLifecycle"
+      "./plugins/withUISceneLifecycle",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Timo potrzebuje dostępu do zdjęć, żeby ustawić zdjęcie jako awatar dziecka. Zdjęcie zostaje tylko na tym telefonie.",
+          "cameraPermission": "Timo potrzebuje aparatu, żeby zrobić zdjęcie na awatar dziecka. Zdjęcie zostaje tylko na tym telefonie.",
+          "microphonePermission": false
+        }
+      ],
+      "expo-notifications"
     ],
     "experiments": {
       "typedRoutes": true,

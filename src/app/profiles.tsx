@@ -7,7 +7,11 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Field } from '@/components/ui/Field';
 import { Icon } from '@/components/ui/Icon';
-import { AVATARS } from '@/data/avatars';
+import { AvatarPicker } from '@/components/profile/AvatarPicker';
+import { ChildAvatar } from '@/components/profile/ChildAvatar';
+import { DEFAULT_AVATAR } from '@/data/avatars';
+import { PHOTO_AVATAR, deleteAvatarPhoto, saveAvatarPhoto } from '@/lib/avatar-photo';
+import { useContentWidth } from '@/lib/layout';
 import { useAuthStore } from '@/lib/stores/auth-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { UI } from '@/theme/ui';
@@ -33,7 +37,9 @@ export default function ProfilesScreen() {
 
   const [adding, setAdding] = useState(profiles.length === 0);
   const [nick, setNick] = useState('');
-  const [avatar, setAvatar] = useState(AVATARS[0]);
+  const [avatar, setAvatar] = useState<string>(DEFAULT_AVATAR);
+  const [photoUri, setPhotoUri] = useState<string | null>(null);
+  const contentW = useContentWidth();
 
   const enter = async (id: string) => {
     selectProfile(id);
@@ -43,8 +49,17 @@ export default function ProfilesScreen() {
   };
 
   const handleCreate = async () => {
-    const ok = await createProfile(nick, avatar);
-    if (!ok) return;
+    const id = await createProfile(nick, avatar);
+    if (!id) return;
+    if (avatar === PHOTO_AVATAR && photoUri) {
+      try {
+        saveAvatarPhoto(id, photoUri);
+      } catch (e) {
+        if (__DEV__) console.warn('[avatar] zapis zdjęcia:', e);
+      }
+    }
+    setAvatar(DEFAULT_AVATAR);
+    setPhotoUri(null);
     setNick('');
     setAdding(false);
   };
@@ -58,7 +73,10 @@ export default function ProfilesScreen() {
         {
           text: 'Usuń',
           style: 'destructive',
-          onPress: () => void deleteProfile(id),
+          onPress: () => {
+            deleteAvatarPhoto(id);
+            void deleteProfile(id);
+          },
         },
       ]
     );
@@ -103,7 +121,7 @@ export default function ProfilesScreen() {
               accessibilityLabel={`Graj jako ${profile.nick}`}
               padding={14}>
               <View className="flex-row items-center gap-3">
-                <Text style={{ fontSize: 34 }}>{profile.avatar}</Text>
+                <ChildAvatar avatar={profile.avatar} profileId={profile.id} size={52} />
                 <Text
                   className="flex-1"
                   numberOfLines={1}
@@ -155,26 +173,15 @@ export default function ProfilesScreen() {
                     }}>
                     AWATAR
                   </Text>
-                  <View className="flex-row flex-wrap gap-2">
-                    {AVATARS.map((option) => (
-                      <Pressable
-                        key={option}
-                        onPress={() => setAvatar(option)}
-                        accessibilityRole="button"
-                        accessibilityState={{ selected: avatar === option }}
-                        className="items-center justify-center"
-                        style={{
-                          width: 52,
-                          height: 52,
-                          borderRadius: 16,
-                          backgroundColor: avatar === option ? UI.primaryPale : UI.sunken,
-                          borderWidth: 2,
-                          borderColor: avatar === option ? UI.primary : UI.line,
-                        }}>
-                        <Text style={{ fontSize: 26 }}>{option}</Text>
-                      </Pressable>
-                    ))}
-                  </View>
+                  <AvatarPicker
+                    value={avatar}
+                    photoUri={photoUri}
+                    width={contentW - 72}
+                    onChange={(a, uri) => {
+                      setAvatar(a);
+                      setPhotoUri(uri);
+                    }}
+                  />
                 </View>
 
                 {error ? (

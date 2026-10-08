@@ -1,14 +1,16 @@
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { KeyboardAvoidingView, Platform } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { INK } from '@/components/collection/map';
 import { Field } from '@/components/ui/Field';
 import { Icon } from '@/components/ui/Icon';
-import { AVATARS } from '@/data/avatars';
+import { AvatarPicker } from '@/components/profile/AvatarPicker';
+import { DEFAULT_AVATAR } from '@/data/avatars';
+import { PHOTO_AVATAR, saveAvatarPhoto } from '@/lib/avatar-photo';
 import { timoVoice } from '@/lib/audio/timo-voice';
 import { useContentWidth } from '@/lib/layout';
 import { enableDailyReminder } from '@/lib/reminders';
@@ -94,7 +96,8 @@ export default function OnboardingScreen() {
 
   const [step, setStep] = useState(0);
   const [nick, setNick] = useState('');
-  const [avatar, setAvatar] = useState(AVATARS[0]);
+  const [avatar, setAvatar] = useState<string>(DEFAULT_AVATAR);
+  const [photoUri, setPhotoUri] = useState<string | null>(null);
   const [age, setAge] = useState<string | null>(null);
   const [finishing, setFinishing] = useState(false);
 
@@ -128,6 +131,13 @@ export default function OnboardingScreen() {
         setFinishing(false);
         setStep(FIRST_QUESTION);
         return;
+      }
+      if (avatar === PHOTO_AVATAR && photoUri) {
+        try {
+          saveAvatarPhoto(id, photoUri);
+        } catch (e) {
+          if (__DEV__) console.warn('[avatar] zapis zdjęcia:', e);
+        }
       }
       // Kolumna z migracji 0004 — bez niej zapis się nie uda, ale to tylko
       // informacja na przyszłość, więc profil i tak powstaje.
@@ -179,10 +189,15 @@ export default function OnboardingScreen() {
       </View>
 
       {/* ---------- treść kroku ---------- */}
+      <ScrollView
+        style={{ flex: 1 }}
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', paddingVertical: 12 }}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}>
       <Animated.View
         key={step}
         entering={FadeIn.duration(260)}
-        style={{ flex: 1, paddingHorizontal: 24, justifyContent: 'center' }}>
+        style={{ paddingHorizontal: 24 }}>
         {current.kind === 'info' ? (
           <View className="items-center">
             <Image
@@ -214,34 +229,18 @@ export default function OnboardingScreen() {
                 maxLength={20}
               />
             </View>
-            <Text style={{ color: UI.pageFaint, fontFamily: 'Gabarito-Bold', fontSize: 12, marginTop: 18 }}>
+            <Text style={{ color: UI.pageFaint, fontFamily: 'Gabarito-Bold', fontSize: 12, marginTop: 18, marginBottom: 10 }}>
               AWATAR
             </Text>
-            <View className="flex-row flex-wrap" style={{ gap: 10, marginTop: 8 }}>
-              {AVATARS.map((a) => (
-                <Pressable
-                  key={a}
-                  onPress={() => {
-                    tap();
-                    setAvatar(a);
-                  }}
-                  accessibilityRole="button"
-                  accessibilityState={{ selected: avatar === a }}
-                  style={{
-                    width: 58,
-                    height: 58,
-                    borderRadius: 29,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: avatar === a ? UI.foxPale : UI.page,
-                    borderWidth: 3,
-                    borderColor: avatar === a ? UI.fox : 'transparent',
-                    boxShadow: `${SHADOW.e0}, ${SHADOW.rim}`,
-                  }}>
-                  <Text style={{ fontSize: 30 }}>{a}</Text>
-                </Pressable>
-              ))}
-            </View>
+            <AvatarPicker
+              value={avatar}
+              photoUri={photoUri}
+              width={Math.min(contentW - 48, 420)}
+              onChange={(a, uri) => {
+                setAvatar(a);
+                setPhotoUri(uri);
+              }}
+            />
             {error ? (
               <Text style={{ color: UI.dangerDeep, fontFamily: 'Lexend-Bold', fontSize: 13, marginTop: 12 }}>
                 {error}
@@ -284,6 +283,7 @@ export default function OnboardingScreen() {
           </View>
         ) : null}
       </Animated.View>
+      </ScrollView>
 
       {/* ---------- przyciski ---------- */}
       <View style={{ paddingHorizontal: 24, paddingBottom: insets.bottom + 16, gap: 10 }}>
