@@ -1,4 +1,4 @@
-import { Platform } from 'react-native';
+import { NativeModules, Platform } from 'react-native';
 import Purchases, {
   type CustomerInfo,
   LOG_LEVEL,
@@ -21,7 +21,15 @@ import { DEV_PREMIUM } from '@/config/features';
  * konfiguracją RevenueCat) moduł działa jako ATRAPA: przykładowe ceny,
  * w dev udawany zakup, w produkcji „zakupy wkrótce”.
  */
-const API_KEY = Platform.OS === 'ios' ? process.env.EXPO_PUBLIC_REVENUECAT_IOS_KEY : undefined;
+/**
+ * Klucz RevenueCat — tylko gdy moduł natywny jest w buildzie. Dev build
+ * zbudowany przed dodaniem react-native-purchases nie ma go, a wtedy SDK
+ * rzuca błędem w niełapanej obietnicy; zamiast tego działa atrapa.
+ */
+const API_KEY =
+  Platform.OS === 'ios' && NativeModules.RNPurchases
+    ? process.env.EXPO_PUBLIC_REVENUECAT_IOS_KEY
+    : undefined;
 /** Uprawnienie w RevenueCat, które daje pełną wersję. */
 export const ENTITLEMENT_ID = 'premium';
 
