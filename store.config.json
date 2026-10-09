@@ -2,14 +2,22 @@
   "configVersion": 0,
   "apple": {
     "copyright": "2026 Grzegorz Lenkiewicz",
-    "categories": ["EDUCATION", "GAMES"],
+    "categories": [
+      "EDUCATION",
+      "GAMES"
+    ],
     "info": {
       "pl": {
         "title": "Timo – zgadnij zwierzę",
         "subtitle": "Lisek detektyw i 700 zwierząt",
-        "keywords": ["zwierzęta,zagadki,dla dzieci,przedszkole,quiz,edukacja,lis,zgadywanka,przyroda,kolekcja,gra"],
+        "keywords": [
+          "zwierzęta,zagadki,dla dzieci,przedszkole,quiz,edukacja,lis,zgadywanka,przyroda,kolekcja,gra"
+        ],
         "promoText": "Pomyśl o zwierzęciu, a lisek Timo spróbuje je zgadnąć! Bez reklam, z głosem Timo i kolekcją ponad 700 zwierząt.",
-        "description": "Timo to rudy lisek detektyw, który zgaduje zwierzęta. Dziecko myśli o zwierzęciu, a Timo zadaje proste pytania — „Czy ma futro?”, „Czy mieszka w wodzie?” — i próbuje odgadnąć, o kim myśli.\n\nJAK SIĘ GRA\n• Pomyśl o zwierzęciu — niczego nie klikasz.\n• Odpowiadaj: Tak, Nie, Nie wiem albo To zależy.\n• Timo zgaduje. Zgadł? Brawo! Nie zgadł? Pomóż mu i pokaż swoje zwierzę.\n\nDLACZEGO DZIECI GO LUBIĄ\n• Timo mówi po polsku — czyta pytania na głos, więc grać mogą także dzieci, które dopiero uczą się czytać.\n• 24 wyprawy z Timo: ocean, dżungla, farma, Afryka, lodowe krainy… Na każdą lisek zakłada inne przebranie.\n• Codzienna Wyprawa Dnia — trzy nowe propozycje każdego dnia.\n• Kolekcja ponad 700 zwierząt z ciekawostkami i mapą, gdzie żyją.\n• Odznaki, poziomy i rangi — od Małego tropiciela po Profesora Timo.\n\nDLA RODZICA\n• Bez reklam i bez czatów.\n• Konto nie jest wymagane — gra działa od razu. Kontem rodzica zapiszesz postępy i zagrasz na innym urządzeniu.\n• Osobny profil dla każdego dziecka.\n• Zakupy i linki zewnętrzne tylko za bramką rodzicielską.\n• Zdjęcie awatara zostaje wyłącznie na telefonie.\n\nWERSJA DARMOWA I PEŁNA\nZa darmo: zwierzęta z domu, farmy i Afryki (99 zwierząt), trzy wyprawy i codziennie jedna wyprawa z pełnej wersji gratis. Pełna wersja: ponad 700 zwierząt, wszystkie 24 wyprawy i cała kolekcja — jedna subskrypcja dla wszystkich dzieci w rodzinie. Subskrypcja miesięczna z 3 dniami za darmo albo roczna. Subskrypcja odnawia się automatycznie; anulujesz ją w dowolnej chwili w ustawieniach Apple ID, najpóźniej 24 godziny przed końcem okresu."
+        "description": "Timo to rudy lisek detektyw, który zgaduje zwierzęta. Dziecko myśli o zwierzęciu, a Timo zadaje proste pytania — „Czy ma futro?”, „Czy mieszka w wodzie?” — i próbuje odgadnąć, o kim myśli.\n\nJAK SIĘ GRA\n• Pomyśl o zwierzęciu — niczego nie klikasz.\n• Odpowiadaj: Tak, Nie, Nie wiem albo To zależy.\n• Timo zgaduje. Zgadł? Brawo! Nie zgadł? Pomóż mu i pokaż swoje zwierzę.\n\nDLACZEGO DZIECI GO LUBIĄ\n• Timo mówi po polsku — czyta pytania na głos, więc grać mogą także dzieci, które dopiero uczą się czytać.\n• 24 wyprawy z Timo: ocean, dżungla, farma, Afryka, lodowe krainy… Na każdą lisek zakłada inne przebranie.\n• Codzienna Wyprawa Dnia — trzy nowe propozycje każdego dnia.\n• Kolekcja ponad 700 zwierząt z ciekawostkami i mapą, gdzie żyją.\n• Odznaki, poziomy i rangi — od Małego tropiciela po Profesora Timo.\n\nDLA RODZICA\n• Bez reklam i bez czatów.\n• Konto nie jest wymagane — gra działa od razu. Kontem rodzica zapiszesz postępy i zagrasz na innym urządzeniu.\n• Osobny profil dla każdego dziecka.\n• Zakupy i linki zewnętrzne tylko za bramką rodzicielską.\n• Zdjęcie awatara zostaje wyłącznie na telefonie.\n\nWERSJA DARMOWA I PEŁNA\nZa darmo: zwierzęta z domu, farmy i Afryki (99 zwierząt), trzy wyprawy i codziennie jedna wyprawa z pełnej wersji gratis. Pełna wersja: ponad 700 zwierząt, wszystkie 24 wyprawy i cała kolekcja — jedna subskrypcja dla wszystkich dzieci w rodzinie. Subskrypcja miesięczna z 3 dniami za darmo albo roczna. Subskrypcja odnawia się automatycznie; anulujesz ją w dowolnej chwili w ustawieniach Apple ID, najpóźniej 24 godziny przed końcem okresu.",
+        "privacyPolicyUrl": "https://zgadujztimo.pl/polityka-prywatnosci",
+        "supportUrl": "https://zgadujztimo.pl/pomoc",
+        "marketingUrl": "https://zgadujztimo.pl"
       }
     },
     "advisory": {
@@ -36,8 +44,8 @@
     "review": {
       "firstName": "Grzegorz",
       "lastName": "Lenkiewicz",
-      "email": "grzegorz@digitaljuice.agency",
-      "phone": "",
+      "email": "kontakt@zgadujztimo.pl",
+      "phone": "+48 605 144 145",
       "demoRequired": false,
       "notes": "Timo is a Polish-language guessing game for children. No login is required: the app creates an anonymous account on first launch, so no demo account is needed.\n\nParental gate: purchases, restore purchases, external links, the parent account screen and the avatar photo picker are protected by a parental gate — a multiplication question with numbers written as words (e.g. „siedem razy sześć” = 42).\n\nSubscriptions: the paywall appears at the end of onboarding and when tapping locked content. Monthly (3-day free trial) and yearly plans via StoreKit/RevenueCat; can be tested in the sandbox.\n\nAccount deletion: „Kto gra?” (profiles) screen → „Usuń konto i wszystkie dane”, behind the parental gate and a confirmation.\n\nNo ads, no analytics, no tracking; notifications are local only (daily reminder)."
     }
