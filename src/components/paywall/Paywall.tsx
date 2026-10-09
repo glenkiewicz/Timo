@@ -6,6 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { INK } from '@/components/collection/map';
 import { Icon } from '@/components/ui/Icon';
+import { LINKS } from '@/config/links';
 import { type PlanId, purchase, restorePurchases, usePlans } from '@/lib/purchases';
 import { SHADOW, UI } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
@@ -17,9 +18,9 @@ const ART = require('../../../assets/onboarding/paywall.webp');
 
 /**
  * Regulamin i polityka prywatności — Apple wymaga linków na ekranie
- * subskrypcji. Puste = link się nie pokazuje (strony jeszcze nie ma).
+ * subskrypcji. Adres strony w src/config/links.ts; pusty = link ukryty.
  */
-const LEGAL: { terms: string | null; privacy: string | null } = { terms: null, privacy: null };
+const LEGAL = { terms: LINKS.terms, privacy: LINKS.privacy };
 
 const BENEFITS = [
   'Ponad 700 zwierząt do zgadywania',

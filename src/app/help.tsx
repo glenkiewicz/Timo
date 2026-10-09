@@ -1,11 +1,14 @@
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
-import type { ReactNode } from 'react';
+import { type ReactNode, useState } from 'react';
+import * as Linking from 'expo-linking';
 import { Platform, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ACCENT_FOR, GLYPH, LABEL, type AnswerType } from '@/components/buttons/AnswerCard';
 import { INK } from '@/components/collection/map';
+import { ParentalGate } from '@/components/paywall/ParentalGate';
+import { LINKS } from '@/config/links';
 import { Icon } from '@/components/ui/Icon';
 import { FREE_ANIMAL_IDS, FREE_EXPEDITIONS, FREE_REGIONS } from '@/config/free-tier';
 import { regionById } from '@/data/animal-regions';
@@ -48,6 +51,7 @@ const FREE_EXPEDITION_NAMES = FREE_EXPEDITIONS.map(
  */
 export default function HelpScreen() {
   const router = useRouter();
+  const [pendingUrl, setPendingUrl] = useState<string | null>(null);
   const insets = useSafeAreaInsets();
 
   return (
@@ -186,7 +190,38 @@ export default function HelpScreen() {
           Konto nie jest wymagane — gra działa od razu. Kontem rodzica zapiszesz postępy i zagrasz
           na innym urządzeniu. Każde dziecko ma własny profil z osobną kolekcją i odznakami.
         </Row>
+
+        {/* Polityka prywatności musi być dostępna w aplikacji (wytyczna 5.1.1);
+            linki wyprowadzają poza aplikację, więc za bramką rodzicielską. */}
+        {LINKS.privacy || LINKS.terms || LINKS.support ? (
+          <View className="flex-row flex-wrap justify-center" style={{ gap: 18, marginTop: 14 }}>
+            {(
+              [
+                ['Polityka prywatności', LINKS.privacy],
+                ['Regulamin', LINKS.terms],
+                ['Pomoc i kontakt', LINKS.support],
+              ] as const
+            ).map(([label, url]) =>
+              url ? (
+                <Pressable key={label} onPress={() => setPendingUrl(url)} accessibilityRole="link" style={{ padding: 6 }}>
+                  <Text style={{ color: UI.text, fontFamily: 'Lexend-Bold', fontSize: 14, textDecorationLine: 'underline' }}>
+                    {label}
+                  </Text>
+                </Pressable>
+              ) : null,
+            )}
+          </View>
+        ) : null}
       </ScrollView>
+      <ParentalGate
+        visible={pendingUrl !== null}
+        onCancel={() => setPendingUrl(null)}
+        onPass={() => {
+          const url = pendingUrl;
+          setPendingUrl(null);
+          if (url) void Linking.openURL(url);
+        }}
+      />
     </View>
   );
 }
