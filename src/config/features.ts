@@ -85,4 +85,4 @@ export const DEV_ONBOARDING = devOnly<'show'>('auto');
  * - 'premium' — zawsze pełna wersja, bez kupowania,
  * - 'auto'    — według zakupu.
  */
-export const DEV_PREMIUM = devOnly<'free' | 'premium'>('free');
+export const DEV_PREMIUM = devOnly<'free' | 'premium'>('auto');

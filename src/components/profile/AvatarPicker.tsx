@@ -1,7 +1,9 @@
 import * as Haptics from 'expo-haptics';
+import { useState } from 'react';
 import { Platform } from 'react-native';
 
 import { INK } from '@/components/collection/map';
+import { ParentalGate } from '@/components/paywall/ParentalGate';
 import { Icon } from '@/components/ui/Icon';
 import { AVATARS } from '@/data/avatars';
 import { PHOTO_AVATAR, pickAvatarPhoto } from '@/lib/avatar-photo';
@@ -35,10 +37,18 @@ export function AvatarPicker({
     if (Platform.OS !== 'web') Haptics.selectionAsync();
   };
 
+  // Kategoria Kids: systemowe zgody na zdjęcia i aparat tylko za bramką
+  // rodzicielską — dziecko nie może ich wywołać samo.
+  const [gateFor, setGateFor] = useState<'library' | 'camera' | null>(null);
+
   const pick = async (from: 'library' | 'camera') => {
-    tap();
     const uri = await pickAvatarPhoto(from);
     if (uri) onChange(PHOTO_AVATAR, uri);
+  };
+
+  const ask = (from: 'library' | 'camera') => {
+    tap();
+    setGateFor(from);
   };
 
   return (
@@ -81,12 +91,21 @@ export function AvatarPicker({
             <ChildAvatar avatar={PHOTO_AVATAR} photoUri={photoUri} size={44} />
           </View>
         ) : null}
-        <PhotoButton icon="image" label="Z galerii" onPress={() => void pick('library')} />
-        <PhotoButton icon="camera" label="Zrób zdjęcie" onPress={() => void pick('camera')} />
+        <PhotoButton icon="image" label="Z galerii" onPress={() => ask('library')} />
+        <PhotoButton icon="camera" label="Zrób zdjęcie" onPress={() => ask('camera')} />
       </View>
       <Text style={{ color: UI.pageFaint, fontFamily: 'Lexend', fontSize: 12, lineHeight: 17, marginTop: 8 }}>
         Zdjęcie zostaje tylko na tym telefonie — nie wysyłamy go nigdzie.
       </Text>
+      <ParentalGate
+        visible={gateFor !== null}
+        onCancel={() => setGateFor(null)}
+        onPass={() => {
+          const from = gateFor;
+          setGateFor(null);
+          if (from) void pick(from);
+        }}
+      />
     </View>
   );
 }
