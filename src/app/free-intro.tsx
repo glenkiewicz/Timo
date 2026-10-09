@@ -112,8 +112,10 @@ export default function FreeIntroScreen() {
           onPress={() => router.push('/paywall')}
           accessibilityRole="button"
           style={{ alignSelf: 'center', padding: 8, marginTop: 4 }}>
-          <Text style={{ color: UI.onLawn, fontFamily: 'Gabarito-Bold', fontSize: 15 }}>
-            Odkryj wszystkie 700 zwierząt
+          {/* Kategoria Kids: bez namawiania dziecka do zakupu — neutralny
+              dopisek dla rodzica, a sam zakup i tak jest za bramką. */}
+          <Text style={{ color: UI.onLawnSoft, fontFamily: 'Lexend-Bold', fontSize: 13 }}>
+            Dla rodzica: pełna wersja
           </Text>
         </Pressable>
       </View>

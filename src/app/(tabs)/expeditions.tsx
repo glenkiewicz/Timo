@@ -254,7 +254,7 @@ function ListCard({ expedition: e, status, discoveredCount, onPress, paid }: Car
       subtitle={
         isLocked
           ? paid
-            ? 'Odblokuj wszystkie wyprawy — albo poczekaj, aż trafi się jako gratis w Wyprawie Dnia.'
+            ? 'Jest w pełnej wersji. Może któregoś dnia trafi się za darmo w Wyprawie Dnia!'
             : 'Pojawi się kiedyś jako Wyprawa Dnia.'
           : e.description_pl
       }
