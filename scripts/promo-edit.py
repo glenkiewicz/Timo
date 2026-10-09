@@ -53,6 +53,8 @@ def silent(name, crop_for, w, h):
     parts.append(f"[{last}]fade=t=in:d=0.4,fade=t=out:st={total - 0.4:.2f}:d=0.4[v]")
     run(["ffmpeg", "-v", "error", "-y", *inputs, "-filter_complex", ";".join(parts), "-map", "[v]",
          "-an", "-c:v", "libx264", "-preset", "slow", "-crf", "17",
+         # zwykłe 4:2:0 — przenikanie przestawia format na 4:4:4, którego Apple nie przyjmie
+         "-pix_fmt", "yuv420p", "-profile:v", "high",
          "-movflags", "+faststart", str(P / name)])
     print(f"{name}: {w}×{h}, {total:.1f} s")
 
@@ -114,6 +116,7 @@ def trailer(name, w, h, vertical):
     parts.append(f"{''.join(mix)}amix=inputs={len(mix)}:normalize=0,atrim=0:{full:.2f},alimiter=limit=0.9[a]")
     run(["ffmpeg", "-v", "error", "-y", *inputs, "-filter_complex", ";".join(parts),
          "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-preset", "slow", "-crf", "18",
+         "-pix_fmt", "yuv420p", "-profile:v", "high",
          "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", str(P / name)])
     card.unlink()
     print(f"{name}: {w}×{h}, {full:.1f} s")

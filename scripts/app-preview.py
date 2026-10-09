@@ -112,7 +112,10 @@ def main():
         f"[0:v]fade=t=in:d=0.25,fade=t=out:st={total - 0.4:.2f}:d=0.4[v]"
     )
     run(["ffmpeg", "-v", "error", "-y", "-i", str(joined), "-i", str(MUSIC), "-filter_complex", graph,
-         "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-preset", "slow", "-crf", "16",
+         "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-preset", "slow",
+         # wymogi App Preview: H.264 High do poziomu 4.0, 10–12 Mb/s, 30 kl/s
+         "-profile:v", "high", "-level", "4.0", "-b:v", "11M", "-minrate", "11M", "-maxrate", "11M",
+         "-bufsize", "11M", "-x264-params", "nal-hrd=cbr:force-cfr=1",
          "-pix_fmt", "yuv420p", "-r", "30", "-c:a", "aac", "-b:a", "256k", "-ar", "44100",
          "-movflags", "+faststart", str(out)])
     print(f"{out}: {total:.2f} s")
