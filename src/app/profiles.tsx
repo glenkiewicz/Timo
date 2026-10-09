@@ -9,6 +9,7 @@ import { Field } from '@/components/ui/Field';
 import { Icon } from '@/components/ui/Icon';
 import { AvatarPicker } from '@/components/profile/AvatarPicker';
 import { ChildAvatar } from '@/components/profile/ChildAvatar';
+import { ParentalGate } from '@/components/paywall/ParentalGate';
 import { DEFAULT_AVATAR } from '@/data/avatars';
 import { PHOTO_AVATAR, deleteAvatarPhoto, saveAvatarPhoto } from '@/lib/avatar-photo';
 import { useContentWidth } from '@/lib/layout';
@@ -28,6 +29,9 @@ export default function ProfilesScreen() {
   const deleteProfile = useAuthStore((s) => s.deleteProfile);
   const selectProfile = useAuthStore((s) => s.selectProfile);
   const signOut = useAuthStore((s) => s.signOut);
+  const deleteAccount = useAuthStore((s) => s.deleteAccount);
+  // Akcja czekająca na odpowiedź dorosłego w bramce rodzicielskiej.
+  const [gate, setGate] = useState<null | (() => void)>(null);
   const anonymous = useAuthStore((s) => s.session?.user.is_anonymous === true);
   const busy = useAuthStore((s) => s.busy);
   const error = useAuthStore((s) => s.error);
@@ -62,6 +66,25 @@ export default function ProfilesScreen() {
     setPhotoUri(null);
     setNick('');
     setAdding(false);
+  };
+
+  const confirmDeleteAccount = () => {
+    Alert.alert(
+      'Usunąć konto?',
+      'Znikną wszystkie profile dzieci, kolekcje, odznaki i postęp — na tym telefonie i na serwerze. Tego nie da się cofnąć.\n\nSubskrypcję (jeśli jest) anulujesz osobno w Ustawieniach → Apple ID → Subskrypcje.',
+      [
+        { text: 'Anuluj', style: 'cancel' },
+        {
+          text: 'Usuń konto',
+          style: 'destructive',
+          onPress: () => {
+            void deleteAccount().then((ok) => {
+              if (!ok) Alert.alert('Nie udało się usunąć konta', 'Sprawdź połączenie z internetem i spróbuj jeszcze raz.');
+            });
+          },
+        },
+      ],
+    );
   };
 
   const confirmDelete = (id: string, name: string) => {
@@ -237,7 +260,7 @@ export default function ProfilesScreen() {
                 label="Zapisz postępy — załóż konto rodzica"
                 variant="ghost"
                 size="md"
-                onPress={() => router.push('/account')}
+                onPress={() => setGate(() => () => router.push('/account'))}
               />
             </>
           ) : (
@@ -248,7 +271,27 @@ export default function ProfilesScreen() {
               onPress={() => void signOut()}
             />
           )}
+          {/* Wymóg App Store (5.1.1): konto, które da się założyć, da się
+              też usunąć — razem ze wszystkimi danymi dzieci. Za bramką
+              rodzicielską, żeby dziecko nie skasowało kolekcji przypadkiem. */}
+          <Pressable
+            onPress={() => setGate(() => confirmDeleteAccount)}
+            accessibilityRole="button"
+            style={{ alignSelf: 'center', padding: 10, marginTop: 4 }}>
+            <Text style={{ color: UI.dangerDeep, fontFamily: 'Lexend-Bold', fontSize: 13 }}>
+              Usuń konto i wszystkie dane
+            </Text>
+          </Pressable>
         </View>
+        <ParentalGate
+          visible={gate !== null}
+          onCancel={() => setGate(null)}
+          onPass={() => {
+            const fn = gate;
+            setGate(null);
+            fn?.();
+          }}
+        />
       </ScrollView>
     </KeyboardAvoidingView>
   );

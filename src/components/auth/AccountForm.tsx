@@ -14,6 +14,14 @@ import { UI } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
 import { contentColumn } from '@/lib/layout';
 
+/**
+ * Logowanie Google i Apple — wyłączone, dopóki dostawcy nie są skonfigurowani
+ * w Supabase (Authentication → Providers). Przycisk, który nie działa,
+ * recenzja App Store odrzuca; samo logowanie e-mailem wystarcza.
+ * Po konfiguracji: true (i włączyć „Allow manual linking” do dopinania).
+ */
+const SOCIAL_LOGIN = false;
+
 const COPY = {
   // Bez anonimowej sesji (brak sieci przy pierwszym starcie) — stary ekran.
   fallback: {
@@ -257,38 +265,43 @@ export function AccountForm({
         </Card>
 
         {/* ---------- logowanie społecznościowe ---------- */}
-        <View className="flex-row items-center gap-3 my-4">
-          <View style={{ flex: 1, height: 2, backgroundColor: UI.line }} />
-          <Text
-            style={{ color: UI.textFaint, fontFamily: 'Gabarito-Bold', fontSize: 11 }}>
-            ALBO
-          </Text>
-          <View style={{ flex: 1, height: 2, backgroundColor: UI.line }} />
-        </View>
+        {SOCIAL_LOGIN ? (
+          <>
+          <View className="flex-row items-center gap-3 my-4">
+            <View style={{ flex: 1, height: 2, backgroundColor: UI.line }} />
+            <Text
+              style={{ color: UI.textFaint, fontFamily: 'Gabarito-Bold', fontSize: 11 }}>
+              ALBO
+            </Text>
+            <View style={{ flex: 1, height: 2, backgroundColor: UI.line }} />
+          </View>
 
-        <View className="gap-2.5">
-          <Button
-            label={copy.google}
-            variant="ghost"
-            size="md"
-            onPress={() => void signInWithGoogle(mode)}
-            disabled={busy}
-          />
-
-          {appleAvailable ? (
-            <AppleAuthentication.AppleAuthenticationButton
-              buttonType={
-                variant === 'link'
-                  ? AppleAuthentication.AppleAuthenticationButtonType.CONTINUE
-                  : AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN
-              }
-              buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
-              cornerRadius={14}
-              style={{ height: 48 }}
-              onPress={() => void signInWithApple(mode)}
+          <View className="gap-2.5">
+            <Button
+              label={copy.google}
+              variant="ghost"
+              size="md"
+              onPress={() => void signInWithGoogle(mode)}
+              disabled={busy}
             />
-          ) : null}
-        </View>
+
+            {appleAvailable ? (
+              <AppleAuthentication.AppleAuthenticationButton
+                buttonType={
+                  variant === 'link'
+                    ? AppleAuthentication.AppleAuthenticationButtonType.CONTINUE
+                    : AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN
+                }
+                buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
+                cornerRadius={14}
+                style={{ height: 48 }}
+                onPress={() => void signInWithApple(mode)}
+              />
+            ) : null}
+          </View>
+
+          </>
+        ) : null}
 
         {onSwitch ? (
           <Pressable

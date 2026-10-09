@@ -6,6 +6,7 @@ import * as WebBrowser from 'expo-web-browser';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
+import { deleteAvatarPhoto } from '@/lib/avatar-photo';
 import { supabase } from '@/lib/supabase';
 
 export type ChildProfile = {
@@ -58,6 +59,11 @@ type AuthState = {
   /** Zakłada anonimową sesję, jeśli żadnej nie ma. */
   ensureSession: () => Promise<void>;
   signOut: () => Promise<void>;
+  /**
+   * Usuwa konto razem z profilami dzieci i całym postępem (serwer + telefon)
+   * i zaczyna grę od zera na nowym anonimowym koncie. Zwraca, czy się udało.
+   */
+  deleteAccount: () => Promise<boolean>;
 
   /** Konto założone, ale Supabase czeka na potwierdzenie adresu. */
   awaitingConfirmation: string | null;
@@ -323,6 +329,32 @@ export const useAuthStore = create<AuthState>()(
         // Jak w Finchu: po wylogowaniu gra działa dalej od zera, na nowym
         // anonimowym koncie.
         await get().ensureSession();
+      },
+
+      deleteAccount: async () => {
+        set({ busy: true, error: null });
+        const { error } = await supabase.rpc('delete_my_account');
+        if (error) {
+          set({ busy: false, error: friendlyError(error.message) });
+          return false;
+        }
+        // Dane z telefonu: zdjęcia awatarów i zapamiętany postęp.
+        for (const p of get().profiles) deleteAvatarPhoto(p.id);
+        await AsyncStorage.multiRemove(['timo-profile-v1', 'timo-leaderboard', 'timo-onboarding']).catch(
+          () => undefined,
+        );
+        // Konta już nie ma na serwerze — wylogowanie tylko lokalne.
+        await supabase.auth.signOut({ scope: 'local' }).catch(() => undefined);
+        set({
+          busy: false,
+          session: null,
+          profiles: [],
+          profilesLoaded: false,
+          activeProfileId: null,
+          awaitingConfirmation: null,
+        });
+        await get().ensureSession();
+        return true;
       },
 
       loadProfiles: async () => {

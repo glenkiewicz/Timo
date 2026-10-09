@@ -18,6 +18,7 @@ import { useAuthStore } from '@/lib/stores/auth-store';
 import { useOnboardingStore } from '@/lib/stores/onboarding-store';
 import { useSessionStore } from '@/lib/stores/session-store';
 import { HatchScene } from '@/components/onboarding/HatchScene';
+import { ParentalGate } from '@/components/paywall/ParentalGate';
 import { Paywall } from '@/components/paywall/Paywall';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { supabase } from '@/lib/supabase';
@@ -126,6 +127,9 @@ export default function OnboardingScreen() {
   const [photoUri, setPhotoUri] = useState<string | null>(null);
   const [age, setAge] = useState<string | null>(null);
   const [finishing, setFinishing] = useState(false);
+  // Logowanie wyprowadza poza aplikację (Google) — w aplikacji dla dzieci
+  // tylko za bramką rodzicielską.
+  const [gateOpen, setGateOpen] = useState(false);
 
   const current = STEPS[step];
   // Bez sesji (anonimowe konto się nie założyło) nie ma gdzie zapisać
@@ -370,6 +374,15 @@ export default function OnboardingScreen() {
       </Animated.View>
       </ScrollView>
 
+      <ParentalGate
+        visible={gateOpen}
+        onCancel={() => setGateOpen(false)}
+        onPass={() => {
+          setGateOpen(false);
+          router.push('/account');
+        }}
+      />
+
       {/* ---------- przyciski ---------- */}
       <View style={{ paddingHorizontal: 24, paddingBottom: insets.bottom + 16, gap: 10 }}>
         {current.kind === 'info' ? (
@@ -379,7 +392,7 @@ export default function OnboardingScreen() {
               onPress={() => (step === lastStep ? void finish(false) : go(step + 1))}
             />
             {step === FIRST_QUESTION - 1 ? (
-              <TextButton label="Mam już konto — zaloguj się" onPress={() => router.push('/account')} />
+              <TextButton label="Mam już konto — zaloguj się" onPress={() => setGateOpen(true)} />
             ) : null}
           </>
         ) : null}
