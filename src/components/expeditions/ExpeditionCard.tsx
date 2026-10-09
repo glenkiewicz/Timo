@@ -265,17 +265,23 @@ export function ExpeditionCard({
     </PaperCard>
   );
 
-  if (!onPress) return body;
+  // Papierowe tło karty ma stałe proporcje ramki — na iPadzie rozciągnięte
+  // na całą szerokość zniekształcało się, a tytuł wchodził na krawędź.
+  const wide = { width: '100%', maxWidth: CARD_MAX, alignSelf: 'center' } as const;
+  if (!onPress) return <View style={wide}>{body}</View>;
   return (
     <Pressable
       onPress={onPress}
       accessibilityRole="button"
       accessibilityLabel={title}
-      style={({ pressed }) => ({ transform: [{ scale: pressed ? 0.98 : 1 }] })}>
+      style={({ pressed }) => ({ ...wide, transform: [{ scale: pressed ? 0.98 : 1 }] })}>
       {body}
     </Pressable>
   );
 }
+
+/** Najszersza karta wyprawy — tyle co na dużym telefonie z zapasem. */
+const CARD_MAX = 620;
 
 /**
  * Mały kafel do wyboru jednej z trzech wypraw dnia. Tarcza wystaje nad górną
