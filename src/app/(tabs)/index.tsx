@@ -1,3 +1,4 @@
+import { useObserve } from 'expo-observe';
 import { useRouter } from 'expo-router';
 import { type ReactNode, useEffect, useRef, useState } from 'react';
 import Animated, {
@@ -42,6 +43,11 @@ const SOUND_ON = require('../../../assets/icons/info/sound_on.png');
 const SOUND_OFF = require('../../../assets/icons/info/sound_off.png');
 
 export default function HomeScreen() {
+  // EAS Observe: czas do interakcji tego ekranu (integracja Expo Router).
+  const { markInteractive } = useObserve();
+  useEffect(() => {
+    markInteractive();
+  }, [markInteractive]);
   const timoH = useTimoHeight(0.6);
   const k = useUiScale();
   const router = useRouter();

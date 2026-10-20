@@ -1,3 +1,4 @@
+import { useObserve } from 'expo-observe';
 import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -46,6 +47,11 @@ function nameInSentence(name: string): string {
 }
 
 export default function GameScreen() {
+  // EAS Observe: czas do interakcji tego ekranu (integracja Expo Router).
+  const { markInteractive } = useObserve();
+  useEffect(() => {
+    markInteractive();
+  }, [markInteractive]);
   const timoH = useTimoHeight(0.6);
   const router = useRouter();
   const insets = useSafeAreaInsets();

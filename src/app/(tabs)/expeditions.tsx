@@ -1,5 +1,6 @@
+import { useObserve } from 'expo-observe';
 import { useRouter } from 'expo-router';
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
 import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -44,6 +45,11 @@ const STATUS_ACCENT: Record<Exclude<CardStatus, 'locked'>, Accent> = {
 };
 
 export default function ExpeditionsScreen() {
+  // EAS Observe: czas do interakcji tego ekranu (integracja Expo Router).
+  const { markInteractive } = useObserve();
+  useEffect(() => {
+    markInteractive();
+  }, [markInteractive]);
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const screenW = useContentWidth();

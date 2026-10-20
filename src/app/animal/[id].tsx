@@ -1,6 +1,7 @@
+import { useObserve } from 'expo-observe';
 import * as Haptics from 'expo-haptics';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
 import { Platform, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -17,6 +18,11 @@ import { contentColumn, READING_MAX } from '@/lib/layout';
 import { Pressable, Text, View } from '@/tw';
 
 export default function AnimalCardScreen() {
+  // EAS Observe: czas do interakcji tego ekranu (integracja Expo Router).
+  const { markInteractive } = useObserve();
+  useEffect(() => {
+    markInteractive();
+  }, [markInteractive]);
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id: string }>();

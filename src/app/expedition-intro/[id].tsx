@@ -1,3 +1,4 @@
+import { useObserve } from 'expo-observe';
 import * as Haptics from 'expo-haptics';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
@@ -23,6 +24,11 @@ import { contentColumn, useContentWidth, useTimoHeight, useUiScale } from '@/lib
 import { Pressable, Text, View } from '@/tw';
 
 export default function ExpeditionIntroScreen() {
+  // EAS Observe: czas do interakcji tego ekranu (integracja Expo Router).
+  const { markInteractive } = useObserve();
+  useEffect(() => {
+    markInteractive();
+  }, [markInteractive]);
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const k = useUiScale();

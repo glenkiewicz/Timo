@@ -1,3 +1,4 @@
+import { useObserve } from 'expo-observe';
 import * as Haptics from 'expo-haptics';
 import { Link, useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
@@ -42,6 +43,11 @@ const COLUMNS = 3;
  * wypchnięcie trasy poza `(tabs)` zabrałoby dolny dok, który ma zostać.
  */
 export default function CollectionScreen() {
+  // EAS Observe: czas do interakcji tego ekranu (integracja Expo Router).
+  const { markInteractive } = useObserve();
+  useEffect(() => {
+    markInteractive();
+  }, [markInteractive]);
   const collection = useProfileStore((s) => s.collection);
   const discovered = useMemo(
     () => (DEV_UNLOCK_ALL ? new Set(ANIMALS.map((a) => a.id)) : new Set(collection)),

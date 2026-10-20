@@ -18,6 +18,7 @@ import {
 import { setAudioModeAsync } from 'expo-audio';
 import { useFonts } from 'expo-font';
 import { Stack, useRouter, useSegments } from 'expo-router';
+import { Observe, ObserveRoot, useObserve } from 'expo-observe';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useRef } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -32,7 +33,14 @@ import { initPurchases } from '@/lib/purchases';
 
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
+// EAS Observe: czasy startu aplikacji i otwierania ekranów (Expo Router).
+// Tylko metryki wydajności — bez zdarzeń z danymi dziecka. Konfiguracja raz,
+// przed zamontowaniem ekranów; build deweloperski niczego nie wysyła.
+Observe.configure({
+  integrations: { 'expo-router': true },
+});
+
+function RootLayout() {
   // Gabarito niesie nagłówki, liczby i przyciski; Lexend jest krojem do
   // czytania — powstał po to, żeby dzieciom czytało się płynniej.
   const [loaded, error] = useFonts({
@@ -56,6 +64,7 @@ export default function RootLayout() {
   const startSeen = useStartSeen(activeProfileId);
   const onboardingHydrated = useOnboardingStore((s) => s.hydrated);
   const needsOnboarding = useNeedsOnboarding();
+  const { markInteractive } = useObserve();
 
   useEffect(() => init(), [init]);
   // RevenueCat zna gracza po tym samym uid co Supabase (także anonimowym) —
@@ -76,8 +85,11 @@ export default function RootLayout() {
   useEffect(() => {
     if (ready) {
       SplashScreen.hideAsync();
+      // Interaktywna od chwili, gdy splash znika — wtedy wiadomo już, który
+      // ekran pokazać (onboarding, logowanie, profile albo gra).
+      markInteractive();
     }
-  }, [ready]);
+  }, [ready, markInteractive]);
 
   useEffect(() => {
     // Głos Timo gra też przy iPhone "silent mode" i ścisza inne aplikacje.
@@ -235,3 +247,5 @@ function EntryRedirect({
 
   return null;
 }
+
+export default ObserveRoot.wrap(RootLayout);
