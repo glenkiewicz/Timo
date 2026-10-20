@@ -10,6 +10,7 @@ import { Icon } from '@/components/ui/Icon';
 import { AvatarPicker } from '@/components/profile/AvatarPicker';
 import { ChildAvatar } from '@/components/profile/ChildAvatar';
 import { ParentalGate } from '@/components/paywall/ParentalGate';
+import { confirmDeleteAccount } from '@/lib/account-actions';
 import { DEFAULT_AVATAR } from '@/data/avatars';
 import { PHOTO_AVATAR, deleteAvatarPhoto, saveAvatarPhoto } from '@/lib/avatar-photo';
 import { useContentWidth } from '@/lib/layout';
@@ -29,7 +30,6 @@ export default function ProfilesScreen() {
   const deleteProfile = useAuthStore((s) => s.deleteProfile);
   const selectProfile = useAuthStore((s) => s.selectProfile);
   const signOut = useAuthStore((s) => s.signOut);
-  const deleteAccount = useAuthStore((s) => s.deleteAccount);
   // Akcja czekająca na odpowiedź dorosłego w bramce rodzicielskiej.
   const [gate, setGate] = useState<null | (() => void)>(null);
   const anonymous = useAuthStore((s) => s.session?.user.is_anonymous === true);
@@ -66,25 +66,6 @@ export default function ProfilesScreen() {
     setPhotoUri(null);
     setNick('');
     setAdding(false);
-  };
-
-  const confirmDeleteAccount = () => {
-    Alert.alert(
-      'Usunąć konto?',
-      'Znikną wszystkie profile dzieci, kolekcje, odznaki i postęp — na tym telefonie i na serwerze. Tego nie da się cofnąć.\n\nSubskrypcję (jeśli jest) anulujesz osobno w Ustawieniach → Apple ID → Subskrypcje.',
-      [
-        { text: 'Anuluj', style: 'cancel' },
-        {
-          text: 'Usuń konto',
-          style: 'destructive',
-          onPress: () => {
-            void deleteAccount().then((ok) => {
-              if (!ok) Alert.alert('Nie udało się usunąć konta', 'Sprawdź połączenie z internetem i spróbuj jeszcze raz.');
-            });
-          },
-        },
-      ],
-    );
   };
 
   const confirmDelete = (id: string, name: string) => {

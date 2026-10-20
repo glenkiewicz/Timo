@@ -16,6 +16,7 @@ import { INK, SlotDisc } from '@/components/collection/map';
 import { useInfoSheet } from '@/components/sheet/InfoSheet';
 import { ExpeditionCard, ExpeditionTile } from '@/components/expeditions/ExpeditionCard';
 import { SceneBackdrop, TimoStage, sceneBaseColor } from '@/components/timo/TimoStage';
+import { ParentalGate } from '@/components/paywall/ParentalGate';
 import { Plate } from '@/components/ui/Plate';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { StatBadge } from '@/components/ui/StatBadge';
@@ -40,11 +41,13 @@ import { usePremium } from '@/lib/purchases';
 
 const SOUND_ON = require('../../../assets/icons/info/sound_on.png');
 const SOUND_OFF = require('../../../assets/icons/info/sound_off.png');
+const PARENT = require('../../../assets/icons/info/parent.png');
 
 export default function HomeScreen() {
   const timoH = useTimoHeight(0.6);
   const k = useUiScale();
   const router = useRouter();
+  const [parentGate, setParentGate] = useState(false);
   const insets = useSafeAreaInsets();
   const start = useGameStore((s) => s.start);
 
@@ -204,6 +207,17 @@ export default function HomeScreen() {
             />
           </SlotDisc>
         </Pressable>
+        {/* Strefa rodzica: ustawienia, konto, subskrypcja, usunięcie konta —
+            zawsze za bramką rodzicielską. */}
+        <Pressable
+          onPress={() => setParentGate(true)}
+          accessibilityRole="button"
+          accessibilityLabel="Dla rodzica — ustawienia i konto"
+          style={({ pressed }) => ({ transform: [{ scale: pressed ? 0.94 : 1 }] })}>
+          <SlotDisc size={46 * k}>
+            <Image source={PARENT} style={{ flex: 1 }} contentFit="cover" transition={0} accessible={false} />
+          </SlotDisc>
+        </Pressable>
         </View>
       </View>
 
@@ -313,6 +327,15 @@ export default function HomeScreen() {
           <Plate label="Zagraj z Timo" accent="fox" onPress={handlePlay} />
         </View>
       </View>
+
+      <ParentalGate
+        visible={parentGate}
+        onCancel={() => setParentGate(false)}
+        onPass={() => {
+          setParentGate(false);
+          router.push('/parent');
+        }}
+      />
     </View>
   );
 }

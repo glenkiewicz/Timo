@@ -190,6 +190,8 @@ export default function HelpScreen() {
         <Row art={TOOLTIP_ART.level} tint="primary" title="Konta i profile">
           Konto nie jest wymagane — gra działa od razu. Kontem rodzica zapiszesz postępy i zagrasz
           na innym urządzeniu. Każde dziecko ma własny profil z osobną kolekcją i odznakami.
+          Profile, konto, subskrypcję i usunięcie danych znajdziesz pod tarczą z sercem w Menu
+          („Dla rodzica”).
         </Row>
 
         {/* Polityka prywatności musi być dostępna w aplikacji (wytyczna 5.1.1);

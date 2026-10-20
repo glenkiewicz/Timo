@@ -30,3 +30,14 @@ export async function enableDailyReminder(): Promise<boolean> {
   });
   return true;
 }
+
+/** Czy codzienne przypomnienie jest zaplanowane (ekran „Dla rodzica”). */
+export async function isDailyReminderOn(): Promise<boolean> {
+  const scheduled = await Notifications.getAllScheduledNotificationsAsync();
+  return scheduled.length > 0;
+}
+
+/** Wyłącza codzienne przypomnienie. */
+export async function disableDailyReminder(): Promise<void> {
+  await Notifications.cancelAllScheduledNotificationsAsync();
+}
