@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Timo — lisek, który zgaduje zwierzęta</title>
+<meta name="description" content="Gra dla dzieci: pomyśl o zwierzęciu, a lisek Timo je zgadnie. Zapisz się, damy znać w dniu premiery.">
+<meta property="og:title" content="Timo — lisek, który zgaduje zwierzęta">
+<meta property="og:description" content="Pomyśl o zwierzęciu, a lisek Timo je zgadnie. Premiera wkrótce.">
+<meta property="og:image" content="og.jpg">
+<link rel="icon" href="icon.png">
+<!--
+  Strona z linku w bio. Zapis idzie wprost do tabeli `waitlist` w Supabase
+  (migracja 0003) kluczem `anon`, który jest publiczny z założenia.
+  `build-landing.py` podmienia __SUPABASE_URL__ i __SUPABASE_ANON_KEY__
+  wartościami z `.env` i kopiuje grafiki obok tego pliku.
+-->
+<style>
+  :root { --lawn:#8abe4e; --panel:#5d803d; --panel-deep:#4a6830; --fox:#ec8e30; --fox-deep:#ce7422;
+          --surface:#fff; --line:#d2dbba; --text:#1e2a26; --soft:#6e7e6c; --danger:#b24528; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; }
+  body { font: 17px/1.5 -apple-system, "Segoe UI", system-ui, sans-serif; color: var(--text);
+         background: var(--lawn) url(bg.jpg) center top / cover no-repeat fixed; }
+  main { max-width: 460px; margin: 0 auto; padding: 28px 16px 48px; text-align: center; }
+  .fox { width: 210px; height: auto; display: block; margin: 0 auto -18px; }
+  .card { background: var(--surface); border-radius: 28px; padding: 26px 22px 24px;
+          box-shadow: 0 8px 0 var(--line); text-align: left; }
+  h1 { font-size: 30px; line-height: 1.15; margin: 0 0 10px; text-wrap: balance; }
+  p { margin: 0 0 14px; }
+  ul { margin: 0 0 20px; padding-left: 20px; color: var(--soft); }
+  li { margin-bottom: 4px; }
+  label { display: block; font-weight: 600; margin-bottom: 6px; }
+  input[type=email] { width: 100%; font: inherit; padding: 14px 16px; border: 2px solid var(--line);
+                      border-radius: 16px; background: #fff; color: var(--text); }
+  input[type=email]:focus-visible, button:focus-visible { outline: 3px solid var(--panel); outline-offset: 2px; }
+  button { width: 100%; margin-top: 12px; font: inherit; font-weight: 700; font-size: 19px; color: #fff;
+           padding: 15px; border: 0; border-radius: 18px; background: var(--fox);
+           box-shadow: 0 6px 0 var(--fox-deep); cursor: pointer; }
+  button:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--fox-deep); }
+  button[disabled] { opacity: .6; cursor: default; }
+  .small { font-size: 13px; color: var(--soft); margin: 14px 0 0; }
+  .msg { margin: 12px 0 0; font-weight: 600; min-height: 1.5em; }
+  .msg.err { color: var(--danger); }
+  .done h1 { color: var(--panel-deep); }
+  [hidden] { display: none; }
+</style>
+</head>
+<body>
+<main>
+  <img class="fox" src="timo.webp" alt="Lisek Timo" width="435" height="640">
+
+  <div class="card" id="signup">
+    <h1>Pomyśl o zwierzęciu. Timo je zgadnie.</h1>
+    <p>Gra dla dzieci, w której lisek-detektyw zadaje pytania i tropi zwierzę, o którym myśli Twoje dziecko.</p>
+    <ul>
+      <li>715 zwierząt z ilustracjami i ciekawostkami</li>
+      <li>Timo mówi głosem — nie trzeba umieć czytać</li>
+      <li>Bez reklam i czatów, konto nie jest wymagane</li>
+    </ul>
+    <form id="form" novalidate>
+      <label for="email">Damy znać w dniu premiery</label>
+      <input id="email" name="email" type="email" autocomplete="email" inputmode="email"
+             placeholder="twoj@email.pl" required>
+      <button type="submit" id="send">Zapisz mnie</button>
+      <p class="msg err" id="msg" role="alert"></p>
+    </form>
+    <p class="small">Jeden e-mail w dniu premiery, nic więcej. Adres służy wyłącznie do tego powiadomienia
+      i możesz poprosić o jego usunięcie w każdej chwili. <a href="__PRIVACY_URL__">Polityka prywatności</a>.</p>
+  </div>
+
+  <div class="card done" id="done" hidden>
+    <h1>Gotowe, jesteś na liście!</h1>
+    <p>Napiszemy, gdy Timo trafi do App Store i Google Play. Do tego czasu — zagraj z dzieckiem
+      w 20 pytań bez telefonu. Lisek byłby dumny.</p>
+  </div>
+</main>
+
+<script>
+  const URL_ = '__SUPABASE_URL__', KEY = '__SUPABASE_ANON_KEY__';
+  const form = document.getElementById('form'), msg = document.getElementById('msg');
+  const send = document.getElementById('send'), input = document.getElementById('email');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = input.value.trim();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      msg.textContent = 'Sprawdź adres e-mail — wygląda na niepełny.';
+      input.focus();
+      return;
+    }
+    msg.textContent = '';
+    send.disabled = true;
+    // ?s=tiktok | instagram | x — po tym widać, która platforma przynosi zapisy.
+    const source = (new URLSearchParams(location.search).get('s') || '').slice(0, 24) || null;
+    try {
+      const res = await fetch(URL_ + '/rest/v1/waitlist', {
+        method: 'POST',
+        headers: { apikey: KEY, Authorization: 'Bearer ' + KEY, 'Content-Type': 'application/json',
+                   Prefer: 'return=minimal' },
+        body: JSON.stringify({ email, source }),
+      });
+      // 409 = ten adres już jest na liście; dla zapisującego to też sukces.
+      if (!res.ok && res.status !== 409) throw new Error('HTTP ' + res.status);
+      document.getElementById('signup').hidden = true;
+      document.getElementById('done').hidden = false;
+    } catch (err) {
+      msg.textContent = 'Nie udało się zapisać. Spróbuj jeszcze raz za chwilę.';
+      send.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>

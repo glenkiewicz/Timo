@@ -1,0 +1,28 @@
+/* Strony prawne i pomoc — ten sam język co strona zapisu (index.html). */
+:root { --lawn:#8abe4e; --panel:#5d803d; --panel-deep:#4a6830; --fox:#ec8e30; --fox-deep:#ce7422;
+        --surface:#fff; --line:#d2dbba; --text:#1e2a26; --soft:#6e7e6c; }
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { font: 17px/1.6 -apple-system, "Segoe UI", system-ui, sans-serif; color: var(--text);
+       background: var(--lawn) url(bg.jpg) center top / cover no-repeat fixed; }
+main { max-width: 760px; margin: 0 auto; padding: 24px 16px 56px; }
+.card { background: var(--surface); border-radius: 28px; padding: 28px 24px;
+        box-shadow: 0 8px 0 var(--line); }
+header { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+header img { width: 56px; height: 56px; border-radius: 14px; }
+header a { color: var(--panel-deep); font-weight: 700; text-decoration: none; }
+h1 { font-size: 30px; line-height: 1.2; margin: 0 0 6px; text-wrap: balance; }
+h2 { font-size: 21px; margin: 30px 0 8px; color: var(--panel-deep); }
+h3 { font-size: 17px; margin: 18px 0 6px; }
+p, li { margin: 0 0 10px; }
+ul, ol { padding-left: 22px; margin: 0 0 12px; }
+a { color: var(--fox-deep); }
+.meta { color: var(--soft); font-size: 14px; margin-bottom: 18px; }
+.box { background: #f4f8ea; border-radius: 18px; padding: 14px 18px; margin: 14px 0; }
+table { width: 100%; border-collapse: collapse; margin: 10px 0 16px; font-size: 15px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+th { color: var(--panel-deep); }
+.todo { background: #fff2b3; padding: 0 4px; border-radius: 4px; font-weight: 600; }
+footer { margin-top: 22px; text-align: center; font-size: 14px; color: #fff; }
+footer a { color: #fff; margin: 0 8px; }
+@media (max-width: 520px) { .card { padding: 22px 16px; } h1 { font-size: 26px; } }
