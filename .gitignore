@@ -57,6 +57,10 @@ scripts/__pycache__/
 # Odtwarzalne skryptami z scripts/marketing/.
 marketing/out/
 marketing/.cache/
+
+# Filmy i grafiki do App Store (~760 MB) — za ciężkie na zwykłe repo.
+marketing/promo/
+marketing/store/
 assets/voices/_samples/
 
 # Animacje liska jako WebP — tylko robocze; aplikacja gra wideo .mp4 (scripts/encode-alpha-video.py)
