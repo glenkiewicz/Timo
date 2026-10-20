@@ -69,7 +69,7 @@ APP = {
     "applicationCategory": "GameApplication",
     "applicationSubCategory": "EducationalApplication",
     "inLanguage": "pl-PL",
-    "audience": {"@type": "PeopleAudience", "suggestedMinAge": 5, "suggestedMaxAge": 9},
+    "audience": {"@type": "PeopleAudience", "suggestedMinAge": 4, "suggestedMaxAge": 9},
     "url": f"{SITE}/",
     "installUrl": APP_URL,
     "downloadUrl": APP_URL,
