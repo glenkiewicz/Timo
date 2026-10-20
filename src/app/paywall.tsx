@@ -11,6 +11,7 @@ export default function PaywallScreen() {
   const router = useRouter();
   return (
     <Paywall
+      modal
       background={UI.page}
       onDone={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)'))}
     />

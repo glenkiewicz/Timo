@@ -35,8 +35,18 @@ const BENEFITS = [
  * zablokowanej treści. Każdy zakup i link na zewnątrz za bramką rodzicielską.
  * Zamknięcie zawsze możliwe — wersja darmowa działa dalej.
  */
-export function Paywall({ onDone, background }: { onDone: (purchased: boolean) => void; background: string }) {
+export function Paywall({
+  onDone,
+  background,
+  modal = false,
+}: {
+  onDone: (purchased: boolean) => void;
+  background: string;
+  /** Otwarty jako arkusz modalny — wtedy nie ma pod nim paska statusu i górny odstęp systemu robił pustkę. */
+  modal?: boolean;
+}) {
   const insets = useSafeAreaInsets();
+  const top = modal ? 12 : insets.top + 8;
   const [plan, setPlan] = useState<PlanId>('monthly');
   const [gate, setGate] = useState<null | (() => void)>(null);
   const [busy, setBusy] = useState(false);
@@ -78,20 +88,11 @@ export function Paywall({ onDone, background }: { onDone: (purchased: boolean) =
   return (
     <View style={{ flex: 1, backgroundColor: background }}>
       {/* Bez przewijania — cały paywall widać od razu. Ilustracja bierze tyle
-          miejsca, ile zostaje po treści, więc na małym telefonie maleje. */}
-      <View style={{ flex: 1, paddingTop: insets.top + 8, paddingHorizontal: 24, paddingBottom: 8 }}>
-        <View className="flex-row justify-end">
-          <Pressable
-            onPress={() => onDone(false)}
-            accessibilityRole="button"
-            accessibilityLabel="Zamknij"
-            className="w-10 h-10 items-center justify-center rounded-pill"
-            style={{ backgroundColor: UI.pageSlot }}>
-            <Icon name="close" size={18} color={UI.pageFaint} strokeWidth={2.6} />
-          </Pressable>
-        </View>
-
-        <View style={{ flex: 1, minHeight: 70, maxHeight: 440, marginTop: -8 }}>
+          miejsca, ile zostaje po treści (do 240 pt), więc na małym telefonie
+          maleje. Przy większej wysokości nadmiar idzie w odstęp nad przyciskiem,
+          a nie w pustkę wokół ilustracji. */}
+      <View style={{ flex: 1, paddingTop: top + 8, paddingHorizontal: 24 }}>
+        <View style={{ flexShrink: 1, flexGrow: 0, height: 240, minHeight: 70 }}>
           <Image
             source={ART}
             style={{ width: '100%', height: '100%' }}
@@ -104,7 +105,7 @@ export function Paywall({ onDone, background }: { onDone: (purchased: boolean) =
           Odkryj całego Timo
         </Text>
 
-        <View style={{ marginTop: 12, gap: 8 }}>
+        <View style={{ marginTop: 14, gap: 10 }}>
           {BENEFITS.map((b) => (
             <View key={b} className="flex-row items-center" style={{ gap: 12 }}>
               <View
@@ -128,7 +129,7 @@ export function Paywall({ onDone, background }: { onDone: (purchased: boolean) =
           ))}
         </View>
 
-        <View style={{ marginTop: 14, gap: 10 }}>
+        <View style={{ marginTop: 20, gap: 12 }}>
           {plans.map((p) => {
             const on = p.id === plan;
             return (
@@ -145,7 +146,7 @@ export function Paywall({ onDone, background }: { onDone: (purchased: boolean) =
                   alignItems: 'center',
                   gap: 14,
                   paddingHorizontal: 16,
-                  paddingVertical: 13,
+                  paddingVertical: 14,
                   borderRadius: 22,
                   backgroundColor: on ? UI.foxPale : UI.page,
                   borderWidth: 3,
@@ -182,6 +183,8 @@ export function Paywall({ onDone, background }: { onDone: (purchased: boolean) =
           })}
         </View>
 
+        <View style={{ flexGrow: 1, minHeight: 12 }} />
+
         {info ? (
           <Text
             className="text-center"
@@ -191,7 +194,7 @@ export function Paywall({ onDone, background }: { onDone: (purchased: boolean) =
         ) : null}
       </View>
 
-      <View style={{ paddingHorizontal: 24, paddingBottom: insets.bottom + 10 }}>
+      <View style={{ paddingHorizontal: 24, paddingTop: 12, paddingBottom: insets.bottom + 12 }}>
         <Pressable
           onPress={() => behindGate(() => void buy())}
           disabled={busy}
@@ -209,13 +212,13 @@ export function Paywall({ onDone, background }: { onDone: (purchased: boolean) =
         </Pressable>
         <Text
           className="text-center"
-          style={{ color: UI.pageFaint, fontFamily: 'Lexend', fontSize: 11, lineHeight: 15, marginTop: 8 }}>
+          style={{ color: UI.pageFaint, fontFamily: 'Lexend', fontSize: 11, lineHeight: 15, marginTop: 12 }}>
           {fine}
         </Text>
-        <Pressable onPress={() => onDone(false)} accessibilityRole="button" style={{ alignSelf: 'center', padding: 8, marginTop: 2 }}>
+        <Pressable onPress={() => onDone(false)} accessibilityRole="button" style={{ alignSelf: 'center', paddingHorizontal: 16, paddingVertical: 10, marginTop: 10 }}>
           <Text style={{ color: UI.pageFaint, fontFamily: 'Gabarito-Bold', fontSize: 16 }}>Może później</Text>
         </Pressable>
-        <View className="flex-row justify-center" style={{ gap: 16 }}>
+        <View className="flex-row justify-center" style={{ gap: 20, marginTop: 6 }}>
           <SmallLink label="Przywróć zakupy" onPress={() => behindGate(() => void restore())} />
           {LEGAL.terms ? <SmallLink label="Regulamin" onPress={() => behindGate(() => void Linking.openURL(LEGAL.terms!))} /> : null}
           {LEGAL.privacy ? (
@@ -223,6 +226,18 @@ export function Paywall({ onDone, background }: { onDone: (purchased: boolean) =
           ) : null}
         </View>
       </View>
+
+      {/* X w samym rogu, nad treścią — w wierszu nad ilustracją zjadał miejsce
+          i odstawał od krawędzi. */}
+      <Pressable
+        onPress={() => onDone(false)}
+        accessibilityRole="button"
+        accessibilityLabel="Zamknij"
+        hitSlop={8}
+        className="w-10 h-10 items-center justify-center rounded-pill"
+        style={{ position: 'absolute', top, right: 14, backgroundColor: UI.pageSlot }}>
+        <Icon name="close" size={18} color={UI.pageFaint} strokeWidth={2.6} />
+      </Pressable>
 
       <ParentalGate
         visible={gate !== null}
