@@ -8,6 +8,7 @@ z <details> na stronie, więc schemat nie rozjedzie się z treścią.
 Uruchom po każdej zmianie treści:  python3 scripts/build-site-seo.py
 """
 import datetime
+import hashlib
 import html
 import json
 import pathlib
@@ -80,6 +81,12 @@ APP = {
 }
 
 
+def version(rel):
+    """Krótki skrót treści pliku — zmienia adres CSS/JS przy każdej zmianie,
+    bo /assets ma w vercel.json pamięć podręczną na 30 dni."""
+    return hashlib.md5((ROOT / rel).read_bytes()).hexdigest()[:8]
+
+
 def text(fragment):
     """Treść HTML jako zwykły tekst (do JSON-LD)."""
     t = re.sub(r"<[^>]+>", " ", fragment)
@@ -146,7 +153,7 @@ def head(file, meta, page_html):
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="preload" href="/assets/fonts/Gabarito_700Bold.ttf" as="font" type="font/ttf" crossorigin>
-{preload}<link rel="stylesheet" href="/assets/css/site.css">
+{preload}<link rel="stylesheet" href="/assets/css/site.css?v={version("assets/css/site.css")}">
 <script type="application/ld+json">
 {ld}
 </script>
@@ -158,6 +165,7 @@ def main():
         p = ROOT / file
         s = p.read_text(encoding="utf-8")
         s = re.sub(r"<head>.*?</head>", lambda m: head(file, meta, s), s, count=1, flags=re.S)
+        s = re.sub(r'src="/assets/js/site\.js[^"]*"', f'src="/assets/js/site.js?v={version("assets/js/site.js")}"', s)
         p.write_text(s, encoding="utf-8")
         print(f"  {file:34} FAQ: {len(faq(s))}")
 
