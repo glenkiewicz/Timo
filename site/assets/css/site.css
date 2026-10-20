@@ -1,0 +1,350 @@
+/* zgadujztimo.pl — klimat aplikacji: polana, drewno, pergamin, lisi pomarańcz.
+   Kolory i fonty z src/theme/ui.ts. Wypukłe elementy mają twardy dolny rant,
+   jak przyciski w grze („Plate”). */
+
+@font-face { font-family: 'Gabarito'; src: url('../fonts/Gabarito_700Bold.ttf') format('truetype'); font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Lexend'; src: url('../fonts/Lexend_400Regular.ttf') format('truetype'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Lexend'; src: url('../fonts/Lexend_600SemiBold.ttf') format('truetype'); font-weight: 600; font-display: swap; }
+
+:root {
+  --page: #fdf5ec;
+  --parchment: #fbeedb;
+  --slot: #f0e6d9;
+  --faint: #6f6049;
+  --ink: #4a3726;
+  --fox: #ec8e30;
+  --fox-lift: #f6a246;
+  --fox-deep: #ce7422;
+  --fox-dark: #a85a14;
+  --fox-pale: #fdecd5;
+  --primary: #1e9082;
+  --primary-deep: #17756a;
+  --primary-pale: #daf1eb;
+  --lawn: #8abe4e;
+  --lawn-deep: #5d803d;
+  --wood: #c99a63;
+  --wood-deep: #a87a48;
+  --sky: #cfeaf8;
+  --white: #ffffff;
+  --shadow: 0 2px 4px rgba(74, 55, 38, .06), 0 18px 40px -16px rgba(74, 55, 38, .35);
+  --max: 1180px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--page); color: var(--ink);
+  font-family: 'Lexend', system-ui, -apple-system, sans-serif; font-size: 17px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased; overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { color: var(--primary-deep); }
+h1, h2, h3 { font-family: 'Gabarito', system-ui, sans-serif; font-weight: 700; line-height: 1.08; margin: 0; color: var(--ink); letter-spacing: -.01em; }
+.wrap { width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 20px; }
+.center { text-align: center; }
+
+/* ---------- etykieta nad nagłówkiem ---------- */
+.pill {
+  display: inline-block; font-weight: 600; font-size: 13px; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--fox-deep); background: var(--fox-pale); padding: 6px 14px; border-radius: 999px; margin-bottom: 16px;
+}
+.pill.light { background: var(--white); color: var(--ink); box-shadow: 0 3px 0 rgba(74,55,38,.12); }
+
+/* ---------- przyciski ---------- */
+.btn {
+  display: inline-flex; align-items: center; gap: 10px; text-decoration: none; cursor: pointer;
+  font-family: 'Gabarito', sans-serif; font-size: 18px; color: #fff;
+  background: linear-gradient(var(--fox-lift), var(--fox)); padding: 14px 26px; border-radius: 18px;
+  box-shadow: 0 6px 0 var(--fox-deep); transition: transform .08s, box-shadow .08s;
+}
+.btn:active { transform: translateY(6px); box-shadow: 0 0 0 var(--fox-deep); }
+.btn svg { width: 18px; height: 18px; }
+.btn.white { background: var(--white); color: var(--ink); box-shadow: 0 5px 0 #d9c9b4; font-size: 16px; padding: 11px 20px; border-radius: 16px; }
+
+/* Oficjalna plakietka Apple (toolbox.marketingtools.apple.com, pl-pl) — bez
+   zmian w grafice; wytyczne Apple: min. 40 px wysokości i wolne pole wokół. */
+.store-badge { display: inline-block; line-height: 0; border-radius: 12px; transition: transform .12s; }
+.store-badge:hover { transform: translateY(-2px); }
+.store-badge img { height: 58px; width: auto; }
+/* Plakietka Google Play ma w pliku przezroczysty margines (192 z 250 px
+   wysokości to sama plakietka) — powiększamy ją, żeby była równa z Apple. */
+.store-badge.play img { height: 75px; margin: -8.5px -10px; }
+.stores { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 14px; }
+
+/* ---------- nawigacja ---------- */
+.nav-wrap { position: absolute; top: 22px; left: 0; right: 0; z-index: 20; }
+.nav {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  background: linear-gradient(var(--fox-lift), var(--fox)); border-radius: 24px; padding: 10px 10px 10px 18px;
+  box-shadow: 0 7px 0 var(--fox-deep), 0 20px 40px -18px rgba(74,55,38,.5);
+}
+.brand { display: flex; align-items: center; text-decoration: none; }
+/* Logotyp wystaje poza pasek, jak tytuł w grze; cień w kolorze rantu paska. */
+.brand .logo { height: 108px; width: auto; margin: -30px 0 -40px -10px; filter: drop-shadow(0 5px 0 rgba(140, 70, 10, .5)) drop-shadow(0 12px 14px rgba(60, 30, 5, .25)); transition: height .25s, margin .25s; }
+.motion .brand .logo { animation: rise .7s cubic-bezier(.3, 1.4, .5, 1) backwards; }
+.brand:hover .logo { rotate: -3deg; }
+.nav-wrap.stuck .brand .logo { height: 74px; margin: -16px 0 -22px -8px; }
+.footer .brand .logo { height: 104px; margin: 0; filter: drop-shadow(0 5px 0 rgba(168, 90, 20, .45)); }
+@media (max-width: 600px) { .brand .logo { height: 76px; margin: -18px 0 -26px -8px; } }
+.nav-links { display: flex; gap: 4px; }
+.nav-links a { color: #fff; text-decoration: none; font-weight: 600; font-size: 15px; padding: 8px 14px; border-radius: 12px; }
+.nav-links a:hover { background: rgba(255,255,255,.18); }
+@media (max-width: 900px) { .nav-links { display: none; } }
+
+/* ---------- hero ---------- */
+.hero {
+  position: relative; padding: 150px 0 210px; text-align: center; overflow: hidden;
+  background: url('../img/hero-world.webp') center 70% / cover no-repeat, #8fd3ee;
+}
+.hero::before {
+  /* Jaśniejsze niebo pod tekstem, żeby nagłówek był czytelny na mapie świata. */
+  content: ''; position: absolute; inset: 0 0 auto 0; height: 640px;
+  background: linear-gradient(rgba(222, 243, 253, .97) 0%, rgba(222, 243, 253, .9) 55%, rgba(222, 243, 253, 0));
+}
+.hero .wrap { position: relative; z-index: 1; }
+.hero h1 { font-size: clamp(42px, 6.4vw, 78px); max-width: 900px; margin: 0 auto; }
+.hero h1 em { font-style: normal; color: var(--fox-deep); }
+.hero .lead { max-width: 640px; margin: 18px auto 28px; font-size: 19px; color: #3d4f45; }
+.hero .badges { display: flex; justify-content: center; gap: 18px; flex-wrap: wrap; font-size: 14px; color: #2f4238; margin-top: 20px; font-weight: 600; }
+.hero .badges span::before { content: '✓ '; color: var(--primary-deep); }
+.stage { position: relative; width: min(330px, 78vw); margin: 54px auto 0; }
+
+.phone {
+  position: relative; border-radius: 52px; padding: 11px; background: #1b1612;
+  box-shadow: 0 0 0 2px #3a2f26 inset, 0 40px 70px -28px rgba(20, 30, 25, .7);
+}
+.phone img { border-radius: 42px; width: 100%; height: auto; }
+
+.toast {
+  position: absolute; display: flex; align-items: center; gap: 12px; text-align: left; width: 270px;
+  background: var(--parchment); border-radius: 22px; padding: 12px 16px 12px 12px;
+  box-shadow: 0 6px 0 var(--wood), 0 22px 36px -18px rgba(40, 30, 20, .55);
+}
+.toast img { width: 54px; height: 54px; flex: none; border-radius: 50%; background: var(--white); border: 2.5px dashed var(--wood); padding: 4px; object-fit: contain; }
+.toast b { display: block; font-family: 'Gabarito', sans-serif; font-size: 17px; line-height: 1.15; }
+.toast small { display: block; font-size: 13px; line-height: 1.3; color: var(--faint); margin-top: 2px; }
+.toast.t1 { right: calc(100% - 24px); top: 18%; rotate: -3deg; --d: .7s; }
+.toast.t2 { left: calc(100% - 24px); top: 14%; rotate: 2deg; --d: 1s; }
+.toast.t3 { left: calc(100% - 30px); top: 62%; rotate: -2deg; --d: 1.3s; }
+.hero-timo { position: absolute; right: calc(100% + 30px); bottom: -6px; height: 330px; width: auto; filter: drop-shadow(0 14px 10px rgba(20, 50, 30, .3)); }
+@media (max-width: 980px) { .hero-timo { display: none; } }
+@media (max-width: 980px) {
+  .toast { display: none; }
+}
+
+/* ---------- pas ze statystykami ---------- */
+.stats-wrap { position: relative; z-index: 3; margin-top: -150px; }
+.card-fox {
+  position: relative; overflow: hidden; color: var(--ink);
+  background:
+    radial-gradient(120% 60% at 15% 0%, rgba(255,255,255,.22), transparent 55%),
+    radial-gradient(80% 50% at 90% 100%, rgba(206,116,34,.35), transparent 60%),
+    linear-gradient(160deg, #f8b25a, var(--fox));
+  border-radius: 36px; box-shadow: 0 10px 0 var(--fox-deep), var(--shadow);
+}
+.stats { padding: 40px 30px 44px; text-align: center; }
+.stats h2 { font-size: clamp(26px, 3vw, 36px); color: #3a230f; }
+.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 26px; }
+.stat { padding: 0 20px; }
+.stat + .stat { border-left: 2px solid rgba(90, 50, 15, .25); }
+.stat strong { display: block; font-family: 'Gabarito', sans-serif; font-size: clamp(46px, 6vw, 68px); line-height: 1; color: #fff; text-shadow: 0 4px 0 var(--fox-deep); }
+.stat span { display: block; margin-top: 10px; font-size: 16px; color: #3a230f; }
+@media (max-width: 720px) {
+  .stats-grid { grid-template-columns: 1fr; gap: 22px; }
+  .stat + .stat { border-left: 0; border-top: 2px solid rgba(90,50,15,.25); padding-top: 22px; }
+}
+
+/* ---------- sekcje ---------- */
+section { position: relative; padding: 110px 0; }
+.head { max-width: 720px; margin: 0 auto 50px; text-align: center; }
+.head h2, .split h2 { font-size: clamp(34px, 4.6vw, 54px); }
+.head p { margin: 16px 0 0; font-size: 18px; color: var(--faint); }
+
+/* tekst + telefon */
+.split { display: grid; grid-template-columns: 1.05fr .95fr; gap: 60px; align-items: center; }
+.split p { font-size: 18px; color: var(--faint); margin: 18px 0 0; }
+.split p strong { color: var(--ink); }
+.split .phone { width: min(320px, 78vw); justify-self: center; }
+.split.flip > :first-child { order: 2; }
+.blob { position: absolute; border-radius: 50%; filter: blur(2px); z-index: -1; }
+.steps { list-style: none; padding: 0; margin: 26px 0 30px; display: grid; gap: 14px; }
+.steps li { display: flex; align-items: center; gap: 16px; background: var(--white); border-radius: 22px; padding: 12px 18px 12px 12px; box-shadow: 0 5px 0 var(--slot), var(--shadow); }
+.steps img { width: 58px; height: 58px; flex: none; }
+.steps b { display: block; font-family: 'Gabarito', sans-serif; font-size: 19px; }
+.steps small { font-size: 15px; color: var(--faint); }
+@media (max-width: 900px) {
+  .split { grid-template-columns: 1fr; text-align: center; gap: 44px; }
+  .split.flip > :first-child { order: 0; }
+  .steps { text-align: left; }
+}
+
+/* pełnoekranowa scena z telefonem i postaciami */
+.scene { overflow: hidden; text-align: center; background: url('../img/hero-meadow.webp') center bottom / cover no-repeat, #bfe3f5; padding-bottom: 0; }
+.scene::before {
+  content: ''; position: absolute; inset: 0 0 auto 0; height: 420px;
+  background: linear-gradient(rgba(214,240,252,.9), rgba(214,240,252,0));
+}
+.scene .wrap { position: relative; }
+.scene .head p { color: #3d4f45; }
+.scene-stage { position: relative; display: flex; justify-content: center; align-items: flex-end; margin-top: 10px; }
+.scene-stage .phone { width: min(320px, 76vw); margin-bottom: 70px; }
+.scene-stage .side { height: 330px; width: auto; position: absolute; bottom: 70px; filter: drop-shadow(0 12px 10px rgba(30, 60, 20, .28)); }
+.scene-stage .side.l { right: calc(50% + 190px); }
+.scene-stage .side.r { left: calc(50% + 180px); height: 320px; }
+.float-disc { position: absolute; width: 86px; height: 86px; border-radius: 50%; background: var(--parchment); border: 3px dashed var(--wood); box-shadow: 0 5px 0 var(--wood-deep); padding: 6px; }
+.float-disc img { width: 100%; height: 100%; object-fit: contain; }
+@media (max-width: 900px) { .scene-stage .side, .float-disc { display: none; } }
+
+/* karty „dlaczego Timo” */
+.why { display: grid; grid-template-columns: 1fr 1fr; gap: 34px 30px; max-width: 980px; margin: 0 auto; }
+.why .card-fox { padding: 64px 32px 32px; overflow: visible; }
+.why .card-fox:nth-child(1) { rotate: -2.5deg; }
+.why .card-fox:nth-child(2) { rotate: 2deg; }
+.why .card-fox:nth-child(3) { rotate: -1.5deg; }
+.why .card-fox:nth-child(4) { rotate: 2.5deg; }
+.why .icon {
+  position: absolute; top: -26px; left: 26px; width: 78px; height: 78px; border-radius: 50%;
+  background: var(--parchment); border: 3px dashed var(--wood); box-shadow: 0 5px 0 var(--wood-deep); padding: 8px;
+}
+.why .icon img { width: 100%; height: 100%; object-fit: contain; }
+.why h3 { font-size: 27px; color: #3a230f; }
+.why p { margin: 10px 0 0; color: #4a2c10; font-size: 16px; }
+@media (max-width: 760px) { .why { grid-template-columns: 1fr; gap: 50px; } }
+
+/* dla rodzica */
+.parent { background: linear-gradient(#eef6e3, #e3efd2); border-radius: 48px; margin: 0 14px; }
+.checks { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 28px; }
+.check { background: var(--white); border-radius: 20px; padding: 16px 18px; box-shadow: 0 5px 0 #d7e6c3; text-align: left; }
+.check b { display: block; font-family: 'Gabarito', sans-serif; font-size: 18px; }
+.check small { display: block; font-size: 14.5px; color: var(--faint); margin-top: 2px; line-height: 1.45; }
+.parent .timo { height: 420px; width: auto; max-width: 80vw; object-fit: contain; justify-self: center; }
+@media (max-width: 900px) { .parent .timo { height: 280px; } }
+@media (max-width: 640px) { .checks { grid-template-columns: 1fr; } }
+
+
+/* FAQ */
+.faq-sec { background: linear-gradient(var(--page) 0%, #f3f1ea 35%, #dcefff 100%); padding: 40px 0 110px; }
+.faq { max-width: 820px; margin: 0 auto; display: grid; gap: 14px; }
+.faq details, .doc details { background: var(--white); border-radius: 20px; box-shadow: 0 5px 0 #d9d2c6; transition: background .15s; }
+.faq summary, .doc summary { list-style: none; cursor: pointer; padding: 18px 56px 18px 22px; position: relative; font-weight: 600; font-size: 17px; }
+.faq summary::-webkit-details-marker, .doc summary::-webkit-details-marker { display: none; }
+.faq summary::after, .doc summary::after {
+  content: ''; position: absolute; right: 22px; top: 50%; width: 10px; height: 10px; margin-top: -7px;
+  border-right: 2.5px solid var(--ink); border-bottom: 2.5px solid var(--ink); transform: rotate(45deg); transition: transform .15s;
+}
+.faq details[open], .doc details[open] { background: linear-gradient(160deg, #f8b25a, var(--fox)); box-shadow: 0 6px 0 var(--fox-deep); }
+.faq details[open] summary, .doc details[open] summary { color: #3a230f; }
+.faq details[open] summary::after, .doc details[open] summary::after { transform: rotate(-135deg); margin-top: -2px; border-color: #3a230f; }
+.faq details p, .doc details p { margin: 0; padding: 0 22px 20px; color: #3a230f; font-size: 16px; }
+.more { text-align: center; margin: 30px 0 0; }
+
+/* końcowa scena z pobraniem */
+.cta { background: url('../img/cta-forest.webp') center bottom / cover no-repeat, #bfe3f5; text-align: center; overflow: hidden; padding: 90px 0 0; }
+.cta::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 420px; background: linear-gradient(#dcefff, rgba(220,239,255,.85) 45%, rgba(220,239,255,0)); }
+.cta .wrap { position: relative; }
+.cta h2 { font-size: clamp(36px, 5vw, 60px); }
+.cta p { color: #3d4f45; font-size: 18px; margin: 14px auto 26px; max-width: 560px; }
+.cta-stage { position: relative; width: min(300px, 74vw); margin: 50px auto -70px; }
+.cta-stage .phone { width: 100%; }
+.cta-timo { position: absolute; right: calc(100% + 24px); bottom: 70px; height: 300px; width: auto; filter: drop-shadow(0 14px 10px rgba(20, 50, 30, .3)); }
+@media (max-width: 860px) { .cta-timo { display: none; } }
+
+/* stopka */
+.footer-wrap { position: relative; z-index: 2; padding: 0 14px 40px; margin-top: -40px; }
+.footer { padding: 46px 44px 30px; }
+.footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 30px; }
+.footer p { margin: 12px 0 0; font-size: 15px; color: #3a230f; max-width: 320px; }
+.footer h3 { font-size: 18px; color: #3a230f; margin-bottom: 10px; }
+.footer ul { list-style: none; margin: 0; padding: 0; }
+.footer li { margin: 6px 0; }
+.footer a { color: #3a230f; text-decoration: none; font-size: 15px; }
+.footer a:hover { text-decoration: underline; }
+.footer .bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; border-top: 2px solid rgba(90,50,15,.2); margin-top: 34px; padding-top: 20px; font-size: 14px; color: #3a230f; }
+@media (max-width: 860px) { .footer-grid { grid-template-columns: 1fr 1fr; } .footer { padding: 36px 26px 26px; } }
+
+/* ---------- strony prawne i pomoc ---------- */
+.doc-hero { background: url('../img/hero-meadow.webp') center 35% / cover no-repeat, #bfe3f5; padding: 150px 0 70px; text-align: center; position: relative; }
+.doc-hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(rgba(214,240,252,.85), rgba(253,245,236,.65)); }
+.doc-hero .wrap { position: relative; }
+.doc-hero h1 { font-size: clamp(38px, 5vw, 58px); }
+.doc-hero p { margin: 10px 0 0; color: #3d4f45; }
+.doc { max-width: 820px; margin: -40px auto 0; position: relative; z-index: 2; background: var(--white); border-radius: 36px; padding: 44px 48px 40px; box-shadow: 0 8px 0 var(--slot), var(--shadow); }
+.doc h2 { font-size: 26px; margin: 38px 0 10px; }
+.doc h2:first-child { margin-top: 0; }
+.doc h3 { font-size: 20px; margin: 22px 0 6px; }
+.doc p, .doc li { font-size: 16.5px; }
+.doc ul, .doc ol { padding-left: 22px; }
+.doc li { margin: 6px 0; }
+.doc .box { background: var(--fox-pale); border-radius: 22px; padding: 18px 22px; margin: 0 0 18px; }
+.doc table { width: 100%; border-collapse: collapse; font-size: 15px; margin: 14px 0; }
+.doc th, .doc td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--slot); }
+.doc th { font-family: 'Gabarito', sans-serif; font-size: 16px; }
+.doc .faq { margin-top: 14px; }
+.todo { background: #fff3c4; color: #7a5600; padding: 0 4px; border-radius: 4px; font-weight: 600; }
+.doc-space { height: 70px; }
+@media (max-width: 640px) {
+  .doc { padding: 28px 22px; border-radius: 28px; margin-left: 12px; margin-right: 12px; }
+  .doc table, .doc thead, .doc tbody, .doc tr, .doc th, .doc td { display: block; }
+  .doc thead { display: none; }
+  .doc td { border: 0; padding: 4px 0; }
+  .doc tr { border-bottom: 1px solid var(--slot); padding: 10px 0; }
+}
+
+.doc details { margin: 12px 0; }
+
+/* ---------- przyklejona nawigacja ---------- */
+.nav-wrap.stuck { position: fixed; top: 10px; animation: drop .35s ease-out; }
+.nav-wrap.stuck .nav { padding-top: 6px; padding-bottom: 6px; }
+@keyframes drop { from { translate: 0 -90px; } to { translate: 0 0; } }
+
+/* ---------- ruch ----------
+   Wszystko poniżej działa tylko bez „ogranicz ruch” (klasa .motion z site.js). */
+.motion [data-reveal] { opacity: 0; translate: 0 34px; transition: opacity .7s ease, translate .8s cubic-bezier(.2, .8, .2, 1); transition-delay: var(--d, 0s); }
+.motion [data-reveal].is-in { opacity: 1; translate: 0 0; }
+
+/* hero: tekst wjeżdża przy wejściu, telefon unosi się, powiadomienia wyskakują po kolei */
+.motion .intro { animation: rise .8s cubic-bezier(.2, .8, .2, 1) backwards; animation-delay: var(--d, 0s); }
+.motion .stage .phone { animation: rise 1s .35s cubic-bezier(.2, .8, .2, 1) backwards, floaty 6s 1.4s ease-in-out infinite; }
+.motion .toast { animation: pop .6s var(--d) cubic-bezier(.3, 1.6, .5, 1) backwards, bob 5s calc(var(--d) + .6s) ease-in-out infinite; }
+.motion .toast.t2 { animation-duration: .6s, 6s; }
+.motion .toast.t3 { animation-duration: .6s, 5.5s; }
+.motion .hero-timo { animation: rise .9s .5s cubic-bezier(.2, .8, .2, 1) backwards; }
+@keyframes rise { from { opacity: 0; translate: 0 40px; } }
+@keyframes pop { from { opacity: 0; scale: .6; } }
+@keyframes floaty { 50% { translate: 0 -14px; } }
+@keyframes bob { 50% { translate: 0 -8px; } }
+
+/* liczniki: błysk przesuwa się po karcie, gdy wjedzie */
+.stats::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .35) 50%, transparent 65%);
+  translate: -120% 0;
+}
+.motion .stats.is-in::after { animation: shine 1.4s .5s ease-out; }
+@keyframes shine { to { translate: 120% 0; } }
+
+/* scena kolekcji: tarcze ze zwierzętami pływają, Timo lekko się kołysze */
+.motion .float-disc { animation: bob 4.5s ease-in-out infinite; }
+.motion .float-disc:nth-of-type(2) { animation-duration: 5.2s; animation-delay: -1s; }
+.motion .float-disc:nth-of-type(3) { animation-duration: 4s; animation-delay: -2s; }
+.motion .float-disc:nth-of-type(4) { animation-duration: 5.8s; animation-delay: -3s; }
+.scene-stage .side { transform-origin: 50% 100%; }
+.motion .scene-stage .side { animation: sway 5s ease-in-out infinite; }
+.motion .scene-stage .side.r { animation-delay: -2.5s; }
+@keyframes sway { 0%, 100% { rotate: -1.5deg; } 50% { rotate: 1.5deg; } }
+
+/* karty „dlaczego Timo”: uniesienie i podskok ikony przy najechaniu */
+.why .card-fox { transition: translate .25s ease, box-shadow .25s ease, opacity .7s ease; }
+.why .card-fox:hover { translate: 0 -6px; box-shadow: 0 14px 0 var(--fox-deep), var(--shadow); }
+.motion .why .card-fox:hover .icon { animation: wiggle .6s ease; }
+@keyframes wiggle { 25% { rotate: -10deg; } 50% { rotate: 8deg; } 75% { rotate: -4deg; } }
+.motion .why .card-fox[data-reveal] { transition: opacity .7s ease, translate .8s cubic-bezier(.2, .8, .2, 1); transition-delay: var(--d, 0s); }
+.motion .why .card-fox.is-in:hover { translate: 0 -6px; transition-delay: 0s; }
+
+/* przyciski i plakietki */
+.btn:hover { translate: 0 -2px; }
+.motion .check, .motion .steps li { transition: opacity .7s ease, translate .8s cubic-bezier(.2, .8, .2, 1), box-shadow .2s; transition-delay: var(--d, 0s); }
+
+/* końcowa scena: Timo wychodzi zza telefonu */
+.motion .cta-timo { opacity: 0; translate: 40px 0; transition: opacity .8s ease, translate .9s cubic-bezier(.2, .8, .2, 1); }
+.motion .cta-stage:has(.phone.is-in) .cta-timo { opacity: 1; translate: 0 0; transition-delay: .3s; }

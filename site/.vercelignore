@@ -1,0 +1,4 @@
+_raw
+.gitignore
+.env*
+.vercel
