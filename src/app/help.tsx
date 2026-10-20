@@ -175,7 +175,7 @@ export default function HelpScreen() {
           darmo.
         </Row>
         <Row art={ART.collection} tint="fox" title="Pełna wersja">
-          Ponad 700 zwierząt, wszystkie 24 wyprawy i cała kolekcja. Jedna subskrypcja dla wszystkich
+          Gry z Timo bez limitu, wszystkie 24 wyprawy i cała kolekcja. Jedna subskrypcja dla wszystkich
           dzieci w rodzinie: miesięczna z 3 dniami za darmo albo roczna.
         </Row>
         <Row art={LOCK_ART} tint="violet" title="Zakupy tylko dla dorosłych">

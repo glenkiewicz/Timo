@@ -23,7 +23,7 @@ const ART = require('../../../assets/onboarding/paywall.webp');
 const LEGAL = { terms: LINKS.terms, privacy: LINKS.privacy };
 
 const BENEFITS = [
-  'Ponad 700 zwierząt do zgadywania',
+  'Gry z Timo bez limitu — ponad 700 zwierząt',
   'Wszystkie 24 wyprawy z przebraniami Timo',
   'Cała kolekcja — wszystkie krainy świata',
   'Jedna subskrypcja dla wszystkich dzieci w rodzinie',
