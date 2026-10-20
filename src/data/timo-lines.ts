@@ -277,6 +277,17 @@ export const GUIDED_GIVE_UP_LINES = [
   'Mój notes pusty — tym razem wygrywasz. Zdradzisz mi rozwiązanie?',
 ];
 
+/**
+ * Wersja darmowa: dziś już wszystkie rundy „Zagraj z Timo”. Timo się męczy,
+ * a nie „blokuje grę” — i od razu kieruje na wyprawy, które dalej są otwarte.
+ * O zakupie ani słowa: to rozmowa z dzieckiem (kategoria Kids).
+ */
+export const TIRED_LINES = [
+  'Uff, ale się dziś nazgadywałem! Mój nos musi odpocząć. Jutro zgadujemy dalej, a teraz może wyprawa?',
+  'Ziew! Trzy zagadki na dziś wystarczą mojej głowie. Jutro gramy dalej! A teraz chodź na wyprawę!',
+  'Moja lupa już zasnęła! Pozgadujemy jutro. A dziś zajrzyjmy na wyprawę!',
+];
+
 // === HELPERY z anti-repeat (ostatnie 3 użyte nie wracają, jeśli pula > 3) ===
 
 const recentlyPicked: Record<string, string[]> = {};
@@ -331,6 +342,10 @@ export function pickOutsideCategoryLine(): Pick {
 
 export function pickGuidedGiveUp(): Pick {
   return pickWithKey('guided_giveup', GUIDED_GIVE_UP_LINES, 'guided_giveup');
+}
+
+export function pickTiredLine(): Pick {
+  return pickWithKey('tired', TIRED_LINES, 'tired');
 }
 
 export function pickGreeting(): Pick {

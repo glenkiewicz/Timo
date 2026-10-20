@@ -10,7 +10,7 @@ import { INK } from '@/components/collection/map';
 import { ParentalGate } from '@/components/paywall/ParentalGate';
 import { LINKS } from '@/config/links';
 import { Icon } from '@/components/ui/Icon';
-import { FREE_ANIMAL_IDS, FREE_EXPEDITIONS, FREE_REGIONS } from '@/config/free-tier';
+import { FREE_DAILY_ROUNDS, FREE_EXPEDITIONS, FREE_REGIONS } from '@/config/free-tier';
 import { regionById } from '@/data/animal-regions';
 import { BADGE_ART } from '@/data/badge-art';
 import { EXPEDITIONS_BY_ID } from '@/data/expeditions';
@@ -166,8 +166,9 @@ export default function HelpScreen() {
 
         <SectionHeader title="Wersja darmowa i pełna" />
         <Row art={ART.guess} tint="primary" title="Za darmo">
-          {FREE_REGION_NAMES} — razem {FREE_ANIMAL_IDS.size} zwierząt do zgadywania i trzy wyprawy:{' '}
-          {FREE_EXPEDITION_NAMES}. Przed grą Timo pokazuje, o jakich zwierzętach można pomyśleć.
+          {FREE_DAILY_ROUNDS} gry z Timo dziennie — o dowolnym zwierzęciu. Do tego trzy wyprawy:{' '}
+          {FREE_EXPEDITION_NAMES} i krainy kolekcji: {FREE_REGION_NAMES}. Kraina otwiera się też,
+          gdy dziecko odkryje w niej zwierzę.
         </Row>
         <Row art={TOOLTIP_ART.daily_streak} tint="sky" title="Codziennie gratis">
           W Wyprawie Dnia są dwie darmowe wyprawy i jedna z pełnej wersji — na ten jeden dzień za

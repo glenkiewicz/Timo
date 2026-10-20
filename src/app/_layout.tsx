@@ -149,7 +149,7 @@ export default function RootLayout() {
             <Stack.Screen name="leaderboard" />
             <Stack.Screen name="help" />
             <Stack.Screen name="paywall" options={{ presentation: 'modal' }} />
-            <Stack.Screen name="free-intro" />
+            <Stack.Screen name="free-limit" />
           </Stack.Protected>
         </Stack>
         </InfoSheetProvider>

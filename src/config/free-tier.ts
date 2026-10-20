@@ -1,13 +1,17 @@
 import { BY_REGION } from '@/data/animal-regions';
-import { EXPEDITIONS_BY_ID, rankDailyGuided } from '@/data/expeditions';
+import { rankDailyGuided } from '@/data/expeditions';
 
 /**
  * Wersja darmowa — JEDNO miejsce z listami. Zmiana zakresu darmowej gry to
  * zmiana tych list, nie kodu ekranów.
  *
  * Decyzja z 08.10.2026 (do dopracowania): trzy krainy kolekcji i pasujące
- * do nich wyprawy. Zwierzęta z darmowych krain są też pulą gry swobodnej.
- * Codziennie jedna płatna wyprawa jest gratis (Wyprawa Dnia).
+ * do nich wyprawy. Codziennie jedna płatna wyprawa jest gratis (Wyprawa Dnia).
+ *
+ * Od 20.10.2026 gra swobodna („Zagraj z Timo”) zgaduje spośród wszystkich
+ * zwierząt, a wersję darmową ogranicza liczba rund dziennie. Wcześniej
+ * zgadywała tylko z puli darmowych krain, a dziecko oglądało przed grą
+ * karuzelę 99 zwierząt — wyglądało to jak kolejna wyprawa i myliło.
  */
 export const FREE_REGIONS = ['farm', 'home', 'savanna'] as const;
 
@@ -24,12 +28,18 @@ export function isFreeExpedition(expeditionId: string): boolean {
   return FREE_EXPEDITION_SET.has(expeditionId);
 }
 
-/** Pula gry swobodnej w wersji darmowej: zwierzęta z darmowych krain, bez mitycznych. */
-export const FREE_ANIMAL_IDS: ReadonlySet<string> = (() => {
-  const mythical = new Set(EXPEDITIONS_BY_ID.mythical?.roster ?? []);
-  const ids = FREE_REGIONS.flatMap((r) => (BY_REGION[r] ?? []).map((a) => a.id));
-  return new Set(ids.filter((id) => !mythical.has(id)));
-})();
+/** Ukończone rundy „Zagraj z Timo” na dziecko na dzień w wersji darmowej. */
+export const FREE_DAILY_ROUNDS = 3;
+
+/**
+ * Czy kraina kolekcji jest otwarta w wersji darmowej. Poza darmowymi
+ * otwiera się każda, w której dziecko już coś odkryło — gra swobodna zgaduje
+ * spośród wszystkich zwierząt, a lew morski schowany za kłódką wyglądałby
+ * na zgubiony.
+ */
+export function isRegionOpenFree(regionId: string, discovered: ReadonlySet<string>): boolean {
+  return isFreeRegion(regionId) || (BY_REGION[regionId] ?? []).some((a) => discovered.has(a.id));
+}
 
 /**
  * Wyprawa Dnia w wersji darmowej: dwie darmowe wyprawy i jedna płatna,

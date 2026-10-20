@@ -16,7 +16,7 @@
 // `'__DEV__'` w cudzysłowie — niepusty napis jest zawsze prawdziwy, więc
 // odblokowanie działało również w buildzie produkcyjnym: wszystkie wyprawy
 // otwarte i cała kolekcja pokazana jako odkryta.
-export const DEV_UNLOCK_ALL = '';
+export const DEV_UNLOCK_ALL = ''; 
 
 /**
  * Tabela wyników na ekranie głównym. Schowana na czas przebudowy wizualnej —
@@ -77,11 +77,11 @@ export const DEV_LOG_QUESTIONS = __DEV__ && true;
  * - 'show' — pokazuj przy każdym uruchomieniu, aż do „Zaczynamy” (podgląd),
  * - 'auto' — tylko przy pierwszym uruchomieniu bez konta i bez profili.
  */
-export const DEV_ONBOARDING = devOnly<'show'>('auto');
+export const DEV_ONBOARDING = devOnly<'show'>('show');
 
 /**
  * Wersja darmowa / pełna (src/lib/purchases.ts):
- * - 'free'    — zawsze wersja darmowa (kłódki, pula 99 zwierząt),
+ * - 'free'    — zawsze wersja darmowa (kłódki, 3 gry z Timo dziennie),
  * - 'premium' — zawsze pełna wersja, bez kupowania,
  * - 'auto'    — według zakupu.
  */

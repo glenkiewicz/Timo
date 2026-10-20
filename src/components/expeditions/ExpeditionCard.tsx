@@ -300,60 +300,62 @@ export function ExpeditionTile({
   gratis?: boolean;
   onPress: () => void;
 }) {
-  const disc = 66;
+  const disc = 74;
   const title = e.childTitle ?? e.title;
+  // Sama tarcza z nazwą pod spodem, bez pergaminowej karty — trzy wysokie
+  // kafle zajmowały pół ekranu nad „Zagraj z Timo”. Leży wprost na polanie,
+  // stąd atramentowy tytuł (biel ma na trawie za mały kontrast).
   return (
     <Pressable
       onPress={onPress}
       disabled={done}
       accessibilityRole="button"
-      accessibilityLabel={title}
+      accessibilityLabel={gratis ? `${title}, dziś gratis` : title}
       accessibilityState={{ disabled: done }}
-      style={({ pressed }) => ({ flex: 1, transform: [{ scale: pressed ? 0.96 : 1 }] })}>
-      <PaperCard
-        style={{
-          marginTop: disc / 2,
-          paddingTop: disc / 2 + 6,
-          paddingBottom: 12,
-          paddingHorizontal: 12,
-          minHeight: 100,
-          alignItems: 'center',
-          opacity: done ? 0.6 : 1,
-        }}>
-        <Text
-          numberOfLines={2}
-          style={{
-            color: INK,
-            fontFamily: 'Gabarito-Bold',
-            fontSize: 13,
-            lineHeight: 16,
-            textAlign: 'center',
-          }}>
-          {title}
-        </Text>
-        {done ? (
-          <View style={{ marginTop: 6 }}>
-            <ProgressDots total={e.target_count} filled={e.target_count} accent={expeditionAccent(e.id)} size={7} />
-          </View>
-        ) : null}
-        {gratis && !done ? (
-          <View
-            style={{
-              marginTop: 6,
-              paddingHorizontal: 8,
-              paddingVertical: 3,
-              borderRadius: 999,
-              backgroundColor: UI.primary,
-            }}>
-            <Text style={{ color: '#ffffff', fontFamily: 'Gabarito-Bold', fontSize: 10, letterSpacing: 0.4 }}>
-              DZIŚ GRATIS
-            </Text>
-          </View>
-        ) : null}
-      </PaperCard>
-      <View style={{ position: 'absolute', top: 0, left: 0, right: 0, alignItems: 'center' }}>
+      style={({ pressed }) => ({
+        flex: 1,
+        alignItems: 'center',
+        opacity: done ? 0.6 : 1,
+        transform: [{ scale: pressed ? 0.94 : 1 }],
+      })}>
+      <View style={{ width: disc, height: disc }}>
         <ExpeditionDisc expeditionId={e.id} size={disc} />
+        {/* Plakietka nachodzi na dół tarczy, żeby nie dokładać wiersza. */}
+        {gratis && !done ? (
+          <View style={{ position: 'absolute', left: -12, right: -12, bottom: -6, alignItems: 'center' }}>
+            <View
+              style={{
+                paddingHorizontal: 7,
+                paddingVertical: 2,
+                borderRadius: 999,
+                backgroundColor: UI.primary,
+                borderWidth: 1.5,
+                borderColor: '#ffffff',
+              }}>
+              <Text style={{ color: '#ffffff', fontFamily: 'Gabarito-Bold', fontSize: 9, letterSpacing: 0.4 }}>
+                DZIŚ GRATIS
+              </Text>
+            </View>
+          </View>
+        ) : null}
       </View>
+      <Text
+        numberOfLines={2}
+        style={{
+          marginTop: 8,
+          color: UI.text,
+          fontFamily: 'Gabarito-Bold',
+          fontSize: 14,
+          lineHeight: 17,
+          textAlign: 'center',
+        }}>
+        {title}
+      </Text>
+      {done ? (
+        <View style={{ marginTop: 4 }}>
+          <ProgressDots total={e.target_count} filled={e.target_count} accent={expeditionAccent(e.id)} size={6} />
+        </View>
+      ) : null}
     </Pressable>
   );
 }

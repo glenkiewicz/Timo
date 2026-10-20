@@ -66,6 +66,7 @@ import {
 	REACTION_SHORT,
 	STREAK_LINES,
 	STREAK_MILESTONE_LINES,
+	TIRED_LINES,
 	VICTORY_LINES,
 	WYGLUPY,
 } from '../src/data/timo-lines';
@@ -327,6 +328,7 @@ function buildStaticLines(): Line[] {
 		['victory', VICTORY_LINES],
 		['giveup', GIVE_UP_LINES],
 		['guided_giveup', GUIDED_GIVE_UP_LINES],
+		['tired', TIRED_LINES],
 		['guess_intro', GUESS_INTROS],
 		['miss', MISS_LINES],
 		['outside', OUTSIDE_CATEGORY_LINES],

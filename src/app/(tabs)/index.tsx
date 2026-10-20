@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import { useEffect, useRef, useState } from 'react';
+import { type ReactNode, useEffect, useRef, useState } from 'react';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -29,11 +29,13 @@ import { DEV_DAILY_EXPEDITION, SHOW_HOME_LEADERBOARD } from '@/config/features';
 import { timoVoice } from '@/lib/audio/timo-voice';
 import { useGameStore } from '@/lib/stores/game-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
-import { UI } from '@/theme/ui';
+import { SHADOW, UI } from '@/theme/ui';
+import { Icon } from '@/components/ui/Icon';
 import { Pressable, Text, View } from '@/tw';
 import { contentColumn, useTimoHeight } from '@/lib/layout';
 import { Image } from '@/tw/image';
-import { isFreeExpedition } from '@/config/free-tier';
+import { FREE_DAILY_ROUNDS, isFreeExpedition } from '@/config/free-tier';
+import { useFreeRoundsLeft } from '@/lib/stores/free-rounds-store';
 import { usePremium } from '@/lib/purchases';
 
 const SOUND_ON = require('../../../assets/icons/info/sound_on.png');
@@ -124,11 +126,12 @@ export default function HomeScreen() {
     transform: [{ scale: avatarPulse.value }],
   }));
 
+  const roundsLeft = useFreeRoundsLeft();
   const handlePlay = () => {
-    // Wersja darmowa: najpierw ekran z pulą zwierząt — Timo zgaduje tylko
-    // spośród nich, więc dziecko musi wiedzieć, o kim może pomyśleć.
-    if (!premium) {
-      router.push('/free-intro');
+    // Wersja darmowa: po wykorzystaniu dzisiejszych rund Timo odpoczywa
+    // i odsyła na wyprawy.
+    if (roundsLeft === 0) {
+      router.push('/free-limit');
       return;
     }
     start();
@@ -268,6 +271,8 @@ export default function HomeScreen() {
             />
           </View>
         </Pressable>
+        {/* ---------- gry na dziś (wersja darmowa) ---------- */}
+        {roundsLeft !== null ? <RoundsLeft left={roundsLeft} /> : null}
         {/* ---------- ranking tygodnia ----------
             Schowany na czas przebudowy wizualnej (SHOW_HOME_LEADERBOARD).
             Sama synchronizacja wyniku leci wyżej, przez useWeeklyScoreSync. */}
@@ -312,22 +317,124 @@ export default function HomeScreen() {
 }
 
 
+/* ---------------- Gry na dziś (wersja darmowa) ---------------- */
+
+const GAME_ART = require('../../../assets/icons/start/guess.png');
+
+/** „Została 1 gra”, „Zostały 2 gry”. */
+function roundsLabel(left: number): string {
+  if (left === 0) return 'Na dziś koniec — jutro wracają!';
+  if (left === 1) return 'Została 1 gra';
+  return `Zostały ${left} gry`;
+}
+
+/**
+ * Licznik gier z Timo w wersji darmowej — plakietka pod paskiem XP, tam gdzie
+ * dziecko i tak patrzy na swoje postępy. Pod przyciskiem „Zagraj z Timo”
+ * gryzła się z dokiem. Pełne żetony z łapką to gry, które zostały.
+ * Stuknięcie wysuwa panel: dlaczego jest limit i co robić, gdy się skończy.
+ */
+function RoundsLeft({ left }: { left: number }) {
+  const openSheet = useInfoSheet();
+  const open = () =>
+    openSheet({
+      title: left > 0 ? `Gry z Timo: ${roundsLabel(left).toLowerCase()}` : 'Timo odpoczywa',
+      description:
+        `Timo może zgadywać ${FREE_DAILY_ROUNDS} razy dziennie — potem jego nos musi odpocząć. ` +
+        'Jutro gry wracają! Wyprawy działają zawsze, więc gdy skończą się gry, ruszaj na wyprawę. ' +
+        'W pełnej wersji gra się bez limitu — zapytaj rodzica.',
+      art: GAME_ART,
+      button: 'Rozumiem',
+      accent: 'fox',
+    });
+
+  return (
+    <Pressable
+      onPress={open}
+      accessibilityRole="button"
+      accessibilityLabel={`Gry z Timo na dziś: ${roundsLabel(left)}. Stuknij, żeby dowiedzieć się więcej.`}
+      style={({ pressed }) => ({
+        marginTop: 12,
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10,
+        paddingLeft: 6,
+        paddingRight: 12,
+        paddingVertical: 6,
+        borderRadius: 22,
+        backgroundColor: UI.page,
+        boxShadow: `${SHADOW.e1}, ${SHADOW.rim}`,
+        transform: [{ scale: pressed ? 0.98 : 1 }],
+      })}>
+      <View
+        style={{
+          width: 40,
+          height: 40,
+          borderRadius: 16,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: UI.foxPale,
+        }}>
+        <Image source={GAME_ART} style={{ width: 32, height: 32 }} contentFit="contain" transition={0} accessible={false} />
+      </View>
+      <View className="flex-1">
+        <Text style={{ color: UI.pageFaint, fontFamily: 'Lexend-Bold', fontSize: 11, letterSpacing: 0.4 }}>
+          GRY Z TIMO NA DZIŚ
+        </Text>
+        <Text numberOfLines={1} adjustsFontSizeToFit style={{ color: INK, fontFamily: 'Gabarito-Bold', fontSize: 16 }}>
+          {roundsLabel(left)}
+        </Text>
+      </View>
+      <View className="flex-row" style={{ gap: 5 }}>
+        {Array.from({ length: FREE_DAILY_ROUNDS }, (_, i) => {
+          const full = i < left;
+          return (
+            <View
+              key={i}
+              style={{
+                width: 26,
+                height: 26,
+                borderRadius: 13,
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: full ? UI.fox : UI.pageSlot,
+                // Twardy dolny rant jak na przyciskach — pełny żeton wygląda
+                // na coś do wydania, pusty jest wklęsły.
+                boxShadow: full ? `0px 2px 0px ${UI.foxDeep}` : 'inset 0px 1px 2px rgba(0,0,0,0.08)',
+              }}>
+              <Icon name="paw" size={14} color={full ? '#ffffff' : 'rgba(60,40,20,0.18)'} strokeWidth={2.4} />
+            </View>
+          );
+        })}
+      </View>
+    </Pressable>
+  );
+}
+
 /* ---------------- Wyprawa Dnia ---------------- */
 
-/** Etykieta sekcji leży wprost na trawie, więc jest atramentowa, nie biała:
- *  atrament ma na `lawn` kontrast 7.0:1, biel tylko 2.2:1. */
-function SectionLabel({ children }: { children: string }) {
+/**
+ * Nagłówek „wybierz jedną” i trzy tarcze wypraw jako jeden blok. Wcześniej
+ * etykieta leżała osobno, drobnymi wersalikami, i odrywała się od kafli.
+ * Bez własnego tła — leży wprost na polanie, więc tekst jest atramentowy:
+ * atrament ma na `lawn` kontrast 7.0:1, biel tylko 2.2:1.
+ */
+function DailyPickPanel({ children }: { children: ReactNode }) {
   return (
-    <Text
-      style={{
-        color: UI.text,
-        fontFamily: 'Gabarito-Bold',
-        fontSize: 11,
-        letterSpacing: 1.2,
-        marginBottom: 8,
-      }}>
+    <View>
+      <View className="flex-row items-center" style={{ gap: 8 }}>
+        <Image
+          source={TOOLTIP_ART.daily_streak}
+          style={{ width: 28, height: 28 }}
+          contentFit="contain"
+          transition={0}
+          accessible={false}
+        />
+        <Text style={{ color: UI.text, fontFamily: 'Gabarito-Bold', fontSize: 18 }}>Wyprawa Dnia</Text>
+        <Text style={{ color: UI.text, fontFamily: 'Lexend-Bold', fontSize: 13, opacity: 0.75 }}>· wybierz jedną</Text>
+      </View>
       {children}
-    </Text>
+    </View>
   );
 }
 
@@ -411,9 +518,8 @@ function ExpeditionDailyCard() {
     .filter(Boolean);
 
   return (
-    <View>
-      <SectionLabel>WYPRAWA DNIA — WYBIERZ JEDNĄ</SectionLabel>
-      <View className="flex-row gap-2">
+    <DailyPickPanel>
+      <View className="flex-row" style={{ marginTop: 10, gap: 6 }}>
         {options.map((e) => (
           <ExpeditionTile
             key={e.id}
@@ -424,6 +530,7 @@ function ExpeditionDailyCard() {
           />
         ))}
       </View>
-    </View>
+    </DailyPickPanel>
   );
 }
+

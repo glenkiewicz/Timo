@@ -7096,5 +7096,23 @@
     "file": "a8cc3a80d30a.mp3",
     "text": "Hurra! Już zaczynamy! Pomyśl o pierwszym zwierzęciu, a ja zgadnę!",
     "generatedAt": "2026-10-08T08:48:13.074Z"
+  },
+  "tired.0": {
+    "hash": "1a6e81e8d068",
+    "file": "1a6e81e8d068.mp3",
+    "text": "Uff, ale się dziś nazgadywałem! Mój nos musi odpocząć. Jutro zgadujemy dalej, a teraz może wyprawa?",
+    "generatedAt": "2026-10-20T06:59:03.538Z"
+  },
+  "tired.1": {
+    "hash": "2c11dd9ed952",
+    "file": "2c11dd9ed952.mp3",
+    "text": "Ziew! Trzy zagadki na dziś wystarczą mojej głowie. Jutro gramy dalej! A teraz chodź na wyprawę!",
+    "generatedAt": "2026-10-20T06:59:06.968Z"
+  },
+  "tired.2": {
+    "hash": "6053b8e3d6c6",
+    "file": "6053b8e3d6c6.mp3",
+    "text": "Moja lupa już zasnęła! Pozgadujemy jutro. A dziś zajrzyjmy na wyprawę!",
+    "generatedAt": "2026-10-20T06:59:09.921Z"
   }
 }

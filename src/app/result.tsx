@@ -22,7 +22,10 @@ import { levelFromXp } from '@/features/gamification/award';
 import { sfx } from '@/lib/audio/sfx';
 import { timoVoice } from '@/lib/audio/timo-voice';
 import { useGameStore } from '@/lib/stores/game-store';
+import { useFreeRoundsLeft, useFreeRoundsStore } from '@/lib/stores/free-rounds-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
+import { useAuthStore } from '@/lib/stores/auth-store';
+import { isPremiumNow } from '@/lib/purchases';
 import { SHADOW, UI } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
 import { contentColumn } from '@/lib/layout';
@@ -49,6 +52,8 @@ export default function ResultScreen() {
   const recordExpeditionDiscovery = useProfileStore((s) => s.recordExpeditionDiscovery);
   const clearLastReward = useProfileStore((s) => s.clearLastReward);
   const clearLastExpeditionReward = useProfileStore((s) => s.clearLastExpeditionReward);
+  const recordFreeRound = useFreeRoundsStore((s) => s.recordRound);
+  const roundsLeft = useFreeRoundsLeft();
 
   // Linia gruntu sceny — mierzona z pozycji Timo, jak na Home i w grze.
   const [groundY, setGroundY] = useState<number | null>(null);
@@ -138,6 +143,9 @@ export default function ResultScreen() {
     if (mode === 'expedition' && expeditionId && animalId) {
       recordExpeditionDiscovery(expeditionId, animalId);
     }
+    // Wersja darmowa: limit liczy tylko ukończone rundy gry swobodnej.
+    const profileId = useAuthStore.getState().activeProfileId;
+    if (mode === 'free' && profileId && !isPremiumNow()) recordFreeRound(profileId);
     awarded.current = true;
   }, [
     phase,
@@ -150,6 +158,7 @@ export default function ResultScreen() {
     mode,
     expeditionId,
     recordExpeditionDiscovery,
+    recordFreeRound,
   ]);
 
   const levelUp = level > previousLevel;
@@ -202,6 +211,10 @@ export default function ResultScreen() {
         return;
       }
     }
+    if (roundsLeft === 0) {
+      router.replace('/free-limit');
+      return;
+    }
     startGame();
     router.replace('/game');
   }, [
@@ -213,6 +226,7 @@ export default function ResultScreen() {
     expeditionId,
     expedition,
     expeditionProgress,
+    roundsLeft,
   ]);
 
   const home = useCallback(() => {

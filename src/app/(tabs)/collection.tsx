@@ -13,7 +13,7 @@ import {
 import { useInfoSheet } from '@/components/sheet/InfoSheet';
 import { Icon } from '@/components/ui/Icon';
 import { DEV_UNLOCK_ALL } from '@/config/features';
-import { isFreeRegion } from '@/config/free-tier';
+import { isRegionOpenFree } from '@/config/free-tier';
 import { LOCK_ART } from '@/data/info-tooltips';
 import { usePremium } from '@/lib/purchases';
 import { ILLUSTRATED_ANIMALS, animalImageFor } from '@/data/animal-images';
@@ -85,10 +85,10 @@ function CollectionMap({
       premium
         ? VISIBLE_REGIONS
         : [
-            ...VISIBLE_REGIONS.filter((r) => isFreeRegion(r.id)),
-            ...VISIBLE_REGIONS.filter((r) => !isFreeRegion(r.id)),
+            ...VISIBLE_REGIONS.filter((r) => isRegionOpenFree(r.id, discovered)),
+            ...VISIBLE_REGIONS.filter((r) => !isRegionOpenFree(r.id, discovered)),
           ],
-    [premium],
+    [premium, discovered],
   );
 
   // Krok przesuwania jest WĘŻSZY niż ekran, więc sąsiednie krainy wystają przy
@@ -147,9 +147,11 @@ function CollectionMap({
                 region={item}
                 discovered={discovered}
                 width={islandW}
-                locked={!premium && !isFreeRegion(item.id)}
+                locked={!premium && !isRegionOpenFree(item.id, discovered)}
                 onPress={() =>
-                  !premium && !isFreeRegion(item.id) ? router.push('/paywall') : onOpen(item.id)
+                  !premium && !isRegionOpenFree(item.id, discovered)
+                    ? router.push('/paywall')
+                    : onOpen(item.id)
                 }
               />
             </View>
