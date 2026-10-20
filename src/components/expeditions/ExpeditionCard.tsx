@@ -4,6 +4,7 @@ import { EXPEDITION_ICONS } from '@/data/expedition-icons';
 import type { Expedition } from '@/data/expeditions';
 import { LOCK_ART, TOOLTIP_ART } from '@/data/info-tooltips';
 import { ACCENT, UI, type Accent } from '@/theme/ui';
+import { useContentWidth, useUiScale } from '@/lib/layout';
 import { Pressable, Text, View } from '@/tw';
 import { Image } from '@/tw/image';
 
@@ -202,11 +203,14 @@ export function ExpeditionCard({
   locked = false,
   action,
   onPress,
-  discSize = 84,
+  discSize: baseDisc = 84,
 }: ExpeditionCardProps) {
   const accent = expeditionAccent(e.id);
+  // Tarcza i odstępy rosną na iPadzie razem z napisami (useUiScale).
+  const k = useUiScale();
+  const discSize = Math.round(baseDisc * k);
   const overhang = Math.round(discSize * 0.4);
-  const pad = 18;
+  const pad = 18 * k;
   const title = e.childTitle ?? e.title;
   const faded = locked ? 0.8 : 1;
 
@@ -300,7 +304,11 @@ export function ExpeditionTile({
   gratis?: boolean;
   onPress: () => void;
 }) {
-  const disc = 74;
+  // Tarcza rośnie z szerokością kolumny — na iPadzie stałe 74 pt dawało
+  // trzy kropki rozstrzelone po całym ekranie.
+  const contentW = useContentWidth();
+  const disc = Math.round(Math.min(150, Math.max(74, contentW * 0.19)));
+  const titleSize = Math.round(Math.min(20, Math.max(14, disc * 0.19)));
   const title = e.childTitle ?? e.title;
   // Sama tarcza z nazwą pod spodem, bez pergaminowej karty — trzy wysokie
   // kafle zajmowały pół ekranu nad „Zagraj z Timo”. Leży wprost na polanie,
@@ -345,8 +353,8 @@ export function ExpeditionTile({
           marginTop: 8,
           color: UI.text,
           fontFamily: 'Gabarito-Bold',
-          fontSize: 14,
-          lineHeight: 17,
+          fontSize: titleSize,
+          lineHeight: Math.round(titleSize * 1.2),
           textAlign: 'center',
         }}>
         {title}

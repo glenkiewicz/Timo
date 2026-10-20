@@ -94,7 +94,9 @@ function CollectionMap({
   // Krok przesuwania jest WĘŻSZY niż ekran, więc sąsiednie krainy wystają przy
   // krawędziach. Bez tego podglądu nic nie mówiłoby dziecku, że da się jechać
   // w bok — `pagingEnabled` na pełną szerokość chowa sąsiadów całkowicie.
-  const step = screenW * 0.84;
+  // Na iPadzie kraina ma rozsądny rozmiar (do 640 pt) zamiast 84% ekranu —
+  // na 13" wyspa z tabliczką zajmowała cały ekran.
+  const step = Math.min(screenW * 0.84, 640);
   const islandW = step - 24;
   // Karuzela jedzie przez CAŁY ekran (na iPadzie sąsiednie krainy wystają
   // dalej), a sama kraina ma szerokość kolumny treści.

@@ -15,6 +15,7 @@ import { StreakCelebration } from '@/components/gamification/StreakCelebration';
 import { InfoSheetProvider } from '@/components/sheet/InfoSheet';
 import { useDailyCheckIn } from '@/features/gamification/useDailyCheckIn';
 import { sfx } from '@/lib/audio/sfx';
+import { useUiScale } from '@/lib/layout';
 import { useDockStore } from '@/lib/stores/dock-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { SHADOW, UI, type Accent } from '@/theme/ui';
@@ -59,6 +60,7 @@ function TabItem({
   fg: string;
 }) {
   const dark = fg !== UI.onLawn;
+  const k = useUiScale();
   const pop = useSharedValue(1);
 
   useEffect(() => {
@@ -83,9 +85,9 @@ function TabItem({
       <Animated.View style={iconStyle}>
         <View
           style={{
-            paddingHorizontal: 18,
-            paddingVertical: 6,
-            borderRadius: 16,
+            paddingHorizontal: 18 * k,
+            paddingVertical: 6 * k,
+            borderRadius: 16 * k,
             // Jasna płytka zamiast przebarwiania ikony — ikony są kolorowe
             // same z siebie, więc stan aktywny niesie podkład, nie kolor.
             // Płytka aktywnej zakładki musi iść za kolorem podpisów: biała
@@ -98,7 +100,7 @@ function TabItem({
           }}>
           <Image
             source={TAB_ICONS[spec.name as keyof typeof TAB_ICONS]}
-            style={{ width: 30, height: 30, opacity: focused ? 1 : 0.72 }}
+            style={{ width: 30 * k, height: 30 * k, opacity: focused ? 1 : 0.72 }}
             contentFit="contain"
             transition={0}
             accessible={false}

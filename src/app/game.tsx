@@ -20,7 +20,7 @@ import { timoVoice, useIsTimoSpeaking } from '@/lib/audio/timo-voice';
 import { useGameStore } from '@/lib/stores/game-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { SHADOW, UI } from '@/theme/ui';
-import { contentColumn, useTimoHeight } from '@/lib/layout';
+import { contentColumn, useTimoHeight, useUiScale } from '@/lib/layout';
 import { Pressable, Text, View } from '@/tw';
 
 /**
@@ -49,6 +49,7 @@ export default function GameScreen() {
   const timoH = useTimoHeight(0.6);
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const k = useUiScale();
 
   const currentQuestion = useGameStore((s) => s.currentQuestion);
   const prompt = useGameStore((s) => s.prompt);
@@ -160,30 +161,29 @@ export default function GameScreen() {
             onPress={() => router.replace('/(tabs)')}
             accessibilityRole="button"
             accessibilityLabel="Zakończ grę"
-            className="w-10 h-10 items-center justify-center rounded-pill"
-            style={{ backgroundColor: UI.surface, boxShadow: SHADOW.e0 }}>
-            <Icon name="close" size={20} color={UI.textSoft} strokeWidth={2.6} />
+            className="items-center justify-center rounded-pill"
+            style={{ width: 40 * k, height: 40 * k, backgroundColor: UI.surface, boxShadow: SHADOW.e0 }}>
+            <Icon name="close" size={20 * k} color={UI.textSoft} strokeWidth={2.6} />
           </Pressable>
 
           {expedition ? (
             <View
-              className="rounded-pill px-3 py-1.5 flex-row items-center gap-1.5 flex-1"
-              style={{ backgroundColor: UI.surface, boxShadow: SHADOW.e0 }}>
-              <Text style={{ fontSize: 13 }}>{expedition.hero_emoji}</Text>
+              className="rounded-pill px-3 py-1.5 flex-row items-center gap-1.5"
+              style={{ backgroundColor: UI.surface, boxShadow: SHADOW.e0, flexShrink: 1 }}>
+              <Text style={{ fontSize: 14 }}>{expedition.hero_emoji}</Text>
               <Text
                 numberOfLines={1}
                 style={{
                   color: UI.skyDeep,
                   fontFamily: 'Gabarito-Bold',
-                  fontSize: 11,
-                  flex: 1,
+                  fontSize: 13,
+                  flexShrink: 1,
                 }}>
                 {expedition.title}
               </Text>
             </View>
-          ) : (
-            <View className="flex-1" />
-          )}
+          ) : null}
+          <View className="flex-1" />
 
           <View
             className="rounded-pill px-3 py-1.5"
@@ -192,7 +192,7 @@ export default function GameScreen() {
               style={{
                 color: UI.textSoft,
                 fontFamily: 'Gabarito-Bold',
-                fontSize: 11,
+                fontSize: 13,
               }}>
               Pytanie {questionsAsked + 1}
             </Text>

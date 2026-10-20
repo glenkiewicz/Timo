@@ -19,12 +19,13 @@ import { useGameStore } from '@/lib/stores/game-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { SHADOW, UI } from '@/theme/ui';
 import type { Animal } from '@/types/game';
-import { contentColumn, useContentWidth, useTimoHeight } from '@/lib/layout';
+import { contentColumn, useContentWidth, useTimoHeight, useUiScale } from '@/lib/layout';
 import { Pressable, Text, View } from '@/tw';
 
 export default function ExpeditionIntroScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const k = useUiScale();
   const screenW = useContentWidth();
   const timoH = useTimoHeight(0);
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -112,9 +113,9 @@ export default function ExpeditionIntroScreen() {
             }}
             accessibilityRole="button"
             accessibilityLabel="Wróć"
-            className="w-10 h-10 items-center justify-center rounded-pill"
-            style={{ backgroundColor: 'rgba(255,255,255,0.22)' }}>
-            <Icon name="arrow-left" size={20} color={UI.onLawn} strokeWidth={2.6} />
+            className="items-center justify-center rounded-pill"
+            style={{ width: 40 * k, height: 40 * k, backgroundColor: 'rgba(255,255,255,0.22)' }}>
+            <Icon name="arrow-left" size={20 * k} color={UI.onLawn} strokeWidth={2.6} />
           </Pressable>
           <View className="flex-1">
             <Text style={{ color: UI.onLawnSoft, fontFamily: 'Lexend-Bold', fontSize: 12 }}>

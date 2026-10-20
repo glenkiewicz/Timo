@@ -8,8 +8,11 @@ import {
   TouchableHighlight as RNTouchableHighlight,
   View as RNView,
   StyleSheet,
+  useWindowDimensions,
 } from 'react-native';
 import Animated from 'react-native-reanimated';
+
+import { uiScaleFor } from '@/lib/layout';
 import {
   useCssElement,
   useNativeVariable as useFunctionalVariable,
@@ -40,10 +43,29 @@ export const View = (props: ViewProps) => {
 };
 View.displayName = 'CSS(View)';
 
+/**
+ * Tekst powiększany na iPadzie (`uiScaleFor` w lib/layout) — rozmiary
+ * czcionek są dobrane pod telefon, a na 13" ekranie wychodziły maleńkie.
+ * Skalujemy rozmiar, interlinię i rozstrzelenie, nic więcej.
+ */
+const ScaledText = React.forwardRef<RNText, React.ComponentProps<typeof RNText>>((props, ref) => {
+  const { width } = useWindowDimensions();
+  const k = uiScaleFor(width);
+  if (k === 1) return <RNText ref={ref} {...props} />;
+  const flat = StyleSheet.flatten(props.style) ?? {};
+  const scaled: Record<string, number> = {};
+  if (typeof flat.fontSize === 'number') scaled.fontSize = flat.fontSize * k;
+  if (typeof flat.lineHeight === 'number') scaled.lineHeight = flat.lineHeight * k;
+  if (typeof flat.letterSpacing === 'number') scaled.letterSpacing = flat.letterSpacing * k;
+  if (scaled.fontSize === undefined) scaled.fontSize = 14 * k;
+  return <RNText ref={ref} {...props} style={[props.style, scaled]} />;
+});
+ScaledText.displayName = 'ScaledText';
+
 export const Text = (
   props: React.ComponentProps<typeof RNText> & { className?: string }
 ) => {
-  return useCssElement(RNText, props, { className: 'style' });
+  return useCssElement(ScaledText, props, { className: 'style' });
 };
 Text.displayName = 'CSS(Text)';
 

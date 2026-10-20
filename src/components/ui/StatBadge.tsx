@@ -13,6 +13,7 @@ import { AnimatedCounter } from '@/components/gamification/AnimatedCounter';
 import { FloatingDelta } from '@/components/gamification/FloatingDelta';
 import { useInfoSheet } from '@/components/sheet/InfoSheet';
 import { TOOLTIPS, TOOLTIP_ART, type TooltipKey } from '@/data/info-tooltips';
+import { useUiScale } from '@/lib/layout';
 import { INK } from '@/components/collection/map';
 import { UI, type Accent } from '@/theme/ui';
 import { Pressable, View } from '@/tw';
@@ -47,14 +48,12 @@ type StatBadgeProps = {
  * rozciągany do liczby rozjeżdżałby się przy każdej zmianie cyfr.
  */
 const PILL = require('../../../assets/map/pill.webp');
-const PILL_H = 28;
-const PILL_W = PILL_H * 2.5;
+const BASE_PILL_H = 28;
 /**
  * Ilustracja jest WYŻSZA od pigułki i zachodzi na jej lewy koniec — wystaje
  * nad i pod papier, jak ikony nagród w Finchu. Mała pigułka, duży obrazek.
  */
-const ART = 38;
-const OVERHANG = ART * 0.4;
+const BASE_ART = 38;
 
 export function StatBadge({
   tooltipKey,
@@ -65,6 +64,12 @@ export function StatBadge({
   durationMs = 900,
 }: StatBadgeProps) {
   const openSheet = useInfoSheet();
+  // Na iPadzie pigułka i obrazek rosną razem z napisami (useUiScale).
+  const k = useUiScale();
+  const PILL_H = BASE_PILL_H * k;
+  const PILL_W = PILL_H * 2.5;
+  const ART = BASE_ART * k;
+  const OVERHANG = ART * 0.4;
   const delta = to - from;
   const pulse = useSharedValue(1);
 

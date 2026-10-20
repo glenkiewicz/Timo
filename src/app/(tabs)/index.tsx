@@ -32,7 +32,7 @@ import { useProfileStore } from '@/lib/stores/profile-store';
 import { SHADOW, UI } from '@/theme/ui';
 import { Icon } from '@/components/ui/Icon';
 import { Pressable, Text, View } from '@/tw';
-import { contentColumn, useTimoHeight } from '@/lib/layout';
+import { contentColumn, useTimoHeight, useUiScale } from '@/lib/layout';
 import { Image } from '@/tw/image';
 import { FREE_DAILY_ROUNDS, isFreeExpedition } from '@/config/free-tier';
 import { useFreeRoundsLeft } from '@/lib/stores/free-rounds-store';
@@ -43,6 +43,7 @@ const SOUND_OFF = require('../../../assets/icons/info/sound_off.png');
 
 export default function HomeScreen() {
   const timoH = useTimoHeight(0.6);
+  const k = useUiScale();
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const start = useGameStore((s) => s.start);
@@ -180,7 +181,7 @@ export default function HomeScreen() {
           accessibilityRole="button"
           accessibilityLabel="Jak grać — instrukcja"
           style={({ pressed }) => ({ transform: [{ scale: pressed ? 0.94 : 1 }] })}>
-          <SlotDisc size={46}>
+          <SlotDisc size={46 * k}>
             <View className="flex-1 items-center justify-center">
               <Text style={{ color: INK, fontFamily: 'Gabarito-Bold', fontSize: 22 }}>?</Text>
             </View>
@@ -193,7 +194,7 @@ export default function HomeScreen() {
           style={({ pressed }) => ({ transform: [{ scale: pressed ? 0.94 : 1 }] })}>
           {/* Ta sama tarcza, co zwierzęta i odznaki, pod tym samym papierem
               co pigułki obok — wcześniej był tu biały chip z kreskową ikoną. */}
-          <SlotDisc size={46}>
+          <SlotDisc size={46 * k}>
             <Image
               source={audioMuted ? SOUND_OFF : SOUND_ON}
               style={{ flex: 1 }}
@@ -222,7 +223,7 @@ export default function HomeScreen() {
               {/* Numer poziomu na tej samej tarczy, co głośnik i odznaki —
                   turkusowe kółko z UI 3.0 było ostatnim elementem paska
                   w starym stylu. */}
-              <SlotDisc size={58}>
+              <SlotDisc size={58 * k}>
                 <View className="flex-1 items-center justify-center">
                   <AnimatedCounter
                     from={previousLevel}
@@ -267,7 +268,7 @@ export default function HomeScreen() {
               value={progress.pct}
               from={progressFrom}
               delayMs={200}
-              height={14}
+              height={14 * k}
             />
           </View>
         </Pressable>
@@ -420,12 +421,13 @@ function RoundsLeft({ left }: { left: number }) {
  * atrament ma na `lawn` kontrast 7.0:1, biel tylko 2.2:1.
  */
 function DailyPickPanel({ children }: { children: ReactNode }) {
+  const k = useUiScale();
   return (
     <View>
       <View className="flex-row items-center" style={{ gap: 8 }}>
         <Image
           source={TOOLTIP_ART.daily_streak}
-          style={{ width: 28, height: 28 }}
+          style={{ width: 28 * k, height: 28 * k }}
           contentFit="contain"
           transition={0}
           accessible={false}

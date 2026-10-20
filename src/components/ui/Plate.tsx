@@ -4,6 +4,7 @@ import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-na
 
 import { sfx } from '@/lib/audio/sfx';
 import { ACCENT, type Accent } from '@/theme/ui';
+import { useUiScale } from '@/lib/layout';
 import { Pressable, Text, View } from '@/tw';
 
 type PlateProps = {
@@ -24,7 +25,8 @@ type PlateProps = {
 export function Plate({ label, onPress, accent, size = 'lg' }: PlateProps) {
   const a = ACCENT[accent];
   const lg = size === 'lg';
-  const depth = lg ? 5 : 4;
+  const k = useUiScale();
+  const depth = (lg ? 5 : 4) * k;
   const press = useSharedValue(0);
 
   const faceStyle = useAnimatedStyle(() => ({
@@ -64,7 +66,7 @@ export function Plate({ label, onPress, accent, size = 'lg' }: PlateProps) {
           style={[
             {
               marginBottom: depth,
-              paddingVertical: lg ? 15 : 11,
+              paddingVertical: (lg ? 15 : 11) * k,
               borderRadius: 26,
               alignItems: 'center',
               backgroundColor: a.base,

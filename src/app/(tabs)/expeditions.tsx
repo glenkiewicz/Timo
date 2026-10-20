@@ -17,7 +17,7 @@ import { useGameStore } from '@/lib/stores/game-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { ACCENT, UI, type Accent } from '@/theme/ui';
 import { Text, View } from '@/tw';
-import { contentColumn, useContentWidth } from '@/lib/layout';
+import { contentColumn, useContentWidth, READING_MAX } from '@/lib/layout';
 import { Image } from '@/tw/image';
 import { isFreeExpedition } from '@/config/free-tier';
 import { usePremium } from '@/lib/purchases';
@@ -150,6 +150,9 @@ export default function ExpeditionsScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           ...contentColumn,
+          // Lista w kolumnie do czytania — na iPadzie karty na całą szerokość
+          // miały drobny tekst i pustkę w środku.
+          maxWidth: READING_MAX,
           paddingHorizontal: 16,
           paddingTop: insets.top + 8,
           paddingBottom: insets.bottom + 24,

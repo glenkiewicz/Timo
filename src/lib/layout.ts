@@ -34,3 +34,24 @@ export function useTimoHeight(factor: number): number {
   const fromColumn = Math.min(width, CONTENT_MAX) * factor;
   return Math.round(width >= TABLET_MIN_WIDTH ? Math.max(fromColumn, height * 0.3) : fromColumn);
 }
+
+/**
+ * Skala interfejsu na iPadzie. Rozmiary w aplikacji są w punktach dobranych
+ * pod telefon, więc na iPadzie 13" napisy, przyciski i tarcze wyglądały na
+ * maleńkie. Telefon: 1. iPad mini ~1.15, iPad 13" 1.4.
+ */
+export function uiScaleFor(width: number): number {
+  if (width < TABLET_MIN_WIDTH) return 1;
+  return Math.min(1.4, 1.15 + (Math.max(width, 744) - 744) / (1032 - 744) * 0.25);
+}
+
+export function useUiScale(): number {
+  const { width } = useWindowDimensions();
+  return uiScaleFor(width);
+}
+
+/**
+ * Wąska kolumna dla ekranów do czytania (karta zwierzęcia, lista wypraw).
+ * Gra idzie na pełną szerokość, ale wiersze tekstu na 1000 pt czyta się źle.
+ */
+export const READING_MAX = 760;
