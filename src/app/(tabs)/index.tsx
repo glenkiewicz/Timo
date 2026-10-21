@@ -43,6 +43,8 @@ import { usePremium } from '@/lib/purchases';
 const SOUND_ON = require('../../../assets/icons/info/sound_on.png');
 const SOUND_OFF = require('../../../assets/icons/info/sound_off.png');
 const PARENT = require('../../../assets/icons/info/parent.png');
+const HELP = require('../../../assets/icons/info/help.png');
+const EXPEDITIONS_ICON = require('../../../assets/icons/tab-expeditions.png');
 
 export default function HomeScreen() {
   const timoH = useTimoHeight(0.6);
@@ -66,9 +68,14 @@ export default function HomeScreen() {
   // Wysyłka wyniku tygodnia — niezależna od tego, czy tabela jest widoczna.
   useWeeklyScoreSync();
 
-  // Ile plakietek zmieści się obok trzech tarcz (46 pt, odstęp 8, pasek px-4).
+  // Górny pasek: na telefonie ciaśniej (tarcze 40 pt, odstęp 6, margines 12),
+  // żeby obok trzech tarcz zmieściły się też trzy plakietki z serią dni.
+  const barDisc = k > 1 ? 46 * k : 40;
+  const barGap = k > 1 ? 8 : 6;
+  const barPad = k > 1 ? 16 : 12;
+  // Ile plakietek zmieści się obok trzech tarcz.
   const badgeFit = (() => {
-    const free = screenW - 32 - (3 * 46 * k + 2 * 8);
+    const free = screenW - 2 * barPad - (3 * barDisc + 2 * barGap);
     const wantDaily = dailyStreak > 1;
     const n = wantDaily ? 3 : 2;
     if (n * statBadgeWidth(k) <= free) return { compact: false, showDaily: wantDaily };
@@ -165,8 +172,8 @@ export default function HomeScreen() {
           się nie mieszczą, znika „Dni z Timo”. Na iPhonie 16 (393 pt) trzy
           pełne plakietki wypychały tarczę rodzica poza ekran. */}
       <View
-        className="flex-row items-center justify-between px-4"
-        style={{ ...contentColumn, paddingTop: insets.top + 8, paddingBottom: 10 }}>
+        className="flex-row items-center justify-between"
+        style={{ ...contentColumn, paddingHorizontal: barPad, paddingTop: insets.top + 8, paddingBottom: 10 }}>
         <View className="flex-row items-center">
           <StatBadge
             tooltipKey="streak"
@@ -196,17 +203,17 @@ export default function HomeScreen() {
           ) : null}
         </View>
 
-        <View className="flex-row items-center" style={{ gap: 8 }}>
+        <View className="flex-row items-center" style={{ gap: barGap }}>
         {/* Pełna instrukcja gry — ta sama tarcza co głośnik obok. */}
         <Pressable
           onPress={() => router.push('/help')}
           accessibilityRole="button"
           accessibilityLabel="Jak grać — instrukcja"
           style={({ pressed }) => ({ transform: [{ scale: pressed ? 0.94 : 1 }] })}>
-          <SlotDisc size={46 * k}>
-            <View className="flex-1 items-center justify-center">
-              <Text style={{ color: INK, fontFamily: 'Gabarito-Bold', fontSize: 22 }}>?</Text>
-            </View>
+          <SlotDisc size={barDisc}>
+            {/* Książeczka ze znakiem zapytania zamiast suchego „?” — ten sam
+                styl co głośnik i tarcza rodzica obok. */}
+            <Image source={HELP} style={{ flex: 1 }} contentFit="contain" transition={0} accessible={false} />
           </SlotDisc>
         </Pressable>
         <Pressable
@@ -216,7 +223,7 @@ export default function HomeScreen() {
           style={({ pressed }) => ({ transform: [{ scale: pressed ? 0.94 : 1 }] })}>
           {/* Ta sama tarcza, co zwierzęta i odznaki, pod tym samym papierem
               co pigułki obok — wcześniej był tu biały chip z kreskową ikoną. */}
-          <SlotDisc size={46 * k}>
+          <SlotDisc size={barDisc}>
             <Image
               source={audioMuted ? SOUND_OFF : SOUND_ON}
               style={{ flex: 1 }}
@@ -233,7 +240,7 @@ export default function HomeScreen() {
           accessibilityRole="button"
           accessibilityLabel="Dla rodzica — ustawienia i konto"
           style={({ pressed }) => ({ transform: [{ scale: pressed ? 0.94 : 1 }] })}>
-          <SlotDisc size={46 * k}>
+          <SlotDisc size={barDisc}>
             <Image source={PARENT} style={{ flex: 1 }} contentFit="cover" transition={0} accessible={false} />
           </SlotDisc>
         </Pressable>
@@ -457,25 +464,37 @@ function RoundsLeft({ left }: { left: number }) {
 /* ---------------- Wyprawa Dnia ---------------- */
 
 /**
- * Nagłówek „wybierz jedną” i trzy tarcze wypraw jako jeden blok. Wcześniej
- * etykieta leżała osobno, drobnymi wersalikami, i odrywała się od kafli.
- * Bez własnego tła — leży wprost na polanie, więc tekst jest atramentowy:
- * atrament ma na `lawn` kontrast 7.0:1, biel tylko 2.2:1.
+ * Nagłówek „Wyprawa Dnia” i trzy tarcze wypraw jako jeden blok. Nagłówek to
+ * wyśrodkowana pergaminowa pigułka nad środkową tarczą — ten sam papier co
+ * tarcze, więc czyta się jako ich podpis, a nie luźny napis na trawie
+ * (wcześniej leżał z lewej i wyglądał na oderwany). Ikona mapy z kompasem,
+ * jak na zakładce „Wyprawy” — kalendarz należy do „Dni z Timo”.
  */
 function DailyPickPanel({ children }: { children: ReactNode }) {
   const k = useUiScale();
   return (
     <View>
-      <View className="flex-row items-center" style={{ gap: 8 }}>
+      <View
+        className="flex-row items-center"
+        style={{
+          alignSelf: 'center',
+          gap: 8 * k,
+          paddingLeft: 8 * k,
+          paddingRight: 16 * k,
+          paddingVertical: 5 * k,
+          borderRadius: 999,
+          backgroundColor: UI.page,
+          boxShadow: `${SHADOW.e1}, ${SHADOW.rim}`,
+        }}>
         <Image
-          source={TOOLTIP_ART.daily_streak}
-          style={{ width: 28 * k, height: 28 * k }}
+          source={EXPEDITIONS_ICON}
+          style={{ width: 30 * k, height: 30 * k }}
           contentFit="contain"
           transition={0}
           accessible={false}
         />
-        <Text style={{ color: UI.text, fontFamily: 'Gabarito-Bold', fontSize: 18 }}>Wyprawa Dnia</Text>
-        <Text style={{ color: UI.text, fontFamily: 'Lexend-Bold', fontSize: 13, opacity: 0.75 }}>· wybierz jedną</Text>
+        <Text style={{ color: INK, fontFamily: 'Gabarito-Bold', fontSize: 17 }}>Wyprawa Dnia</Text>
+        <Text style={{ color: UI.pageFaint, fontFamily: 'Lexend-Bold', fontSize: 13 }}>· wybierz jedną</Text>
       </View>
       {children}
     </View>

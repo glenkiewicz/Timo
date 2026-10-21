@@ -46,7 +46,6 @@ export default function ParentScreen() {
   const childCount = useAuthStore((s) => s.profiles.length);
   const anonymous = useAuthStore((s) => s.session?.user.is_anonymous === true);
   const email = useAuthStore((s) => s.session?.user.email ?? null);
-  const selectProfile = useAuthStore((s) => s.selectProfile);
   const signOut = useAuthStore((s) => s.signOut);
 
   const [reminder, setReminder] = useState<boolean | null>(null);
@@ -138,7 +137,7 @@ export default function ParentScreen() {
           tint="primary"
           title={childName ? `Teraz gra: ${childName}` : 'Profile dzieci'}
           subtitle={childCount > 1 ? 'Zmień dziecko albo dodaj nowy profil' : 'Dodaj profil kolejnego dziecka'}
-          onPress={() => selectProfile(null)}
+          onPress={() => router.push('/profiles')}
         />
 
         <SectionHeader title="Konto rodzica" />

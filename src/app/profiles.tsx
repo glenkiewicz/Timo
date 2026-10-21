@@ -16,6 +16,7 @@ import { PHOTO_AVATAR, deleteAvatarPhoto, saveAvatarPhoto } from '@/lib/avatar-p
 import { useContentWidth } from '@/lib/layout';
 import { useAuthStore } from '@/lib/stores/auth-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
+import { useSessionStore } from '@/lib/stores/session-store';
 import { UI } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
 import { contentColumn } from '@/lib/layout';
@@ -24,6 +25,9 @@ import { contentColumn } from '@/lib/layout';
 export default function ProfilesScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const activeProfileId = useAuthStore((s) => s.activeProfileId);
+  // Dziecko już gra, czyli „Kto gra?” otwarto ze strefy rodzica.
+  const canGoBack = activeProfileId !== null;
 
   const profiles = useAuthStore((s) => s.profiles);
   const createProfile = useAuthStore((s) => s.createProfile);
@@ -46,10 +50,13 @@ export default function ProfilesScreen() {
   const contentW = useContentWidth();
 
   const enter = async (id: string) => {
+    // To samo dziecko, które już minęło ekran startowy (wejście ze strefy
+    // rodzica) — wracamy prosto do Menu, ekran „Gramy!” jest dla niego zamknięty.
+    const sameChild = id === activeProfileId && useSessionStore.getState().startSeenFor === id;
     selectProfile(id);
     await hydrateFromServer(id);
     // Przez ekran startowy — nowe dziecko też ma sam powiedzieć „Gramy!”.
-    router.replace('/start');
+    router.replace(sameChild ? '/(tabs)' : '/start');
   };
 
   const handleCreate = async () => {
@@ -100,11 +107,33 @@ export default function ProfilesScreen() {
           paddingTop: insets.top + 24,
           paddingBottom: insets.bottom + 24,
         }}>
-        <Text
-          className="text-center"
-          style={{ color: UI.text, fontFamily: 'Gabarito-Bold', fontSize: 26 }}>
-          Kto gra?
-        </Text>
+        {/* Nagłówek jako wiersz: przycisk powrotu z lewej, tytuł na środku,
+            pusta kolumna z prawej dla równowagi. Wcześniej przycisk leżał
+            absolutnie POD tytułem na całą szerokość i ten przechwytywał
+            stuknięcia — „Wróć” nic nie robił. Powrót tylko wtedy, gdy dziecko
+            już gra (wejście ze strefy rodzica); przy pierwszym wyborze nie ma
+            dokąd wracać. */}
+        <View className="flex-row items-center">
+          <View style={{ width: 44 }}>
+            {canGoBack ? (
+              <Pressable
+                onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)'))}
+                accessibilityRole="button"
+                accessibilityLabel="Wróć"
+                hitSlop={8}
+                className="w-11 h-11 items-center justify-center rounded-pill"
+                style={{ backgroundColor: UI.surface }}>
+                <Icon name="arrow-left" size={22} color={UI.text} strokeWidth={2.6} />
+              </Pressable>
+            ) : null}
+          </View>
+          <Text
+            className="flex-1 text-center"
+            style={{ color: UI.text, fontFamily: 'Gabarito-Bold', fontSize: 26 }}>
+            Kto gra?
+          </Text>
+          <View style={{ width: 44 }} />
+        </View>
         <Text
           className="text-center"
           style={{

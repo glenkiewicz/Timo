@@ -123,7 +123,10 @@ export default function RootLayout() {
             <Stack.Screen name="(auth)" />
           </Stack.Protected>
 
-          <Stack.Protected guard={signedIn && !playing && !needsOnboarding}>
+          {/* „Kto gra?” także w trakcie gry — otwierany ze strefy rodzica
+              (zmiana dziecka, nowy profil). Wcześniej był chroniony warunkiem
+              „nikt nie gra” i przejście ze strefy rodzica po cichu przepadało. */}
+          <Stack.Protected guard={signedIn && !needsOnboarding}>
             <Stack.Screen name="profiles" />
           </Stack.Protected>
 
@@ -231,7 +234,9 @@ function EntryRedirect({
       if (first !== 'start') router.replace('/start');
       return;
     }
-    if (inAuth || onProfiles || first === 'start' || first === 'onboarding') router.replace('/(tabs)');
+    // „Kto gra?” wolno otworzyć w trakcie gry — ze strefy rodzica (zmiana
+    // dziecka, nowy profil); wcześniej wracało stąd od razu do Menu.
+    if (inAuth || first === 'start' || first === 'onboarding') router.replace('/(tabs)');
   }, [onboarding, signedIn, playing, startSeen, segments, router]);
 
   return null;

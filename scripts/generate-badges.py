@@ -83,6 +83,13 @@ SHEETS = {
   ("sound_on",  "a round orange loudspeaker with blue sound waves coming out of it"),
   ("sound_off", "the same round orange loudspeaker with a small red cross next to it and no sound waves"),
  ],
+ # Przycisk pomocy („Jak grać z Timo”) na Home — trzy warianty do wyboru;
+ # 21.10.2026 wybrany wariant B (książeczka), skopiowany jako help.png.
+ "help": [
+  ("help_a", "a golden magnifying glass with a big orange question mark inside the round lens"),
+  ("help_b", "an open picture storybook with a big orange question mark floating above its pages"),
+  ("help_c", "a round soft orange speech bubble with a big white question mark inside"),
+ ],
  # Trzy kroki gry na ekranie startowym dla dziecka, które gra pierwszy raz.
  "steps": [
   ("think",  "a soft white thought bubble cloud with a small orange paw print inside it"),
@@ -90,7 +97,7 @@ SHEETS = {
   ("guess",  "a golden magnifying glass with a small sparkle on the glass"),
  ],
 }
-COLS = {"a": 3, "b": 3, "info": 2, "sound": 2, "steps": 3}
+COLS = {"a": 3, "b": 3, "info": 2, "sound": 2, "steps": 3, "help": 3}
 # Ikony z zamkniętym otworem (kabłąk kłódki): zalewanie tła idzie od krawędzi
 # i do środka nie dociera, więc otwór zostaje biały. Wycinamy w nich czystą
 # biel zamkniętą w sylwetce — tylko tu, bo kremowe strony kalendarzy czy
@@ -98,6 +105,7 @@ COLS = {"a": 3, "b": 3, "info": 2, "sound": 2, "steps": 3}
 HOLES = {"lock"}
 # Dokąd trafiają pocięte ikony — domyślnie odznaki.
 OUT_DIR = {"info": pathlib.Path("assets/icons/info"), "sound": pathlib.Path("assets/icons/info"),
+           "help": pathlib.Path("assets/icons/info"),
            "steps": pathlib.Path("assets/icons/start")}
 
 
