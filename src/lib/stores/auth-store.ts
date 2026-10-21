@@ -46,6 +46,8 @@ type AuthState = {
   error: string | null;
 
   init: () => () => void;
+  /** Sesja z telefonu wskazuje konto, którego nie ma już na serwerze — zakłada nowe anonimowe. */
+  resetStaleSession: () => Promise<void>;
 
   /**
    * Jedno wejście dla e-maila: logowanie, a gdy konta jeszcze nie ma —
@@ -121,6 +123,15 @@ function friendlyError(message: string): string {
   return message;
 }
 
+/**
+ * Błąd 4xx z serwera logowania = konto albo sesja już nie istnieje (usunięte
+ * konto, wyczyszczona baza). Błędy sieci nie mają statusu 4xx — wtedy sesji
+ * nie ruszamy, żeby gra offline nie gubiła konta.
+ */
+function isStaleAuthError(error: { status?: number } | null): boolean {
+  return !!error && typeof error.status === 'number' && error.status >= 400 && error.status < 500;
+}
+
 export const useAuthStore = create<AuthState>()(
   persist(
     (set, get) => ({
@@ -137,6 +148,14 @@ export const useAuthStore = create<AuthState>()(
           if (data.session) {
             set({ session: data.session, initializing: false });
             void get().loadProfiles();
+            // Sesja z telefonu nie mówi, czy konto nadal istnieje. Po usunięciu
+            // konta na innym urządzeniu (albo wyczyszczeniu bazy) token jest
+            // dalej ważny, a zapis profilu kończył się błędem klucza obcego
+            // `profiles_parent_id_fkey`. Pytamy serwer w tle; bez sieci
+            // (błąd bez statusu 4xx) zostawiamy sesję w spokoju.
+            void supabase.auth.getUser().then(({ error }) => {
+              if (isStaleAuthError(error)) void get().resetStaleSession();
+            });
             return;
           }
           await get().ensureSession();
@@ -164,6 +183,15 @@ export const useAuthStore = create<AuthState>()(
       },
 
       isAnonymous: () => get().session?.user.is_anonymous === true,
+
+      resetStaleSession: async () => {
+        // Konta nie ma na serwerze — wylogowanie tylko lokalne i nowe anonimowe
+        // konto. Postęp z telefonu należał do usuniętego konta, więc znika.
+        await supabase.auth.signOut({ scope: 'local' }).catch(() => undefined);
+        await AsyncStorage.multiRemove(['timo-profile-v1', 'timo-leaderboard']).catch(() => undefined);
+        set({ session: null, profiles: [], profilesLoaded: false, activeProfileId: null });
+        await get().ensureSession();
+      },
 
       ensureSession: async () => {
         if (get().session) return;
@@ -380,15 +408,22 @@ export const useAuthStore = create<AuthState>()(
       },
 
       createProfile: async (nick, avatar) => {
-        const session = get().session;
-        if (!session) return null;
+        if (!get().session) return null;
 
         set({ busy: true, error: null });
-        const { data, error } = await supabase
-          .from('profiles')
-          .insert({ parent_id: session.user.id, nick: nick.trim(), avatar })
-          .select('id, nick, avatar, nick_variant')
-          .single();
+        const insert = () =>
+          supabase
+            .from('profiles')
+            .insert({ parent_id: get().session!.user.id, nick: nick.trim(), avatar })
+            .select('id, nick, avatar, nick_variant')
+            .single();
+        let { data, error } = await insert();
+        // 23503 = brak rodzica w bazie: konto usunięte, a telefon trzymał jego
+        // sesję. Nowe anonimowe konto i jeszcze jedna próba.
+        if (error?.code === '23503') {
+          await get().resetStaleSession();
+          if (get().session) ({ data, error } = await insert());
+        }
 
         if (error || !data) {
           set({ busy: false, error: friendlyError(error?.message ?? 'Nie udało się dodać profilu.') });
