@@ -77,3 +77,4 @@ assets/images/_icon/
 
 # Analiza ASO — pamięć podręczna zapytań do Apple (duża, odtwarzalna skryptem)
 marketing/aso/cache.json
+__pycache__/
