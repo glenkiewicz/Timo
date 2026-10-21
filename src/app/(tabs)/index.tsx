@@ -1,4 +1,5 @@
 import { useRouter } from 'expo-router';
+import { useWindowDimensions } from 'react-native';
 import { type ReactNode, useEffect, useRef, useState } from 'react';
 import Animated, {
   useAnimatedStyle,
@@ -19,7 +20,7 @@ import { SceneBackdrop, TimoStage, sceneBaseColor } from '@/components/timo/Timo
 import { ParentalGate } from '@/components/paywall/ParentalGate';
 import { Plate } from '@/components/ui/Plate';
 import { ProgressBar } from '@/components/ui/ProgressBar';
-import { StatBadge } from '@/components/ui/StatBadge';
+import { StatBadge, statBadgeWidth } from '@/components/ui/StatBadge';
 import { EXPEDITIONS_BY_ID } from '@/data/expeditions';
 import { TOOLTIPS, TOOLTIP_ART } from '@/data/info-tooltips';
 import { pickGreeting } from '@/data/timo-lines';
@@ -48,6 +49,7 @@ export default function HomeScreen() {
   const k = useUiScale();
   const router = useRouter();
   const [parentGate, setParentGate] = useState(false);
+  const { width: screenW } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const start = useGameStore((s) => s.start);
 
@@ -63,6 +65,16 @@ export default function HomeScreen() {
 
   // Wysyłka wyniku tygodnia — niezależna od tego, czy tabela jest widoczna.
   useWeeklyScoreSync();
+
+  // Ile plakietek zmieści się obok trzech tarcz (46 pt, odstęp 8, pasek px-4).
+  const badgeFit = (() => {
+    const free = screenW - 32 - (3 * 46 * k + 2 * 8);
+    const wantDaily = dailyStreak > 1;
+    const n = wantDaily ? 3 : 2;
+    if (n * statBadgeWidth(k) <= free) return { compact: false, showDaily: wantDaily };
+    if (n * statBadgeWidth(k, true) <= free) return { compact: true, showDaily: wantDaily };
+    return { compact: 2 * statBadgeWidth(k) > free, showDaily: false };
+  })();
 
   const level = levelFromXp(xp);
   const title = titleFor(level);
@@ -147,7 +159,11 @@ export default function HomeScreen() {
       {/* ---------- polana: pełnoekranowe tło pod całą zawartością ---------- */}
       <SceneBackdrop groundY={groundY} scene="home" />
 
-      {/* ---------- górny pasek statystyk ---------- */}
+      {/* ---------- górny pasek statystyk ----------
+          Trzy tarcze z prawej (pomoc, dźwięk, strefa rodzica) mają zawsze
+          miejsce. Plakietki z lewej najpierw się zmniejszają, a jeśli i tak
+          się nie mieszczą, znika „Dni z Timo”. Na iPhonie 16 (393 pt) trzy
+          pełne plakietki wypychały tarczę rodzica poza ekran. */}
       <View
         className="flex-row items-center justify-between px-4"
         style={{ ...contentColumn, paddingTop: insets.top + 8, paddingBottom: 10 }}>
@@ -158,21 +174,24 @@ export default function HomeScreen() {
             to={streak}
             accent="fox"
             delayMs={120}
+            compact={badgeFit.compact}
           />
           <StatBadge
             tooltipKey="paws"
             from={previousPaws}
             to={paws}
             accent="sky"
+            compact={badgeFit.compact}
           />
           {/* Od drugiego dnia z rzędu — „1” pierwszego dnia nic nie mówiło. */}
-          {dailyStreak > 1 ? (
+          {badgeFit.showDaily ? (
             <StatBadge
               tooltipKey="daily_streak"
               from={dailyStreak}
               to={dailyStreak}
               accent="primary"
               delayMs={60}
+              compact={badgeFit.compact}
             />
           ) : null}
         </View>

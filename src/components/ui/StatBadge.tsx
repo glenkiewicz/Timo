@@ -26,7 +26,16 @@ type StatBadgeProps = {
   accent?: Accent;
   delayMs?: number;
   durationMs?: number;
+  /** Mniejsza pigułka — gdy w górnym pasku Menu brakuje miejsca (wąski iPhone). */
+  compact?: boolean;
 };
+
+/** Szerokość plakietki z marginesami — Menu liczy z niej, czy pasek się zmieści. */
+export function statBadgeWidth(k: number, compact = false): number {
+  const pillH = (compact ? COMPACT_PILL_H : BASE_PILL_H) * k;
+  const art = (compact ? COMPACT_ART : BASE_ART) * k;
+  return art * 0.4 + pillH * 2.5 + 4;
+}
 
 /**
  * Statystyka w górnym pasku — ilustracja i liczba na pergaminowej pigułce.
@@ -49,11 +58,13 @@ type StatBadgeProps = {
  */
 const PILL = require('../../../assets/map/pill.webp');
 const BASE_PILL_H = 28;
+const COMPACT_PILL_H = 24;
 /**
  * Ilustracja jest WYŻSZA od pigułki i zachodzi na jej lewy koniec — wystaje
  * nad i pod papier, jak ikony nagród w Finchu. Mała pigułka, duży obrazek.
  */
 const BASE_ART = 38;
+const COMPACT_ART = 32;
 
 export function StatBadge({
   tooltipKey,
@@ -62,13 +73,14 @@ export function StatBadge({
   accent = 'fox',
   delayMs = 0,
   durationMs = 900,
+  compact = false,
 }: StatBadgeProps) {
   const openSheet = useInfoSheet();
   // Na iPadzie pigułka i obrazek rosną razem z napisami (useUiScale).
   const k = useUiScale();
-  const PILL_H = BASE_PILL_H * k;
+  const PILL_H = (compact ? COMPACT_PILL_H : BASE_PILL_H) * k;
   const PILL_W = PILL_H * 2.5;
-  const ART = BASE_ART * k;
+  const ART = (compact ? COMPACT_ART : BASE_ART) * k;
   const OVERHANG = ART * 0.4;
   const delta = to - from;
   const pulse = useSharedValue(1);
@@ -131,7 +143,7 @@ export function StatBadge({
               style={{
                 color: INK,
                 fontFamily: 'Gabarito-Bold',
-                fontSize: 16,
+                fontSize: compact ? 14 : 16,
               }}
             />
           </View>
