@@ -73,10 +73,14 @@ export function AccountForm({
   const anonymous = session?.user.is_anonymous === true;
 
   // Konto dopięte albo zalogowane — wracamy do gry.
+  // Logowanie podmienia konto, więc w trybie `login` sygnałem jest nowy uid.
   const doneRef = useRef(false);
+  const startUserId = useRef(session?.user.id);
   useEffect(() => {
     if (!onDone || doneRef.current || !session) return;
-    if (variant === 'link' && !anonymous) {
+    const linked = variant === 'link' && !anonymous;
+    const loggedIn = variant === 'login' && !anonymous && session.user.id !== startUserId.current;
+    if (linked || loggedIn) {
       doneRef.current = true;
       onDone();
     }
