@@ -10,6 +10,7 @@ import { Icon } from '@/components/ui/Icon';
 import { AvatarPicker } from '@/components/profile/AvatarPicker';
 import { ChildAvatar } from '@/components/profile/ChildAvatar';
 import { ParentalGate } from '@/components/paywall/ParentalGate';
+import { DEV_START_SCREEN } from '@/config/features';
 import { confirmDeleteAccount } from '@/lib/account-actions';
 import { DEFAULT_AVATAR } from '@/data/avatars';
 import { PHOTO_AVATAR, deleteAvatarPhoto, saveAvatarPhoto } from '@/lib/avatar-photo';
@@ -56,7 +57,9 @@ export default function ProfilesScreen() {
     selectProfile(id);
     await hydrateFromServer(id);
     // Przez ekran startowy — nowe dziecko też ma sam powiedzieć „Gramy!”.
-    router.replace(sameChild ? '/(tabs)' : '/start');
+    // Przy wyłączonym ekranie startowym (DEV_START_SCREEN 'skip') trasa
+    // /start jest zamknięta i przejście po cichu przepadało — wtedy do Menu.
+    router.replace(sameChild || DEV_START_SCREEN === 'skip' ? '/(tabs)' : '/start');
   };
 
   const handleCreate = async () => {

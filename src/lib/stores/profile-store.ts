@@ -34,6 +34,20 @@ type ExpeditionProgress = {
   completed_at: string | null;
 };
 
+/** Wiersz tabeli `progress` w kształcie, w jakim go czytamy. */
+type ProgressRow = {
+  xp: number | null;
+  paws: number | null;
+  streak: number | null;
+  daily_streak: number | null;
+  last_play_date: string | null;
+  last_seen_date: string | null;
+  fast_wins: number | null;
+  collection: string[] | null;
+  badges: string[] | null;
+  expedition_progress?: Record<string, ExpeditionProgress> | null;
+};
+
 /** Wynik dziennego meldunku — czym karmimy ekran serii. */
 export type StreakCheckIn = {
   /** Czy seria urosła (czyli czy pokazać ekran). */
@@ -146,6 +160,14 @@ type ProfileState = {
   pushToServer: () => Promise<void>;
   /** Czy lokalny stan wyprzedza bazę (nieudany zapis, brak sieci). */
   dirty: boolean;
+  /**
+   * Dziecko, do którego należy stan w pamięci. Przy przełączaniu dziecka
+   * aktywny profil zmienia się PRZED wczytaniem, więc niewysłany postęp
+   * musi wiedzieć, czyj jest — inaczej poleciałby do nowego dziecka.
+   */
+  ownerId: string | null;
+  /** Wysyła niewysłany postęp (start aplikacji, przed zmianą dziecka). */
+  flushPending: () => Promise<void>;
 
   resetAll: () => void;
 };
@@ -164,6 +186,7 @@ const initial: Omit<
   | 'hydrateFromServer'
   | 'pushToServer'
   | 'resetAll'
+  | 'flushPending'
 > = {
   paws: 0,
   stars: 0,
@@ -184,6 +207,7 @@ const initial: Omit<
   audioMuted: false,
   streakCelebration: null,
   dirty: false,
+  ownerId: null as string | null,
 };
 
 
@@ -423,16 +447,19 @@ export const useProfileStore = create<ProfileState>()(
       setAudioMuted: (value) => set({ audioMuted: value }),
 
       hydrateFromServer: async (profileId) => {
+        // Niewysłany postęp poprzedniego dziecka — najpierw na serwer, bo
+        // za chwilę stan w pamięci zostanie wyczyszczony.
+        await get().flushPending();
         // Czyścimy stan poprzedniego dziecka, zanim pokażemy cokolwiek nowego.
-        set({ ...initial, audioMuted: get().audioMuted });
+        set({ ...initial, audioMuted: get().audioMuted, ownerId: profileId });
 
-        const { data, error } = await supabase
-          .from('progress')
-          .select(
-            'xp, paws, streak, daily_streak, last_play_date, last_seen_date, fast_wins, collection, badges'
-          )
-          .eq('profile_id', profileId)
-          .maybeSingle();
+        const BASE = 'xp, paws, streak, daily_streak, last_play_date, last_seen_date, fast_wins, collection, badges';
+        const read = (cols: string) =>
+          supabase.from('progress').select(cols).eq('profile_id', profileId).maybeSingle();
+        let { data, error } = await read(`${BASE}, expedition_progress`);
+        // 42703 = brak kolumny (baza bez migracji 0006) — reszta postępu i tak
+        // ma się wczytać, inaczej dziecko zobaczyłoby pusty profil.
+        if (error?.code === '42703') ({ data, error } = await read(BASE));
 
         if (error || !data) {
           if (__DEV__ && error) {
@@ -441,44 +468,57 @@ export const useProfileStore = create<ProfileState>()(
           return;
         }
 
+        // Kolumny podane napisem — typ wiersza dopisujemy ręcznie.
+        const row = data as unknown as ProgressRow;
         set({
-          xp: data.xp ?? 0,
-          paws: data.paws ?? 0,
-          streak: data.streak ?? 0,
-          dailyStreak: data.daily_streak ?? 0,
-          lastPlayDate: data.last_play_date ?? null,
-          lastSeenDate: data.last_seen_date ?? null,
-          fast_wins: data.fast_wins ?? 0,
-          collection: data.collection ?? [],
-          badges: data.badges ?? [],
+          xp: row.xp ?? 0,
+          paws: row.paws ?? 0,
+          streak: row.streak ?? 0,
+          dailyStreak: row.daily_streak ?? 0,
+          lastPlayDate: row.last_play_date ?? null,
+          lastSeenDate: row.last_seen_date ?? null,
+          fast_wins: row.fast_wins ?? 0,
+          collection: row.collection ?? [],
+          badges: row.badges ?? [],
+          expeditionProgress: row.expedition_progress ?? {},
           dirty: false,
         });
       },
 
       pushToServer: async () => {
-        const profileId = useAuthStore.getState().activeProfileId;
+        // Właściciel danych, a nie aktywne dziecko — patrz `ownerId`.
+        // Stan sprzed tej wersji nie ma właściciela; wtedy aktywne dziecko.
+        const profileId = get().ownerId ?? useAuthStore.getState().activeProfileId;
         if (!profileId) return;
 
         const s = get();
-        const { error } = await supabase
-          .from('progress')
-          .update({
-            xp: s.xp,
-            paws: s.paws,
-            streak: s.streak,
-            daily_streak: s.dailyStreak,
-            last_play_date: s.lastPlayDate,
-            last_seen_date: s.lastSeenDate,
-            fast_wins: s.fast_wins,
-            collection: s.collection,
-            badges: s.badges,
-            updated_at: new Date().toISOString(),
-          })
-          .eq('profile_id', profileId);
+        const base = {
+          xp: s.xp,
+          paws: s.paws,
+          streak: s.streak,
+          daily_streak: s.dailyStreak,
+          last_play_date: s.lastPlayDate,
+          last_seen_date: s.lastSeenDate,
+          fast_wins: s.fast_wins,
+          collection: s.collection,
+          badges: s.badges,
+          updated_at: new Date().toISOString(),
+        };
+        const write = (row: Record<string, unknown>) =>
+          supabase.from('progress').update(row).eq('profile_id', profileId);
+        let { error } = await write({ ...base, expedition_progress: s.expeditionProgress });
+        // 42703 = baza bez migracji 0006 — reszta postępu i tak musi się zapisać.
+        if (error?.code === '42703') ({ error } = await write(base));
 
         // Nieudany zapis zostawia `dirty` — spróbujemy ponownie po następnej
-        // rundzie albo przy kolejnym wejściu do aplikacji.
+        // rundzie, przy kolejnym starcie gry albo przed zmianą dziecka.
         set({ dirty: Boolean(error) });
+      },
+
+      flushPending: async () => {
+        // Bez właściciela (stan sprzed tej wersji) nie wiadomo, czyj to postęp
+        // — przy przełączaniu dziecka trafiłby do niewłaściwego, więc nie ślemy.
+        if (get().dirty && get().ownerId) await get().pushToServer();
       },
 
       resetAll: () => set({ ...initial }),
@@ -500,6 +540,8 @@ export const useProfileStore = create<ProfileState>()(
         dailyChoice: state.dailyChoice,
         expeditionProgress: state.expeditionProgress,
         audioMuted: state.audioMuted,
+        dirty: state.dirty,
+        ownerId: state.ownerId,
       }),
     }
   )

@@ -15,12 +15,14 @@ import { Pressable, Text, View } from '@/tw';
 import { contentColumn } from '@/lib/layout';
 
 /**
- * Logowanie Google i Apple — wyłączone, dopóki dostawcy nie są skonfigurowani
- * w Supabase (Authentication → Providers). Przycisk, który nie działa,
- * recenzja App Store odrzuca; samo logowanie e-mailem wystarcza.
- * Po konfiguracji: true (i włączyć „Allow manual linking” do dopinania).
+ * Logowanie Google i Apple — każde włączamy dopiero, gdy dostawca jest
+ * skonfigurowany w Supabase (Authentication → Providers). Przycisk, który nie
+ * działa, recenzja App Store odrzuca; samo logowanie e-mailem wystarcza.
+ * Dopinanie do konta anonimowego wymaga też „Allow manual linking”.
+ * Apple: Client ID = bundle id (com.glenkiewicz.Timo). Google: jeszcze nie.
  */
-const SOCIAL_LOGIN = false;
+const APPLE_LOGIN = true;
+const GOOGLE_LOGIN = false;
 
 const COPY = {
   // Bez anonimowej sesji (brak sieci przy pierwszym starcie) — stary ekran.
@@ -265,7 +267,7 @@ export function AccountForm({
         </Card>
 
         {/* ---------- logowanie społecznościowe ---------- */}
-        {SOCIAL_LOGIN ? (
+        {GOOGLE_LOGIN || (APPLE_LOGIN && appleAvailable) ? (
           <>
           <View className="flex-row items-center gap-3 my-4">
             <View style={{ flex: 1, height: 2, backgroundColor: UI.line }} />
@@ -277,15 +279,17 @@ export function AccountForm({
           </View>
 
           <View className="gap-2.5">
-            <Button
-              label={copy.google}
-              variant="ghost"
-              size="md"
-              onPress={() => void signInWithGoogle(mode)}
-              disabled={busy}
-            />
+            {GOOGLE_LOGIN ? (
+              <Button
+                label={copy.google}
+                variant="ghost"
+                size="md"
+                onPress={() => void signInWithGoogle(mode)}
+                disabled={busy}
+              />
+            ) : null}
 
-            {appleAvailable ? (
+            {APPLE_LOGIN && appleAvailable ? (
               <AppleAuthentication.AppleAuthenticationButton
                 buttonType={
                   variant === 'link'

@@ -16,6 +16,7 @@ import { InfoSheetProvider } from '@/components/sheet/InfoSheet';
 import { useDailyCheckIn } from '@/features/gamification/useDailyCheckIn';
 import { sfx } from '@/lib/audio/sfx';
 import { useUiScale } from '@/lib/layout';
+import { useAuthStore } from '@/lib/stores/auth-store';
 import { useDockStore } from '@/lib/stores/dock-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { SHADOW, UI, type Accent } from '@/theme/ui';
@@ -178,6 +179,15 @@ export default function TabsLayout() {
   // by przepadł. Layout zakładek jest pierwszym miejscem, przez które
   // przechodzi każde wejście do gry.
   useDailyCheckIn();
+  // Start gry: stan w pamięci należy do aktywnego dziecka (stan sprzed tej
+  // wersji nie zna właściciela — przypisujemy go teraz), a niewysłany postęp
+  // z poprzedniej sesji (brak sieci) leci na serwer.
+  useEffect(() => {
+    const active = useAuthStore.getState().activeProfileId;
+    const store = useProfileStore.getState();
+    if (!store.ownerId && active) useProfileStore.setState({ ownerId: active });
+    void store.flushPending();
+  }, []);
   const celebration = useProfileStore((s) => s.streakCelebration);
   const dismiss = useProfileStore((s) => s.dismissStreakCelebration);
 
