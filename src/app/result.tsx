@@ -109,8 +109,10 @@ export default function ResultScreen() {
     const t = setTimeout(() => {
       if (phase === 'timo_guessed' && guess) {
         const v = pickVictoryLine();
+        // Ekran już odczekał 600 ms (setTimeout wyżej) — dodatkowe 400 ms dawało
+        // ponad sekundę ciszy przed okrzykiem. Zostaje krótki oddech 150 ms.
         timoVoice.playSequence([v.voiceKey, `animal.${guess.id}`], {
-          initialDelayMs: 400,
+          initialDelayMs: 150,
         });
       } else if (phase === 'child_stumped') {
         const g = expeditionMode === 'guided' ? pickGuidedGiveUp() : pickGiveUpLine();

@@ -21,21 +21,30 @@ import { voiceFor } from "@/data/voice-manifest";
 import { useProfileStore } from "@/lib/stores/profile-store";
 
 /**
- * Tempo odtwarzania głosu Timo. ElevenLabs generuje audio z tempem 1.0;
- * `playbackRate` skaluje to w runtime na urządzeniu.
+ * Tempo głosu Timo — JEDYNE pokrętło do strojenia. ElevenLabs generuje klipy
+ * z `speed: 1.0` (ok. 110 słów/min, 11 znaków/s — dla dziecka trochę ślamazarnie);
+ * tu przyspieszamy je w runtime na urządzeniu.
  *
- * 0.98 ≈ prawie natywne tempo (test: 0.85 było za wolne, ten poziom brzmi
- * dynamicznie ale nadal naturalnie).
+ * 21.10.2026: po zmianie głosu na nowy (ElevenLabs) właściciel wybrał tempo
+ * naturalne 1.0 — nowy głos mówi żwawiej sam z siebie. Wysokość tonu i tak
+ * zostaje (patrz `applyPlaybackRate`), gdyby tempo miało znów rosnąć.
+ * Rozsądny zakres: 1.05–1.25; powyżej ~1.3 korekcja tonu zaczyna być słyszalna
+ * (metaliczny pogłos).
+ *
+ * Uwaga historyczna: wcześniej stała wynosiła 1.75, ale ustawiana była przez
+ * `player.playbackRate = …`, a w natywnym expo-audio (iOS i Android) ta
+ * właściwość jest TYLKO DO ODCZYTU — przypisanie przepadało w `catch` i głos
+ * zawsze grał w tempie 1.0. Stąd wrażenie „za wolno” mimo 1.75 w kodzie.
  */
-const TIMO_PLAYBACK_RATE = 1.75;
+const TIMO_PLAYBACK_RATE = 1.0;
 
 /**
  * Domyślny fallback timeout — używany dopóki nie poznamy `duration` klipu. Po
  * pierwszym status update z `duration > 0` ustawiamy dokładniejszy, dynamiczny
  * timeout: (duration / playbackRate) * 1.2s + 1.5s buffer.
  *
- * Najdłuższe MP3 w bundle to ~10s (linia "outside_category"); przy
- * playbackRate=0.85 to ~11.8s, więc default 15s ma zapas.
+ * Najdłuższe MP3 w bundle to ~11s; przy TIMO_PLAYBACK_RATE=1.0 gra ~11s,
+ * więc default 15s ma zapas.
  */
 const CLIP_TIMEOUT_DEFAULT_MS = 15000;
 
@@ -43,8 +52,10 @@ const CLIP_TIMEOUT_DEFAULT_MS = 15000;
  * Pauza między klipami w `playSequence` (np. między prefiksem a pytaniem).
  * Brzmi naturalnie jak oddech + daje natywnemu audio session iOS/Android czas
  * na zwolnienie zasobów poprzedniego playera (redukuje race "klip nie startuje").
+ * 200 zamiast 250 ms — pauza skrócona mniej więcej w tej samej proporcji co
+ * przyspieszony głos; niżej nie schodzimy ze względu na ten race.
  */
-const INTER_CLIP_GAP_MS = 250;
+const INTER_CLIP_GAP_MS = 200;
 
 /**
  * Po jakim czasie od pierwszego validnego status update z `duration > 0`
@@ -67,9 +78,18 @@ export const TIMO_VOICE_DEBUG_PARAMS = {
 	clipTimeoutDefaultMs: CLIP_TIMEOUT_DEFAULT_MS,
 };
 
+/**
+ * Ustawia tempo z korekcją wysokości tonu. Musi iść przez `setPlaybackRate` —
+ * natywny setter `playbackRate` nie istnieje. Jakość 'medium' to na iOS
+ * `AVAudioTimePitchAlgorithm.timeDomain`, który Apple poleca do mowy
+ * ('low' = varispeed, czyli właśnie efekt „chipmunka”; 'high' = spectral,
+ * lepszy do muzyki, przy głosie potrafi dodać pogłosu). Android ignoruje
+ * jakość i przy `shouldCorrectPitch` trzyma ton 1.0 (ExoPlayer/Sonic).
+ */
 function applyPlaybackRate(player: AudioPlayer): void {
 	try {
-		player.playbackRate = TIMO_PLAYBACK_RATE;
+		player.shouldCorrectPitch = true;
+		player.setPlaybackRate(TIMO_PLAYBACK_RATE, "medium");
 	} catch {
 		/* niektóre platformy mogą rzucić jeśli player nie jest jeszcze załadowany */
 	}
@@ -210,7 +230,12 @@ class TimoVoiceController {
 			const source = voiceFor(key);
 			if (source == null) continue;
 			try {
-				players.push(createAudioPlayer(source));
+				const p = createAudioPlayer(source);
+				// Tempo także przy podgrzaniu: każdy player z tego modułu ma tę samą
+				// konfigurację, więc nic nie zagra przypadkiem w tempie 1.0.
+				// (Właściwe odtwarzanie i tak tworzy własny player w `playOne`.)
+				applyPlaybackRate(p);
+				players.push(p);
 			} catch {
 				/* podgrzanie jest tylko optymalizacją */
 			}
@@ -329,9 +354,9 @@ class TimoVoiceController {
 						firstValidStatusAt = Date.now();
 						if (this.timeoutId !== null)
 							clearTimeout(this.timeoutId);
-						// iOS AVPlayer clampuje playbackRate, ale faktyczne odtwarzanie
-						// bywa wolniejsze niż 2.0 (np. 1.5-1.8x w praktyce). Konserwatywnie
-						// używamy 1.5 jako worst-case + 50% margines + 2.5s bufora.
+						// Czas klipu po przyspieszeniu (tempo ograniczone do 1.5 na wypadek
+						// podkręcenia stałej) + 50% marginesu + 2.5s bufora — gdyby tempo
+						// się nie przyjęło i klip grał w 1.0, i tak mieści się z zapasem.
 						// Lepiej żeby klip pokrył się "za długim" timeoutem niż został cięty.
 						const effectiveRate = Math.min(TIMO_PLAYBACK_RATE, 1.5);
 						const expectedMs =

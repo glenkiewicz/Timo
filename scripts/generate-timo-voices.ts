@@ -168,7 +168,7 @@ const ELEVEN_URL = `https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`;
  */
 const VOICE_SETTINGS = {
 	stability: 0.30,
-	similarity_boost: 0.70,
+	similarity_boost: 0.75,
 	style: 0.20,
 	speed: 1.0,
 };

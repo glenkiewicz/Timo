@@ -112,17 +112,19 @@ export default function GameScreen() {
   );
 
   // Odtwórz pytanie głosem — sequence: [wstęp?, pytanie]. Wypowiedź składa
-  // store (`prompt`), więc nowy obiekt = nowe pytanie. Krótki oddech po reakcji.
+  // store (`prompt`), więc nowy obiekt = nowe pytanie. Krótki oddech po reakcji
+  // (250 ms — reakcja i tak wisi min. REACTION_MIN_MS, dłuższa pauza dłużyła się).
   useEffect(() => {
     if (!prompt) return;
-    timoVoice.playSequence(prompt.sequence, { initialDelayMs: 300 });
+    timoVoice.playSequence(prompt.sequence, { initialDelayMs: 250 });
   }, [prompt]);
 
   // Odtwórz guess głosem — sequence: [guessIntro, animal.{id}].
   useEffect(() => {
     if (!guess) return;
+    // 300 ms oddechu przed strzałem — dość na napięcie, bez martwej ciszy.
     timoVoice.playSequence([guessIntro.voiceKey, `animal.${guess.id}`], {
-      initialDelayMs: 400,
+      initialDelayMs: 300,
     });
   }, [guess?.id, guessIntro]);
 
