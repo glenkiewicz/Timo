@@ -54,11 +54,19 @@ PAGES = {
         "priority": "0.3",
         "crumb": "Polityka prywatności",
     },
+    "usun-konto/index.html": {
+        "path": "/usun-konto",
+        "title": "Usunięcie konta i danych | Timo – zgadnij zwierzę",
+        "desc": "Jak usunąć konto i wszystkie dane w aplikacji Timo – zgadnij zwierzę: w aplikacji albo e-mailem, bez instalowania. Co usuwamy i jak anulować subskrypcję.",
+        "og_title": "Usunięcie konta i danych – Timo, zgadnij zwierzę",
+        "priority": "0.3",
+        "crumb": "Usunięcie konta",
+    },
 }
 
 PUBLISHER = {"@type": "Person", "@id": f"{SITE}/#autor", "name": "Grzegorz Lenkiewicz",
              "email": "kontakt@zgadujztimo.pl", "url": SITE}
-WEBSITE = {"@type": "WebSite", "@id": f"{SITE}/#strona", "url": f"{SITE}/", "name": NAME,
+WEBSITE = {"@type": "WebSite", "@id": f"{SITE}/#witryna", "url": f"{SITE}/", "name": NAME,
            "inLanguage": "pl-PL", "publisher": {"@id": f"{SITE}/#autor"}}
 APP = {
     "@type": "MobileApplication",
@@ -73,7 +81,7 @@ APP = {
     "url": f"{SITE}/",
     "installUrl": APP_URL,
     "downloadUrl": APP_URL,
-    "image": f"{SITE}/assets/img/logo.png",
+    "image": f"{SITE}/icon-512.png",
     "screenshot": [f"{SITE}/assets/img/{n}.webp" for n in ("shot-game", "shot-home", "shot-collection", "shot-animal")],
     "offers": {"@type": "Offer", "price": "0", "priceCurrency": "PLN", "availability": "https://schema.org/InStock"},
     "author": {"@id": f"{SITE}/#autor"},
@@ -103,7 +111,7 @@ def head(file, meta, page_html):
     url = SITE + meta["path"]
     graph = [WEBSITE, PUBLISHER]
     page = {"@type": "WebPage", "@id": f"{url}#strona", "url": url, "name": meta["title"],
-            "description": meta["desc"], "inLanguage": "pl-PL", "isPartOf": {"@id": f"{SITE}/#strona"},
+            "description": meta["desc"], "inLanguage": "pl-PL", "isPartOf": {"@id": f"{SITE}/#witryna"},
             "primaryImageOfPage": OG_IMAGE, "dateModified": TODAY}
     if file == "index.html":
         graph.append(APP)
@@ -148,8 +156,9 @@ def head(file, meta, page_html):
 <meta name="twitter:title" content="{e(meta["og_title"])}">
 <meta name="twitter:description" content="{e(meta["desc"])}">
 <meta name="twitter:image" content="{OG_IMAGE}">
-<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="preload" href="/assets/fonts/Gabarito_700Bold.ttf" as="font" type="font/ttf" crossorigin>
@@ -179,8 +188,8 @@ def main():
     (ROOT / "site.webmanifest").write_text(json.dumps({
         "name": NAME, "short_name": "Timo", "lang": "pl", "start_url": "/", "display": "browser",
         "background_color": "#fdf5ec", "theme_color": "#ec8e30",
-        "icons": [{"src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png"},
-                  {"src": "/icon-512.png", "sizes": "512x512", "type": "image/png"}],
+        "icons": [{"src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+                  {"src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}],
     }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print("  robots.txt, sitemap.xml, site.webmanifest")
 

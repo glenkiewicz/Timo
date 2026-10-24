@@ -5,11 +5,12 @@ w aplikacji (Timo z onboardingu, ikony wypraw, zwierzęta, odznaki, zrzuty
 ekranu), plus szerokie ilustracje z scripts/generate-landing-art.py.
 Najpierw: python3 scripts/clean-timo-art.py
 
-Uruchom:  python3 scripts/build-site-assets.py
+Uruchom:  python3 scripts/build-site-assets.py   (same ikony: --icons)
 Wynik:    site/assets/img/
 """
 import pathlib
-from PIL import Image
+import sys
+from PIL import Image, ImageDraw
 
 OUT = pathlib.Path("site/assets/img")
 SHOT_HOME = pathlib.Path("site/_raw/shot-home.png")
@@ -83,16 +84,29 @@ def main():
         print(f"  {dest.name:34} {im.size[0]}x{im.size[1]}  {dest.stat().st_size // 1024} KB")
     # Animowany Timo z aplikacji (animowane WebP z kanałem alfa) — mniejszy
     # i co druga klatka, żeby strona nie ważyła po 2 MB na postać.
-    for src, name in [("assets/timo/character/timo-wave.webp", "timo-wave"),
-                      ("assets/timo/character/timo-talk-happy.webp", "timo-talk")]:
-        anim(src, name)
-    # favicon, ikona dla iOS i do manifestu
+    anim("assets/timo/character/timo-wave.webp", "timo-wave")
+    icons()
+
+
+def icons():
+    """Favicon i ikony z ikony aplikacji. W karcie przeglądarki (16–48 px) cały
+    lisek jest nieczytelny, więc favicon to ciasny kadr na pyszczek
+    z zaokrąglonymi rogami; iOS i manifest dostają pełną ikonę."""
     icon = Image.open("assets/images/icon.png").convert("RGB")
-    icon.resize((180, 180), Image.LANCZOS).save("site/apple-touch-icon.png")
-    icon.resize((512, 512), Image.LANCZOS).save("site/icon-512.png", optimize=True)
-    icon.resize((32, 32), Image.LANCZOS).save("site/favicon-32.png")
-    icon.save("site/favicon.ico", sizes=[(16, 16), (32, 32), (48, 48)])
+    icon.resize((180, 180), Image.LANCZOS).save("site/apple-touch-icon.png", optimize=True)
+    for side in (192, 512):
+        icon.resize((side, side), Image.LANCZOS).save(f"site/icon-{side}.png", optimize=True)
+    w = icon.width
+    face = icon.crop((int(w * .12), int(w * .04), int(w * .88), int(w * .80)))
+    face = face.resize((512, 512), Image.LANCZOS).convert("RGBA")
+    mask = Image.new("L", face.size, 0)
+    ImageDraw.Draw(mask).rounded_rectangle((0, 0, 511, 511), radius=112, fill=255)
+    face.putalpha(mask)
+    for side in (32, 96):
+        face.resize((side, side), Image.LANCZOS).save(f"site/favicon-{side}.png", optimize=True)
+    face.save("site/favicon.ico", sizes=[(16, 16), (32, 32), (48, 48)])
+    print("  favicon.ico, favicon-32/96, icon-192/512, apple-touch-icon")
 
 
 if __name__ == "__main__":
-    main()
+    icons() if "--icons" in sys.argv else main()

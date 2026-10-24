@@ -26,8 +26,9 @@
 <meta name="twitter:title" content="Timo – zgadnij zwierzę. Gra dla dzieci po polsku">
 <meta name="twitter:description" content="Pomyśl o zwierzęciu, a lisek detektyw Timo zgadnie! Gra edukacyjna dla dzieci po polsku: 715 zwierząt, 24 wyprawy, głos Timo i kolekcja z ciekawostkami. Bez reklam.">
 <meta name="twitter:image" content="https://zgadujztimo.pl/assets/img/og-image.jpg">
-<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="preload" href="/assets/fonts/Gabarito_700Bold.ttf" as="font" type="font/ttf" crossorigin>
@@ -39,7 +40,7 @@
  "@graph": [
   {
    "@type": "WebSite",
-   "@id": "https://zgadujztimo.pl/#strona",
+   "@id": "https://zgadujztimo.pl/#witryna",
    "url": "https://zgadujztimo.pl/",
    "name": "Timo – zgadnij zwierzę",
    "inLanguage": "pl-PL",
@@ -71,7 +72,7 @@
    "url": "https://zgadujztimo.pl/",
    "installUrl": "https://apps.apple.com/pl/app/id6801108622",
    "downloadUrl": "https://apps.apple.com/pl/app/id6801108622",
-   "image": "https://zgadujztimo.pl/assets/img/logo.png",
+   "image": "https://zgadujztimo.pl/icon-512.png",
    "screenshot": [
     "https://zgadujztimo.pl/assets/img/shot-game.webp",
     "https://zgadujztimo.pl/assets/img/shot-home.webp",
@@ -102,10 +103,10 @@
    "description": "Pomyśl o zwierzęciu, a lisek detektyw Timo zgadnie! Gra edukacyjna dla dzieci po polsku: 715 zwierząt, 24 wyprawy, głos Timo i kolekcja z ciekawostkami. Bez reklam.",
    "inLanguage": "pl-PL",
    "isPartOf": {
-    "@id": "https://zgadujztimo.pl/#strona"
+    "@id": "https://zgadujztimo.pl/#witryna"
    },
    "primaryImageOfPage": "https://zgadujztimo.pl/assets/img/og-image.jpg",
-   "dateModified": "2026-10-20",
+   "dateModified": "2026-10-24",
    "about": {
     "@id": "https://zgadujztimo.pl/#aplikacja"
    },
@@ -179,7 +180,7 @@
     <nav class="nav" aria-label="Menu">
       <a class="brand" href="/" aria-label="Timo – strona główna"><img class="logo" src="/assets/img/logo.webp" alt="Timo" width="900" height="604"></a>
       <div class="nav-links">
-        <a href="#jak-sie-gra">Jak się gra</a>
+        <a href="#jak-grac">Jak grać</a>
         <a href="#kolekcja">Kolekcja</a>
         <a href="#dla-rodzica">Dla rodzica</a>
         <a href="#pytania">Pytania</a>
@@ -199,7 +200,7 @@
     <h1 class="intro">Pomyśl o zwierzęciu.<br><em>Timo zgadnie!</em></h1>
     <p class="lead intro" style="--d:.12s">Lisek detektyw zadaje proste pytania — „Czy ma futro?”, „Czy mieszka w wodzie?” — i próbuje odgadnąć, o kim myślisz. Wystarczy odpowiadać: tak albo nie.</p>
     <div class="stores intro" style="--d:.24s">
-      <a class="store-badge" href="#"><img src="/assets/img/app-store-badge-pl.svg" alt="Pobierz w App Store" width="180" height="60"></a>
+      <a class="store-badge" href="https://apps.apple.com/pl/app/id6801108622" rel="noopener"><img src="/assets/img/app-store-badge-pl.svg" alt="Pobierz w App Store" width="180" height="60"></a>
       <a class="store-badge play" href="#"><img src="/assets/img/google-play-badge-pl.png" alt="Pobierz z Google Play" width="646" height="250"></a>
     </div>
     <div class="badges intro" style="--d:.32s"><span>Bez reklam</span><span>Po polsku, z głosem Timo</span><span>iPhone i iPad</span></div>
@@ -207,9 +208,9 @@
     <div class="stage">
       <img class="hero-timo" src="/assets/img/timo-wave.webp" alt="Timo macha łapką" width="285" height="420">
       <div class="phone"><img src="/assets/img/shot-home.webp" alt="Ekran główny gry: Timo na polanie i Wyprawa Dnia" width="331" height="720"></div>
-      <div class="toast t1"><img src="/assets/img/icon-paws.webp" alt=""><div><b>Timo zgadł!</b><small>+25 tropów za tę rundę</small></div></div>
-      <div class="toast t2"><img src="/assets/img/badge-daily_streak_7.webp" alt=""><div><b>Wyprawa Dnia czeka</b><small>Trzy nowe propozycje na dziś</small></div></div>
-      <div class="toast t3"><img src="/assets/img/animal-lion.webp" alt=""><div><b>Nowe zwierzę!</b><small>Lew trafił do Twojej kolekcji</small></div></div>
+      <div class="toast t1"><img src="/assets/img/icon-paws.webp" alt="" width="160" height="160"><div><b>Timo zgadł!</b><small>+25 tropów za tę rundę</small></div></div>
+      <div class="toast t2"><img src="/assets/img/badge-daily_streak_7.webp" alt="" width="160" height="160"><div><b>Wyprawa Dnia czeka</b><small>Trzy nowe propozycje na dziś</small></div></div>
+      <div class="toast t3"><img src="/assets/img/animal-lion.webp" alt="" width="240" height="240"><div><b>Nowe zwierzę!</b><small>Lew trafił do Twojej kolekcji</small></div></div>
     </div>
   </div>
 </section>
@@ -228,17 +229,17 @@
   </div>
 </div>
 
-<!-- ============ JAK SIĘ GRA ============ -->
-<section id="jak-sie-gra">
+<!-- ============ JAK GRAĆ ============ -->
+<section id="jak-grac">
   <div class="wrap split">
     <div>
-      <span class="pill" data-reveal>Jak się gra</span>
+      <span class="pill" data-reveal>Jak grać</span>
       <h2>Ty myślisz, Timo pyta</h2>
       <p>Jedna runda trwa kilka minut. Grać mogą też dzieci, które <strong>dopiero uczą się czytać</strong> — Timo czyta każde pytanie na głos.</p>
       <ol class="steps" data-stagger>
-        <li><img src="/assets/img/step-think.webp" alt=""><div><b>Pomyśl o zwierzęciu</b><small>Nikomu nie mów. Może być pies, lew albo ośmiornica.</small></div></li>
-        <li><img src="/assets/img/step-answer.webp" alt=""><div><b>Odpowiadaj</b><small>Tak, Nie, Nie wiem albo To zależy.</small></div></li>
-        <li><img src="/assets/img/step-guess.webp" alt=""><div><b>Timo zgaduje</b><small>Nie zgadł? Pokaż mu zwierzę — i tak trafi do kolekcji.</small></div></li>
+        <li><img src="/assets/img/step-think.webp" alt="" width="200" height="200"><div><b>Pomyśl o zwierzęciu</b><small>Nikomu nie mów. Może być pies, lew albo ośmiornica.</small></div></li>
+        <li><img src="/assets/img/step-answer.webp" alt="" width="200" height="200"><div><b>Odpowiadaj</b><small>Tak, Nie, Nie wiem albo To zależy.</small></div></li>
+        <li><img src="/assets/img/step-guess.webp" alt="" width="200" height="200"><div><b>Timo zgaduje</b><small>Nie zgadł? Pokaż mu zwierzę — i tak trafi do kolekcji.</small></div></li>
       </ol>
       <a class="btn" href="#pobierz">Zagraj z Timo
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -257,13 +258,13 @@
       <p>Każde zwierzę z rundy trafia do kolekcji podzielonej na krainy świata. Karta zwierzęcia to ciekawostki, rozmiar i mapa, gdzie żyje.</p>
     </div>
     <div class="scene-stage" data-reveal>
-      <img class="side l" src="/assets/img/timo-collect.webp" alt="Timo z księgą zwierząt" loading="lazy">
+      <img class="side l" src="/assets/img/timo-collect.webp" alt="Timo z księgą zwierząt" loading="lazy" width="579" height="631">
       <div class="phone"><img src="/assets/img/shot-collection.webp" alt="Kolekcja zwierząt z krainami świata" width="331" height="720" loading="lazy"></div>
-      <img class="side r" src="/assets/img/timo-ways.webp" alt="Timo z mapą wypraw" loading="lazy">
-      <div class="float-disc" style="left: 8%; top: 4%; transform: rotate(-8deg)"><img src="/assets/img/animal-elephant.webp" alt=""></div>
-      <div class="float-disc" style="right: 9%; top: 0; transform: rotate(6deg)"><img src="/assets/img/animal-panda.webp" alt=""></div>
-      <div class="float-disc" style="left: 2%; top: 42%; transform: rotate(5deg)"><img src="/assets/img/animal-dolphin.webp" alt=""></div>
-      <div class="float-disc" style="right: 3%; top: 40%; transform: rotate(-6deg)"><img src="/assets/img/animal-owl.webp" alt=""></div>
+      <img class="side r" src="/assets/img/timo-ways.webp" alt="Timo z mapą wypraw" loading="lazy" width="474" height="576">
+      <div class="float-disc" style="left: 8%; top: 4%; transform: rotate(-8deg)"><img src="/assets/img/animal-elephant.webp" alt="" width="240" height="240"></div>
+      <div class="float-disc" style="right: 9%; top: 0; transform: rotate(6deg)"><img src="/assets/img/animal-panda.webp" alt="" width="240" height="240"></div>
+      <div class="float-disc" style="left: 2%; top: 42%; transform: rotate(5deg)"><img src="/assets/img/animal-dolphin.webp" alt="" width="240" height="240"></div>
+      <div class="float-disc" style="right: 3%; top: 40%; transform: rotate(-6deg)"><img src="/assets/img/animal-owl.webp" alt="" width="240" height="240"></div>
     </div>
   </div>
 </section>
@@ -277,10 +278,10 @@
       <p>Timo uczy rozpoznawać zwierzęta po cechach — futro, skrzydła, miejsce do życia — a dziecko nawet nie zauważa, że się uczy.</p>
     </div>
     <div class="why" data-stagger>
-      <div class="card-fox"><div class="icon"><img src="/assets/img/step-think.webp" alt=""></div><h3>Uczy przez zabawę</h3><p>Pytania o cechy zwierząt ćwiczą logiczne myślenie, a ciekawostki na kartach poszerzają wiedzę o przyrodzie.</p></div>
-      <div class="card-fox"><div class="icon"><img src="/assets/img/icon-sound.webp" alt=""></div><h3>Mówi po polsku</h3><p>Timo czyta pytania na głos, żartuje i podpowiada, czy robi się „ciepło”. Ma swój charakter: gubi lupę i boi się wody.</p></div>
-      <div class="card-fox"><div class="icon"><img src="/assets/img/badge-daily_streak_7.webp" alt=""></div><h3>Codziennie nowa przygoda</h3><p>Wyprawa Dnia to trzy nowe propozycje każdego dnia: ocean, dżungla, sawanna, farma, a nawet dinozaury.</p></div>
-      <div class="card-fox"><div class="icon"><img src="/assets/img/badge-explorer_5.webp" alt=""></div><h3>Odznaki i rangi</h3><p>Za odkrycia, serie i wyprawy są odznaki, a poziomy prowadzą od Małego tropiciela aż po Profesora Timo.</p></div>
+      <div class="card-fox"><div class="icon"><img src="/assets/img/step-think.webp" alt="" width="200" height="200"></div><h3>Uczy przez zabawę</h3><p>Pytania o cechy zwierząt ćwiczą logiczne myślenie, a ciekawostki na kartach poszerzają wiedzę o przyrodzie.</p></div>
+      <div class="card-fox"><div class="icon"><img src="/assets/img/icon-sound.webp" alt="" width="160" height="160"></div><h3>Mówi po polsku</h3><p>Timo czyta pytania na głos, żartuje i podpowiada, czy robi się „ciepło”. Ma swój charakter: gubi lupę i boi się wody.</p></div>
+      <div class="card-fox"><div class="icon"><img src="/assets/img/badge-daily_streak_7.webp" alt="" width="160" height="160"></div><h3>Codziennie nowa przygoda</h3><p>Wyprawa Dnia to trzy nowe propozycje każdego dnia: ocean, dżungla, sawanna, farma, a nawet dinozaury.</p></div>
+      <div class="card-fox"><div class="icon"><img src="/assets/img/badge-explorer_5.webp" alt="" width="160" height="160"></div><h3>Odznaki i rangi</h3><p>Za odkrycia, serie i wyprawy są odznaki, a poziomy prowadzą od Małego tropiciela aż po Profesora Timo.</p></div>
     </div>
   </div>
 </section>
@@ -301,7 +302,7 @@
         <div class="check"><b>Bez śledzenia</b><small>Żadnej analityki firm zewnętrznych. <a href="/polityka-prywatnosci">Prywatność</a></small></div>
       </div>
     </div>
-    <img class="timo" data-reveal src="/assets/img/timo-parent.webp" alt="Timo z tarczą" loading="lazy">
+    <img class="timo" data-reveal src="/assets/img/timo-parent.webp" alt="Timo z tarczą" loading="lazy" width="406" height="638">
   </div>
 </section>
 
@@ -329,11 +330,11 @@
     <h2>Timo już czeka na pierwszą zagadkę</h2>
     <p>Zainstaluj grę, pomyśl o zwierzęciu i sprawdź, czy lisek je zgadnie.</p>
     <div class="stores">
-      <a class="store-badge" href="#"><img src="/assets/img/app-store-badge-pl.svg" alt="Pobierz w App Store" width="180" height="60"></a>
+      <a class="store-badge" href="https://apps.apple.com/pl/app/id6801108622" rel="noopener"><img src="/assets/img/app-store-badge-pl.svg" alt="Pobierz w App Store" width="180" height="60"></a>
       <a class="store-badge play" href="#"><img src="/assets/img/google-play-badge-pl.png" alt="Pobierz z Google Play" width="646" height="250"></a>
     </div>
     <div class="cta-stage">
-      <img class="cta-timo" src="/assets/img/timo-talk.webp" alt="Timo zaprasza do gry" width="285" height="420" loading="lazy">
+      <img class="cta-timo" src="/assets/img/timo-wave.webp" alt="Timo macha łapką na pożegnanie" width="285" height="420" loading="lazy">
       <div class="phone" data-reveal><img src="/assets/img/shot-animal.webp" alt="Karta zwierzęcia: lew z ciekawostkami" width="331" height="720" loading="lazy"></div>
     </div>
   </div>
@@ -351,7 +352,7 @@
         </div>
         <div>
           <h3>Gra</h3>
-          <ul><li><a href="/#jak-sie-gra">Jak się gra</a></li><li><a href="/#kolekcja">Kolekcja</a></li><li></li></ul>
+          <ul><li><a href="/#jak-grac">Jak grać</a></li><li><a href="/#kolekcja">Kolekcja</a></li></ul>
         </div>
         <div>
           <h3>Dla rodzica</h3>
