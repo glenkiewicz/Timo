@@ -10,7 +10,7 @@
     "@expo/ui": "~57.0.20",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@react-navigation/bottom-tabs": "^7.16.2",
-    "@shopify/react-native-skia": "2.6.2",
+    "@shopify/react-native-skia": "2.14.0",
     "@supabase/supabase-js": "^2.112.3",
     "@tailwindcss/postcss": "^4.3.0",
     "clsx": "^2.1.1",
@@ -71,6 +71,6 @@
   },
   "private": true,
   "allowScripts": {
-    "@shopify/react-native-skia@2.6.2": true
+    "@shopify/react-native-skia@2.14.0": true
   }
 }

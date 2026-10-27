@@ -19,6 +19,7 @@
  */
 
 import { createAudioPlayer, type AudioPlayer } from 'expo-audio';
+import { Platform } from 'react-native';
 
 import { useProfileStore } from '@/lib/stores/profile-store';
 
@@ -48,8 +49,13 @@ export type SfxName = keyof typeof FILES;
 const VOLUME: Partial<Record<SfxName, number>> = {};
 const DEFAULT_VOLUME = 0.8;
 
-/** Tyle stuknięć naraz może zabrzmieć, zanim player wróci do obiegu. */
-const POOL = 3;
+/**
+ * Tyle stuknięć naraz może zabrzmieć, zanim player wróci do obiegu.
+ * Na Androidzie po jednym: każdy player ExoPlayera od razu zajmuje AudioTrack,
+ * a system daje aplikacji ok. 40 ścieżek. 14 efektów × 3 wyczerpywało limit
+ * i głos Timo oraz kolejne efekty milkły („Cannot create AudioTrack”).
+ */
+const POOL = Platform.OS === 'android' ? 1 : 3;
 
 const pools = new Map<SfxName, { players: AudioPlayer[]; next: number }>();
 
@@ -60,8 +66,13 @@ function poolFor(name: SfxName) {
       const p = createAudioPlayer(FILES[name]);
       p.volume = VOLUME[name] ?? DEFAULT_VOLUME;
       // Przewiń od razu po skończeniu — następne `play()` startuje bez czekania.
+      // Najpierw pauza: na Androidzie ExoPlayer po końcu dalej „chce grać”,
+      // więc samo przewinięcie puszczało efekt od nowa — w nieskończoność.
       p.addListener('playbackStatusUpdate', (st) => {
-        if (st.didJustFinish) void p.seekTo(0);
+        if (st.didJustFinish) {
+          p.pause();
+          void p.seekTo(0);
+        }
       });
       return p;
     });

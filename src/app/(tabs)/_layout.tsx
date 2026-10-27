@@ -89,6 +89,9 @@ function TabItem({
             paddingHorizontal: 18 * k,
             paddingVertical: 6 * k,
             borderRadius: 16 * k,
+            // Na Androidzie bez przycięcia płytka w skalowanym widoku gubiła
+            // zaokrąglenie i robiła się prostokątna.
+            overflow: 'hidden',
             // Jasna płytka zamiast przebarwiania ikony — ikony są kolorowe
             // same z siebie, więc stan aktywny niesie podkład, nie kolor.
             // Płytka aktywnej zakładki musi iść za kolorem podpisów: biała
@@ -195,7 +198,10 @@ export default function TabsLayout() {
     <InfoSheetProvider aboveDock>
       <Tabs
         initialRouteName="index"
-        screenOptions={{ headerShown: false }}
+        // Na Androidzie zakładki montują się od razu: expo-image wczytuje tam
+        // grafiki z opóźnieniem i przy pierwszym wejściu tło doczytywało się
+        // na oczach dziecka. Na iOS obrazki są gotowe od razu, więc leniwie.
+        screenOptions={{ headerShown: false, lazy: Platform.OS !== 'android' }}
         tabBar={(props) => <AppTabBar {...props} />}>
         <Tabs.Screen name="index" />
         <Tabs.Screen name="expeditions" />

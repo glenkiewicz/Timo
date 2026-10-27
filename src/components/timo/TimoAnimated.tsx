@@ -1,7 +1,11 @@
+import { Image as PlainImage } from 'expo-image';
+import { useEffect, useRef } from 'react';
+
 import { View } from '@/tw';
 import { Image } from '@/tw/image';
 
 import { AlphaVideo } from './AlphaVideo';
+import { WEBP_CLIPS } from './webp-clips';
 
 /**
  * Animowany Timo — zapętlone klipy maskotki.
@@ -69,6 +73,20 @@ export function TimoAnimated({
   paused,
   restartToken,
 }: TimoAnimatedProps) {
+  const webp = source ? undefined : WEBP_CLIPS[clip as keyof typeof WEBP_CLIPS];
+  if (webp != null) {
+    return (
+      <WebpClip
+        source={webp}
+        height={height}
+        offsetX={offsetX}
+        onLoad={onLoad}
+        paused={paused}
+        restartToken={restartToken}
+        label={LABELS[clip]}
+      />
+    );
+  }
   if (clip === 'walk' && !source) {
     return (
       <Image
@@ -101,5 +119,52 @@ export function TimoAnimated({
         onReady={onLoad}
       />
     </View>
+  );
+}
+
+/**
+ * Klip z `WEBP_CLIPS` (Android). Pauza zatrzymuje animację — schowana pętla
+ * mówienia nie dekoduje klatek; `restartToken` montuje obrazek od nowa, więc
+ * nowa wypowiedź startuje od pierwszej klatki.
+ */
+function WebpClip({
+  source,
+  height,
+  offsetX,
+  onLoad,
+  paused,
+  restartToken,
+  label,
+}: {
+  source: number;
+  height: number;
+  offsetX: number;
+  onLoad?: () => void;
+  paused?: boolean;
+  restartToken?: number;
+  label: string;
+}) {
+  const ref = useRef<PlainImage>(null);
+  useEffect(() => {
+    if (paused) void ref.current?.stopAnimating();
+    else void ref.current?.startAnimating();
+  }, [paused]);
+  return (
+    <PlainImage
+      key={restartToken ?? 0}
+      ref={ref}
+      source={source}
+      onLoad={onLoad}
+      autoplay={!paused}
+      style={{
+        width: '100%',
+        height,
+        ...(offsetX ? { transform: [{ translateX: offsetX }] } : null),
+      }}
+      contentFit="contain"
+      transition={0}
+      accessibilityRole="image"
+      accessibilityLabel={label}
+    />
   );
 }
