@@ -1,5 +1,6 @@
 import { Alert } from 'react-native';
 
+import { STORE } from '@/config/store';
 import { useAuthStore } from '@/lib/stores/auth-store';
 
 /**
@@ -10,7 +11,7 @@ import { useAuthStore } from '@/lib/stores/auth-store';
 export function confirmDeleteAccount(): void {
   Alert.alert(
     'Usunąć konto?',
-    'Znikną wszystkie profile dzieci, kolekcje, odznaki i postęp — na tym telefonie i na serwerze. Tego nie da się cofnąć.\n\nSubskrypcję (jeśli jest) anulujesz osobno w Ustawieniach → Apple ID → Subskrypcje.',
+    `Znikną wszystkie profile dzieci, kolekcje, odznaki i postęp — na tym telefonie i na serwerze. Tego nie da się cofnąć.\n\nSubskrypcję (jeśli jest) anulujesz osobno ${STORE.cancelPath}.`,
     [
       { text: 'Anuluj', style: 'cancel' },
       {

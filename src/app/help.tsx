@@ -9,6 +9,7 @@ import { ACCENT_FOR, GLYPH, LABEL, type AnswerType } from '@/components/buttons/
 import { INK } from '@/components/collection/map';
 import { ParentalGate } from '@/components/paywall/ParentalGate';
 import { LINKS } from '@/config/links';
+import { STORE } from '@/config/store';
 import { Icon } from '@/components/ui/Icon';
 import { FREE_DAILY_ROUNDS, FREE_EXPEDITIONS, FREE_REGIONS } from '@/config/free-tier';
 import { regionById } from '@/data/animal-regions';
@@ -180,7 +181,7 @@ export default function HelpScreen() {
         </Row>
         <Row art={LOCK_ART} tint="violet" title="Zakupy tylko dla dorosłych">
           Przed zakupem pojawia się pytanie, na które odpowie tylko dorosły. Subskrypcję anulujesz
-          w każdej chwili w ustawieniach App Store.
+          w każdej chwili {STORE.where}.
         </Row>
 
         <SectionHeader title="Dla rodzica" />

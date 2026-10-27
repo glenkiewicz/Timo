@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { INK } from '@/components/collection/map';
 import { Icon } from '@/components/ui/Icon';
 import { LINKS } from '@/config/links';
+import { STORE } from '@/config/store';
 import { type PlanId, purchase, restorePurchases, usePlans } from '@/lib/purchases';
 import { SHADOW, UI } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
@@ -57,8 +58,8 @@ export function Paywall({
   const cta = selected.trialDays > 0 ? `Wypróbuj ${selected.trialDays} dni za darmo` : 'Wybieram plan roczny';
   const fine =
     selected.trialDays > 0
-      ? `${selected.trialDays} dni za darmo, potem ${selected.price} / ${selected.period}. Anulujesz w każdej chwili w ustawieniach App Store.`
-      : `${selected.price} / ${selected.period}, odnawia się automatycznie. Anulujesz w każdej chwili w ustawieniach App Store.`;
+      ? `${selected.trialDays} dni za darmo, potem ${selected.price} / ${selected.period}. Anulujesz w każdej chwili ${STORE.where}.`
+      : `${selected.price} / ${selected.period}, odnawia się automatycznie. Anulujesz w każdej chwili ${STORE.where}.`;
 
   const behindGate = (fn: () => void) => setGate(() => fn);
 
@@ -74,7 +75,7 @@ export function Paywall({
     } else if (result === 'failed') {
       setInfo('Nie udało się dokończyć zakupu. Sprawdź połączenie i spróbuj jeszcze raz.');
     }
-    // 'cancelled' — rodzic zamknął okno Apple, nic nie mówimy.
+    // 'cancelled' — rodzic zamknął okno sklepu, nic nie mówimy.
   };
 
   const restore = async () => {
@@ -82,7 +83,7 @@ export function Paywall({
     const ok = await restorePurchases();
     setBusy(false);
     if (ok) onDone(true);
-    else setInfo('Nie znaleźliśmy subskrypcji na tym koncie Apple.');
+    else setInfo(`Nie znaleźliśmy subskrypcji ${STORE.account}.`);
   };
 
   return (

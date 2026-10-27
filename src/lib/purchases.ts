@@ -17,8 +17,8 @@ import { DEV_PREMIUM } from '@/config/features';
  * więc subskrypcja zostaje przy koncie i przechodzi na inne urządzenia.
  *
  * Ceny i okres próbny przychodzą ze sklepu (`Offerings`) — w aplikacji nie
- * ma ich na sztywno. Bez klucza `EXPO_PUBLIC_REVENUECAT_IOS_KEY` (np. przed
- * konfiguracją RevenueCat) moduł działa jako ATRAPA: przykładowe ceny,
+ * ma ich na sztywno. Bez klucza `EXPO_PUBLIC_REVENUECAT_IOS_KEY` / `_ANDROID_KEY`
+ * (np. przed konfiguracją RevenueCat) moduł działa jako ATRAPA: przykładowe ceny,
  * w dev udawany zakup, w produkcji „zakupy wkrótce”.
  */
 /**
@@ -26,10 +26,12 @@ import { DEV_PREMIUM } from '@/config/features';
  * zbudowany przed dodaniem react-native-purchases nie ma go, a wtedy SDK
  * rzuca błędem w niełapanej obietnicy; zamiast tego działa atrapa.
  */
-const API_KEY =
-  Platform.OS === 'ios' && NativeModules.RNPurchases
-    ? process.env.EXPO_PUBLIC_REVENUECAT_IOS_KEY
-    : undefined;
+const API_KEY = NativeModules.RNPurchases
+  ? Platform.select({
+      ios: process.env.EXPO_PUBLIC_REVENUECAT_IOS_KEY,
+      android: process.env.EXPO_PUBLIC_REVENUECAT_ANDROID_KEY,
+    })
+  : undefined;
 /** Uprawnienie w RevenueCat, które daje pełną wersję. */
 export const ENTITLEMENT_ID = 'premium';
 

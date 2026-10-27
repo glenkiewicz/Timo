@@ -9,6 +9,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { INK } from '@/components/collection/map';
 import { Icon } from '@/components/ui/Icon';
 import { LINKS } from '@/config/links';
+import { STORE } from '@/config/store';
 import { LOCK_ART, TOOLTIP_ART } from '@/data/info-tooltips';
 import { confirmDeleteAccount } from '@/lib/account-actions';
 import { READING_MAX, contentColumn, useUiScale } from '@/lib/layout';
@@ -28,7 +29,6 @@ const ART = {
   lock: LOCK_ART,
 };
 
-const MANAGE_SUBSCRIPTIONS = 'https://apps.apple.com/account/subscriptions';
 const GUTTER = 16;
 
 /**
@@ -84,7 +84,7 @@ export default function ParentScreen() {
     setRestoring(false);
     Alert.alert(
       ok ? 'Gotowe!' : 'Nie znaleźliśmy subskrypcji',
-      ok ? 'Pełna wersja jest aktywna na tym urządzeniu.' : 'Na tym koncie Apple nie ma aktywnej subskrypcji Timo.',
+      ok ? 'Pełna wersja jest aktywna na tym urządzeniu.' : `Nie ma aktywnej subskrypcji Timo ${STORE.account}.`,
     );
   };
 
@@ -164,8 +164,8 @@ export default function ParentScreen() {
               art={ART.paywall}
               tint="gold"
               title="Zarządzaj subskrypcją"
-              subtitle="Zmiana planu lub anulowanie w App Store"
-              onPress={() => void Linking.openURL(MANAGE_SUBSCRIPTIONS)}
+              subtitle={`Zmiana planu lub anulowanie ${STORE.where}`}
+              onPress={() => void Linking.openURL(STORE.manageUrl)}
             />
           </>
         ) : (

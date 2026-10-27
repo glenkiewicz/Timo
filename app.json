@@ -26,11 +26,11 @@
       },
       "predictiveBackGestureEnabled": false,
       "package": "com.glenkiewicz.Timo",
-      "permissions": [
+      "permissions": ["android.permission.MODIFY_AUDIO_SETTINGS"],
+      "blockedPermissions": [
         "android.permission.RECORD_AUDIO",
-        "android.permission.MODIFY_AUDIO_SETTINGS",
-        "android.permission.FOREGROUND_SERVICE",
-        "android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"
+        "android.permission.SYSTEM_ALERT_WINDOW",
+        "com.google.android.gms.permission.AD_ID"
       ]
     },
     "web": {
@@ -48,7 +48,14 @@
           "imageWidth": 240
         }
       ],
-      "expo-audio",
+      [
+        "expo-audio",
+        {
+          "microphonePermission": false,
+          "recordAudioAndroid": false,
+          "enableBackgroundPlayback": false
+        }
+      ],
       "expo-font",
       "expo-image",
       "expo-status-bar",
