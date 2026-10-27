@@ -63,12 +63,9 @@ marketing/promo/
 marketing/store/
 assets/voices/_samples/
 
-# Animacje liska jako WebP — tylko robocze; aplikacja gra wideo .mp4 (scripts/encode-alpha-video.py)
+# Przebrania liska jako WebP — tylko robocze; aplikacja gra wideo .mp4 (scripts/encode-alpha-video.py).
+# Podstawowy lisek w WebP jest w repo: gra z niego Android (src/components/timo/webp-clips.android.ts).
 assets/timo/outfits/*/*.webp
-assets/timo/character/timo-idle.webp
-assets/timo/character/timo-talk.webp
-assets/timo/character/timo-talk-happy.webp
-assets/timo/character/timo-wave.webp
 
 # Warianty ilustracji onboardingu (scripts/generate-onboarding-art.py)
 assets/onboarding/_raw/
