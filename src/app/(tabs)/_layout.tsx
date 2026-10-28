@@ -1,5 +1,5 @@
 import * as Haptics from 'expo-haptics';
-import { Tabs } from 'expo-router';
+import { Tabs, useIsFocused } from 'expo-router';
 import type { BottomTabBarProps } from 'expo-router/js-tabs';
 import { useEffect } from 'react';
 import { Platform } from 'react-native';
@@ -192,6 +192,8 @@ export default function TabsLayout() {
     void store.flushPending();
   }, []);
   const celebration = useProfileStore((s) => s.streakCelebration);
+  // Zakładki powstają już pod ekranem „Cześć!” — okno serii czeka, aż je widać.
+  const focused = useIsFocused();
   const dismiss = useProfileStore((s) => s.dismissStreakCelebration);
 
   return (
@@ -210,7 +212,7 @@ export default function TabsLayout() {
       </Tabs>
 
       <StreakCelebration
-        visible={celebration !== null}
+        visible={celebration !== null && focused}
         streak={celebration?.streak ?? 0}
         bonusPaws={celebration?.bonusPaws ?? 0}
         onClose={dismiss}

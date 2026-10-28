@@ -11,6 +11,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { useTalkMood, type TalkMood } from '@/lib/audio/timo-voice';
+import { useSplashGate } from '@/lib/stores/splash-gate';
 import { Image } from '@/tw/image';
 
 import { outfitFor } from './outfits';
@@ -358,7 +359,7 @@ export function SceneBackdrop({
   expeditionId,
 }: SceneBackdropProps) {
   const { width: screenW } = useWindowDimensions();
-
+  const markSceneShown = useSplashGate((s) => s.markSceneShown);
   if (groundY == null || groundY <= 0) return null;
 
   const { source, ground, aspect } = resolveScene(scene, expeditionId);
@@ -400,6 +401,7 @@ export function SceneBackdrop({
       pointerEvents="none"
       contentFit="fill"
       transition={0}
+      onLoad={markSceneShown}
       accessible={false}
     />
   );

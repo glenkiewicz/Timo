@@ -1,5 +1,5 @@
 import { Image as PlainImage } from 'expo-image';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { View } from '@/tw';
 import { Image } from '@/tw/image';
@@ -82,7 +82,6 @@ export function TimoAnimated({
         offsetX={offsetX}
         onLoad={onLoad}
         paused={paused}
-        restartToken={restartToken}
         label={LABELS[clip]}
       />
     );
@@ -124,8 +123,9 @@ export function TimoAnimated({
 
 /**
  * Klip z `WEBP_CLIPS` (Android). Pauza zatrzymuje animację — schowana pętla
- * mówienia nie dekoduje klatek; `restartToken` montuje obrazek od nowa, więc
- * nowa wypowiedź startuje od pierwszej klatki.
+ * mówienia nie dekoduje klatek. Bez `restartToken`: przewinięcie wymagało
+ * zamontowania obrazka od nowa, a pusty przez chwilę obrazek przykrywał
+ * schowane już idle — lisek mrugał na początku każdej kwestii.
  */
 function WebpClip({
   source,
@@ -133,7 +133,6 @@ function WebpClip({
   offsetX,
   onLoad,
   paused,
-  restartToken,
   label,
 }: {
   source: number;
@@ -141,21 +140,21 @@ function WebpClip({
   offsetX: number;
   onLoad?: () => void;
   paused?: boolean;
-  restartToken?: number;
   label: string;
 }) {
   const ref = useRef<PlainImage>(null);
+  // Prop tylko na start — dalej pauzą steruje ref, bez ruszania źródła.
+  const [autoplay] = useState(!paused);
   useEffect(() => {
     if (paused) void ref.current?.stopAnimating();
     else void ref.current?.startAnimating();
   }, [paused]);
   return (
     <PlainImage
-      key={restartToken ?? 0}
       ref={ref}
       source={source}
       onLoad={onLoad}
-      autoplay={!paused}
+      autoplay={autoplay}
       style={{
         width: '100%',
         height,

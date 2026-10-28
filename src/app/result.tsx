@@ -234,7 +234,8 @@ export default function ResultScreen() {
   const home = useCallback(() => {
     // keep lastReward — Home animates the gain and clears after
     startGame();
-    router.replace('/(tabs)');
+    // Do istniejącego Menu, nie nowego — patrz przycisk zamknięcia w game.tsx.
+    router.dismissTo('/(tabs)');
   }, [startGame, router]);
 
   return (

@@ -19,18 +19,23 @@ import { setAudioModeAsync } from 'expo-audio';
 import { useFonts } from 'expo-font';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { Platform } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { SplashWarmup } from '@/components/SplashWarmup';
 import { InfoSheetProvider } from '@/components/sheet/InfoSheet';
 import { sfx } from '@/lib/audio/sfx';
 import { useAuthStore } from '@/lib/stores/auth-store';
 import { useStartSeen } from '@/lib/stores/session-store';
 import { useNeedsOnboarding, useOnboardingStore } from '@/lib/stores/onboarding-store';
 import { initPurchases } from '@/lib/purchases';
+import { useSplashGate } from '@/lib/stores/splash-gate';
 
 SplashScreen.preventAutoHideAsync();
+
+const SCENE_WAIT_MS = 2500;
 
 export default function RootLayout() {
   // Gabarito niesie nagłówki, liczby i przyciski; Lexend jest krojem do
@@ -55,6 +60,7 @@ export default function RootLayout() {
   const activeProfileId = useAuthStore((s) => s.activeProfileId);
   const startSeen = useStartSeen(activeProfileId);
   const onboardingHydrated = useOnboardingStore((s) => s.hydrated);
+  const authHydrated = useAuthStore((s) => s.hydrated);
   const needsOnboarding = useNeedsOnboarding();
 
   useEffect(() => init(), [init]);
@@ -71,13 +77,30 @@ export default function RootLayout() {
   // Splash trzyma się do czasu, aż wiadomo, KTÓRY ekran pokazać. Bez tego
   // przez moment widać ekran gry, zanim wskoczy logowanie — a Timo zdąży
   // odpalić powitanie.
-  const ready = fontsReady && !initializing && onboardingHydrated;
+  const appReady = fontsReady && !initializing && onboardingHydrated && authHydrated;
+  // Na Androidzie splash czeka też na tło Menu i liska (`SplashWarmup`).
+  const [warm, setWarm] = useState(Platform.OS !== 'android');
+  const ready = appReady && warm;
+
+  // …a gdy start prowadzi na polanę (Menu albo „Cześć!”), także na jej
+  // narysowanie — ekran buduje się już pod splashem. Bez tego pierwsze Menu
+  // pokazywało przez chwilę samo zielone tło. Najwyżej `SCENE_WAIT_MS`.
+  const toScene =
+    Platform.OS === 'android' && !needsOnboarding && Boolean(session) && Boolean(activeProfileId);
+  const sceneShown = useSplashGate((s) => s.sceneShown);
+  const [sceneWaitOver, setSceneWaitOver] = useState(false);
+  useEffect(() => {
+    if (!ready || !toScene) return;
+    const t = setTimeout(() => setSceneWaitOver(true), SCENE_WAIT_MS);
+    return () => clearTimeout(t);
+  }, [ready, toScene]);
+  const splashDone = ready && (!toScene || sceneShown || sceneWaitOver);
 
   useEffect(() => {
-    if (ready) {
+    if (splashDone) {
       SplashScreen.hideAsync();
     }
-  }, [ready]);
+  }, [splashDone]);
 
   useEffect(() => {
     // Głos Timo gra też przy iPhone "silent mode" i ścisza inne aplikacje.
@@ -90,7 +113,7 @@ export default function RootLayout() {
   }, []);
 
   if (!ready) {
-    return null;
+    return warm ? null : <SplashWarmup onDone={() => setWarm(true)} />;
   }
 
   const signedIn = Boolean(session);
@@ -137,14 +160,18 @@ export default function RootLayout() {
 
           {/* Ekran startowy przy KAŻDYM uruchomieniu, jak ekran tytułowy
               w grach. Dopóki dziecko nie stuknie „Gramy!”, reszta gry jest
-              zamknięta — Menu nie montuje się pod spodem, więc Timo nie
-              zacznie mówić, zanim dziecko samo zacznie. */}
+              zamknięta. Wyjątek to samo Menu: buduje się pod spodem, żeby po
+              „Gramy!” polana była gotowa (na Androidzie inaczej migało zielone
+              tło). Menu wita się głosem dopiero, gdy jest widoczne. */}
+          <Stack.Protected guard={playing}>
+            <Stack.Screen name="(tabs)" />
+          </Stack.Protected>
+
           <Stack.Protected guard={playing && !startSeen}>
             <Stack.Screen name="start" />
           </Stack.Protected>
 
           <Stack.Protected guard={playing && startSeen}>
-            <Stack.Screen name="(tabs)" />
             <Stack.Screen name="game" />
             <Stack.Screen name="result" />
             <Stack.Screen name="expedition-intro/[id]" />
@@ -231,7 +258,11 @@ function EntryRedirect({
       return;
     }
     if (!startSeen) {
-      if (first !== 'start') router.replace('/start');
+      // „Cześć!” kładziemy NA Menu, nie zamiast niego: Menu buduje się pod
+      // spodem, więc po „Gramy!” polana jest gotowa.
+      if (first === 'start') return;
+      if (first === '(tabs)') router.push('/start');
+      else router.replace('/(tabs)');
       return;
     }
     // „Kto gra?” wolno otworzyć w trakcie gry — ze strefy rodzica (zmiana

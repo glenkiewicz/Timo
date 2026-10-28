@@ -160,7 +160,9 @@ export default function GameScreen() {
         {/* ---------- pasek gry ---------- */}
         <View className="flex-row items-center gap-2 px-4">
           <Pressable
-            onPress={() => router.replace('/(tabs)')}
+            // Powrót do istniejącego Menu — `replace` budował zakładki od nowa
+            // i na Androidzie polana doczytywała się na zielonym tle.
+            onPress={() => router.dismissTo('/(tabs)')}
             accessibilityRole="button"
             accessibilityLabel="Zakończ grę"
             className="items-center justify-center rounded-pill"

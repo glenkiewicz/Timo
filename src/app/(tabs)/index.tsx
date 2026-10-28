@@ -1,6 +1,6 @@
-import { useRouter } from 'expo-router';
+import { useIsFocused, useRouter } from 'expo-router';
 import { useWindowDimensions } from 'react-native';
-import { type ReactNode, useEffect, useRef, useState } from 'react';
+import { type ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -45,6 +45,9 @@ const SOUND_OFF = require('../../../assets/icons/info/sound_off.png');
 const PARENT = require('../../../assets/icons/info/parent.png');
 const HELP = require('../../../assets/icons/info/help.png');
 const EXPEDITIONS_ICON = require('../../../assets/icons/tab-expeditions.png');
+
+/** Linia gruntu polany z ostatniego pomiaru Menu — patrz `groundY`. */
+let lastGroundY: number | null = null;
 
 export default function HomeScreen() {
   const timoH = useTimoHeight(0.6);
@@ -107,14 +110,17 @@ export default function HomeScreen() {
   // profilu) — inaczej Timo mówiłby do ekranu logowania.
   const streakCelebration = useProfileStore((s) => s.streakCelebration);
   const greetedThisSession = useRef(false);
+  // Menu powstaje już pod ekranem „Cześć!” (patrz EntryRedirect w _layout) —
+  // wita się dopiero, gdy jest widoczne.
+  const focused = useIsFocused();
   useEffect(() => {
     // Ekran serii mówi własne powitanie. Gdyby Home odezwał się równolegle,
     // `playLine` uciąłby jedną z kwestii — czekamy, aż dziecko go zamknie.
-    if (streakCelebration) return;
+    if (streakCelebration || !focused) return;
     if (greetedThisSession.current) return;
     greetedThisSession.current = true;
     void timoVoice.playLine(pickGreeting().voiceKey);
-  }, [streakCelebration]);
+  }, [streakCelebration, focused]);
 
   // Osobny efekt z pustą listą zależności: głos ma milknąć przy zejściu
   // z ekranu, a nie przy każdej zmianie `streakCelebration`.
@@ -131,7 +137,13 @@ export default function HomeScreen() {
 
   // Linia gruntu polany: mierzona z pozycji Timo, bo zależy od wysokości paska
   // statystyk (insets.top), paska XP i liczby linijek dymka. Patrz TimoStage.
-  const [groundY, setGroundY] = useState<number | null>(null);
+  // Ostatni pomiar z tej sesji: Menu budowane od nowa (zmiana profilu, powrót
+  // z „Kto gra?”) od razu rysuje polanę, zamiast pokazać samo zielone tło.
+  const [groundY, setGroundYState] = useState<number | null>(lastGroundY);
+  const setGroundY = useCallback((y: number) => {
+    lastGroundY = y;
+    setGroundYState(y);
+  }, []);
 
   const avatarPulse = useSharedValue(1);
   useEffect(() => {

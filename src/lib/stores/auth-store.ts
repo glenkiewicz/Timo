@@ -41,6 +41,11 @@ type AuthState = {
   /** Lista profili wczytana z bazy dla bieżącej sesji. */
   profilesLoaded: boolean;
   activeProfileId: string | null;
+  /**
+   * `activeProfileId` odczytany z pamięci telefonu. Do tego czasu nie wiadomo,
+   * kto gra — bez czekania wolny telefon mógłby dostać na starcie „Kto gra?”.
+   */
+  hydrated: boolean;
 
   busy: boolean;
   error: string | null;
@@ -140,6 +145,7 @@ export const useAuthStore = create<AuthState>()(
       profiles: [],
       profilesLoaded: false,
       activeProfileId: null,
+      hydrated: false,
       busy: false,
       error: null,
 
@@ -487,6 +493,7 @@ export const useAuthStore = create<AuthState>()(
       storage: createJSONStorage(() => AsyncStorage),
       // Sesję trzyma klient Supabase; my pamiętamy tylko, kto ostatnio grał.
       partialize: (state) => ({ activeProfileId: state.activeProfileId }),
+      onRehydrateStorage: () => () => useAuthStore.setState({ hydrated: true }),
     }
   )
 );

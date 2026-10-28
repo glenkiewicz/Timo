@@ -55,7 +55,9 @@ export default function StartScreen() {
     if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     sfx.play('tap');
     markStartSeen(activeProfileId);
-    router.replace('/(tabs)');
+    // Menu czeka już pod spodem (EntryRedirect) — nowe budowałoby polanę od
+    // zera i na Androidzie mignęłoby zielone tło.
+    router.dismissTo('/(tabs)');
   };
 
   return (
