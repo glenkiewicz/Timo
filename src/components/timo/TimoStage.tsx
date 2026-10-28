@@ -14,6 +14,7 @@ import { useTalkMood, type TalkMood } from '@/lib/audio/timo-voice';
 import { type SplashScreenKey, useSplashGate } from '@/lib/stores/splash-gate';
 import { Image } from '@/tw/image';
 
+import { fetchOutfitWebp, outfitWebp } from './outfit-webp';
 import { outfitFor } from './outfits';
 import { TimoAnimated, type TimoClip } from './TimoAnimated';
 
@@ -452,6 +453,19 @@ export function TalkingTimo({
   outfit?: string | null;
 }) {
   const dress = outfitFor(outfit);
+  // Na Androidzie przebranie z pobranych WebP. Brakujące pobieramy, a gotowe
+  // zastępuje wideo bez przeskoku (`TimoAnimated`).
+  const [webp, setWebp] = useState(() => (dress && outfit ? outfitWebp(outfit) : undefined));
+  useEffect(() => {
+    if (!dress || !outfit || webp) return;
+    let alive = true;
+    void fetchOutfitWebp(outfit).then(() => {
+      if (alive) setWebp(outfitWebp(outfit));
+    });
+    return () => {
+      alive = false;
+    };
+  }, [dress, outfit, webp]);
   const mood = useTalkMood();
   // Która pętla jest na wierzchu — zostaje też w trakcie zejścia.
   const [shown, setShown] = useState<TimoClip>('talk');
@@ -493,7 +507,7 @@ export function TalkingTimo({
   return (
     <RNView style={{ height, alignSelf: 'stretch' }}>
       <Animated.View style={idleStyle}>
-        <TimoAnimated clip={idleClip} height={height} source={dress?.idle} />
+        <TimoAnimated clip={idleClip} height={height} source={dress?.idle} webpUri={webp?.idle} />
       </Animated.View>
       {(['talk', 'talk-happy'] as const).map((clip) => (
         <Animated.View
@@ -506,6 +520,7 @@ export function TalkingTimo({
           <TimoAnimated
             clip={clip}
             source={talkSource(clip)}
+            webpUri={webp ? (clip === 'talk-happy' ? webp.happy : webp.talk) : undefined}
             height={height}
             paused={!(playing && shown === clip)}
             restartToken={shown === clip ? restart : 0}

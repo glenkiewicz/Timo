@@ -7,6 +7,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { INK } from '@/components/collection/map';
 import { AnimalCarousel } from '@/components/expeditions/AnimalCarousel';
 import { expeditionAccent } from '@/components/expeditions/ExpeditionCard';
+import { PackingLoader } from '@/components/expeditions/PackingLoader';
+import { fetchOutfitWebp, outfitWebpMissing } from '@/components/timo/outfit-webp';
 import { SceneBackdrop, TimoStage, sceneBaseColor } from '@/components/timo/TimoStage';
 import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
@@ -21,6 +23,9 @@ import { SHADOW, UI } from '@/theme/ui';
 import type { Animal } from '@/types/game';
 import { contentColumn, useContentWidth, useTimoHeight, useUiScale } from '@/lib/layout';
 import { Pressable, Text, View } from '@/tw';
+
+/** Dłużej na przebranie nie czekamy — lisek zagra wtedy z wideo. */
+const PACKING_MAX_MS = 12000;
 
 export default function ExpeditionIntroScreen() {
   const router = useRouter();
@@ -43,14 +48,31 @@ export default function ExpeditionIntroScreen() {
     [exp],
   );
 
-  // Autoplay intra po mount + stop przy unmount.
+  // Android: przebranie liska jeszcze się nie pobrało — zamiast rwącego się
+  // wideo krótko „Timo pakuje plecak”, a lisek wchodzi już płynny.
+  const [packing, setPacking] = useState(() => (exp ? outfitWebpMissing(exp.id) : false));
   useEffect(() => {
-    if (!introPick) return;
+    if (!packing || !exp) return;
+    let alive = true;
+    const done = () => {
+      if (alive) setPacking(false);
+    };
+    const timer = setTimeout(done, PACKING_MAX_MS);
+    void fetchOutfitWebp(exp.id).then(done);
+    return () => {
+      alive = false;
+      clearTimeout(timer);
+    };
+  }, [packing, exp]);
+
+  // Autoplay intra po mount (albo po spakowaniu) + stop przy unmount.
+  useEffect(() => {
+    if (!introPick || packing) return;
     timoVoice.playLine(introPick.voiceKey);
     return () => {
       timoVoice.stop();
     };
-  }, [introPick]);
+  }, [introPick, packing]);
 
   const animals: Animal[] = useMemo(() => {
     if (!exp?.inspirationRoster) return [];
@@ -133,12 +155,16 @@ export default function ExpeditionIntroScreen() {
       {/* Duży lisek na środku. Dymka nie ma — wstęp i tak mówi głosem,
           a dymek zasłaniał scenę i dublował to, co słychać. Lisek i karuzela
           siedzą razem na środku wolnego miejsca, przycisk na dole. */}
-      <View style={{ flex: 1, justifyContent: 'center' }}>
+      {/* Przy pakowaniu układ stoi pod spodem niewidoczny — zwykły lisek mierzy
+          linię gruntu, więc scena wyprawy jest od razu i nie skacze potem. */}
+      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, justifyContent: 'center', opacity: packing ? 0 : 1 }}>
       <View style={{ alignItems: 'center' }}>
         <View style={{ width: screenW * 0.62 }}>
           <TimoStage
+            key={packing ? 'packing' : 'ready'}
             onGroundY={setGroundY}
-            outfit={exp.id}
+            outfit={packing ? null : exp.id}
             height={Math.max(Math.round(Math.min(screenW * 0.62, 280)), timoH)}
           />
         </View>
@@ -162,9 +188,26 @@ export default function ExpeditionIntroScreen() {
 
       <AnimalCarousel animals={animals} />
       </View>
+      {packing ? (
+        <View
+          style={{
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <PackingLoader size={Math.min(screenW * 0.5, 240)} />
+        </View>
+      ) : null}
+      </View>
 
       {/* Przycisk pod karuzelą, nie na niej — wcześniej zasłaniał zwierzęta. */}
-      <View style={{ ...contentColumn, paddingHorizontal: 16, paddingBottom: insets.bottom + 12, paddingTop: 6 }}>
+      <View
+        pointerEvents={packing ? 'none' : 'auto'}
+        style={{ ...contentColumn, paddingHorizontal: 16, paddingBottom: insets.bottom + 12, paddingTop: 6, opacity: packing ? 0 : 1 }}>
         <Plate label="Mam zwierzę!" accent={accent} onPress={handleStart} />
       </View>
     </View>

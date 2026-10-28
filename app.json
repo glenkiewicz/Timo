@@ -51,7 +51,7 @@
           "android": {
             "image": "./assets/images/splash-icon-android.png",
             "imageWidth": 240,
-            "backgroundColor": "#75ba1d"
+            "backgroundColor": "#2f6b4f"
           }
         }
       ],

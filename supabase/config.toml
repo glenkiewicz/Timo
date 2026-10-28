@@ -243,6 +243,24 @@ otp_expiry = 3600
 # admin_email = "admin@email.com"
 # sender_name = "Admin"
 
+# Polskie szablony — w projekcie na produkcji wklejone ręcznie w panelu
+# (Authentication → Emails → Templates).
+[auth.email.template.confirmation]
+subject = "Potwierdź adres e-mail w Timo"
+content_path = "./supabase/templates/confirmation.html"
+
+[auth.email.template.email_change]
+subject = "Potwierdź adres e-mail w Timo"
+content_path = "./supabase/templates/email_change.html"
+
+[auth.email.template.recovery]
+subject = "Nowe hasło do Timo"
+content_path = "./supabase/templates/recovery.html"
+
+[auth.email.template.magic_link]
+subject = "Zaloguj się do Timo"
+content_path = "./supabase/templates/magic_link.html"
+
 # Uncomment to customize email template
 # [auth.email.template.invite]
 # subject = "You have been invited"

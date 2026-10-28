@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adres potwierdzony | Timo – zgadnij zwierzę</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#ec8e30">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/assets/fonts/Gabarito_700Bold.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="/assets/css/site.css?v=6ab6d96b">
+</head>
+<body>
+
+<div class="nav-wrap">
+  <div class="wrap">
+    <nav class="nav" aria-label="Menu">
+      <a class="brand" href="/" aria-label="Timo – strona główna"><img class="logo" src="/assets/img/logo.webp" alt="Timo" width="900" height="604"></a>
+      <div class="nav-links">
+        <a href="/#jak-grac">Jak grać</a>
+        <a href="/#kolekcja">Kolekcja</a>
+        <a href="/#dla-rodzica">Dla rodzica</a>
+        <a href="/pomoc">Pomoc</a>
+      </div>
+      <a class="btn white" href="/#pobierz">Pobierz za darmo
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </nav>
+  </div>
+</div>
+
+
+<div class="doc-hero">
+  <div class="wrap">
+    <h1 id="tytul">Adres e-mail potwierdzony</h1>
+    <p>Aplikacja „Timo – zgadnij zwierzę”</p>
+  </div>
+</div>
+
+<main class="doc">
+
+<div class="box" id="ok">
+  <p><strong>Gotowe!</strong> Postępy dziecka są teraz zapisane na koncie i nie zginą przy zmianie telefonu.</p>
+</div>
+<p id="dalej">Wróć do aplikacji Timo. Jeśli poprosi o logowanie, zaloguj się tym adresem e-mail i swoim hasłem do Timo.</p>
+
+<div class="box" id="blad" hidden>
+  <p><strong>Ten link już nie działa.</strong> Linki z e-maili są ważne przez godzinę i tylko raz. Możliwe też, że adres jest już potwierdzony — spróbuj po prostu zalogować się w aplikacji.</p>
+</div>
+<p id="blad-dalej" hidden>Jeśli logowanie nie działa, w aplikacji wybierz ponownie <strong>Zapisz postępy</strong> — wyślemy nowy link. W razie kłopotów napisz na <a href="mailto:kontakt@zgadujztimo.pl">kontakt@zgadujztimo.pl</a>.</p>
+
+<script>
+// Supabase po nieudanej weryfikacji dokleja błąd w #hashu albo w ?query.
+(function () {
+  var p = location.hash + "&" + location.search;
+  if (p.indexOf("error") === -1) return;
+  document.getElementById("tytul").textContent = "Link wygasł";
+  ["ok", "dalej"].forEach(function (id) { document.getElementById(id).hidden = true; });
+  ["blad", "blad-dalej"].forEach(function (id) { document.getElementById(id).hidden = false; });
+})();
+</script>
+
+</main>
+
+<div class="doc-space"></div>
+<div class="footer-wrap">
+  <div class="wrap">
+    <footer class="card-fox footer">
+      <div class="footer-grid">
+        <div>
+          <a class="brand" href="/" aria-label="Timo – strona główna"><img class="logo" src="/assets/img/logo.webp" alt="Timo" width="900" height="604"></a>
+          <p>Gra dla dzieci, w której lisek detektyw zgaduje zwierzęta. Po polsku, bez reklam.</p>
+        </div>
+        <div>
+          <h3>Gra</h3>
+          <ul><li><a href="/#jak-grac">Jak grać</a></li><li><a href="/#kolekcja">Kolekcja</a></li></ul>
+        </div>
+        <div>
+          <h3>Dla rodzica</h3>
+          <ul><li><a href="/#dla-rodzica">Bezpieczeństwo</a></li><li><a href="/pomoc">Pomoc</a></li><li><a href="mailto:kontakt@zgadujztimo.pl">Kontakt</a></li></ul>
+        </div>
+        <div>
+          <h3>Informacje</h3>
+          <ul><li><a href="/regulamin">Regulamin</a></li><li><a href="/polityka-prywatnosci">Polityka prywatności</a></li></ul>
+        </div>
+      </div>
+      <div class="bottom"><span>© 2026 Timo – zgadnij zwierzę</span><a href="mailto:kontakt@zgadujztimo.pl">kontakt@zgadujztimo.pl</a></div>
+    </footer>
+  </div>
+</div>
+
+
+<script src="/assets/js/site.js?v=ed7471cb" defer></script>
+</body>
+</html>

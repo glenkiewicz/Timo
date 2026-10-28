@@ -50,6 +50,8 @@ type TimoAnimatedProps = {
   onLoad?: () => void;
   /** Zamiast klipu z `CLIPS` — np. lisek przebrany pod wyprawę (`outfits.ts`). */
   source?: number;
+  /** Ten sam klip jako pobrany WebP (`outfit-webp.android.ts`) — ma pierwszeństwo przed `source`. */
+  webpUri?: string;
   /** Zatrzymany klip nie zużywa dekodera (pętla mówienia, gdy Timo milczy). */
   paused?: boolean;
   /** Zmiana przewija klip na początek — nowa wypowiedź od pierwszej klatki. */
@@ -70,10 +72,21 @@ export function TimoAnimated({
   offsetX = 0,
   onLoad,
   source,
+  webpUri,
   paused,
   restartToken,
 }: TimoAnimatedProps) {
-  const webp = source ? undefined : WEBP_CLIPS[clip as keyof typeof WEBP_CLIPS];
+  // WebP przebrania, który doszedł dopiero w trakcie sceny (pobieranie się
+  // skończyło): wchodzi nad wideo i zastępuje je po wczytaniu — bez pustej
+  // klatki. Taki, który był od początku, gra od razu bez wideo.
+  const [webpAtMount] = useState(Boolean(webpUri));
+  const [lateWebpLoaded, setLateWebpLoaded] = useState(false);
+  const webp =
+    webpUri && webpAtMount
+      ? { uri: webpUri }
+      : source
+        ? undefined
+        : WEBP_CLIPS[clip as keyof typeof WEBP_CLIPS];
   if (webp != null) {
     return (
       <WebpClip
@@ -109,14 +122,28 @@ export function TimoAnimated({
       accessible
       accessibilityRole="image"
       accessibilityLabel={LABELS[clip]}
-      style={offsetX ? { transform: [{ translateX: offsetX }] } : undefined}>
-      <AlphaVideo
-        source={source ?? CLIPS[clip]}
-        height={height}
-        paused={paused}
-        restartToken={restartToken}
-        onReady={onLoad}
-      />
+      style={{ height, ...(offsetX ? { transform: [{ translateX: offsetX }] } : null) }}>
+      {lateWebpLoaded ? null : (
+        <AlphaVideo
+          source={source ?? CLIPS[clip]}
+          height={height}
+          paused={paused}
+          restartToken={restartToken}
+          onReady={onLoad}
+        />
+      )}
+      {webpUri ? (
+        <View style={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
+          <WebpClip
+            source={{ uri: webpUri }}
+            height={height}
+            offsetX={0}
+            onLoad={() => setLateWebpLoaded(true)}
+            paused={paused}
+            label={LABELS[clip]}
+          />
+        </View>
+      ) : null}
     </View>
   );
 }
@@ -135,7 +162,7 @@ function WebpClip({
   paused,
   label,
 }: {
-  source: number;
+  source: number | { uri: string };
   height: number;
   offsetX: number;
   onLoad?: () => void;

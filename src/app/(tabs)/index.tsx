@@ -17,6 +17,8 @@ import { INK, SlotDisc } from '@/components/collection/map';
 import { useInfoSheet } from '@/components/sheet/InfoSheet';
 import { ExpeditionCard, ExpeditionTile } from '@/components/expeditions/ExpeditionCard';
 import { SceneBackdrop, TimoStage, sceneBaseColor } from '@/components/timo/TimoStage';
+import { prefetchOutfitWebp } from '@/components/timo/outfit-webp';
+import { outfitFor } from '@/components/timo/outfits';
 import { ParentalGate } from '@/components/paywall/ParentalGate';
 import { Plate } from '@/components/ui/Plate';
 import { ProgressBar } from '@/components/ui/ProgressBar';
@@ -520,6 +522,13 @@ function ExpeditionDailyCard() {
   const expeditionProgress = useProfileStore((s) => s.expeditionProgress);
   const chooseExpedition = useProfileStore((s) => s.chooseExpedition);
   const startGame = useGameStore((s) => s.start);
+
+  // Android: przebrany lisek gra z pobranych WebP — niech będą gotowe, zanim
+  // dziecko wejdzie w wyprawę (outfit-webp.android.ts).
+  const dailyIds = dailyChoice?.expedition_ids.join(',') ?? '';
+  useEffect(() => {
+    prefetchOutfitWebp(dailyIds.split(',').filter((id) => outfitFor(id)));
+  }, [dailyIds]);
 
   if (!dailyChoice) return null;
 
