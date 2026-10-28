@@ -11,7 +11,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { useTalkMood, type TalkMood } from '@/lib/audio/timo-voice';
-import { useSplashGate } from '@/lib/stores/splash-gate';
+import { type SplashScreenKey, useSplashGate } from '@/lib/stores/splash-gate';
 import { Image } from '@/tw/image';
 
 import { outfitFor } from './outfits';
@@ -351,15 +351,18 @@ type SceneBackdropProps = {
    * Wyprawa bez dedykowanej grafiki spada z powrotem na `scene`.
    */
   expeditionId?: string | null;
+  /** Ekran startowy, na którego polanę czeka splash (`splash-gate`). */
+  splashKey?: SplashScreenKey;
 };
 
 export function SceneBackdrop({
   groundY,
   scene = 'home',
   expeditionId,
+  splashKey,
 }: SceneBackdropProps) {
   const { width: screenW } = useWindowDimensions();
-  const markSceneShown = useSplashGate((s) => s.markSceneShown);
+  const markShown = useSplashGate((s) => s.markShown);
   if (groundY == null || groundY <= 0) return null;
 
   const { source, ground, aspect } = resolveScene(scene, expeditionId);
@@ -401,7 +404,7 @@ export function SceneBackdrop({
       pointerEvents="none"
       contentFit="fill"
       transition={0}
-      onLoad={markSceneShown}
+      onLoad={splashKey ? () => markShown(splashKey) : undefined}
       accessible={false}
     />
   );

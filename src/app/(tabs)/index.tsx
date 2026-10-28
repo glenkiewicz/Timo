@@ -176,7 +176,7 @@ export default function HomeScreen() {
   return (
     <View className="flex-1" style={{ backgroundColor: sceneBaseColor('home') }}>
       {/* ---------- polana: pełnoekranowe tło pod całą zawartością ---------- */}
-      <SceneBackdrop groundY={groundY} scene="home" />
+      <SceneBackdrop groundY={groundY} scene="home" splashKey="home" />
 
       {/* ---------- górny pasek statystyk ----------
           Trzy tarcze z prawej (pomoc, dźwięk, strefa rodzica) mają zawsze

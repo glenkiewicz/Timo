@@ -82,12 +82,12 @@ export default function RootLayout() {
   const [warm, setWarm] = useState(Platform.OS !== 'android');
   const ready = appReady && warm;
 
-  // …a gdy start prowadzi na polanę (Menu albo „Cześć!”), także na jej
-  // narysowanie — ekran buduje się już pod splashem. Bez tego pierwsze Menu
-  // pokazywało przez chwilę samo zielone tło. Najwyżej `SCENE_WAIT_MS`.
-  const toScene =
-    Platform.OS === 'android' && !needsOnboarding && Boolean(session) && Boolean(activeProfileId);
-  const sceneShown = useSplashGate((s) => s.sceneShown);
+  // …a gdy start prowadzi na polanę, także na jej narysowanie na ekranie,
+  // który ma być widoczny: „Cześć!” albo — gdy dziecko już je widziało — Menu.
+  // Oba budują się pod splashem; bez czekania mignęło zielone tło albo Menu
+  // spod „Cześć!”. Najwyżej `SCENE_WAIT_MS`.
+  const toScene = !needsOnboarding && Boolean(session) && Boolean(activeProfileId);
+  const sceneShown = useSplashGate((s) => s.shown.includes(startSeen ? 'home' : 'start'));
   const [sceneWaitOver, setSceneWaitOver] = useState(false);
   useEffect(() => {
     if (!ready || !toScene) return;
@@ -168,7 +168,9 @@ export default function RootLayout() {
           </Stack.Protected>
 
           <Stack.Protected guard={playing && !startSeen}>
-            <Stack.Screen name="start" />
+            {/* Bez animacji: kładzie się na gotowe Menu jeszcze pod splashem,
+                a po „Gramy!” odsłania tę samą polanę. */}
+            <Stack.Screen name="start" options={{ animation: 'none' }} />
           </Stack.Protected>
 
           <Stack.Protected guard={playing && startSeen}>

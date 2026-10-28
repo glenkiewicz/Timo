@@ -1,18 +1,21 @@
 import { create } from 'zustand';
 
+/** Ekrany startowe z polaną, na które może czekać splash. */
+export type SplashScreenKey = 'start' | 'home';
+
 /**
- * Czy pierwsza polana (`SceneBackdrop`) już się narysowała. Na Androidzie
- * splash czeka na to w `_layout.tsx` — inaczej pierwsze Menu pokazywało przez
- * chwilę samo zielone tło, zanim polana się doczytała.
+ * Które ekrany startowe narysowały już polanę (`SceneBackdrop`). Splash czeka
+ * w `_layout.tsx` na ten, który ma być widoczny — inaczej po splashu mignęło
+ * zielone tło albo Menu spod ekranu „Cześć!”.
  */
 type SplashGate = {
-  sceneShown: boolean;
-  markSceneShown: () => void;
+  shown: SplashScreenKey[];
+  markShown: (key: SplashScreenKey) => void;
 };
 
 export const useSplashGate = create<SplashGate>((set, get) => ({
-  sceneShown: false,
-  markSceneShown: () => {
-    if (!get().sceneShown) set({ sceneShown: true });
+  shown: [],
+  markShown: (key) => {
+    if (!get().shown.includes(key)) set({ shown: [...get().shown, key] });
   },
 }));

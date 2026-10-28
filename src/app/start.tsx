@@ -62,7 +62,7 @@ export default function StartScreen() {
 
   return (
     <View className="flex-1" style={{ backgroundColor: sceneBaseColor('home') }}>
-      <SceneBackdrop groundY={groundY} scene="home" />
+      <SceneBackdrop groundY={groundY} scene="home" splashKey="start" />
 
       {/* Lisek na środku ekranu, jak w Menu — ta sama scena, więc przejście
           po „Gramy!” nie przeskakuje. */}
