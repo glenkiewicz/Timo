@@ -119,6 +119,9 @@ function friendlyError(message: string): string {
   if (lower.includes('user already registered')) {
     return 'Konto z tym adresem już istnieje — zaloguj się.';
   }
+  if (lower.includes('different from the old password')) {
+    return 'To hasło jest już ustawione — wpisz inne albo zaloguj się nim.';
+  }
   if (lower.includes('password should be at least')) {
     return 'Hasło musi mieć co najmniej 6 znaków.';
   }
@@ -318,7 +321,13 @@ export const useAuthStore = create<AuthState>()(
         if ((mode ?? (get().isAnonymous() ? 'link' : 'login')) === 'link') {
           // Dopięcie e-maila do anonimowego konta — uid i postępy zostają.
           // Hasło zapisuje się od razu (sprawdzone), adres po kodzie z maila.
-          const { data, error } = await supabase.auth.updateUser({ email, password });
+          let { data, error } = await supabase.auth.updateUser({ email, password });
+          // Druga próba (np. po „Zmień adres e-mail” albo nowej wersji
+          // aplikacji): hasło zapisało się już przy pierwszej, a Supabase nie
+          // przyjmuje „zmiany” na to samo. Wysyłamy wtedy sam adres — nowy kod.
+          if (error && (error.code === 'same_password' || /different from the old/i.test(error.message))) {
+            ({ data, error } = await supabase.auth.updateUser({ email }));
+          }
           if (error) {
             set({ busy: false, error: friendlyError(error.message) });
             return;
