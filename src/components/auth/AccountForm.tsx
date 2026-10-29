@@ -322,21 +322,29 @@ export function AccountForm({
   );
 }
 
+/**
+ * Długość kodu ustawia projekt Supabase (Auth → Email OTP length, 6–10).
+ * Nasz wysyła 8 cyfr — przyjmujemy każdą rozsądną długość, żeby zmiana
+ * w panelu nie blokowała rodziców.
+ */
+const CODE_MIN = 6;
+const CODE_MAX = 10;
+
 /** Po ilu sekundach wolno poprosić o kolejny kod (Supabase domyślnie: 60 s). */
 const RESEND_AFTER_S = 60;
 
 const CODE_COPY: Record<PendingCode['purpose'], { title: string; lead: (email: string) => string }> = {
   link: {
     title: 'Wpisz kod z maila',
-    lead: (email) => `Wysłaliśmy 6-cyfrowy kod na ${email}. Po wpisaniu konto rodzica będzie gotowe.`,
+    lead: (email) => `Wysłaliśmy kod na ${email}. Po wpisaniu konto rodzica będzie gotowe.`,
   },
   signup: {
     title: 'Wpisz kod z maila',
-    lead: (email) => `Wysłaliśmy 6-cyfrowy kod na ${email}. Po wpisaniu będziesz zalogowany.`,
+    lead: (email) => `Wysłaliśmy kod na ${email}. Po wpisaniu będziesz zalogowany.`,
   },
   recovery: {
     title: 'Wpisz kod z maila',
-    lead: (email) => `Wysłaliśmy 6-cyfrowy kod na ${email}. Potem ustawisz nowe hasło.`,
+    lead: (email) => `Wysłaliśmy kod na ${email}. Potem ustawisz nowe hasło.`,
   },
   'new-password': {
     title: 'Ustaw nowe hasło',
@@ -395,7 +403,7 @@ function CodeStep({
   }, [onCheckLink]);
 
   const digits = value.replace(/\D/g, '');
-  const canSubmit = !busy && (newPassword ? value.length >= 6 : digits.length === 6);
+  const canSubmit = !busy && (newPassword ? value.length >= 6 : digits.length >= CODE_MIN);
 
   return (
     <KeyboardAvoidingView
@@ -442,14 +450,14 @@ function CodeStep({
                 value={value}
                 onChangeText={(t) => {
                   clearError();
-                  setValue(t.replace(/\D/g, '').slice(0, 6));
+                  setValue(t.replace(/\D/g, '').slice(0, CODE_MAX));
                 }}
-                placeholder="123456"
+                placeholder="12345678"
                 keyboardType="number-pad"
                 inputMode="numeric"
                 autoComplete="one-time-code"
                 textContentType="oneTimeCode"
-                maxLength={6}
+                maxLength={CODE_MAX}
               />
             )}
 

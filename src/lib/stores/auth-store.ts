@@ -25,7 +25,7 @@ export type ChildProfile = {
 export type AuthMode = 'link' | 'login';
 
 /**
- * Czekamy na 6-cyfrowy kod z maila. Rodzic wpisuje go w aplikacji i od razu
+ * Czekamy na kod z maila. Rodzic wpisuje go w aplikacji i od razu
  * jest zalogowany — wcześniej dostawał link do przeglądarki, a aplikacja nie
  * wiedziała, że konto jest już potwierdzone.
  * - `link`     — e-mail dopięty do anonimowego konta („Zapisz postępy”),
