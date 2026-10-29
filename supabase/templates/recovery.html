@@ -16,6 +16,12 @@
 <h1 style="margin:0 0 12px;font-size:22px;line-height:1.3;color:#2f6b4f;">Ustaw nowe hasło</h1>
 <p style="margin:0 0 12px;font-size:16px;line-height:1.5;">Dostaliśmy prośbę o zmianę hasła do konta Timo dla adresu <strong>{{ .Email }}</strong>.</p>
 </td></tr>
+<tr><td align="center" style="padding:20px 28px 4px;">
+<p style="margin:0 0 8px;font-size:14px;color:#7a6a5a;">Twój kod:</p>
+<div style="display:inline-block;background:#fff1df;border-radius:14px;padding:14px 22px;font-size:34px;font-weight:bold;letter-spacing:8px;color:#2f6b4f;font-family:Menlo,Consolas,monospace;">{{ .Token }}</div>
+<p style="margin:10px 0 0;font-size:14px;color:#7a6a5a;">Wpisz go w aplikacji Timo. Kod działa przez godzinę.</p>
+</td></tr>
+<tr><td align="center" style="padding:16px 28px 0;font-size:13px;color:#9a8a7a;">Albo ustaw hasło przyciskiem:</td></tr>
 <tr><td align="center" style="padding:24px 28px 8px;">
 <a href="{{ .ConfirmationURL }}" style="display:inline-block;background:#75ba1d;color:#ffffff;text-decoration:none;font-weight:bold;font-size:17px;padding:14px 28px;border-radius:14px;">Ustawiam nowe hasło</a>
 </td></tr>
