@@ -1,4 +1,5 @@
 import { Directory, File, Paths } from 'expo-file-system';
+import * as Network from 'expo-network';
 
 import type { OutfitWebp } from './outfit-webp';
 import { outfitFor } from './outfits';
@@ -70,10 +71,31 @@ export function fetchOutfitWebp(outfit: string): Promise<void> {
 
 /**
  * Pobiera z wyprzedzeniem przebrania wypraw, które dziecko pewnie zaraz
- * otworzy (Wyprawy Dnia z Menu) — po kolei, żeby nie zapchać łącza.
+ * otworzy (Wyprawy Dnia z Menu) — po kolei i TYLKO na Wi-Fi: to do ~22 MB
+ * dziennie, a rodzic na danych komórkowych za nie płaci. Bez Wi-Fi przebranie
+ * dociągnie się dopiero przy wejściu w wyprawę.
  */
 export function prefetchOutfitWebp(outfits: readonly string[]): void {
-  void outfits.reduce<Promise<void>>(
+  void Network.getNetworkStateAsync()
+    .then((net) => {
+      if (net.type !== Network.NetworkStateType.WIFI && net.type !== Network.NetworkStateType.ETHERNET) return;
+      return prefetchInOrder(outfits);
+    })
+    .catch(() => undefined);
+}
+
+/** Czy da się teraz cokolwiek pobrać — bez sieci ekran pakowania nie ma na co czekać. */
+export async function outfitDownloadPossible(): Promise<boolean> {
+  try {
+    const net = await Network.getNetworkStateAsync();
+    return net.isConnected === true && net.isInternetReachable !== false;
+  } catch {
+    return true;
+  }
+}
+
+function prefetchInOrder(outfits: readonly string[]): Promise<void> {
+  return outfits.reduce<Promise<void>>(
     (chain, outfit) => chain.then(() => (outfitWebp(outfit) ? undefined : fetchOutfitWebp(outfit))),
     Promise.resolve(),
   );

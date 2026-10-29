@@ -8,7 +8,11 @@ import { INK } from '@/components/collection/map';
 import { AnimalCarousel } from '@/components/expeditions/AnimalCarousel';
 import { expeditionAccent } from '@/components/expeditions/ExpeditionCard';
 import { PackingLoader } from '@/components/expeditions/PackingLoader';
-import { fetchOutfitWebp, outfitWebpMissing } from '@/components/timo/outfit-webp';
+import {
+  fetchOutfitWebp,
+  outfitDownloadPossible,
+  outfitWebpMissing,
+} from '@/components/timo/outfit-webp';
 import { SceneBackdrop, TimoStage, sceneBaseColor } from '@/components/timo/TimoStage';
 import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
@@ -58,7 +62,11 @@ export default function ExpeditionIntroScreen() {
       if (alive) setPacking(false);
     };
     const timer = setTimeout(done, PACKING_MAX_MS);
-    void fetchOutfitWebp(exp.id).then(done);
+    // Bez sieci nie ma na co czekać — od razu lisek z wideo w aplikacji.
+    void outfitDownloadPossible().then((online) => {
+      if (!online) done();
+      else void fetchOutfitWebp(exp.id).then(done);
+    });
     return () => {
       alive = false;
       clearTimeout(timer);

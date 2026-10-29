@@ -152,6 +152,12 @@ export function talkMoodFor(keys: string[]): TalkMood {
 
 class TimoVoiceController {
 	private player: AudioPlayer | null = null;
+	/**
+	 * Kończy obietnicę bieżącego klipu. Przerwanie (`stop`, nowa kwestia)
+	 * sprząta player i nasłuch, więc bez tego `await playLine(...)` czekałoby
+	 * w nieskończoność — a z nim np. reakcja w grze i odblokowanie odpowiedzi.
+	 */
+	private finishCurrent: (() => void) | null = null;
 	private subscription: { remove: () => void } | null = null;
 	private timeoutId: ReturnType<typeof setTimeout> | null = null;
 	/** Token kasujący aktualną sekwencję, gdy wystartuje nowa. */
@@ -215,6 +221,9 @@ class TimoVoiceController {
 	 * używane gdy zaraz potem startuje nowy klip i nie chcemy migotania wait-mode.
 	 */
 	private cleanupCurrent(): void {
+		const finish = this.finishCurrent;
+		this.finishCurrent = null;
+		finish?.();
 		if (this.timeoutId !== null) {
 			clearTimeout(this.timeoutId);
 			this.timeoutId = null;
@@ -299,6 +308,7 @@ class TimoVoiceController {
 			const finishOnce = (reason: string) => {
 				if (resolved) return;
 				resolved = true;
+				if (this.finishCurrent === interrupt) this.finishCurrent = null;
 				if (__DEV__) {
 					if (reason === "timeout" && lastStatus) {
 						console.log(
@@ -327,6 +337,9 @@ class TimoVoiceController {
 				}
 				resolve();
 			};
+
+			const interrupt = () => finishOnce("interrupted");
+			this.finishCurrent = interrupt;
 
 			try {
 				// Status co 50 ms zamiast domyślnych 500 ms — z niego buzia liska

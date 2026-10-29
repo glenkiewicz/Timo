@@ -37,6 +37,10 @@ import { useSplashGate } from '@/lib/stores/splash-gate';
 
 SplashScreen.preventAutoHideAsync();
 
+// Błąd w kodzie dowolnego ekranu — lisek i „Spróbuj ponownie” zamiast
+// zamknięcia aplikacji (expo-router łapie go na tym poziomie).
+export { ErrorScreen as ErrorBoundary } from '@/components/ErrorScreen';
+
 // Przyciski systemowe Androida białe — pod nimi jest pomarańczowy splash, a
 // potem zielony dok. Szarą nakładkę pod przyciskami wyłącza `enforceContrast`
 // w app.json; styl ustawiamy też tutaj, bo motyw po splashu go nadpisywał.

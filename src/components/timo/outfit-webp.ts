@@ -15,3 +15,7 @@ export function prefetchOutfitWebp(_outfits: readonly string[]): void {}
 export function outfitWebpMissing(_outfit: string): boolean {
   return false;
 }
+
+export async function outfitDownloadPossible(): Promise<boolean> {
+  return false;
+}
