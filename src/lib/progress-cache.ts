@@ -14,8 +14,6 @@ import type { SyncedProgress } from '@/lib/progress-merge';
 
 export type ProgressSnapshot = SyncedProgress & {
   stars: number;
-  weeklyXp: number;
-  weekKey: string | null;
   /** Postęp, którego serwer jeszcze nie ma (zmiana dziecka bez sieci). */
   dirty: boolean;
 };

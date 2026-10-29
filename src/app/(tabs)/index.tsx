@@ -11,7 +11,6 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AnimatedCounter } from '@/components/gamification/AnimatedCounter';
-import { LeaderboardCard } from '@/components/leaderboard/LeaderboardCard';
 import { FloatingDelta } from '@/components/gamification/FloatingDelta';
 import { INK, SlotDisc } from '@/components/collection/map';
 import { useInfoSheet } from '@/components/sheet/InfoSheet';
@@ -27,9 +26,8 @@ import { EXPEDITIONS_BY_ID } from '@/data/expeditions';
 import { TOOLTIPS, TOOLTIP_ART } from '@/data/info-tooltips';
 import { pickGreeting } from '@/data/timo-lines';
 import { levelFromXp, xpProgress } from '@/features/gamification/award';
-import { useWeeklyScoreSync } from '@/features/leaderboard/useWeeklyScoreSync';
 import { titleFor } from '@/features/gamification/titles';
-import { DEV_DAILY_EXPEDITION, SHOW_HOME_LEADERBOARD } from '@/config/features';
+import { DEV_DAILY_EXPEDITION } from '@/config/features';
 import { timoVoice } from '@/lib/audio/timo-voice';
 import { useGameStore } from '@/lib/stores/game-store';
 import { useProfileStore } from '@/lib/stores/profile-store';
@@ -71,7 +69,6 @@ export default function HomeScreen() {
   const setAudioMuted = useProfileStore((s) => s.setAudioMuted);
 
   // Wysyłka wyniku tygodnia — niezależna od tego, czy tabela jest widoczna.
-  useWeeklyScoreSync();
 
   // Górny pasek: na telefonie ciaśniej (tarcze 40 pt, odstęp 6, margines 12),
   // żeby obok trzech tarcz zmieściły się też trzy plakietki z serią dni.
@@ -262,9 +259,7 @@ export default function HomeScreen() {
       </View>
 
       {/* Zwykły widok, nie ScrollView: w środku jest tylko pasek XP, a przewijanie
-          zajmowało cały środek ekranu — przeciągnięcie po lisku ciągnęło pasek.
-          Gdy wróci tabela wyników (SHOW_HOME_LEADERBOARD), trzeba będzie ją
-          przewijać osobno, nie cały środek. */}
+          zajmowało cały środek ekranu — przeciągnięcie po lisku ciągnęło pasek. */}
       <View style={{ ...contentColumn, flex: 1, paddingHorizontal: 20, paddingBottom: 12 }}>
         {/* ---------- poziom + pasek XP ---------- */}
         <Pressable
@@ -328,10 +323,6 @@ export default function HomeScreen() {
         </Pressable>
         {/* ---------- gry na dziś (wersja darmowa) ---------- */}
         {roundsLeft !== null ? <RoundsLeft left={roundsLeft} /> : null}
-        {/* ---------- ranking tygodnia ----------
-            Schowany na czas przebudowy wizualnej (SHOW_HOME_LEADERBOARD).
-            Sama synchronizacja wyniku leci wyżej, przez useWeeklyScoreSync. */}
-        {SHOW_HOME_LEADERBOARD ? <LeaderboardCard /> : null}
       </View>
 
       {/* ---------- Timo ----------

@@ -15,8 +15,6 @@ export type ChildProfile = {
   /** Imię widoczne tylko w tej aplikacji, na koncie rodzica. */
   nick: string;
   avatar: string;
-  /** Ziarno pseudonimu publicznego w rankingu — nie tekst, tylko liczba. */
-  nick_variant: number;
 };
 
 /**
@@ -85,8 +83,6 @@ type AuthState = {
 
   /** Aktywny profil — wygodny skrót dla ekranów. */
   activeProfile: () => ChildProfile | null;
-  /** Losuje nowy pseudonim publiczny (zmienia ziarno w bazie). */
-  rerollPublicName: () => Promise<void>;
 
   clearError: () => void;
 };
@@ -399,7 +395,7 @@ export const useAuthStore = create<AuthState>()(
       loadProfiles: async () => {
         const { data, error } = await supabase
           .from('profiles')
-          .select('id, nick, avatar, nick_variant')
+          .select('id, nick, avatar')
           .order('created_at', { ascending: true });
 
         if (error) {
@@ -426,7 +422,7 @@ export const useAuthStore = create<AuthState>()(
           supabase
             .from('profiles')
             .insert({ parent_id: get().session!.user.id, nick: nick.trim(), avatar })
-            .select('id, nick, avatar, nick_variant')
+            .select('id, nick, avatar')
             .single();
         let { data, error } = await insert();
         // 23503 = brak rodzica w bazie: konto usunięte, a telefon trzymał jego
@@ -468,28 +464,6 @@ export const useAuthStore = create<AuthState>()(
       activeProfile: () => {
         const { profiles, activeProfileId } = get();
         return profiles.find((p) => p.id === activeProfileId) ?? null;
-      },
-
-      rerollPublicName: async () => {
-        const profile = get().activeProfile();
-        if (!profile) return;
-
-        const nextVariant = profile.nick_variant + 1;
-        const { error } = await supabase
-          .from('profiles')
-          .update({ nick_variant: nextVariant })
-          .eq('id', profile.id);
-
-        if (error) {
-          set({ error: friendlyError(error.message) });
-          return;
-        }
-
-        set({
-          profiles: get().profiles.map((p) =>
-            p.id === profile.id ? { ...p, nick_variant: nextVariant } : p
-          ),
-        });
       },
 
       clearError: () => set({ error: null }),

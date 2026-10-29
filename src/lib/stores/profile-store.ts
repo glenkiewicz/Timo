@@ -15,7 +15,6 @@ import {
   advanceStreak,
   todayLocal,
 } from '@/features/gamification/streak';
-import { isoWeekKey } from '@/features/leaderboard/week';
 import {
   loadProgressSnapshot,
   saveProgressSnapshot,
@@ -82,10 +81,6 @@ type ProfileState = {
   /** Liczba szybkich zwycięstw (≤3 pytań) — do odznaki `lightning` */
   fast_wins: number;
 
-  /** XP zdobyte w bieżącym tygodniu ISO — wynik wysyłany do rankingu online. */
-  weeklyXp: number;
-  /** Tydzień, którego dotyczy `weeklyXp` (np. `2026-W33`). */
-  weekKey: string | null;
   collection: string[];
   badges: string[];
 
@@ -196,8 +191,6 @@ const initial: Omit<
   lastPlayDate: null,
   lastSeenDate: null,
   fast_wins: 0,
-  weeklyXp: 0,
-  weekKey: null,
   collection: [] as string[],
   badges: [] as string[],
   dailyChoice: null,
@@ -216,8 +209,6 @@ function snapshotOf(s: ProfileState): ProgressSnapshot {
   return {
     ...pickSynced(s),
     stars: s.stars,
-    weeklyXp: s.weeklyXp,
-    weekKey: s.weekKey,
     dirty: s.dirty,
   };
 }
@@ -307,17 +298,10 @@ export const useProfileStore = create<ProfileState>()(
         tryExtraUnlock('night_owl', hour >= 21 || hour < 4);
         tryExtraUnlock('early_bird', hour >= 5 && hour < 8);
 
-        // Tygodniowe XP — zeruje się przy zmianie tygodnia ISO, żeby ranking
-        // startował co poniedziałek od nowa.
-        const currentWeek = isoWeekKey();
-        const weeklyBase = state.weekKey === currentWeek ? state.weeklyXp : 0;
-
         set({
           paws: state.paws + result.pawsDelta,
           stars: state.stars + result.starsDelta,
           xp: state.xp + result.xpDelta,
-          weeklyXp: weeklyBase + result.xpDelta,
-          weekKey: currentWeek,
           streak: result.nextStreak,
           lastPlayDate: today,
           fast_wins: nextFastWins,

@@ -201,7 +201,6 @@ export default function RootLayout() {
             <Stack.Screen name="result" />
             <Stack.Screen name="expedition-intro/[id]" />
             <Stack.Screen name="animal/[id]" />
-            <Stack.Screen name="leaderboard" />
             <Stack.Screen name="help" />
             <Stack.Screen name="paywall" options={{ presentation: 'modal' }} />
             <Stack.Screen name="parent" />
