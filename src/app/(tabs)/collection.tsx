@@ -140,6 +140,14 @@ function CollectionMap({
           decelerationRate="fast"
           contentContainerStyle={{ paddingHorizontal: side }}
           style={{ flexGrow: 0 }}
+          // Tylko kraina na ekranie i sąsiednie. Domyślnie FlatList rysował
+          // wszystkie 13 naraz — wyspa, tabliczka i cztery zwierzęta każda —
+          // i sama Kolekcja trzymała ~185 MB (pomiar na Galaxy A16), a na
+          // Androidzie zakładki montują się od startu aplikacji.
+          initialNumToRender={2}
+          maxToRenderPerBatch={1}
+          windowSize={3}
+          removeClippedSubviews={Platform.OS === 'android'}
           onMomentumScrollEnd={(e) =>
             setPage(Math.round(e.nativeEvent.contentOffset.x / step))
           }

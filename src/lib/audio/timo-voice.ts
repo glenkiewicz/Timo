@@ -86,6 +86,26 @@ export const TIMO_VOICE_DEBUG_PARAMS = {
  * lepszy do muzyki, przy głosie potrafi dodać pogłosu). Android ignoruje
  * jakość i przy `shouldCorrectPitch` trzyma ton 1.0 (ExoPlayer/Sonic).
  */
+/**
+ * Zwalnia player NAPRAWDĘ. `remove()` w expo-audio na Androidzie tylko wypisuje
+ * go z listy modułu — ExoPlayer i jego AudioTrack żyją dalej, aż zbierze je GC.
+ * Każda kwestia to nowy player, więc po 2–3 seriach gry system odmawiał
+ * kolejnych ścieżek („Cannot create AudioTrack”) i Timo milkł. `release()`
+ * zwalnia natywny obiekt od razu.
+ */
+function disposePlayer(player: AudioPlayer): void {
+	try {
+		player.remove();
+	} catch {
+		/* player może być już w niestabilnym stanie */
+	}
+	try {
+		player.release();
+	} catch {
+		/* już zwolniony */
+	}
+}
+
 function applyPlaybackRate(player: AudioPlayer): void {
 	try {
 		player.shouldCorrectPitch = true;
@@ -210,10 +230,10 @@ class TimoVoiceController {
 		if (this.player) {
 			try {
 				this.player.pause();
-				this.player.remove();
 			} catch {
 				/* player może być już w niestabilnym stanie */
 			}
+			disposePlayer(this.player);
 			this.player = null;
 		}
 	}
@@ -241,13 +261,7 @@ class TimoVoiceController {
 			}
 		}
 		setTimeout(() => {
-			for (const p of players) {
-				try {
-					p.remove();
-				} catch {
-					/* ignore */
-				}
-			}
+			for (const p of players) disposePlayer(p);
 		}, PRELOAD_RELEASE_MS);
 	}
 
@@ -308,11 +322,7 @@ class TimoVoiceController {
 					sub = null;
 				}
 				if (player) {
-					try {
-						player.remove();
-					} catch {
-						/* ignore */
-					}
+					disposePlayer(player);
 					if (this.player === player) this.player = null;
 				}
 				resolve();
