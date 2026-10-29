@@ -22,6 +22,7 @@ import { useProfileStore } from '@/lib/stores/profile-store';
 import { SHADOW, UI, type Accent } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
 import { Image } from '@/tw/image';
+import { refreshDailyReminder } from '@/lib/reminders';
 
 type TabSpec = {
   name: string;
@@ -191,6 +192,12 @@ export default function TabsLayout() {
     if (!store.ownerId && active) useProfileStore.setState({ ownerId: active });
     void store.flushPending();
   }, []);
+  // Przypomnienia na kolejne dni z aktualnym imieniem, serią i kolekcją.
+  const activeProfileId = useAuthStore((s) => s.activeProfileId);
+  const profilesLoaded = useAuthStore((s) => s.profilesLoaded);
+  useEffect(() => {
+    void refreshDailyReminder();
+  }, [activeProfileId, profilesLoaded]);
   const celebration = useProfileStore((s) => s.streakCelebration);
   // Zakładki powstają już pod ekranem „Cześć!” — okno serii czeka, aż je widać.
   const focused = useIsFocused();

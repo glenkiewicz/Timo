@@ -65,6 +65,7 @@ export default function HomeScreen() {
   const lastReward = useProfileStore((s) => s.lastReward);
   const clearLastReward = useProfileStore((s) => s.clearLastReward);
   const ensureDailyChoice = useProfileStore((s) => s.ensureDailyChoice);
+  const hasDailyChoice = useProfileStore((s) => s.dailyChoice !== null);
   const audioMuted = useProfileStore((s) => s.audioMuted);
   const setAudioMuted = useProfileStore((s) => s.setAudioMuted);
 
@@ -102,7 +103,10 @@ export default function HomeScreen() {
   const premium = usePremium();
   useEffect(() => {
     ensureDailyChoice();
-  }, [ensureDailyChoice, premium]);
+    // `hasDailyChoice`: zestaw znika przy przełączeniu na nowe dziecko (jego
+    // stan startuje od zera) — bez tego po pierwszym profilu Wyprawy Dnia
+    // pokazywały się dopiero po ponownym uruchomieniu.
+  }, [ensureDailyChoice, premium, hasDailyChoice]);
 
   // Greeting Timo — gra raz na sesję aplikacji (nie przy każdym powrocie na home).
   // Cleanup ucina powitanie, gdy ekran znika (np. wylogowanie albo zmiana

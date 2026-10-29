@@ -15,6 +15,7 @@ import { SHADOW, UI } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
 import { useTimoHeight } from '@/lib/layout';
 import { Image } from '@/tw/image';
+import { animalsWord } from '@/lib/polish';
 
 const STEPS = [
   { art: require('../../assets/icons/start/think.png'), label: 'Pomyśl o zwierzęciu' },
@@ -181,11 +182,3 @@ export default function StartScreen() {
   );
 }
 
-/** „1 zwierzę”, „3 zwierzęta”, „5 zwierząt”, „22 zwierzęta”. */
-function animalsWord(n: number): string {
-  if (n === 1) return 'zwierzę';
-  const tens = n % 100;
-  const units = n % 10;
-  if (units >= 2 && units <= 4 && (tens < 12 || tens > 14)) return 'zwierzęta';
-  return 'zwierząt';
-}
