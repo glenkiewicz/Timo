@@ -91,7 +91,13 @@ export default function ParentScreen() {
   const confirmSignOut = () => {
     Alert.alert('Wylogować konto rodzica?', 'Postępy zostają na koncie — zalogujesz się nim ponownie na dowolnym urządzeniu.', [
       { text: 'Anuluj', style: 'cancel' },
-      { text: 'Wyloguj', style: 'destructive', onPress: () => void signOut() },
+      {
+        text: 'Wyloguj',
+        style: 'destructive',
+        // Po wylogowaniu od razu logowanie — rodzic zwykle przełącza konto.
+        // Wstecz prowadzi na „Kto gra?” na nowym, pustym telefonie.
+        onPress: () => void signOut().then(() => router.push({ pathname: '/account', params: { mode: 'login' } })),
+      },
     ]);
   };
 

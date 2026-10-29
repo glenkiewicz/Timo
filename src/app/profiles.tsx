@@ -273,7 +273,13 @@ export default function ProfilesScreen() {
                 label="Zapisz postępy — załóż konto rodzica"
                 variant="ghost"
                 size="md"
-                onPress={() => setGate(() => () => router.push('/account'))}
+                onPress={() => setGate(() => () => router.push({ pathname: '/account', params: { mode: 'link' } }))}
+              />
+              <Button
+                label="Mam już konto — zaloguj się"
+                variant="ghost"
+                size="md"
+                onPress={() => setGate(() => () => router.push({ pathname: '/account', params: { mode: 'login' } }))}
               />
             </>
           ) : (
@@ -281,7 +287,7 @@ export default function ProfilesScreen() {
               label="Wyloguj konto rodzica"
               variant="ghost"
               size="sm"
-              onPress={() => void signOut()}
+              onPress={() => void signOut().then(() => router.push({ pathname: '/account', params: { mode: 'login' } }))}
             />
           )}
           {/* Wymóg App Store (5.1.1): konto, które da się założyć, da się
