@@ -11,6 +11,7 @@ import { Icon } from '@/components/ui/Icon';
 import { LINKS } from '@/config/links';
 import { STORE } from '@/config/store';
 import { LOCK_ART, TOOLTIP_ART } from '@/data/info-tooltips';
+import { ChildAvatar } from '@/components/profile/ChildAvatar';
 import { confirmDeleteAccount } from '@/lib/account-actions';
 import { READING_MAX, contentColumn, useUiScale } from '@/lib/layout';
 import { restorePurchases, usePremium } from '@/lib/purchases';
@@ -42,7 +43,9 @@ export default function ParentScreen() {
   const insets = useSafeAreaInsets();
   const premium = usePremium();
 
-  const childName = useAuthStore((s) => s.profiles.find((p) => p.id === s.activeProfileId)?.nick ?? null);
+  const child = useAuthStore((s) => s.profiles.find((p) => p.id === s.activeProfileId) ?? null);
+  const childName = child?.nick ?? null;
+  const uiScale = useUiScale();
   const childCount = useAuthStore((s) => s.profiles.length);
   const anonymous = useAuthStore((s) => s.session?.user.is_anonymous === true);
   const email = useAuthStore((s) => s.session?.user.email ?? null);
@@ -140,6 +143,7 @@ export default function ParentScreen() {
         <SectionHeader title="Dzieci" />
         <ActionRow
           art={ART.profile}
+          icon={child ? <ChildAvatar avatar={child.avatar} profileId={child.id} size={52 * uiScale} /> : undefined}
           tint="primary"
           title={childName ? `Teraz gra: ${childName}` : 'Profile dzieci'}
           subtitle={childCount > 1 ? 'Zmień dziecko albo dodaj nowy profil' : 'Dodaj profil kolejnego dziecka'}
@@ -280,10 +284,17 @@ const CARD = {
   boxShadow: `${SHADOW.e1}, ${SHADOW.rim}`,
 } as const;
 
-type RowBase = { art: number; tint: keyof typeof ACCENT; title: string; subtitle?: string };
+type RowBase = {
+  art: number;
+  tint: keyof typeof ACCENT;
+  title: string;
+  subtitle?: string;
+  /** Zamiast grafiki `art` — np. awatar dziecka (także zdjęcie). */
+  icon?: ReactNode;
+};
 
 /** Obrazek w plamie, tytuł i opis — ten sam układ co wiersze w „Jak grać z Timo”. */
-function RowBody({ art, tint, title, subtitle, danger, right }: RowBase & { danger?: boolean; right?: ReactNode }) {
+function RowBody({ art, icon, tint, title, subtitle, danger, right }: RowBase & { danger?: boolean; right?: ReactNode }) {
   const k = useUiScale();
   const blob = 52 * k;
   return (
@@ -298,7 +309,9 @@ function RowBody({ art, tint, title, subtitle, danger, right }: RowBase & { dang
           justifyContent: 'center',
           overflow: 'hidden',
         }}>
-        <Image source={art} style={{ width: blob * 0.8, height: blob * 0.8 }} contentFit="contain" transition={0} accessible={false} />
+        {icon ?? (
+          <Image source={art} style={{ width: blob * 0.8, height: blob * 0.8 }} contentFit="contain" transition={0} accessible={false} />
+        )}
       </View>
       <View style={{ flex: 1 }}>
         <Text style={{ color: danger ? UI.danger : INK, fontFamily: 'Gabarito-Bold', fontSize: 17 }}>{title}</Text>

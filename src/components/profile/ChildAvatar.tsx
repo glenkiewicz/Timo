@@ -1,5 +1,5 @@
 import { avatarSource, DEFAULT_AVATAR } from '@/data/avatars';
-import { avatarPhotoUri, PHOTO_AVATAR } from '@/lib/avatar-photo';
+import { avatarPhotoUri, PHOTO_AVATAR, useAvatarPhotoVersion } from '@/lib/avatar-photo';
 import { UI } from '@/theme/ui';
 import { Text, View } from '@/tw';
 import { Image } from '@/tw/image';
@@ -20,8 +20,9 @@ export function ChildAvatar({
   photoUri?: string | null;
   size: number;
 }) {
-  const photo =
-    avatar === PHOTO_AVATAR ? (photoUri ?? (profileId ? avatarPhotoUri(profileId) : null)) : null;
+  const version = useAvatarPhotoVersion((s) => s.version);
+  const saved = avatar === PHOTO_AVATAR && profileId ? avatarPhotoUri(profileId) : null;
+  const photo = avatar === PHOTO_AVATAR ? (photoUri ?? (saved ? `${saved}?v=${version}` : null)) : null;
   const source = photo
     ? { uri: photo }
     : (avatarSource(avatar) ?? (avatar === PHOTO_AVATAR ? avatarSource(DEFAULT_AVATAR) : null));

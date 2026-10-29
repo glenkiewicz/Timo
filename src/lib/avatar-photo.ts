@@ -1,5 +1,6 @@
 import { Directory, File, Paths } from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
+import { create } from 'zustand';
 
 /**
  * Zdjęcie dziecka jako awatar — ZOSTAJE NA TELEFONIE. Na serwer idzie tylko
@@ -37,11 +38,23 @@ export async function pickAvatarPhoto(from: 'library' | 'camera'): Promise<strin
   return result.assets[0].uri;
 }
 
+/**
+ * Licznik zmian zdjęć. Plik na dysku nie powiadamia Reacta — profil pojawiał
+ * się na „Kto gra?” przed skopiowaniem zdjęcia i zostawał z domyślnym
+ * portretem. `ChildAvatar` słucha licznika i odświeża się po zapisie.
+ * Wersja trafia też do adresu, żeby expo-image nie pokazał starego zdjęcia.
+ */
+export const useAvatarPhotoVersion = create<{ version: number; bump: () => void }>((set) => ({
+  version: 0,
+  bump: () => set((s) => ({ version: s.version + 1 })),
+}));
+
 /** Kopiuje wybrane zdjęcie na stałe pod id profilu. */
 export function saveAvatarPhoto(profileId: string, tempUri: string): void {
   const target = new File(dir(), `${profileId}.jpg`);
   if (target.exists) target.delete();
   new File(tempUri).copy(target);
+  useAvatarPhotoVersion.getState().bump();
 }
 
 /** Adres zdjęcia profilu albo `null`, gdy na tym telefonie go nie ma. */
@@ -53,4 +66,5 @@ export function avatarPhotoUri(profileId: string): string | null {
 export function deleteAvatarPhoto(profileId: string): void {
   const f = new File(Paths.document, 'avatars', `${profileId}.jpg`);
   if (f.exists) f.delete();
+  useAvatarPhotoVersion.getState().bump();
 }
