@@ -1,4 +1,4 @@
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 
 import { AccountForm } from '@/components/auth/AccountForm';
@@ -17,7 +17,10 @@ export default function AccountScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const anonymous = useAuthStore((s) => s.session?.user.is_anonymous === true);
-  const [variant, setVariant] = useState<'link' | 'login'>(anonymous ? 'link' : 'login');
+  // „Mam już konto” (onboarding) otwiera od razu logowanie — wcześniej anonimowa
+  // sesja kierowała rodzica do „Zapisz postępy”.
+  const { mode } = useLocalSearchParams<{ mode?: 'link' | 'login' }>();
+  const [variant, setVariant] = useState<'link' | 'login'>(mode ?? (anonymous ? 'link' : 'login'));
 
   const back = () => (router.canGoBack() ? router.back() : router.replace('/profiles'));
 

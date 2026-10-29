@@ -24,6 +24,19 @@ export type ChildProfile = {
  */
 export type AuthMode = 'link' | 'login';
 
+/**
+ * Czekamy na 6-cyfrowy kod z maila. Rodzic wpisuje go w aplikacji i od razu
+ * jest zalogowany — wcześniej dostawał link do przeglądarki, a aplikacja nie
+ * wiedziała, że konto jest już potwierdzone.
+ * - `link`     — e-mail dopięty do anonimowego konta („Zapisz postępy”),
+ * - `signup`   — nowe konto przy logowaniu,
+ * - `recovery` — „Nie pamiętam hasła”; po kodzie `new-password`.
+ */
+export type PendingCode = {
+  email: string;
+  purpose: 'link' | 'signup' | 'recovery' | 'new-password';
+};
+
 type AuthState = {
   /**
    * Sesja. Jak w Finchu gra startuje bez zakładania konta: przy pierwszym
@@ -71,9 +84,19 @@ type AuthState = {
    */
   deleteAccount: () => Promise<boolean>;
 
-  /** Konto założone, ale Supabase czeka na potwierdzenie adresu. */
-  awaitingConfirmation: string | null;
-  clearAwaitingConfirmation: () => void;
+  /** Czekamy na kod z maila (albo nowe hasło po kodzie). */
+  pendingCode: PendingCode | null;
+  /** Sprawdza kod; `true` = adres potwierdzony. */
+  verifyCode: (code: string) => Promise<boolean>;
+  /** Wysyła kod jeszcze raz. */
+  resendCode: () => Promise<void>;
+  /** „Nie pamiętam hasła” — kod na podany adres. */
+  startPasswordReset: (email: string) => Promise<void>;
+  /** Nowe hasło po kodzie z „Nie pamiętam hasła”. */
+  setNewPassword: (password: string) => Promise<void>;
+  /** Rodzic kliknął link zamiast wpisać kod — sprawdza, czy adres jest już potwierdzony. */
+  checkLinkConfirmed: () => Promise<void>;
+  cancelCode: () => void;
 
   loadProfiles: () => Promise<void>;
   /** Id nowego profilu albo `null`, gdy się nie udało. */
@@ -103,7 +126,13 @@ function friendlyError(message: string): string {
     return 'To nie wygląda na poprawny adres e-mail.';
   }
   if (lower.includes('email not confirmed')) {
-    return 'Potwierdź adres e-mail linkiem, który wysłaliśmy.';
+    return 'Potwierdź adres e-mail kodem, który wysłaliśmy.';
+  }
+  if (lower.includes('token has expired') || lower.includes('otp') || lower.includes('invalid token')) {
+    return 'Kod jest nieprawidłowy albo wygasł — wyślij nowy.';
+  }
+  if (lower.includes('for security purposes') || lower.includes('rate limit')) {
+    return 'Poczekaj chwilę, zanim poprosisz o kolejny kod.';
   }
   if (lower.includes('network') || lower.includes('fetch')) {
     return 'Brak połączenia z serwerem.';
@@ -208,17 +237,87 @@ export const useAuthStore = create<AuthState>()(
         set({ session: data.session });
       },
 
-      awaitingConfirmation: null,
-      clearAwaitingConfirmation: () => set({ awaitingConfirmation: null }),
+      pendingCode: null,
+      cancelCode: () => set({ pendingCode: null, error: null }),
+
+      verifyCode: async (code) => {
+        const pending = get().pendingCode;
+        if (!pending || pending.purpose === 'new-password') return false;
+        set({ busy: true, error: null });
+        const type =
+          pending.purpose === 'link' ? 'email_change' : pending.purpose === 'signup' ? 'signup' : 'recovery';
+        const { error } = await supabase.auth.verifyOtp({
+          email: pending.email,
+          token: code.replace(/\D/g, ''),
+          type,
+        });
+        if (error) {
+          set({ busy: false, error: friendlyError(error.message) });
+          return false;
+        }
+        // Po kodzie z „Nie pamiętam hasła” rodzic jest zalogowany i ustawia
+        // nowe hasło — ekran konta czeka na nie, zanim wróci do gry.
+        set({
+          busy: false,
+          pendingCode: pending.purpose === 'recovery' ? { ...pending, purpose: 'new-password' } : null,
+        });
+        return true;
+      },
+
+      resendCode: async () => {
+        const pending = get().pendingCode;
+        if (!pending || pending.purpose === 'new-password') return;
+        set({ busy: true, error: null });
+        const { error } =
+          pending.purpose === 'recovery'
+            ? await supabase.auth.resetPasswordForEmail(pending.email)
+            : await supabase.auth.resend({
+                type: pending.purpose === 'link' ? 'email_change' : 'signup',
+                email: pending.email,
+              });
+        set({ busy: false, error: error ? friendlyError(error.message) : null });
+      },
+
+      startPasswordReset: async (rawEmail) => {
+        const email = rawEmail.trim().toLowerCase();
+        if (!email.includes('@')) {
+          set({ error: 'Wpisz najpierw adres e-mail konta.' });
+          return;
+        }
+        set({ busy: true, error: null });
+        const { error } = await supabase.auth.resetPasswordForEmail(email);
+        if (error) {
+          set({ busy: false, error: friendlyError(error.message) });
+          return;
+        }
+        set({ busy: false, pendingCode: { email, purpose: 'recovery' } });
+      },
+
+      setNewPassword: async (password) => {
+        set({ busy: true, error: null });
+        const { error } = await supabase.auth.updateUser({ password });
+        if (error) {
+          set({ busy: false, error: friendlyError(error.message) });
+          return;
+        }
+        set({ busy: false, pendingCode: null });
+      },
+
+      checkLinkConfirmed: async () => {
+        if (get().pendingCode?.purpose !== 'link') return;
+        // Nowa sesja niesie aktualne `is_anonymous` — po kliknięciu linku
+        // konto jest już stałe, a token w telefonie wciąż mówi „anonimowe”.
+        const { data } = await supabase.auth.refreshSession();
+        if (data.session && !data.session.user.is_anonymous) set({ pendingCode: null });
+      },
 
       signInWithEmail: async (rawEmail, password, mode) => {
-        const email = rawEmail.trim();
-        set({ busy: true, error: null, awaitingConfirmation: null });
+        const email = rawEmail.trim().toLowerCase();
+        set({ busy: true, error: null, pendingCode: null });
 
         if ((mode ?? (get().isAnonymous() ? 'link' : 'login')) === 'link') {
           // Dopięcie e-maila do anonimowego konta — uid i postępy zostają.
-          // Przy włączonym potwierdzaniu adresu e-mail dopisze się dopiero po
-          // kliknięciu linku; hasło jest ustawione od razu.
+          // Hasło zapisuje się od razu (sprawdzone), adres po kodzie z maila.
           const { data, error } = await supabase.auth.updateUser({ email, password });
           if (error) {
             set({ busy: false, error: friendlyError(error.message) });
@@ -226,7 +325,7 @@ export const useAuthStore = create<AuthState>()(
           }
           set({
             busy: false,
-            awaitingConfirmation: data.user?.new_email ? email : null,
+            pendingCode: data.user?.new_email ? { email, purpose: 'link' } : null,
           });
           return;
         }
@@ -271,10 +370,11 @@ export const useAuthStore = create<AuthState>()(
           return;
         }
 
-        // Konto założone. Przy włączonym potwierdzaniu adresu sesji jeszcze nie ma.
+        // Konto założone. Przy włączonym potwierdzaniu adresu sesji jeszcze nie
+        // ma — rodzic wpisuje kod z maila i jest zalogowany.
         set({
           busy: false,
-          awaitingConfirmation: signUp.data.session ? null : email,
+          pendingCode: signUp.data.session ? null : { email, purpose: 'signup' },
         });
       },
 
@@ -358,7 +458,7 @@ export const useAuthStore = create<AuthState>()(
           profiles: [],
           activeProfileId: null,
           error: null,
-          awaitingConfirmation: null,
+          pendingCode: null,
         });
         // Jak w Finchu: po wylogowaniu gra działa dalej od zera, na nowym
         // anonimowym koncie.
@@ -386,7 +486,7 @@ export const useAuthStore = create<AuthState>()(
           profiles: [],
           profilesLoaded: false,
           activeProfileId: null,
-          awaitingConfirmation: null,
+          pendingCode: null,
         });
         await get().ensureSession();
         return true;

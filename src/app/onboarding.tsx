@@ -131,6 +131,15 @@ export default function OnboardingScreen() {
   // tylko za bramką rodzicielską.
   const [gateOpen, setGateOpen] = useState(false);
 
+  // „Mam już konto”: po zalogowaniu na konto, które ma już dzieci, onboarding
+  // się kończy i rodzic wybiera dziecko na „Kto gra?”. Wcześniej karty szły
+  // dalej i obok dzieci z konta powstawał nowy, pusty profil.
+  const loggedIn = Boolean(session && !session.user.is_anonymous);
+  const accountHasChildren = useAuthStore((s) => s.profilesLoaded && s.profiles.length > 0);
+  useEffect(() => {
+    if (loggedIn && accountHasChildren && step < PAYWALL) markDone();
+  }, [loggedIn, accountHasChildren, step, markDone]);
+
   const current = STEPS[step];
   // Bez sesji (anonimowe konto się nie założyło) nie ma gdzie zapisać
   // profilu — po kartach od razu kończymy, a dalej jest stary ekran logowania.
@@ -379,7 +388,7 @@ export default function OnboardingScreen() {
         onCancel={() => setGateOpen(false)}
         onPass={() => {
           setGateOpen(false);
-          router.push('/account');
+          router.push({ pathname: '/account', params: { mode: 'login' } });
         }}
       />
 
