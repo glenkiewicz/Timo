@@ -271,6 +271,20 @@ const EXPEDITION_SCENES: Record<string, Scene> = {
 };
 
 /** Scena dla danego ekranu — wyprawa z własną grafiką wygrywa z bazową. */
+/** Wysokość ramki sceny przed skalowaniem — wspólna dla wszystkich ekranów. */
+function sceneBaseHeight(screenW: number, aspect: number): number {
+  return Math.round(screenW / aspect);
+}
+
+/**
+ * Obrazek sceny w ramce, w której rysuje go `SceneBackdrop` — `SplashWarmup`
+ * wczytuje go w tym samym rozmiarze, żeby trafić w tę samą kopię w pamięci.
+ */
+export function sceneFrame(scene: SceneName, screenW: number): { source: number; width: number; height: number } {
+  const { source, aspect } = resolveScene(scene);
+  return { source, width: screenW, height: sceneBaseHeight(screenW, aspect) };
+}
+
 function resolveScene(scene: SceneName, expeditionId?: string | null): Scene {
   return (expeditionId ? EXPEDITION_SCENES[expeditionId] : undefined) ?? SCENES[scene];
 }
@@ -387,17 +401,25 @@ export function SceneBackdrop({
    * Timo niezależnie od wysokości ekranu i paska statusu.
    */
   const height = Math.max(screenW / aspect, groundY / ground);
-  const width = height * aspect;
+  const top = groundY - ground * height;
+
+  // Ramka obrazka ma zawsze ten sam rozmiar dla danej sceny (szerokość ekranu),
+  // a do docelowej wielkości dociąga ją `scale`. expo-image dekoduje grafikę
+  // osobno dla każdego rozmiaru ramki, więc Menu i „Cześć!” (inna linia
+  // gruntu) trzymały w pamięci dwie kopie tej samej polany — po ~15 MB.
+  const baseH = sceneBaseHeight(screenW, aspect);
 
   return (
     <Image
       source={source}
       style={{
         position: 'absolute',
-        top: groundY - ground * height,
-        left: (screenW - width) / 2,
-        width,
-        height,
+        // Skala idzie od środka ramki — środek ramki = środek sceny.
+        top: top + height / 2 - baseH / 2,
+        left: 0,
+        width: screenW,
+        height: baseH,
+        transform: [{ scale: height / baseH }],
       }}
       // Scena leży pod paskiem statystyk i paskiem XP — bez tego przechwytywałaby
       // ich dotknięcia (tooltipy przy odznakach, modal poziomu). Propsem, nie
