@@ -45,14 +45,9 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#fff1df",
+          "backgroundColor": "#ec8e30",
           "image": "./assets/images/splash-icon.png",
-          "imageWidth": 240,
-          "android": {
-            "image": "./assets/images/splash-icon-android.png",
-            "imageWidth": 240,
-            "backgroundColor": "#2f6b4f"
-          }
+          "imageWidth": 240
         }
       ],
       [
@@ -84,6 +79,13 @@
           "android": {
             "minSdkVersion": 26
           }
+        }
+      ],
+      [
+        "expo-navigation-bar",
+        {
+          "enforceContrast": false,
+          "style": "dark"
         }
       ]
     ],

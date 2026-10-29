@@ -18,12 +18,14 @@ import {
 import { setAudioModeAsync } from 'expo-audio';
 import { useFonts } from 'expo-font';
 import { Stack, useRouter, useSegments } from 'expo-router';
+import * as NavigationBar from 'expo-navigation-bar';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Platform } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { AnimatedSplash } from '@/components/AnimatedSplash';
 import { SplashWarmup } from '@/components/SplashWarmup';
 import { InfoSheetProvider } from '@/components/sheet/InfoSheet';
 import { sfx } from '@/lib/audio/sfx';
@@ -34,6 +36,14 @@ import { initPurchases } from '@/lib/purchases';
 import { useSplashGate } from '@/lib/stores/splash-gate';
 
 SplashScreen.preventAutoHideAsync();
+
+// Przyciski systemowe Androida białe — pod nimi jest pomarańczowy splash, a
+// potem zielony dok. Szarą nakładkę pod przyciskami wyłącza `enforceContrast`
+// w app.json; styl ustawiamy też tutaj, bo motyw po splashu go nadpisywał.
+function whiteNavButtons() {
+  if (Platform.OS === 'android') NavigationBar.setStyle('dark');
+}
+whiteNavButtons();
 
 const SCENE_WAIT_MS = 2500;
 
@@ -97,12 +107,6 @@ export default function RootLayout() {
   const splashDone = ready && (!toScene || sceneShown || sceneWaitOver);
 
   useEffect(() => {
-    if (splashDone) {
-      SplashScreen.hideAsync();
-    }
-  }, [splashDone]);
-
-  useEffect(() => {
     // Głos Timo gra też przy iPhone "silent mode" i ścisza inne aplikacje.
     setAudioModeAsync({
       playsInSilentMode: true,
@@ -112,14 +116,33 @@ export default function RootLayout() {
     });
   }, []);
 
+  // Splash systemowy chowa `AnimatedSplash`, gdy jego pierwsza klatka jest
+  // na ekranie; sam `AnimatedSplash` znika, gdy start jest gotowy i lisek
+  // zdążył mrugnąć.
+  const [blinked, setBlinked] = useState(false);
+  const onFirstBlink = useCallback(() => setBlinked(true), []);
+  const splashGone = splashDone && blinked;
+  const splash = splashGone ? null : <AnimatedSplash onFirstBlink={onFirstBlink} />;
+  useEffect(() => {
+    if (splashGone) whiteNavButtons();
+  }, [splashGone]);
+
   if (!ready) {
-    return warm ? null : <SplashWarmup onDone={() => setWarm(true)} />;
+    // Ten sam układ co niżej (treść, potem splash) — inaczej React zamontowałby
+    // `AnimatedSplash` od nowa i lisek mignąłby pustą klatką.
+    return (
+      <>
+        {warm ? null : <SplashWarmup onDone={() => setWarm(true)} />}
+        {splash}
+      </>
+    );
   }
 
   const signedIn = Boolean(session);
   const playing = signedIn && Boolean(activeProfileId);
 
   return (
+    <>
     <>
       <EntryRedirect
         onboarding={needsOnboarding}
@@ -188,6 +211,8 @@ export default function RootLayout() {
         </InfoSheetProvider>
       </GestureHandlerRootView>
     </SafeAreaProvider>
+    </>
+      {splash}
     </>
   );
 }
