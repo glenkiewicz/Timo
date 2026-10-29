@@ -330,7 +330,9 @@ function RegionShelf({
       const da = discovered.has(a.id);
       const db = discovered.has(b.id);
       if (da !== db) return da ? -1 : 1;
-      return a.name_pl.localeCompare(b.name_pl, 'pl');
+      // `BY_REGION` jest już posortowany alfabetycznie, a sortowanie jest
+      // stabilne — w obrębie odkrytych i nieodkrytych kolejność zostaje.
+      return 0;
     });
   }, [regionId, discovered]);
 

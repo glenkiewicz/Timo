@@ -2,6 +2,7 @@ import { ANIMAL_RANGES } from '@/data/animal-ranges';
 import type { MapRegion } from '@/data/animal-details';
 import { ANIMALS } from '@/data/animals';
 import { EXPEDITIONS_BY_ID } from '@/data/expeditions';
+import { comparePl } from '@/lib/collate';
 import type { Animal } from '@/types/game';
 
 /**
@@ -190,7 +191,7 @@ export const BY_REGION: Record<string, Animal[]> = (() => {
   }
 
   for (const r of ANIMAL_REGIONS) {
-    out[r.id].sort((a, b) => a.name_pl.localeCompare(b.name_pl, 'pl'));
+    out[r.id].sort((a, b) => comparePl(a.name_pl, b.name_pl));
   }
   return out;
 })();
