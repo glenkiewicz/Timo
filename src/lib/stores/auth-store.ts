@@ -7,6 +7,7 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import { deleteAvatarPhoto } from '@/lib/avatar-photo';
+import { clearProgressSnapshots } from '@/lib/progress-cache';
 import { supabase } from '@/lib/supabase';
 
 export type ChildProfile = {
@@ -195,6 +196,7 @@ export const useAuthStore = create<AuthState>()(
         // konto. Postęp z telefonu należał do usuniętego konta, więc znika.
         await supabase.auth.signOut({ scope: 'local' }).catch(() => undefined);
         await AsyncStorage.multiRemove(['timo-profile-v1', 'timo-leaderboard']).catch(() => undefined);
+        await clearProgressSnapshots();
         set({ session: null, profiles: [], profilesLoaded: false, activeProfileId: null });
         await get().ensureSession();
       },
@@ -353,6 +355,8 @@ export const useAuthStore = create<AuthState>()(
       signOut: async () => {
         set({ busy: true });
         await supabase.auth.signOut();
+        // Kopie postępu dzieci z tego konta nie zostają na telefonie.
+        await clearProgressSnapshots();
         set({
           busy: false,
           profiles: [],
@@ -377,6 +381,7 @@ export const useAuthStore = create<AuthState>()(
         await AsyncStorage.multiRemove(['timo-profile-v1', 'timo-leaderboard', 'timo-onboarding']).catch(
           () => undefined,
         );
+        await clearProgressSnapshots();
         // Konta już nie ma na serwerze — wylogowanie tylko lokalne.
         await supabase.auth.signOut({ scope: 'local' }).catch(() => undefined);
         set({
@@ -450,6 +455,7 @@ export const useAuthStore = create<AuthState>()(
           set({ busy: false, error: friendlyError(error.message) });
           return;
         }
+        await clearProgressSnapshots([id]);
         set({
           busy: false,
           profiles: get().profiles.filter((p) => p.id !== id),
@@ -491,8 +497,9 @@ export const useAuthStore = create<AuthState>()(
     {
       name: 'timo-auth',
       storage: createJSONStorage(() => AsyncStorage),
-      // Sesję trzyma klient Supabase; my pamiętamy tylko, kto ostatnio grał.
-      partialize: (state) => ({ activeProfileId: state.activeProfileId }),
+      // Sesję trzyma klient Supabase; my pamiętamy, kto ostatnio grał, i listę
+      // dzieci — bez sieci „Kto gra?” i powitanie z imieniem działają dalej.
+      partialize: (state) => ({ activeProfileId: state.activeProfileId, profiles: state.profiles }),
       onRehydrateStorage: () => () => useAuthStore.setState({ hydrated: true }),
     }
   )

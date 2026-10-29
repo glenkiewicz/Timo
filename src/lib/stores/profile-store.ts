@@ -16,6 +16,22 @@ import {
   todayLocal,
 } from '@/features/gamification/streak';
 import { isoWeekKey } from '@/features/leaderboard/week';
+import {
+  loadProgressSnapshot,
+  saveProgressSnapshot,
+  snapshotProfileIds,
+  type ProgressSnapshot,
+} from '@/lib/progress-cache';
+import {
+  mergeProgress,
+  pickSynced,
+  progressDiffers,
+  progressFromRow,
+  progressToRow,
+  type ExpeditionProgress,
+  type ProgressRow,
+  type SyncedProgress,
+} from '@/lib/progress-merge';
 import { useAuthStore } from '@/lib/stores/auth-store';
 import { supabase } from '@/lib/supabase';
 import { pickDailyFree } from '@/config/free-tier';
@@ -27,25 +43,6 @@ type DailyChoice = {
   chosen_id: string | null;
   /** Zestaw z wersji darmowej (2 darmowe + 1 płatna gratis). */
   free?: boolean;
-};
-
-type ExpeditionProgress = {
-  discovered: string[];
-  completed_at: string | null;
-};
-
-/** Wiersz tabeli `progress` w kształcie, w jakim go czytamy. */
-type ProgressRow = {
-  xp: number | null;
-  paws: number | null;
-  streak: number | null;
-  daily_streak: number | null;
-  last_play_date: string | null;
-  last_seen_date: string | null;
-  fast_wins: number | null;
-  collection: string[] | null;
-  badges: string[] | null;
-  expedition_progress?: Record<string, ExpeditionProgress> | null;
 };
 
 /** Wynik dziennego meldunku — czym karmimy ekran serii. */
@@ -154,7 +151,10 @@ type ProfileState = {
 
   setAudioMuted: (value: boolean) => void;
 
-  /** Wczytuje stan gry wybranego profilu z bazy (baza jest źródłem prawdy). */
+  /**
+   * Przełącza stan gry na wybrane dziecko (z jego kopii w telefonie) i scala
+   * go z bazą, gdy jest sieć. Nigdy nie kasuje postępu.
+   */
   hydrateFromServer: (profileId: string) => Promise<void>;
   /** Zapisuje bieżący stan do bazy; przy błędzie zostawia `dirty`. */
   pushToServer: () => Promise<void>;
@@ -210,6 +210,61 @@ const initial: Omit<
   ownerId: null as string | null,
 };
 
+
+/** Stan bieżącego dziecka w postaci kopii do `progress-cache`. */
+function snapshotOf(s: ProfileState): ProgressSnapshot {
+  return {
+    ...pickSynced(s),
+    stars: s.stars,
+    weeklyXp: s.weeklyXp,
+    weekKey: s.weekKey,
+    dirty: s.dirty,
+  };
+}
+
+const PROGRESS_COLUMNS =
+  'xp, paws, streak, daily_streak, last_play_date, last_seen_date, fast_wins, collection, badges';
+
+/** Postęp dziecka z bazy; `null` = brak sieci albo błąd (zostajemy przy lokalnym). */
+async function readProgress(profileId: string): Promise<SyncedProgress | null> {
+  const read = (cols: string) =>
+    supabase.from('progress').select(cols).eq('profile_id', profileId).maybeSingle();
+  let { data, error } = await read(`${PROGRESS_COLUMNS}, expedition_progress`);
+  // 42703 = brak kolumny (baza bez migracji 0006).
+  if (error?.code === '42703') ({ data, error } = await read(PROGRESS_COLUMNS));
+  if (error || !data) {
+    if (__DEV__ && error) console.warn('[profile] odczyt postępu:', error.message);
+    return null;
+  }
+  // Kolumny podane napisem — typ wiersza dopisujemy ręcznie.
+  return progressFromRow(data as unknown as ProgressRow);
+}
+
+/**
+ * Zapisuje postęp przez `merge_progress` — baza scala go z tym, co ma
+ * (nic nie maleje), i oddaje wynik. `null` = zapis się nie udał.
+ */
+async function sendProgress(profileId: string, p: SyncedProgress): Promise<SyncedProgress | null> {
+  const { data, error } = await supabase.rpc('merge_progress', {
+    p_profile_id: profileId,
+    p_progress: progressToRow(p),
+  });
+  if (!error && data) return progressFromRow(data as ProgressRow);
+  // PGRST202 = baza bez migracji 0007 — zwykły zapis jak dawniej.
+  if (error?.code !== 'PGRST202') {
+    if (__DEV__ && error) console.warn('[profile] zapis postępu:', error.message);
+    return null;
+  }
+  const row = { ...progressToRow(p), updated_at: new Date().toISOString() };
+  const write = (r: Record<string, unknown>) =>
+    supabase.from('progress').update(r).eq('profile_id', profileId);
+  let res = await write(row);
+  if (res.error?.code === '42703') {
+    const { expedition_progress: _skip, ...base } = row;
+    res = await write(base);
+  }
+  return res.error ? null : p;
+}
 
 export const useProfileStore = create<ProfileState>()(
   persist(
@@ -447,42 +502,28 @@ export const useProfileStore = create<ProfileState>()(
       setAudioMuted: (value) => set({ audioMuted: value }),
 
       hydrateFromServer: async (profileId) => {
-        // Niewysłany postęp poprzedniego dziecka — najpierw na serwer, bo
-        // za chwilę stan w pamięci zostanie wyczyszczony.
-        await get().flushPending();
-        // Czyścimy stan poprzedniego dziecka, zanim pokażemy cokolwiek nowego.
-        set({ ...initial, audioMuted: get().audioMuted, ownerId: profileId });
-
-        const BASE = 'xp, paws, streak, daily_streak, last_play_date, last_seen_date, fast_wins, collection, badges';
-        const read = (cols: string) =>
-          supabase.from('progress').select(cols).eq('profile_id', profileId).maybeSingle();
-        let { data, error } = await read(`${BASE}, expedition_progress`);
-        // 42703 = brak kolumny (baza bez migracji 0006) — reszta postępu i tak
-        // ma się wczytać, inaczej dziecko zobaczyłoby pusty profil.
-        if (error?.code === '42703') ({ data, error } = await read(BASE));
-
-        if (error || !data) {
-          if (__DEV__ && error) {
-            console.warn('[profile] hydrate failed:', error.message);
-          }
-          return;
+        const prev = get();
+        if (prev.ownerId !== profileId) {
+          // Inne dziecko. Stan poprzedniego (razem z flagą niewysłanego
+          // postępu) odkładamy do jego kopii w telefonie, a nowe dziecko
+          // startuje ze SWOJEJ kopii — niczego nie kasujemy.
+          if (prev.ownerId) await saveProgressSnapshot(prev.ownerId, snapshotOf(prev));
+          const saved = await loadProgressSnapshot(profileId);
+          set({ ...initial, ...(saved ?? {}), audioMuted: prev.audioMuted, ownerId: profileId });
         }
 
-        // Kolumny podane napisem — typ wiersza dopisujemy ręcznie.
-        const row = data as unknown as ProgressRow;
-        set({
-          xp: row.xp ?? 0,
-          paws: row.paws ?? 0,
-          streak: row.streak ?? 0,
-          dailyStreak: row.daily_streak ?? 0,
-          lastPlayDate: row.last_play_date ?? null,
-          lastSeenDate: row.last_seen_date ?? null,
-          fast_wins: row.fast_wins ?? 0,
-          collection: row.collection ?? [],
-          badges: row.badges ?? [],
-          expeditionProgress: row.expedition_progress ?? {},
-          dirty: false,
-        });
+        // Serwer w tle: bez sieci zapytanie potrafi wisieć kilkanaście sekund,
+        // a dziecko ma wejść do gry od razu. Niewysłany postęp (także innych
+        // dzieci) leci na serwer, a stan z serwera scalamy z lokalnym.
+        void (async () => {
+          await get().flushPending();
+          const server = await readProgress(profileId);
+          if (!server || get().ownerId !== profileId) return;
+          const merged = mergeProgress(pickSynced(get()), server);
+          const ahead = progressDiffers(merged, server);
+          set({ ...merged, dirty: get().dirty || ahead });
+          if (get().dirty) void get().pushToServer();
+        })();
       },
 
       pushToServer: async () => {
@@ -491,34 +532,36 @@ export const useProfileStore = create<ProfileState>()(
         const profileId = get().ownerId ?? useAuthStore.getState().activeProfileId;
         if (!profileId) return;
 
-        const s = get();
-        const base = {
-          xp: s.xp,
-          paws: s.paws,
-          streak: s.streak,
-          daily_streak: s.dailyStreak,
-          last_play_date: s.lastPlayDate,
-          last_seen_date: s.lastSeenDate,
-          fast_wins: s.fast_wins,
-          collection: s.collection,
-          badges: s.badges,
-          updated_at: new Date().toISOString(),
-        };
-        const write = (row: Record<string, unknown>) =>
-          supabase.from('progress').update(row).eq('profile_id', profileId);
-        let { error } = await write({ ...base, expedition_progress: s.expeditionProgress });
-        // 42703 = baza bez migracji 0006 — reszta postępu i tak musi się zapisać.
-        if (error?.code === '42703') ({ error } = await write(base));
-
+        const server = await sendProgress(profileId, pickSynced(get()));
         // Nieudany zapis zostawia `dirty` — spróbujemy ponownie po następnej
         // rundzie, przy kolejnym starcie gry albo przed zmianą dziecka.
-        set({ dirty: Boolean(error) });
+        if (!server) {
+          set({ dirty: true });
+          return;
+        }
+        // W międzyczasie wybrano inne dziecko — ten wynik już nie jest jego.
+        const owner = get().ownerId;
+        if (owner && owner !== profileId) return;
+        // Baza scala po swojej stronie i oddaje wynik — bierzemy z niego to,
+        // co dograło inne urządzenie, i sprawdzamy, czy telefon nie ma czegoś
+        // nowszego od wysłanego (runda skończona w trakcie zapisu).
+        const merged = mergeProgress(pickSynced(get()), server);
+        set({ ...merged, dirty: progressDiffers(merged, server) });
       },
 
       flushPending: async () => {
         // Bez właściciela (stan sprzed tej wersji) nie wiadomo, czyj to postęp
         // — przy przełączaniu dziecka trafiłby do niewłaściwego, więc nie ślemy.
         if (get().dirty && get().ownerId) await get().pushToServer();
+
+        // Kopie innych dzieci z niewysłanym postępem (zmiana dziecka bez sieci).
+        for (const id of await snapshotProfileIds()) {
+          if (id === get().ownerId) continue;
+          const snap = await loadProgressSnapshot(id);
+          if (!snap?.dirty) continue;
+          const server = await sendProgress(id, pickSynced(snap));
+          if (server) await saveProgressSnapshot(id, { ...snap, ...mergeProgress(pickSynced(snap), server), dirty: false });
+        }
       },
 
       resetAll: () => set({ ...initial }),
