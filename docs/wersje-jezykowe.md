@@ -108,6 +108,32 @@ Szkic z AI, ale **obowiązkowa korekta native speakera**, najlepiej
 z doświadczeniem w treściach dla dzieci. Kwestie Timo pisane od nowa
 (humor, rymy, wtrącenia), nie tłumaczone dosłownie.
 
+## Angielski (US) — decyzje z 30.10.2026
+
+- Angielski amerykański. Teksty: `content/en/build_voice_lines.py`
+  (471 kwestii) i `content/en/build_animal_names.py` (715 nazw) → JSON obok;
+  głosy: `python3 scripts/generate-voices-lang.py en` → `content/en/voices/`
+  (poza aplikacją, materiał na paczkę do pobrania).
+- Głos: polski Timo po angielsku miał wschodni akcent, więc EN ma osobny
+  głos „Timo Lisek EN” — zaprojektowany z tego samego opisu postaci,
+  z akcentem amerykańskim (`ELEVENLABS_VOICE_ID_EN` w `.env`). Kolejne
+  języki: najpierw odsłuch polskiego głosu, w razie akcentu — osobny projekt.
+- Pytanie `q_poland` w wersji US: „żyje dziko w Ameryce Północnej” —
+  odpowiedź z zasięgów (`america-n`), nie z cechy `pol`.
+- Timo bez kraju: lis „ze swojego lasu”, nie „z Polski”.
+- Wyprawa „Leśne Zwierzaki” w wersji US: las Ameryki Północnej (szop pracz,
+  skunks, pręgowiec, oposum, kojot, bielik, bóbr, lis, wilk, sowa, wiewiórka…).
+  Brakujące gatunki do ewentualnego dodania: jeleń wirginijski, baribal,
+  kardynał, świstak amerykański.
+- Kraina „Polski las” w kolekcji → „European Forest”.
+- Mapy w karcie zwierzęcia: bez wyróżnienia Polski.
+- Opisy zwierząt: 39 wzmianek o Polsce do przepisania (nie tłumaczenia).
+- Nazwy tłumaczone z nazwy polskiej, nie z id (`orca_killer` = Fin whale,
+  `snow_fox` = Arctic hare); łoś = Moose, żubr = European bison,
+  jeleń = Red deer, myszołów = Common buzzard.
+- Wstępy do zgadywania kończą się na „the…” — nazwa to osobne nagranie,
+  a „a/an” zależy od nazwy.
+
 ## Kolejność wdrożenia
 
 1. Stabilne wydanie polskie (test zamknięty → publikacja w obu sklepach).
