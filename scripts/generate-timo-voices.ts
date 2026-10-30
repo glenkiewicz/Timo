@@ -207,7 +207,13 @@ function voiceHash(voiceKey: string, text: string): string {
 	return sha12(`${modelFor(voiceKey).model_id}|${text}`);
 }
 
-const OUTPUT_FORMAT = 'mp3_44100_128';
+/**
+ * 64 kb/s mono: dla mowy brzmi jak 128 (odsłuch 30.10.2026), a waży połowę —
+ * głosy to największa część aplikacji (35 → 17,6 MB). Zmiana formatu nie
+ * zmienia skrótu pliku, więc istniejące nagrania nie generują się od nowa
+ * (przekodowano je raz ffmpegiem: libmp3lame -ac 1 -b:a 64k).
+ */
+const OUTPUT_FORMAT = 'mp3_44100_64';
 
 async function fetchTts(text: string, voiceKey: string): Promise<Buffer> {
 	const model = modelFor(voiceKey);
