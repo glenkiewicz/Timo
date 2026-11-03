@@ -13,7 +13,9 @@
       "appleTeamId": "X8BB56BL2A",
       "usesAppleSignIn": true,
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "CFBundleDevelopmentRegion": "pl",
+        "CFBundleLocalizations": ["pl"]
       },
       "supportsTablet": true,
       "requireFullScreen": true
