@@ -26,7 +26,7 @@ Wykluczenia wszędzie: **lisek** (ruch na aplikację zakupową „Lisek”), „
 ## Słowa kluczowe w sklepie (z nowym buildem)
 
 Obecnie: `zwierzaki,zwierzeta,dinozaury,logiczne,zoo,ciekawostki,farma,nauka,lisek,smoki,kot,pies,konie,koty` (98).
-Propozycja: bez `koty,konie` (koty dubluje kot, konie 38) → dodać `edukacyjne` (gry edukacyjne 42) = 98 znaków.
+**Od 1.0.2 (05.11):** `zwierzeta,zwierzaki,dinozaury,smoki,lisek,zoo,kot,pies,farma,edukacyjne,nauka,logiczne,kto,co,to,gra` (100) — +edukacyjne (gry edukacyjne 42), +kto,co,to (zgadnij co/kto to 40/30), +gra (gra zwierzęta 30); −koty, −konie, −ciekawostki.
 
 ## Założone 05.11.2026 (konto rozlicza w USD)
 
