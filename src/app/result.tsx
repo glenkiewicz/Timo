@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Icon } from '@/components/ui/Icon';
 import { ProgressBar } from '@/components/ui/ProgressBar';
+import { ParentalGate } from '@/components/paywall/ParentalGate';
 import { RewardTile } from '@/components/ui/RewardTile';
 import { StatBadge } from '@/components/ui/StatBadge';
 import { ANIMALS_BY_ID } from '@/data/animals';
@@ -26,6 +27,7 @@ import { useFreeRoundsLeft, useFreeRoundsStore } from '@/lib/stores/free-rounds-
 import { useProfileStore } from '@/lib/stores/profile-store';
 import { useAuthStore } from '@/lib/stores/auth-store';
 import { isPremiumNow } from '@/lib/purchases';
+import { openWriteReview, shouldShowReviewCard, useReviewStore } from '@/lib/review-prompt';
 import { SHADOW, UI } from '@/theme/ui';
 import { Pressable, Text, View } from '@/tw';
 import { contentColumn } from '@/lib/layout';
@@ -78,6 +80,10 @@ export default function ResultScreen() {
 
   const [revealedId, setRevealedId] = useState<string | null>(null);
   const [revealSkipped, setRevealSkipped] = useState(false);
+
+  // Karta „Rodzicu, oceń Timo” — po kilku trafieniach, decyzja raz na ekran.
+  const [showReviewCard, setShowReviewCard] = useState(false);
+  const [reviewGate, setReviewGate] = useState(false);
   const needsReveal = phase === 'child_stumped' && revealedId === null && !revealSkipped;
 
   /** Zwierzę rundy: strzał Timo albo wskazanie dziecka. */
@@ -148,6 +154,10 @@ export default function ResultScreen() {
     // Wersja darmowa: limit liczy tylko ukończone rundy gry swobodnej.
     const profileId = useAuthStore.getState().activeProfileId;
     if (mode === 'free' && profileId && !isPremiumNow()) recordFreeRound(profileId);
+    if (timoGuessed) {
+      useReviewStore.getState().recordWin();
+      setShowReviewCard(shouldShowReviewCard());
+    }
     awarded.current = true;
   }, [
     phase,
@@ -579,6 +589,48 @@ export default function ResultScreen() {
           </View>
         ) : null}
 
+        {/* ---------- prośba o ocenę (dla rodzica, za bramką) ---------- */}
+        {showReviewCard ? (
+          <View className="mt-3" style={{ alignSelf: 'stretch' }}>
+            <Card padding={14}>
+              <Text style={{ color: UI.text, fontFamily: 'Gabarito-Bold', fontSize: 16 }}>
+                Rodzicu, podoba się Wam Timo?
+              </Text>
+              <Text
+                style={{
+                  color: UI.textSoft,
+                  fontFamily: 'Lexend',
+                  fontSize: 13,
+                  lineHeight: 19,
+                  marginTop: 2,
+                }}>
+                Ocena w sklepie bardzo pomaga małej, polskiej aplikacji.
+              </Text>
+              <View className="flex-row gap-2.5 mt-3">
+                <Pressable
+                  onPress={() => setReviewGate(true)}
+                  accessibilityRole="button"
+                  accessibilityLabel="Oceń Timo"
+                  className="flex-1 items-center rounded-pill"
+                  style={{ backgroundColor: UI.goldPale, paddingVertical: 10 }}>
+                  <Text style={{ color: UI.goldDeep, fontFamily: 'Gabarito-Bold', fontSize: 14 }}>Oceń Timo</Text>
+                </Pressable>
+                <Pressable
+                  onPress={() => {
+                    useReviewStore.getState().dismissCard();
+                    setShowReviewCard(false);
+                  }}
+                  accessibilityRole="button"
+                  accessibilityLabel="Nie teraz"
+                  className="flex-1 items-center rounded-pill"
+                  style={{ backgroundColor: UI.skyPale, paddingVertical: 10 }}>
+                  <Text style={{ color: UI.skyDeep, fontFamily: 'Gabarito-Bold', fontSize: 14 }}>Nie teraz</Text>
+                </Pressable>
+              </View>
+            </Card>
+          </View>
+        ) : null}
+
         <View className="flex-1" />
       </ScrollView>
 
@@ -589,6 +641,16 @@ export default function ResultScreen() {
         <Button label="ZAGRAJ JESZCZE RAZ" onPress={playAgain} />
         <Button label="Wróć na Polanę" variant="ghost" size="md" onPress={home} />
       </View>
+
+      <ParentalGate
+        visible={reviewGate}
+        onCancel={() => setReviewGate(false)}
+        onPass={() => {
+          setReviewGate(false);
+          setShowReviewCard(false);
+          void openWriteReview();
+        }}
+      />
 
       <LevelUpCelebration
         visible={showLevelUp}

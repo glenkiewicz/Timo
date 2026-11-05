@@ -15,6 +15,7 @@ import { ChildAvatar } from '@/components/profile/ChildAvatar';
 import { confirmDeleteAccount } from '@/lib/account-actions';
 import { READING_MAX, contentColumn, useUiScale } from '@/lib/layout';
 import { restorePurchases, usePremium } from '@/lib/purchases';
+import { maybeRequestSystemReview, openWriteReview } from '@/lib/review-prompt';
 import { disableDailyReminder, enableDailyReminder, isDailyReminderOn } from '@/lib/reminders';
 import { useAuthStore } from '@/lib/stores/auth-store';
 import { ACCENT, SHADOW, UI } from '@/theme/ui';
@@ -53,6 +54,13 @@ export default function ParentScreen() {
 
   const [reminder, setReminder] = useState<boolean | null>(null);
   const [restoring, setRestoring] = useState(false);
+
+  // Telefon trzyma dorosły (bramka za nami) — dobry moment na systemowe okno
+  // oceny. Warunki i odstępy pilnuje review-prompt; chwila na wejście ekranu.
+  useEffect(() => {
+    const t = setTimeout(() => void maybeRequestSystemReview(), 1200);
+    return () => clearTimeout(t);
+  }, []);
 
   useEffect(() => {
     isDailyReminderOn()
@@ -213,6 +221,13 @@ export default function ParentScreen() {
         {LINKS.terms ? (
           <ActionRow art={ART.lock} tint="violet" title="Regulamin" onPress={() => void Linking.openURL(LINKS.terms!)} />
         ) : null}
+        <ActionRow
+          art={ART.parent}
+          tint="gold"
+          title="Oceń Timo"
+          subtitle={`Opinia ${Platform.OS === 'android' ? 'w Google Play' : 'w App Store'} bardzo nam pomaga`}
+          onPress={() => void openWriteReview()}
+        />
         {LINKS.support ? (
           <ActionRow
             art={ART.sound}
