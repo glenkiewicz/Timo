@@ -27,3 +27,18 @@ Wykluczenia wszędzie: **lisek** (ruch na aplikację zakupową „Lisek”), „
 
 Obecnie: `zwierzaki,zwierzeta,dinozaury,logiczne,zoo,ciekawostki,farma,nauka,lisek,smoki,kot,pies,konie,koty` (98).
 Propozycja: bez `koty,konie` (koty dubluje kot, konie 38) → dodać `edukacyjne` (gry edukacyjne 42) = 98 znaków.
+
+## Założone 05.11.2026 (konto rozlicza w USD)
+
+Wszystkie: wyniki wyszukiwania, Polska, Manage Bids, wszyscy użytkownicy, domyślna strona produktu.
+Status po utworzeniu: „App pending review” (Apple sprawdza aplikację przed pierwszą emisją).
+Apple sugerował 1,34 USD za kliknięcie — świadomie dużo niżej.
+
+| Kampania | Dziennie | CPT | Search Match | Frazy |
+|---|---|---|---|---|
+| PL – Marka | 1,00 USD | 0,30 | wył. | 6 exact: timo, timo zgadnij, timo zgadnij zwierzę, zgadnij z timo, timo lisek, zgadujztimo |
+| PL – Koncept | 2,00 USD | 0,40 | wył. | 6 exact: akinator, zgadnij co to, zgadnij kto to, zgadnij zwierzę, zgadnij zwierzaka, czy wiesz kim jestem |
+| PL – Kategoria | 3,50 USD | 0,55 | wył. | 26 exact (lista z tabeli wyżej + gry dla dzieci 4–7 lat, ciekawostki, kalambury, gry bez reklam); wykluczone exact: lisek, lisek zakupy |
+| PL – Odkrywanie | 2,50 USD | 0,30 | wł. | 10 broad: gry dla dzieci, zagadki dla dzieci, quiz zwierzęta, zwierzęta, quiz, zoo, kot, pies, konie, zgadnij; wykluczone: lisek (broad) + 38 exact z pozostałych kampanii |
+
+Razem 9 USD/dzień ≈ 270 USD/mies. ≈ 1000 zł.
