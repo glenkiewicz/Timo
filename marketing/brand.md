@@ -14,8 +14,9 @@ sumienia z powodu ekranów. Nie obiecujemy mu geniusza. Obiecujemy kwadrans
 zabawy, po której dziecko wie coś nowego o zwierzętach i chce zgadywać dalej —
 także bez telefonu.
 
-> Do potwierdzenia przez właściciela: dokładny przedział wieku (w repo jest
-> tylko „przedszkolak”). Do tego czasu piszemy „dla dzieci”, bez liczb.
+Wiek w reklamach: **„dla dzieci 4+”** (potwierdzone 6.11.2026). Timo mówi głosem,
+więc gra pasuje też do dzieci, które jeszcze nie czytają. W App Store gra jest
+w kategorii Kids 6–8 — tej liczby nie używamy w reklamach.
 
 ## Co mówimy o grze
 
@@ -23,7 +24,7 @@ także bez telefonu.
 - 715 zwierząt, każde z własną ilustracją i kartą z ciekawostkami.
 - Timo mówi głosem — dziecko nie musi umieć czytać.
 - Konto zakłada rodzic; dziecko niczego nie wpisuje, w rankingu nie ma imion.
-- Premiera: **wkrótce, bez daty**. Nie podajemy terminu, dopóki nie ma go w `marketing/calendar.md`.
+- Gra jest w App Store (PL) od 2.11.2026. Google Play — dopiero po zakończeniu testu zamkniętego.
 
 Nie piszemy o niczym, czego w aplikacji nie ma. W razie wątpliwości — sprawdź
 w `docs/game-design.md`.
@@ -75,7 +76,7 @@ w poziomie). Karuzele 1080×1350.
 
 Jedno, zawsze to samo, na końcu podpisu:
 
-> Timo — gra, w której lisek zgaduje zwierzę. Premiera wkrótce, link do zapisów w bio.
+> Timo — gra, w której lisek zgaduje zwierzę. Do pobrania w App Store, link w bio.
 
 ## Hasztagi
 
