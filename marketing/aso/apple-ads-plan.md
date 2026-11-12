@@ -42,3 +42,13 @@ Apple sugerował 1,34 USD za kliknięcie — świadomie dużo niżej.
 | PL – Odkrywanie | 2,50 USD | 0,30 | wł. | 10 broad: gry dla dzieci, zagadki dla dzieci, quiz zwierzęta, zwierzęta, quiz, zoo, kot, pies, konie, zgadnij; wykluczone: lisek (broad) + 38 exact z pozostałych kampanii |
 
 Razem 9 USD/dzień ≈ 270 USD/mies. ≈ 1000 zł.
+
+## Przegląd 12.11.2026 (wyniki 05–11.11)
+
+Wydane 0,92 z 63 USD; 419 wyświetleń, 4 kliknięcia, 0 nowych pobrań. W Kategorii 22 z 26 fraz bez wyświetleń przy 0,55 USD.
+Zmiany wprowadzone 12.11:
+- Kategoria: 0,55 → **0,90 USD** dla 11 fraz: quiz zwierzęta, gra zwierzęta, zwierzaki, zwierzęta, gry o zwierzętach, quiz dla dzieci, zagadki dla dzieci, gry dla dzieci, gra edukacyjna dla dzieci, gry edukacyjne dla dzieci, gry edukacyjne. Reszta zostaje na 0,55.
+- Koncept: wstrzymana fraza „akinator” (62 wyświetlenia, 0 kliknięć).
+- Odkrywanie: wykluczenia exact w grupie: wiedza to potęga, quiz house, państwa miasta (nazwy innych aplikacji z Search Match).
+- Limit kosztu pobrania (CPA cap) niedostępny w ustawieniach grupy — pominięty.
+Decyzja ok. 19.11: jeśli pobranie > 3 USD, ograniczyć Apple Ads do minimum.
