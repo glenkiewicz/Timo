@@ -176,10 +176,14 @@ type ExpeditionCardProps = {
   /** Zdanie pod tytułem — opis albo komunikat o ukończeniu. */
   subtitle?: string;
   discovered: number;
+  /** Ile kropek — domyślnie próg ukończenia; po ukończeniu cała pula (komplet). */
+  total?: number;
   /** Rząd kropek postępu. */
   showProgress?: boolean;
   /** Nagrody za ukończenie (łapki, XP). */
   showRewards?: boolean;
+  /** Inne nagrody niż za ukończenie — np. za komplet. */
+  rewards?: { paws: number; xp: number };
   locked?: boolean;
   /** Przycisk-płytka na dole karty. Bez niego karta jest cała klikalna, jeśli ma `onPress`. */
   action?: { label: string; onPress: () => void };
@@ -198,8 +202,10 @@ export function ExpeditionCard({
   eyebrowColor,
   subtitle,
   discovered,
+  total: totalProp,
   showProgress = false,
   showRewards = false,
+  rewards,
   locked = false,
   action,
   onPress,
@@ -213,6 +219,9 @@ export function ExpeditionCard({
   const pad = 18 * k;
   const title = e.childTitle ?? e.title;
   const faded = locked ? 0.8 : 1;
+  const total = totalProp ?? e.target_count;
+  const paws = rewards?.paws ?? e.reward_paws;
+  const xp = rewards?.xp ?? e.reward_xp;
 
   const body = (
     <PaperCard style={{ marginLeft: overhang, padding: pad, opacity: locked ? 0.78 : 1 }}>
@@ -246,17 +255,17 @@ export function ExpeditionCard({
           {showProgress ? (
             <View className="flex-row items-center" style={{ marginTop: 7, gap: 8 }}>
               <View className="flex-shrink">
-                <ProgressDots total={e.target_count} filled={discovered} accent={accent} />
+                <ProgressDots total={total} filled={discovered} accent={accent} />
               </View>
               <Text style={{ color: INK, fontFamily: 'Gabarito-Bold', fontSize: 13 }}>
-                {discovered}/{e.target_count}
+                {discovered}/{total}
               </Text>
             </View>
           ) : null}
           {showRewards ? (
             <View className="flex-row items-center" style={{ marginTop: 6, gap: 12 }}>
-              <Reward art={TOOLTIP_ART.paws} text={`+${e.reward_paws}`} />
-              <Reward art={TOOLTIP_ART.xp} text={`+${e.reward_xp} XP`} />
+              <Reward art={TOOLTIP_ART.paws} text={`+${paws}`} />
+              <Reward art={TOOLTIP_ART.xp} text={`+${xp} XP`} />
             </View>
           ) : null}
         </View>

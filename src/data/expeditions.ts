@@ -881,6 +881,35 @@ export function expeditionPool(expeditionId: string): Animal[] {
 }
 
 /**
+ * Komplet wyprawy. Ukończenie to `target_count` (10 z 18) — szybki sukces
+ * dla młodszych. Ukończoną wyprawę można grać dalej, aż dziecko odkryje
+ * wszystkie zwierzęta z puli; wtedy dostaje drugą nagrodę, „komplet”.
+ *
+ * Komplet nie ma własnego pola w postępie: wynika z listy `discovered`,
+ * która nigdy nie maleje (też na serwerze — progress-merge, migracja 0007).
+ */
+export function expeditionPoolIds(exp: Expedition): string[] {
+  return exp.mode === 'guided' ? exp.inspirationRoster ?? [] : exp.roster ?? [];
+}
+
+/** Ile zwierząt z puli wyprawy jest już odkrytych (bez tych spoza kart). */
+export function discoveredInPool(exp: Expedition, discovered: readonly string[]): number {
+  const found = new Set(discovered);
+  return expeditionPoolIds(exp).filter((id) => found.has(id)).length;
+}
+
+export function isExpeditionMastered(exp: Expedition, discovered: readonly string[]): boolean {
+  const total = expeditionPoolIds(exp).length;
+  return total > 0 && discoveredInPool(exp, discovered) >= total;
+}
+
+/** Nagroda za komplet — tyle samo za każde zwierzę ponad próg ukończenia. */
+export function masteryReward(exp: Expedition): { paws: number; xp: number } {
+  const extra = Math.max(1, expeditionPoolIds(exp).length - exp.target_count);
+  return { paws: extra * 15, xp: extra * 30 };
+}
+
+/**
  * Mapa guided → expert wyprawy "tematycznie pokrewne".
  * Gdy w guided dziecko wybierze zwierzę spoza 18 kart inspiracji, fallback
  * silnika rozszerza się TYLKO do unii rosterów tych expert wypraw — nie do

@@ -22,7 +22,12 @@ import { ParentalGate } from '@/components/paywall/ParentalGate';
 import { Plate } from '@/components/ui/Plate';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { StatBadge, statBadgeWidth } from '@/components/ui/StatBadge';
-import { EXPEDITIONS_BY_ID } from '@/data/expeditions';
+import {
+  EXPEDITIONS_BY_ID,
+  discoveredInPool,
+  expeditionPoolIds,
+  isExpeditionMastered,
+} from '@/data/expeditions';
 import { TOOLTIPS, TOOLTIP_ART } from '@/data/info-tooltips';
 import { pickGreeting } from '@/data/timo-lines';
 import { levelFromXp, xpProgress } from '@/features/gamification/award';
@@ -562,15 +567,32 @@ function ExpeditionDailyCard() {
     router.push('/game');
   };
 
-  // Stan C — ukończona. Wszystkie kropki pełne mówią to samo bez czytania.
+  // Stan C — ukończona. Do kompletu można grać dalej; po komplecie wszystkie
+  // kropki pełne mówią to samo bez czytania.
   if (chosen && completed) {
+    const found = progress?.discovered ?? [];
+    const poolSize = expeditionPoolIds(chosen).length;
+    if (isExpeditionMastered(chosen, found) || DEV_DAILY_EXPEDITION === 'completed') {
+      return (
+        <ExpeditionCard
+          expedition={chosen}
+          eyebrow="WYPRAWA DNIA"
+          subtitle="Komplet! Jutro czeka nowa przygoda."
+          discovered={poolSize}
+          total={poolSize}
+          showProgress
+        />
+      );
+    }
     return (
       <ExpeditionCard
         expedition={chosen}
-        eyebrow="WYPRAWA DNIA"
-        subtitle="Ukończona! Jutro czeka nowa przygoda."
-        discovered={chosen.target_count}
+        eyebrow="WYPRAWA DNIA · UKOŃCZONA"
+        subtitle={`Odkryj wszystkie ${poolSize} — czeka nagroda za komplet!`}
+        discovered={discoveredInPool(chosen, found)}
+        total={poolSize}
         showProgress
+        action={{ label: 'Odkrywaj dalej', onPress: () => launch(chosen.id) }}
       />
     );
   }
@@ -604,7 +626,7 @@ function ExpeditionDailyCard() {
             key={e.id}
             expedition={e}
             gratis={!premium && !isFreeExpedition(e.id)}
-            done={expeditionProgress[e.id]?.completed_at != null}
+            done={isExpeditionMastered(e, expeditionProgress[e.id]?.discovered ?? [])}
             onPress={() => launch(e.id)}
           />
         ))}

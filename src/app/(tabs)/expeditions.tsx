@@ -11,6 +11,10 @@ import { LOCK_ART } from '@/data/info-tooltips';
 import {
   EXPEDITIONS,
   SHOW_EXPERT_EXPEDITIONS,
+  discoveredInPool,
+  expeditionPoolIds,
+  isExpeditionMastered,
+  masteryReward,
   type Expedition,
 } from '@/data/expeditions';
 import { useGameStore } from '@/lib/stores/game-store';
@@ -107,13 +111,22 @@ export default function ExpeditionsScreen() {
       return;
     }
     if (status === 'completed') {
-      openSheet({
-        art: EXPEDITION_ICONS[e.id],
-        accent: 'sky',
-        title: `${e.title} — ukończona!`,
-        description: `${e.description_pl}\n\nWróć do niej, gdy znów pojawi się jako Wyprawa Dnia.`,
-      });
-      return;
+      const discovered = expeditionProgress[e.id]?.discovered ?? [];
+      if (isExpeditionMastered(e, discovered)) {
+        openSheet({
+          art: EXPEDITION_ICONS[e.id],
+          accent: 'sky',
+          title: `${e.childTitle ?? e.title} — komplet!`,
+          description: `Wszystkie zwierzęta z tej wyprawy są już odkryte. Brawo!`,
+        });
+        return;
+      }
+      // Ukończona, ale nie w komplecie — można grać dalej. W wersji darmowej
+      // płatna wyprawa otwiera się tylko jako dzisiejsza Wyprawa Dnia.
+      if (!premium && !isFreeExpedition(e.id) && !dailyIds.has(e.id) && !DEV_UNLOCK_ALL) {
+        router.push('/paywall');
+        return;
+      }
     }
     // available_today | in_progress
     if (e.mode === 'guided') {
@@ -208,7 +221,7 @@ export default function ExpeditionsScreen() {
                 key={e.id}
                 expedition={e}
                 status={status}
-                discoveredCount={prog?.discovered.length ?? 0}
+                discovered={prog?.discovered ?? []}
                 paid={!premium && !isFreeExpedition(e.id)}
                 onPress={() => launchIfAvailable(e, status)}
               />
@@ -222,7 +235,7 @@ export default function ExpeditionsScreen() {
 type CardProps = {
   expedition: Expedition;
   status: CardStatus;
-  discoveredCount: number;
+  discovered: readonly string[];
   onPress: () => void;
   /** Zablokowana, bo płatna (wersja darmowa) — inny opis i paywall. */
   paid?: boolean;
@@ -234,12 +247,17 @@ type CardProps = {
  * kropki postępu w trakcie, nagrody przed startem, sylwetka z kłódką, gdy
  * zamknięta. Przycisku nie ma — cała karta jest klikalna, jak wcześniej.
  */
-function ListCard({ expedition: e, status, discoveredCount, onPress, paid }: CardProps) {
+function ListCard({ expedition: e, status, discovered, onPress, paid }: CardProps) {
   const isLocked = status === 'locked';
+  const discoveredCount = discovered.length;
+  const mastered = status === 'completed' && isExpeditionMastered(e, discovered);
   const isCompleted = status === 'completed';
   const isInProgress = status === 'in_progress';
+  const poolSize = expeditionPoolIds(e).length;
 
-  const statusLabel = isCompleted
+  const statusLabel = mastered
+    ? 'KOMPLET!'
+    : isCompleted
     ? 'UKOŃCZONA'
     : isInProgress
       ? 'W TRAKCIE'
@@ -259,11 +277,16 @@ function ListCard({ expedition: e, status, discoveredCount, onPress, paid }: Car
           ? paid
             ? 'Jest w pełnej wersji. Może któregoś dnia trafi się za darmo w Wyprawie Dnia!'
             : 'Pojawi się kiedyś jako Wyprawa Dnia.'
-          : e.description_pl
+          : isCompleted && !mastered
+            ? `Odkryj wszystkie ${poolSize} — czeka nagroda za komplet!`
+            : e.description_pl
       }
-      discovered={isCompleted ? e.target_count : discoveredCount}
+      // Po ukończeniu kropki liczą całą pulę: 10 z 18 to już nie „pełne”.
+      discovered={isCompleted ? discoveredInPool(e, discovered) : discoveredCount}
+      total={isCompleted ? poolSize : undefined}
       showProgress={isInProgress || isCompleted}
-      showRewards={!isCompleted && !isLocked}
+      showRewards={!mastered && !isLocked}
+      rewards={isCompleted ? masteryReward(e) : undefined}
       locked={isLocked}
       onPress={onPress}
       discSize={76}

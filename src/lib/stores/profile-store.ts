@@ -5,6 +5,8 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 import { BADGES, type BadgeDef } from '@/data/badges';
 import {
   EXPEDITIONS_BY_ID,
+  isExpeditionMastered,
+  masteryReward,
   pickDailyGuided,
   pickDailyThree,
   todayKey,
@@ -106,9 +108,10 @@ type ProfileState = {
     askedQuestions: number;
   } | null;
 
-  /** Last expedition reward (paws/xp bonus when expedition completes) */
+  /** Ostatnia nagroda wyprawy: za ukończenie (10 z 18) albo za komplet (18 z 18). */
   lastExpeditionReward: {
     expedition_id: string;
+    kind: 'completed' | 'mastered';
     pawsDelta: number;
     xpDelta: number;
   } | null;
@@ -426,6 +429,10 @@ export const useProfileStore = create<ProfileState>()(
         const nextCompletedAt = justCompleted
           ? new Date().toISOString()
           : prev.completed_at;
+        // Komplet tylko raz: przejście „brakowało” → „wszystkie”. Lista
+        // odkryć nie maleje, więc to przejście zdarza się jedno.
+        const justMastered =
+          !isExpeditionMastered(exp, prev.discovered) && isExpeditionMastered(exp, nextDiscovered);
 
         const updates: Partial<ProfileState> = {
           expeditionProgress: {
@@ -442,6 +449,7 @@ export const useProfileStore = create<ProfileState>()(
           updates.xp = state.xp + exp.reward_xp;
           updates.lastExpeditionReward = {
             expedition_id: expeditionId,
+            kind: 'completed',
             pawsDelta: exp.reward_paws,
             xpDelta: exp.reward_xp,
           };
@@ -475,6 +483,29 @@ export const useProfileStore = create<ProfileState>()(
               pawsDelta: state.lastReward.pawsDelta + exp.reward_paws,
               xpDelta: state.lastReward.xpDelta + exp.reward_xp,
               newBadges: [...state.lastReward.newBadges, ...explorerUnlocks],
+            };
+          }
+        }
+
+        // Komplet po ukończeniu. Gdyby oba wypadły w tej samej rundzie (pula
+        // równa progowi), wygrywa komplet — nagrody się sumują.
+        if (justMastered) {
+          const bonus = masteryReward(exp);
+          const base = (updates.lastExpeditionReward ?? null) as ProfileState['lastExpeditionReward'];
+          updates.paws = (updates.paws ?? state.paws) + bonus.paws;
+          updates.xp = (updates.xp ?? state.xp) + bonus.xp;
+          updates.lastExpeditionReward = {
+            expedition_id: expeditionId,
+            kind: 'mastered',
+            pawsDelta: (base?.pawsDelta ?? 0) + bonus.paws,
+            xpDelta: (base?.xpDelta ?? 0) + bonus.xp,
+          };
+          const round = (updates.lastReward ?? state.lastReward) as ProfileState['lastReward'];
+          if (round) {
+            updates.lastReward = {
+              ...round,
+              pawsDelta: round.pawsDelta + bonus.paws,
+              xpDelta: round.xpDelta + bonus.xp,
             };
           }
         }

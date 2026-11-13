@@ -82,12 +82,19 @@ export default function ExpeditionIntroScreen() {
     };
   }, [introPick, packing]);
 
+  // Karty tylko nieodkrytych: odkryte są wykluczone z gry (excludeDiscovered),
+  // więc dziecko, które o nich pomyśli, nie dałoby Timo szansy. Gdyby nie
+  // zostało nic, pokazujemy wszystkie.
+  const discoveredKey = (id ? expeditionProgress[id]?.discovered : undefined)?.join(',') ?? '';
   const animals: Animal[] = useMemo(() => {
     if (!exp?.inspirationRoster) return [];
-    return exp.inspirationRoster
+    const all = exp.inspirationRoster
       .map((aid) => ANIMALS_BY_ID[aid])
       .filter((a): a is Animal => !!a);
-  }, [exp]);
+    const found = new Set(discoveredKey.split(',').filter(Boolean));
+    const left = all.filter((a) => !found.has(a.id));
+    return left.length > 0 ? left : all;
+  }, [exp, discoveredKey]);
 
   if (!exp || exp.mode !== 'guided') {
     return (

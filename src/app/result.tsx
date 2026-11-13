@@ -17,7 +17,12 @@ import { RewardTile } from '@/components/ui/RewardTile';
 import { StatBadge } from '@/components/ui/StatBadge';
 import { ANIMALS_BY_ID } from '@/data/animals';
 import { BADGE_ART } from '@/data/badge-art';
-import { EXPEDITIONS_BY_ID } from '@/data/expeditions';
+import {
+  EXPEDITIONS_BY_ID,
+  discoveredInPool,
+  expeditionPoolIds,
+  isExpeditionMastered,
+} from '@/data/expeditions';
 import { pickGiveUpLine, pickGuidedGiveUp, pickVictoryLine } from '@/data/timo-lines';
 import { levelFromXp } from '@/features/gamification/award';
 import { sfx } from '@/lib/audio/sfx';
@@ -135,6 +140,15 @@ export default function ResultScreen() {
   const expProgress = expeditionId ? expeditionProgress[expeditionId] : undefined;
   const expCompletionJustHappened =
     lastExpeditionReward !== null && lastExpeditionReward.expedition_id === expeditionId;
+  const expMasteryJustHappened = expCompletionJustHappened && lastExpeditionReward?.kind === 'mastered';
+  // Po ukończeniu postęp liczy się do kompletu — całej puli wyprawy.
+  const expCompleted = expProgress?.completed_at != null;
+  const expGoal = expedition
+    ? expCompleted ? expeditionPoolIds(expedition).length : expedition.target_count
+    : 0;
+  const expFound = expedition && expProgress
+    ? expCompleted ? discoveredInPool(expedition, expProgress.discovered) : expProgress.discovered.length
+    : 0;
 
   // Nagroda naliczana RAZ — po trafieniu od razu, po poddaniu dopiero gdy
   // dziecko wskaże zwierzę albo je pominie.
@@ -207,7 +221,8 @@ export default function ResultScreen() {
     if (mode === 'expedition' && expeditionId && expedition) {
       // continue same expedition with updated discovered list
       const prog = expeditionProgress[expeditionId];
-      const expDone = prog?.completed_at != null;
+      // Ukończona wyprawa gra się dalej, aż do kompletu.
+      const expDone = isExpeditionMastered(expedition, prog?.discovered ?? []);
       if (!expDone) {
         if (expedition.mode === 'guided') {
           // Wyprawa z Timo — wracaj na ekran kart inspiracji.
@@ -483,7 +498,7 @@ export default function ResultScreen() {
                         fontSize: 11,
                         letterSpacing: 1.2,
                       }}>
-                      WYPRAWA ZAKOŃCZONA!
+                      {expMasteryJustHappened ? 'KOMPLET WYPRAWY!' : 'WYPRAWA ZAKOŃCZONA!'}
                     </Text>
                   </View>
                   <Text
@@ -498,6 +513,17 @@ export default function ResultScreen() {
                       marginTop: 2,
                     }}>
                     +{lastExpeditionReward.pawsDelta} tropów · +{lastExpeditionReward.xpDelta} XP
+                  </Text>
+                  <Text
+                    style={{
+                      color: UI.textSoft,
+                      fontFamily: 'Lexend',
+                      fontSize: 12,
+                      marginTop: 2,
+                    }}>
+                    {expMasteryJustHappened
+                      ? 'Wszystkie zwierzęta z wyprawy odkryte!'
+                      : `Graj dalej — odkryj wszystkie ${expeditionPoolIds(expedition).length} i zdobądź komplet.`}
                   </Text>
                 </>
               ) : (
@@ -520,17 +546,13 @@ export default function ResultScreen() {
                           fontFamily: 'Gabarito-Bold',
                           fontSize: 14,
                         }}>
-                        Odkryte: {expProgress.discovered.length} / {expedition.target_count}
+                        {expCompleted ? 'Do kompletu' : 'Odkryte'}: {expFound} / {expGoal}
                       </Text>
                     </View>
                   </View>
                   <View className="mt-2">
                     <ProgressBar
-                      value={
-                        expedition.target_count > 0
-                          ? expProgress.discovered.length / expedition.target_count
-                          : 0
-                      }
+                      value={expGoal > 0 ? Math.min(1, expFound / expGoal) : 0}
                       accent="sky"
                       height={10}
                     />
