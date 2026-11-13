@@ -101,6 +101,14 @@
         "projectId": "35be7e21-078d-4dfe-96f4-1a189290ae5d"
       }
     },
-    "owner": "glenkiewicz"
+    "owner": "glenkiewicz",
+    "runtimeVersion": {
+      "policy": "fingerprint"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/35be7e21-078d-4dfe-96f4-1a189290ae5d",
+      "checkAutomatically": "ON_LOAD",
+      "fallbackToCacheTimeout": 0
+    }
   }
 }
