@@ -1,0 +1,3 @@
+# Artefakty lokalnych buildów Gradle w paczkach — na EAS ich nie ma, więc psułyby zgodność fingerprintu.
+node_modules/**/android/build/**
+node_modules/**/android/.cxx/**
