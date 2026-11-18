@@ -18,6 +18,7 @@ SITE = "https://zgadujztimo.pl"
 ROOT = pathlib.Path("site")
 APP_ID = "6801108622"
 APP_URL = f"https://apps.apple.com/pl/app/id{APP_ID}"
+PLAY_URL = "https://play.google.com/store/apps/details?id=com.glenkiewicz.Timo&hl=pl"
 NAME = "Timo – zgadnij zwierzę"
 OG_IMAGE = f"{SITE}/assets/img/og-image.jpg"
 TODAY = datetime.date.today().isoformat()
@@ -73,14 +74,14 @@ APP = {
     "@id": f"{SITE}/#aplikacja",
     "name": NAME,
     "description": "Gra edukacyjna dla dzieci: dziecko myśli o zwierzęciu, a lisek detektyw Timo zadaje pytania i próbuje je odgadnąć. 715 zwierząt z ciekawostkami, 24 tematyczne wyprawy, głos Timo po polsku, bez reklam.",
-    "operatingSystem": "iOS, iPadOS",
+    "operatingSystem": "iOS, iPadOS, Android",
     "applicationCategory": "GameApplication",
     "applicationSubCategory": "EducationalApplication",
     "inLanguage": "pl-PL",
     "audience": {"@type": "PeopleAudience", "suggestedMinAge": 4, "suggestedMaxAge": 9},
     "url": f"{SITE}/",
-    "installUrl": APP_URL,
-    "downloadUrl": APP_URL,
+    "installUrl": [APP_URL, PLAY_URL],
+    "downloadUrl": [APP_URL, PLAY_URL],
     "image": f"{SITE}/icon-512.png",
     "screenshot": [f"{SITE}/assets/img/{n}.webp" for n in ("shot-game", "shot-home", "shot-collection", "shot-animal")],
     "offers": {"@type": "Offer", "price": "0", "priceCurrency": "PLN", "availability": "https://schema.org/InStock"},
